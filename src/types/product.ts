@@ -38,3 +38,4 @@ export interface ProductFilter {
   sortBy: "popular" | "newest" | "price-low" | "price-high";
   search: string;
 }
+

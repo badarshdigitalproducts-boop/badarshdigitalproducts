@@ -71,3 +71,4 @@ export interface SiteConfig {
     pinterest: string;
   };
 }
+

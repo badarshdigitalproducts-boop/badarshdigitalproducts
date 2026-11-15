@@ -44,3 +44,4 @@ export const STATS = [
   { value: 50, label: "E-Books", suffix: "+" },
   { value: 24, label: "Hour Support", suffix: "/7" },
 ] as const;
+

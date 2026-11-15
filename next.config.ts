@@ -12,6 +12,15 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  async redirects() {
+    return [
+      {
+        source: "/ebooks/:slug",
+        destination: "/templates/:slug",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
