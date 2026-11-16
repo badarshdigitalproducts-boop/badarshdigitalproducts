@@ -27,34 +27,35 @@ export function ThemeToggle() {
   const isDark = resolvedTheme === "dark";
 
   return (
-    <button
+    <motion.button
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="relative cursor-pointer rounded-full p-2 transition-colors duration-200 hover:bg-muted/50"
+      whileTap={{ scale: 0.88 }}
+      className="relative cursor-pointer rounded-full p-2 text-foreground transition-colors duration-150 hover:bg-muted/30 active:bg-muted/50"
       aria-label="Toggle theme"
     >
       <AnimatePresence mode="wait" initial={false}>
         {isDark ? (
           <motion.div
             key="sun"
-            initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
+            initial={{ rotate: -45, opacity: 0, scale: 0.85 }}
             animate={{ rotate: 0, opacity: 1, scale: 1 }}
-            exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
-            transition={{ duration: 0.2 }}
+            exit={{ rotate: 45, opacity: 0, scale: 0.85 }}
+            transition={{ type: "spring", duration: 0.32, bounce: 0.2 }}
           >
-            <Sun className="h-5 w-5 text-foreground" />
+            <Sun className="h-5 w-5 text-amber-400" />
           </motion.div>
         ) : (
           <motion.div
             key="moon"
-            initial={{ rotate: 90, opacity: 0, scale: 0.5 }}
+            initial={{ rotate: 45, opacity: 0, scale: 0.85 }}
             animate={{ rotate: 0, opacity: 1, scale: 1 }}
-            exit={{ rotate: -90, opacity: 0, scale: 0.5 }}
-            transition={{ duration: 0.2 }}
+            exit={{ rotate: -45, opacity: 0, scale: 0.85 }}
+            transition={{ type: "spring", duration: 0.32, bounce: 0.2 }}
           >
             <Moon className="h-5 w-5 text-foreground" />
           </motion.div>
         )}
       </AnimatePresence>
-    </button>
+    </motion.button>
   );
 }

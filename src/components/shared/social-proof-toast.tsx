@@ -87,11 +87,19 @@ export function SocialProofToast() {
       <AnimatePresence>
         {visible && (
           <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            initial={{ opacity: 0, y: 24, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            className="pointer-events-auto flex items-center gap-3.5 rounded-2xl border border-card-border bg-card/95 p-3.5 pr-4 shadow-xl backdrop-blur-xl"
+            exit={{ opacity: 0, y: 16, scale: 0.95 }}
+            transition={{ type: "spring", duration: 0.38, bounce: 0.15 }}
+            drag="x"
+            dragConstraints={{ left: -100, right: 100 }}
+            dragElastic={0.2}
+            onDragEnd={(_e, info) => {
+              if (Math.abs(info.offset.x) > 60 || Math.abs(info.velocity.x) > 200) {
+                setDismissed(true);
+              }
+            }}
+            className="pointer-events-auto flex items-center gap-3.5 rounded-2xl border border-card-border/80 bg-card/95 p-3.5 pr-4 shadow-xl backdrop-blur-2xl cursor-grab active:cursor-grabbing touch-pan-y"
           >
             {/* Icon */}
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/15 text-accent">
@@ -113,7 +121,7 @@ export function SocialProofToast() {
             {/* Close */}
             <button
               onClick={() => setDismissed(true)}
-              className="cursor-pointer text-muted hover:text-foreground p-1"
+              className="cursor-pointer text-muted hover:text-foreground active:scale-90 transition-transform p-1"
               aria-label="Dismiss notification"
             >
               <X className="h-3.5 w-3.5" />

@@ -42,9 +42,10 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <>
       <motion.div
-        whileHover={{ y: -6 }}
-        transition={{ duration: 0.25, ease: "easeOut" }}
-        className="group relative flex flex-col overflow-hidden rounded-2xl border border-card-border bg-card shadow-sm transition-all duration-300 hover:border-accent/40 hover:shadow-xl hover:shadow-accent/5"
+        whileHover={{ y: -5 }}
+        whileTap={{ scale: 0.985 }}
+        transition={{ type: "spring", duration: 0.35, bounce: 0.15 }}
+        className="group relative flex flex-col overflow-hidden rounded-2xl border border-card-border/80 bg-card shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-accent/40 hover:shadow-xl hover:shadow-accent/5"
       >
         {/* Product Visual Area */}
         <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br">
@@ -79,7 +80,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <div className="absolute bottom-3 right-3 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
             <button
               onClick={() => setPreviewOpen(true)}
-              className="flex cursor-pointer items-center gap-1.5 rounded-full border border-card-border bg-card/90 px-3 py-1.5 text-xs font-bold text-foreground shadow-md backdrop-blur-md transition hover:bg-accent hover:text-white"
+              className="flex cursor-pointer items-center gap-1.5 rounded-full border border-card-border/80 bg-card/90 px-3 py-1.5 text-xs font-bold text-foreground shadow-sm backdrop-blur-md transition-[transform,background-color] duration-150 hover:bg-accent hover:text-white active:scale-90"
             >
               <Eye className="h-3.5 w-3.5" />
               <span>Preview</span>

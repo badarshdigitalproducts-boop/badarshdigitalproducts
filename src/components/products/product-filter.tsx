@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { CATEGORIES } from "@/lib/constants";
 import type { ProductCategory } from "@/types/product";
@@ -56,22 +57,30 @@ export function ProductFilter({
         </div>
       </div>
 
-      {/* Category Pills */}
-      <div className="no-scrollbar flex items-center gap-2 overflow-x-auto pb-2">
+      {/* Category Pills with Apple-grade Spring Pill */}
+      <div className="no-scrollbar relative flex items-center gap-2 overflow-x-auto pb-2">
         {categoriesList.map((cat) => {
           const isActive = selectedCategory === cat.value;
           return (
-            <button
+            <motion.button
               key={cat.value}
               onClick={() => onSelectCategory(cat.value)}
-              className={`cursor-pointer whitespace-nowrap rounded-full px-4 py-2 text-xs font-bold transition-all duration-200 ${
+              whileTap={{ scale: 0.94 }}
+              className={`relative z-10 cursor-pointer whitespace-nowrap rounded-full px-4 py-2 text-xs font-bold transition-colors duration-150 ${
                 isActive
-                  ? "bg-accent text-white shadow-sm shadow-accent/25"
-                  : "border border-card-border bg-card text-muted hover:border-accent/40 hover:text-foreground"
+                  ? "text-white"
+                  : "border border-card-border/80 bg-card/60 text-muted hover:border-accent/40 hover:text-foreground"
               }`}
             >
+              {isActive && (
+                <motion.div
+                  layoutId="activeCategoryPill"
+                  className="absolute inset-0 -z-10 rounded-full bg-accent shadow-sm shadow-accent/20"
+                  transition={{ type: "spring", duration: 0.32, bounce: 0.15 }}
+                />
+              )}
               {cat.label}
-            </button>
+            </motion.button>
           );
         })}
       </div>

@@ -260,33 +260,51 @@ export function ProductDetailView({
       </div>
 
       {/* Interactive Tabs Section */}
-      <div className="mt-16 rounded-3xl border border-card-border bg-card p-6 md:p-10 shadow-sm">
-        {/* Tab Headers */}
-        <div className="no-scrollbar flex items-center gap-2 overflow-x-auto border-b border-card-border/60 pb-4">
+      <div className="mt-16 rounded-3xl border border-card-border/80 bg-card p-6 md:p-10 shadow-sm backdrop-blur-xl">
+        {/* Tab Headers with Apple-grade Spring Pill */}
+        <div className="no-scrollbar relative flex items-center gap-2 overflow-x-auto border-b border-card-border/60 pb-4">
           {[
             { id: "overview", label: "Overview" },
             { id: "included", label: "What's Included" },
             { id: "instructions", label: "How to Use" },
             { id: "faq", label: "FAQs" },
             { id: "reviews", label: `Reviews (${product.reviewCount})` },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              className={`cursor-pointer whitespace-nowrap rounded-full px-5 py-2.5 text-xs font-bold transition-all ${
-                activeTab === tab.id
-                  ? "bg-accent text-white shadow-xs"
-                  : "text-muted hover:bg-muted/20 hover:text-foreground"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+          ].map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`relative z-10 cursor-pointer whitespace-nowrap rounded-full px-5 py-2.5 text-xs font-bold transition-colors duration-150 active:scale-95 ${
+                  isActive
+                    ? "text-white"
+                    : "text-muted hover:bg-muted/20 hover:text-foreground"
+                }`}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="productDetailActiveTab"
+                    className="absolute inset-0 -z-10 rounded-full bg-accent shadow-xs"
+                    transition={{ type: "spring", duration: 0.35, bounce: 0.15 }}
+                  />
+                )}
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
 
         {/* Tab Content Panels */}
         <div className="mt-8">
-          {activeTab === "overview" && (
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 8, filter: "blur(3px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -8, filter: "blur(3px)" }}
+              transition={{ duration: 0.18, ease: [0.23, 1, 0.32, 1] }}
+            >
+              {activeTab === "overview" && (
             <div className="space-y-4 text-sm leading-relaxed text-muted">
               <p>{product.longDescription}</p>
               <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3 border-t border-card-border/60 pt-6">
@@ -457,6 +475,8 @@ export function ProductDetailView({
               </div>
             </div>
           )}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
 

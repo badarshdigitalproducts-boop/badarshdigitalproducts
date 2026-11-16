@@ -79,8 +79,8 @@ export function TemplatePreviewModal({
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          className="relative z-10 flex h-full max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-card-border bg-card shadow-2xl"
+          transition={{ type: "spring", duration: 0.36, bounce: 0.15 }}
+          className="relative z-10 flex h-full max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-card-border/80 bg-card shadow-2xl backdrop-blur-2xl"
         >
           {/* Header */}
           <div className="flex items-center justify-between border-b border-card-border/60 px-6 py-4">
@@ -94,7 +94,7 @@ export function TemplatePreviewModal({
             </div>
             <button
               onClick={onClose}
-              className="cursor-pointer rounded-full p-2 text-muted transition hover:bg-muted/20 hover:text-foreground"
+              className="cursor-pointer rounded-full p-2 text-muted transition-[transform,background-color] duration-150 hover:bg-muted/20 hover:text-foreground active:scale-90"
               aria-label="Close modal"
             >
               <X className="h-5 w-5" />
@@ -103,40 +103,47 @@ export function TemplatePreviewModal({
 
           {/* Main Slide Stage */}
           <div className="relative flex flex-1 items-center justify-center overflow-hidden bg-background/50 p-6 sm:p-10">
-            {/* Slide Card Display */}
-            <div
-              className={`relative flex aspect-[16/10] w-full max-w-2xl flex-col justify-between overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br ${slides[currentSlide].color} p-8 shadow-2xl backdrop-blur-xl transition-all duration-300`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="rounded-full bg-accent/20 px-3 py-1 text-xs font-bold text-accent backdrop-blur-md">
-                  {slides[currentSlide].badge}
-                </span>
-                <span className="text-xs font-semibold text-muted">
-                  Slide {currentSlide + 1} of {slides.length}
-                </span>
-              </div>
+            {/* Animated Slide Card Display with Emil blur crossfade */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentSlide}
+                initial={{ opacity: 0, x: 20, filter: "blur(4px)" }}
+                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, x: -20, filter: "blur(4px)" }}
+                transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
+                className={`relative flex aspect-[16/10] w-full max-w-2xl flex-col justify-between overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br ${slides[currentSlide].color} p-8 shadow-2xl backdrop-blur-xl`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="rounded-full bg-accent/20 px-3 py-1 text-xs font-bold text-accent backdrop-blur-md">
+                    {slides[currentSlide].badge}
+                  </span>
+                  <span className="text-xs font-semibold text-muted">
+                    Slide {currentSlide + 1} of {slides.length}
+                  </span>
+                </div>
 
-              <div className="my-auto py-4">
-                <h2 className="font-heading text-2xl font-black text-foreground sm:text-3xl">
-                  {slides[currentSlide].headline}
-                </h2>
-                <p className="mt-3 text-sm leading-relaxed text-foreground/80">
-                  {slides[currentSlide].sub}
-                </p>
-              </div>
+                <div className="my-auto py-4">
+                  <h2 className="font-heading text-2xl font-black text-foreground sm:text-3xl">
+                    {slides[currentSlide].headline}
+                  </h2>
+                  <p className="mt-3 text-sm leading-relaxed text-foreground/80">
+                    {slides[currentSlide].sub}
+                  </p>
+                </div>
 
-              <div className="flex items-center justify-between border-t border-white/10 pt-4 text-xs text-muted">
-                <span>{product.format} &bull; Canva Free &amp; Pro</span>
-                <span className="flex items-center gap-1 text-emerald-400">
-                  <CheckCircle2 className="h-3.5 w-3.5" /> 100% Fully Editable
-                </span>
-              </div>
-            </div>
+                <div className="flex items-center justify-between border-t border-white/10 pt-4 text-xs text-muted">
+                  <span>{product.format} &bull; Canva Free &amp; Pro</span>
+                  <span className="flex items-center gap-1 text-emerald-400">
+                    <CheckCircle2 className="h-3.5 w-3.5" /> 100% Fully Editable
+                  </span>
+                </div>
+              </motion.div>
+            </AnimatePresence>
 
             {/* Left/Right arrow controls */}
             <button
               onClick={prev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 cursor-pointer rounded-full border border-card-border bg-card/80 p-3 text-foreground shadow-lg backdrop-blur-md transition hover:bg-card hover:scale-110"
+              className="absolute left-4 top-1/2 -translate-y-1/2 cursor-pointer rounded-full border border-card-border bg-card/85 p-3 text-foreground shadow-lg backdrop-blur-md transition-[transform,background-color] duration-150 hover:bg-card hover:scale-105 active:scale-95"
               aria-label="Previous slide"
             >
               <ChevronLeft className="h-5 w-5" />
@@ -144,7 +151,7 @@ export function TemplatePreviewModal({
 
             <button
               onClick={next}
-              className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer rounded-full border border-card-border bg-card/80 p-3 text-foreground shadow-lg backdrop-blur-md transition hover:bg-card hover:scale-110"
+              className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer rounded-full border border-card-border bg-card/85 p-3 text-foreground shadow-lg backdrop-blur-md transition-[transform,background-color] duration-150 hover:bg-card hover:scale-105 active:scale-95"
               aria-label="Next slide"
             >
               <ChevronRight className="h-5 w-5" />
@@ -159,9 +166,9 @@ export function TemplatePreviewModal({
                 <button
                   key={idx}
                   onClick={() => setCurrentSlide(idx)}
-                  className={`h-10 w-16 cursor-pointer rounded-lg border text-[10px] font-bold transition-all ${
+                  className={`h-10 w-16 cursor-pointer rounded-lg border text-[10px] font-bold transition-[transform,border-color,background-color] duration-150 active:scale-95 ${
                     currentSlide === idx
-                      ? "border-accent bg-accent/20 text-accent scale-105"
+                      ? "border-accent bg-accent/20 text-accent scale-105 shadow-xs"
                       : "border-card-border bg-background text-muted opacity-60 hover:opacity-100"
                   }`}
                 >
@@ -184,7 +191,7 @@ export function TemplatePreviewModal({
                   onClose();
                   if (onBuyClick) onBuyClick();
                 }}
-                className="flex cursor-pointer items-center gap-2 rounded-full bg-accent px-6 py-2.5 font-heading text-xs font-bold text-white shadow-md transition hover:bg-accent-hover"
+                className="flex cursor-pointer items-center gap-2 rounded-full bg-accent px-6 py-2.5 font-heading text-xs font-bold text-white shadow-md transition-[transform,background-color] duration-150 hover:bg-accent-hover active:scale-[0.96]"
               >
                 <ShoppingBag className="h-4 w-4" />
                 <span>Buy This Pack</span>

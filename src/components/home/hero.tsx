@@ -19,22 +19,34 @@ export function Hero() {
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          {/* Brand Identity Emblem */}
+          {/* Brand Identity Emblem with Apple Spring Entrance */}
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
+            initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.6 }}
+            transition={{ type: "spring", duration: 0.45, bounce: 0.15 }}
             className="mb-6 flex justify-center"
           >
-            <div className="group relative flex h-20 w-20 items-center justify-center rounded-3xl border border-white/20 bg-gradient-to-tr from-accent/20 via-purple-900/30 to-amber-500/20 p-3 shadow-xl backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-accent/20">
+            <div className="group relative flex h-20 w-20 items-center justify-center rounded-3xl border border-white/20 bg-gradient-to-tr from-accent/20 via-purple-900/30 to-amber-500/20 p-3 shadow-xl backdrop-blur-xl transition-[transform,box-shadow] duration-200 hover:scale-105 hover:shadow-2xl hover:shadow-accent/20 active:scale-95">
               <div className="absolute inset-0 rounded-3xl bg-amber-500/10 blur-xl group-hover:bg-accent/20" />
+              {/* Light Mode Emblem */}
               <Image
-                src="/logo-icon.png"
+                src="/logo-icon-dark-v2.png"
                 alt="BADARSH Brand Identity"
-                width={120}
-                height={120}
-                className="relative z-10 h-full w-full object-contain filter drop-shadow-md"
+                width={128}
+                height={128}
+                className="relative z-10 h-full w-full object-contain filter drop-shadow-md dark:hidden"
                 priority
+                unoptimized
+              />
+              {/* Dark Mode Emblem */}
+              <Image
+                src="/logo-icon-light-v2.png"
+                alt="BADARSH Brand Identity"
+                width={128}
+                height={128}
+                className="relative z-10 hidden h-full w-full object-contain filter drop-shadow-md dark:block"
+                priority
+                unoptimized
               />
             </div>
           </motion.div>
@@ -84,7 +96,7 @@ export function Hero() {
           >
             <Link
               href="/templates"
-              className="group flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 font-heading text-base font-bold text-white shadow-lg shadow-accent/25 transition-all duration-300 hover:bg-accent-hover hover:shadow-xl hover:shadow-accent/35 sm:w-auto"
+              className="group flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 font-heading text-base font-bold text-white shadow-lg shadow-accent/25 transition-[transform,background-color,box-shadow] duration-150 hover:bg-accent-hover hover:shadow-xl hover:shadow-accent/35 active:scale-[0.97] sm:w-auto"
             >
               <span>Explore Products</span>
               <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -92,7 +104,7 @@ export function Hero() {
 
             <Link
               href="/services"
-              className="flex w-full items-center justify-center gap-2 rounded-full border border-card-border bg-card/80 px-8 py-4 font-heading text-base font-bold text-foreground backdrop-blur-md transition-all duration-300 hover:border-accent/40 hover:bg-card sm:w-auto"
+              className="flex w-full items-center justify-center gap-2 rounded-full border border-card-border/80 bg-card/80 px-8 py-4 font-heading text-base font-bold text-foreground backdrop-blur-md transition-[transform,border-color,background-color] duration-150 hover:border-accent/40 hover:bg-card active:scale-[0.97] sm:w-auto"
             >
               <span>Done-For-You Services</span>
             </Link>

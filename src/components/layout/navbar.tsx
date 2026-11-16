@@ -25,9 +25,9 @@ export function Navbar() {
         animate={{ y: 0 }}
         transition={{ type: "spring", damping: 25, stiffness: 200 }}
         className={cn(
-          "sticky top-0 z-50 w-full border-b backdrop-blur-xl transition-all duration-300",
+          "sticky top-0 z-50 w-full border-b backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-200 ease-out",
           isScrolled
-            ? "border-border/50 bg-background/80 shadow-sm"
+            ? "border-border/50 bg-background/80 shadow-xs"
             : "border-transparent bg-background/60"
         )}
       >
@@ -44,22 +44,21 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "group relative cursor-pointer px-3 py-2 text-sm font-medium transition-colors duration-200",
+                    "group relative cursor-pointer px-3.5 py-2 text-sm font-medium transition-colors duration-150 active:scale-[0.97]",
                     isActive
                       ? "text-accent"
                       : "text-muted hover:text-foreground"
                   )}
                 >
                   {link.label}
-                  {/* Underline animation */}
-                  <span
-                    className={cn(
-                      "absolute inset-x-3 -bottom-px h-0.5 origin-left rounded-full bg-accent transition-transform duration-300",
-                      isActive
-                        ? "scale-x-100"
-                        : "scale-x-0 group-hover:scale-x-100"
-                    )}
-                  />
+                  {/* Apple-grade spring layout underline */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="navActiveIndicator"
+                      className="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-accent shadow-xs"
+                      transition={{ type: "spring", duration: 0.35, bounce: 0.15 }}
+                    />
+                  )}
                 </Link>
               );
             })}
@@ -70,10 +69,10 @@ export function Navbar() {
             <CurrencyToggle />
             <ThemeToggle />
 
-            {/* CTA — desktop only */}
+            {/* CTA — desktop only with tactile press feedback */}
             <Link
               href="/templates"
-              className="hidden cursor-pointer rounded-full bg-accent px-6 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-accent-hover md:inline-flex"
+              className="hidden cursor-pointer items-center rounded-full bg-accent px-6 py-2 text-sm font-semibold text-white shadow-xs transition-[transform,background-color] duration-150 hover:bg-accent-hover active:scale-[0.96] md:inline-flex"
             >
               Get Started
             </Link>
@@ -81,7 +80,7 @@ export function Navbar() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen(true)}
-              className="cursor-pointer rounded-full p-2 transition-colors duration-200 hover:bg-muted/50 md:hidden"
+              className="cursor-pointer rounded-full p-2 transition-[transform,background-color] duration-150 hover:bg-muted/30 active:scale-90 active:bg-muted/50 md:hidden"
               aria-label="Open menu"
             >
               <Menu className="h-5 w-5 text-foreground" />

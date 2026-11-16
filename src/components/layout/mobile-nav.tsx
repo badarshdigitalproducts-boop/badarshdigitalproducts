@@ -57,11 +57,11 @@ const panelVariants: Variants = {
   hidden: { x: "100%" },
   visible: {
     x: 0,
-    transition: { type: "spring", damping: 30, stiffness: 300 },
+    transition: { type: "spring", duration: 0.38, bounce: 0.08 },
   },
   exit: {
     x: "100%",
-    transition: { type: "spring", damping: 30, stiffness: 300 },
+    transition: { type: "spring", duration: 0.3, bounce: 0 },
   },
 };
 
@@ -70,7 +70,7 @@ const linkVariants: Variants = {
   visible: (i: number) => ({
     opacity: 1,
     x: 0,
-    transition: { delay: 0.1 + i * 0.05, duration: 0.3 },
+    transition: { delay: 0.08 + i * 0.04, duration: 0.25, ease: [0.23, 1, 0.32, 1] },
   }),
 };
 
@@ -86,17 +86,25 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
             animate="visible"
             exit="hidden"
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-md"
             onClick={onClose}
           />
 
-          {/* Panel */}
+          {/* Panel with Apple-grade swipe-to-dismiss drag */}
           <motion.div
             variants={panelVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="fixed inset-y-0 right-0 z-50 flex w-full max-w-sm flex-col bg-background backdrop-blur-xl"
+            drag="x"
+            dragConstraints={{ left: 0, right: 300 }}
+            dragElastic={0.08}
+            onDragEnd={(_e, info) => {
+              if (info.offset.x > 80 || info.velocity.x > 300) {
+                onClose();
+              }
+            }}
+            className="fixed inset-y-0 right-0 z-50 flex w-full max-w-sm flex-col bg-background/95 border-l border-border/40 shadow-2xl backdrop-blur-2xl touch-pan-y"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-border/50 px-6 py-4">
@@ -105,7 +113,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
               </div>
               <button
                 onClick={onClose}
-                className="cursor-pointer rounded-full p-2 transition-colors duration-200 hover:bg-muted/50"
+                className="cursor-pointer rounded-full p-2 transition-[transform,background-color] duration-150 hover:bg-muted/30 active:scale-90"
                 aria-label="Close menu"
               >
                 <X className="h-5 w-5 text-foreground" />
@@ -126,7 +134,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                     <Link
                       href={link.href}
                       onClick={onClose}
-                      className="block cursor-pointer rounded-lg px-4 py-3 text-2xl font-medium text-foreground transition-colors duration-200 hover:bg-muted/30 hover:text-accent"
+                      className="block cursor-pointer rounded-lg px-4 py-3 text-2xl font-medium text-foreground transition-all duration-150 hover:bg-muted/30 hover:text-accent active:scale-[0.98]"
                     >
                       {link.label}
                     </Link>
@@ -141,7 +149,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
               <Link
                 href="/templates"
                 onClick={onClose}
-                className="mb-6 block cursor-pointer rounded-full bg-accent px-6 py-3 text-center font-semibold text-white transition-colors duration-200 hover:bg-accent-hover"
+                className="mb-6 block cursor-pointer rounded-full bg-accent px-6 py-3 text-center font-semibold text-white shadow-xs transition-[transform,background-color] duration-150 hover:bg-accent-hover active:scale-[0.97]"
               >
                 Get Started
               </Link>
