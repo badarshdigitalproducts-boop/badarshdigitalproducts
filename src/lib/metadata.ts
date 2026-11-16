@@ -60,9 +60,13 @@ export function constructMetadata({
       creator: "@badarsh",
     },
     icons: {
-      icon: "/favicon.ico",
+      icon: [
+        { url: "/favicon.ico" },
+        { url: "/favicon.svg", type: "image/svg+xml" },
+        { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      ],
       shortcut: "/favicon-16x16.png",
-      apple: "/apple-touch-icon.png",
+      apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
     },
     metadataBase: new URL(siteConfig.url),
     ...(noIndex && {

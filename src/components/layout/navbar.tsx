@@ -11,6 +11,7 @@ import { useScroll } from "@/hooks/use-scroll";
 import { ThemeToggle } from "./theme-toggle";
 import { CurrencyToggle } from "./currency-toggle";
 import { MobileNav } from "./mobile-nav";
+import { BrandLogo } from "./brand-logo";
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -32,13 +33,7 @@ export function Navbar() {
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Logo */}
-          <Link
-            href="/"
-            className="cursor-pointer text-xl font-bold tracking-tight text-foreground transition-opacity duration-200 hover:opacity-80 sm:text-2xl"
-            style={{ fontFamily: "var(--font-heading)" }}
-          >
-            BADARSH
-          </Link>
+          <BrandLogo />
 
           {/* Desktop Nav */}
           <nav className="hidden items-center gap-1 md:flex">

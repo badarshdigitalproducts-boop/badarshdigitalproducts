@@ -265,3 +265,4 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
     </AnimatePresence>
   );
 }
+

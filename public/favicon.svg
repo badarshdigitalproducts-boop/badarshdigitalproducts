@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <!-- Background Glow -->
+    <radialGradient id="goldGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#D97706" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
+    </radialGradient>
+    
+    <!-- Gold Arrow Gradient -->
+    <linearGradient id="goldArrow" x1="120" y1="380" x2="420" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B45309"/>
+      <stop offset="40%" stop-color="#D97706"/>
+      <stop offset="75%" stop-color="#FBBF24"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+
+    <!-- White/Silver Letter Gradient -->
+    <linearGradient id="silverB" x1="150" y1="120" x2="350" y2="380" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+
+    <filter id="subtleShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Dark Base Tile for High Contrast Favicon -->
+  <rect width="512" height="512" rx="110" fill="#0C0A09"/>
+  <rect width="510" height="510" x="1" y="1" rx="109" stroke="#292524" stroke-width="2"/>
+  <circle cx="280" cy="240" r="180" fill="url(#goldGlow)"/>
+
+  <g filter="url(#subtleShadow)">
+    <!-- Top Arc of B -->
+    <path d="M165 145 H285 C335 145 365 175 365 218 C365 250 345 272 315 280 L290 270 C310 265 325 248 325 218 C325 190 305 175 275 175 H195 L165 145 Z" fill="url(#silverB)"/>
+    
+    <!-- Left Stem Upper Cut -->
+    <path d="M165 145 L150 240 L195 240 L205 175 H275 L285 145 Z" fill="url(#silverB)"/>
+
+    <!-- Bottom Loop of B -->
+    <path d="M200 365 H290 C345 365 385 330 385 285 C385 255 365 235 335 225 L310 238 C335 246 345 262 345 285 C345 315 315 335 275 335 H180 L200 365 Z" fill="url(#silverB)"/>
+    
+    <!-- Mid Connector Segment -->
+    <path d="M195 240 H285 L295 270 H180 Z" fill="url(#silverB)"/>
+
+    <!-- Golden Rocket Swoosh & Arrow -->
+    <!-- Curved Tail -->
+    <path d="M110 395 C145 380 205 320 280 260 L395 165 L360 205 C295 260 220 330 160 385 C140 400 120 405 110 395 Z" fill="url(#goldArrow)"/>
+
+    <!-- Dynamic Center Beam -->
+    <path d="M115 390 C170 355 250 280 375 180 L365 170 C240 270 160 345 115 390 Z" fill="#FDE68A" opacity="0.6"/>
+
+    <!-- Arrowhead -->
+    <polygon points="405,125 425,195 385,175 350,195" fill="url(#goldArrow)"/>
+    <polygon points="405,125 418,180 385,168" fill="#FDE68A" opacity="0.8"/>
+  </g>
+</svg>

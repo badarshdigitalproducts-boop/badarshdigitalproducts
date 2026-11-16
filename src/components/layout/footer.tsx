@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { siteConfig } from "@/lib/constants";
+import { BrandLogo } from "./brand-logo";
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -124,13 +125,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand column */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <Link
-              href="/"
-              className="cursor-pointer text-2xl font-bold tracking-tight text-foreground"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
-              BADARSH
-            </Link>
+            <BrandLogo />
             <p className="mt-3 text-sm leading-relaxed text-muted">
               Premium digital templates, e-books &amp; creative services to make
               your brand stand out online.

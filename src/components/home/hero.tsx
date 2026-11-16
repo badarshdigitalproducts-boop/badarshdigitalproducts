@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, CheckCircle2, ShieldCheck, Zap } from "lucide-react";
+import Image from "next/image";
 import { STATS } from "@/lib/constants";
 import { AnimatedCounter } from "@/components/shared/animated-counter";
 
@@ -18,6 +19,26 @@ export function Hero() {
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
+          {/* Brand Identity Emblem */}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="mb-6 flex justify-center"
+          >
+            <div className="group relative flex h-20 w-20 items-center justify-center rounded-3xl border border-white/20 bg-gradient-to-tr from-accent/20 via-purple-900/30 to-amber-500/20 p-3 shadow-xl backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-accent/20">
+              <div className="absolute inset-0 rounded-3xl bg-amber-500/10 blur-xl group-hover:bg-accent/20" />
+              <Image
+                src="/logo-icon.png"
+                alt="BADARSH Brand Identity"
+                width={120}
+                height={120}
+                className="relative z-10 h-full w-full object-contain filter drop-shadow-md"
+                priority
+              />
+            </div>
+          </motion.div>
+
           {/* Eyebrow Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}

@@ -4,6 +4,7 @@ import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { X, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { NAV_LINKS, siteConfig } from "@/lib/constants";
+import { BrandLogo } from "./brand-logo";
 
 interface MobileNavProps {
   isOpen: boolean;
@@ -99,9 +100,9 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-border/50 px-6 py-4">
-              <span className="text-lg font-bold tracking-tight text-foreground font-heading">
-                Menu
-              </span>
+              <div onClick={onClose}>
+                <BrandLogo variant="full" />
+              </div>
               <button
                 onClick={onClose}
                 className="cursor-pointer rounded-full p-2 transition-colors duration-200 hover:bg-muted/50"

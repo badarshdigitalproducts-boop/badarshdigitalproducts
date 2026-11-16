@@ -524,3 +524,4 @@ export function ProductDetailView({
     </div>
   );
 }
+
