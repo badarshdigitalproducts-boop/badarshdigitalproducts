@@ -2,7 +2,7 @@
 
 import { Check, Sparkles, MessageCircle } from "lucide-react";
 import type { ServicePackage } from "@/types";
-import { formatPrice } from "@/lib/utils";
+import { useCurrency } from "@/context/currency-context";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
 
 interface PricingTableProps {
@@ -11,6 +11,7 @@ interface PricingTableProps {
 }
 
 export function PricingTable({ packages, serviceTitle }: PricingTableProps) {
+  const { formatPrice: formatCurr } = useCurrency();
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
       {packages.map((pkg) => {
@@ -47,7 +48,7 @@ export function PricingTable({ packages, serviceTitle }: PricingTableProps) {
               <div className="mt-6 border-t border-card-border/60 pt-6">
                 <div className="flex items-baseline gap-1">
                   <span className="font-heading text-3xl font-extrabold text-foreground">
-                    {formatPrice(pkg.price, pkg.currency)}
+                    {formatCurr(pkg.price)}
                   </span>
                   {pkg.period && (
                     <span className="text-xs text-muted">
@@ -89,3 +90,4 @@ export function PricingTable({ packages, serviceTitle }: PricingTableProps) {
     </div>
   );
 }
+

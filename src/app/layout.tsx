@@ -5,6 +5,8 @@ import { constructMetadata } from "@/lib/metadata";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { WhatsappButton } from "@/components/shared/whatsapp-button";
+import { SocialProofToast } from "@/components/shared/social-proof-toast";
+import { CurrencyProvider } from "@/context/currency-context";
 import "./globals.css";
 
 export const metadata = constructMetadata();
@@ -23,12 +25,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           enableSystem
           disableTransitionOnChange
         >
-          <Suspense fallback={<div className="h-16 w-full bg-background" />}>
-            <Navbar />
-          </Suspense>
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <WhatsappButton />
+          <CurrencyProvider>
+            <Suspense fallback={<div className="h-16 w-full bg-background" />}>
+              <Navbar />
+            </Suspense>
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <WhatsappButton />
+            <SocialProofToast />
+          </CurrencyProvider>
         </ThemeProvider>
       </body>
     </html>

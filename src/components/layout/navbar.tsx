@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { NAV_LINKS } from "@/lib/constants";
 import { useScroll } from "@/hooks/use-scroll";
 import { ThemeToggle } from "./theme-toggle";
+import { CurrencyToggle } from "./currency-toggle";
 import { MobileNav } from "./mobile-nav";
 
 export function Navbar() {
@@ -70,7 +71,8 @@ export function Navbar() {
           </nav>
 
           {/* Right section */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <CurrencyToggle />
             <ThemeToggle />
 
             {/* CTA — desktop only */}

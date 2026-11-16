@@ -1,12 +1,51 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { ArrowLeft, Clock, Calendar, User, Share2, Sparkles, BookOpen } from "lucide-react";
 import { blogPosts } from "@/content/blog";
 import { constructMetadata } from "@/lib/metadata";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
+}
+
+function parseInlineMarkdown(text: string): ReactNode {
+  // Split by bold (**...**) and inline code (`...`)
+  const parts: ReactNode[] = [];
+  const regex = /(\*\*[^*]+\*\*|`[^`]+`)/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+    const token = match[0];
+    if (token.startsWith("**") && token.endsWith("**")) {
+      parts.push(
+        <strong key={match.index} className="font-bold text-foreground">
+          {token.slice(2, -2)}
+        </strong>
+      );
+    } else if (token.startsWith("`") && token.endsWith("`")) {
+      parts.push(
+        <code
+          key={match.index}
+          className="rounded-md border border-card-border bg-card px-1.5 py-0.5 font-mono text-xs font-semibold text-accent"
+        >
+          {token.slice(1, -1)}
+        </code>
+      );
+    }
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : text;
 }
 
 export async function generateStaticParams() {
@@ -57,7 +96,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             key={idx}
             className="mt-8 mb-3 font-heading text-xl font-bold text-foreground"
           >
-            {trimmed.replace("### ", "")}
+            {parseInlineMarkdown(trimmed.replace("### ", ""))}
           </h3>
         );
       }
@@ -67,27 +106,27 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             key={idx}
             className="mt-10 mb-4 font-heading text-2xl font-bold text-foreground border-b border-card-border/60 pb-2"
           >
-            {trimmed.replace("## ", "")}
+            {parseInlineMarkdown(trimmed.replace("## ", ""))}
           </h2>
         );
       }
       if (trimmed.startsWith("- ")) {
         return (
           <li key={idx} className="ml-4 list-disc text-muted leading-relaxed text-sm">
-            {trimmed.replace("- ", "")}
+            {parseInlineMarkdown(trimmed.replace("- ", ""))}
           </li>
         );
       }
       if (/^\d+\.\s/.test(trimmed)) {
         return (
           <li key={idx} className="ml-4 list-decimal text-muted leading-relaxed text-sm">
-            {trimmed.replace(/^\d+\.\s/, "")}
+            {parseInlineMarkdown(trimmed.replace(/^\d+\.\s/, ""))}
           </li>
         );
       }
       return (
         <p key={idx} className="text-base leading-relaxed text-muted mb-3">
-          {trimmed}
+          {parseInlineMarkdown(trimmed)}
         </p>
       );
     });

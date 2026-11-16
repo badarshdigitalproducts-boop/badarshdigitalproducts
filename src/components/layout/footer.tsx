@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { CheckCircle2 } from "lucide-react";
 import { siteConfig } from "@/lib/constants";
 
 function InstagramIcon({ className }: { className?: string }) {
@@ -94,6 +96,26 @@ const serviceLinks = [
 
 export function Footer() {
   const currentYear = 2026;
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setLoading(true);
+    try {
+      await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+    } catch {
+      // fallback
+    }
+    setLoading(false);
+    setSubmitted(true);
+  };
 
   return (
     <footer className="border-t border-border/50 bg-card">
@@ -246,26 +268,37 @@ export function Footer() {
               Subscribe to our newsletter
             </h3>
             <p className="mt-1 text-xs text-muted">
-              Get the latest templates, tips &amp; exclusive offers.
+              Get the latest Canva templates, tips &amp; 10 free gifts.
             </p>
           </div>
-          <form
-            className="flex w-full max-w-md gap-2 sm:w-auto"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="min-w-0 flex-1 rounded-full border border-border/50 bg-background px-4 py-2 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-              aria-label="Email address"
-            />
-            <button
-              type="submit"
-              className="cursor-pointer whitespace-nowrap rounded-full bg-accent px-5 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-accent-hover"
+          {submitted ? (
+            <div className="flex items-center gap-2 text-xs font-semibold text-emerald-500">
+              <CheckCircle2 className="h-4 w-4" />
+              <span>Subscribed! Check your inbox for the free templates link.</span>
+            </div>
+          ) : (
+            <form
+              className="flex w-full max-w-md gap-2 sm:w-auto"
+              onSubmit={handleSubscribe}
             >
-              Subscribe
-            </button>
-          </form>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="Enter your email"
+                className="min-w-0 flex-1 rounded-full border border-border/50 bg-background px-4 py-2 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                aria-label="Email address"
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className="cursor-pointer whitespace-nowrap rounded-full bg-accent px-5 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-accent-hover disabled:opacity-50"
+              >
+                {loading ? "..." : "Subscribe"}
+              </button>
+            </form>
+          )}
         </div>
       </div>
 

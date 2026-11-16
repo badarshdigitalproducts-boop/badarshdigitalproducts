@@ -9,6 +9,7 @@
   --foreground: #0C0A09;
   --card: #FFFFFF;
   --card-border: #E7E5E4;
+  --border: #E7E5E4;
   --primary: #1C1917;
   --accent: #7C3AED;
   --accent-hover: #6D28D9;
@@ -21,6 +22,7 @@
   --foreground: #FAFAF9;
   --card: #1C1917;
   --card-border: #292524;
+  --border: #292524;
   --primary: #FAFAF9;
   --accent: #8B5CF6;
   --accent-hover: #A78BFA;
@@ -37,6 +39,7 @@
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-border: var(--card-border);
+  --color-border: var(--border);
   --color-primary: var(--primary);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);

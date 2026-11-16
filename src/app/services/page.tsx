@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Video,
   Globe,
@@ -159,11 +160,21 @@ export default function ServicesPage() {
                               }`}
                             />
                           </button>
-                          {isOpen && (
-                            <p className="mt-3 text-xs leading-relaxed text-muted">
-                              {item.answer}
-                            </p>
-                          )}
+                          <AnimatePresence>
+                            {isOpen && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.25, ease: "easeInOut" }}
+                                className="overflow-hidden"
+                              >
+                                <p className="mt-3 text-xs leading-relaxed text-muted">
+                                  {item.answer}
+                                </p>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
                         </div>
                       );
                     })}
@@ -200,3 +211,4 @@ export default function ServicesPage() {
     </div>
   );
 }
+

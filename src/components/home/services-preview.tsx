@@ -5,10 +5,11 @@ import { motion } from "framer-motion";
 import { Video, Globe, Megaphone, Check, ArrowRight, MessageSquare } from "lucide-react";
 import { SectionHeader } from "@/components/shared/section-header";
 import { services } from "@/content/services";
-import { formatPrice } from "@/lib/utils";
+import { useCurrency } from "@/context/currency-context";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
 
 export function ServicesPreview() {
+  const { formatPrice: formatCurr } = useCurrency();
   const getIcon = (title: string) => {
     if (title.toLowerCase().includes("video")) return Video;
     if (title.toLowerCase().includes("website")) return Globe;
@@ -71,7 +72,7 @@ export function ServicesPreview() {
                     <div>
                       <span className="text-xs text-muted">Starting at</span>
                       <p className="font-heading text-2xl font-extrabold text-foreground">
-                        {formatPrice(starterPlan.price, starterPlan.currency)}
+                        {formatCurr(starterPlan.price)}
                         <span className="text-xs font-normal text-muted">
                           {" "}/ {starterPlan.period || "project"}
                         </span>
@@ -127,3 +128,4 @@ export function ServicesPreview() {
     </section>
   );
 }
+
