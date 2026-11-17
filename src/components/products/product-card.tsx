@@ -21,21 +21,21 @@ export function ProductCard({ product }: ProductCardProps) {
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
 
-  // Visual gradient based on category
+  // Visual backdrop tint based on category — subtle Apple studio tones
   const getCategoryGradient = (cat: string) => {
     switch (cat) {
       case "social-media":
-        return "from-purple-600/25 via-pink-600/15 to-indigo-600/25 border-purple-500/20";
+        return "from-accent/8 via-card to-accent/4";
       case "presentations":
-        return "from-blue-600/25 via-cyan-600/15 to-indigo-600/25 border-blue-500/20";
+        return "from-blue-500/8 via-card to-indigo-500/4";
       case "branding":
-        return "from-amber-600/25 via-orange-600/15 to-yellow-600/25 border-amber-500/20";
+        return "from-amber-500/8 via-card to-orange-500/4";
       case "ebooks":
-        return "from-emerald-600/25 via-teal-600/15 to-green-600/25 border-emerald-500/20";
+        return "from-emerald-500/8 via-card to-teal-500/4";
       case "planners":
-        return "from-rose-600/25 via-fuchsia-600/15 to-pink-600/25 border-rose-500/20";
+        return "from-rose-500/8 via-card to-pink-500/4";
       default:
-        return "from-violet-600/25 via-purple-600/15 to-indigo-600/25 border-violet-500/20";
+        return "from-accent/8 via-card to-accent/4";
     }
   };
 
@@ -45,10 +45,10 @@ export function ProductCard({ product }: ProductCardProps) {
         whileHover={{ y: -5 }}
         whileTap={{ scale: 0.985 }}
         transition={{ type: "spring", duration: 0.35, bounce: 0.15 }}
-        className="group relative flex flex-col overflow-hidden rounded-2xl border border-card-border/80 bg-card shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-accent/40 hover:shadow-xl hover:shadow-accent/5"
+        className="group relative flex flex-col overflow-hidden rounded-2xl border border-card-border bg-card shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-foreground/20 hover:shadow-xl hover:shadow-black/[0.04]"
       >
         {/* Product Visual Area */}
-        <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br">
+        <div className="relative aspect-[16/10] w-full overflow-hidden bg-secondary/50">
           <Link
             href={`/templates/${product.slug}`}
             className="absolute inset-0 block"
@@ -62,7 +62,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
             {/* Template Card Art Frame */}
             <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
-              <div className="rounded-xl border border-white/20 bg-background/70 p-4 shadow-lg backdrop-blur-md transition-all duration-300 group-hover:border-accent/40 group-hover:bg-background/90">
+              <div className="rounded-xl border border-card-border bg-card/90 p-4 shadow-sm backdrop-blur-md transition-all duration-300 group-hover:border-accent/40 group-hover:shadow-md">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-accent">
                   {product.format}
                 </span>

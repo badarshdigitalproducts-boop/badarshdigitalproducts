@@ -1,103 +1,65 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, CheckCircle2, ShieldCheck, Zap } from "lucide-react";
-import Image from "next/image";
-import { useTheme } from "next-themes";
+import { ArrowRight, CheckCircle2, ShieldCheck, Zap, Layers, Sparkles, Layout, Palette } from "lucide-react";
 import { STATS } from "@/lib/constants";
 import { AnimatedCounter } from "@/components/shared/animated-counter";
 
 export function Hero() {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const isDark = mounted && resolvedTheme === "dark";
-
   return (
     <section className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-32">
-      {/* Background Glows & Gradients */}
-      <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center">
-        <div className="h-[450px] w-[600px] rounded-full bg-accent/15 blur-[120px]" />
-        <div className="absolute top-1/4 -right-20 h-[350px] w-[450px] rounded-full bg-amber-500/10 blur-[100px]" />
-        <div className="absolute -bottom-10 -left-20 h-[350px] w-[450px] rounded-full bg-indigo-500/10 blur-[100px]" />
+      {/* Background Ambience — strictly centered, zero horizontal overflow */}
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[800px] max-w-[90vw] rounded-full bg-accent/6 blur-[140px]" />
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          {/* Brand Identity Emblem with Apple Spring Entrance */}
+        <div className="mx-auto max-w-4xl text-center">
+          {/* Eyebrow Badge — Apple-grade minimalist pill */}
           <motion.div
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ type: "spring", duration: 0.45, bounce: 0.15 }}
-            className="mb-6 flex justify-center"
-          >
-            <div className="group relative flex h-20 w-20 items-center justify-center rounded-3xl border border-border/60 bg-gradient-to-tr from-accent/15 via-purple-500/10 to-amber-500/15 p-3 shadow-xl backdrop-blur-xl transition-[transform,box-shadow] duration-200 hover:scale-105 hover:shadow-2xl hover:shadow-accent/20 active:scale-95 dark:border-white/20 dark:bg-gradient-to-tr dark:from-accent/20 dark:via-purple-900/30 dark:to-amber-500/20">
-              <div className="absolute inset-0 rounded-3xl bg-amber-500/10 blur-xl group-hover:bg-accent/20" />
-              {/* Light Theme: Dark Emblem (/logo-icon-dark-v3.png) | Dark Theme: White Emblem (/logo-icon-light-v3.png) */}
-              <Image
-                src={isDark ? "/logo-icon-light-v3.png" : "/logo-icon-dark-v3.png"}
-                alt="BADARSH Brand Identity"
-                width={512}
-                height={512}
-                className="relative z-10 h-full w-full object-contain filter drop-shadow-md"
-                priority
-                unoptimized
-              />
-            </div>
-          </motion.div>
-
-          {/* Eyebrow Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-accent backdrop-blur-md"
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center gap-2 rounded-full border border-card-border bg-card/80 px-4 py-1.5 text-xs font-medium text-muted shadow-xs backdrop-blur-md"
           >
-            <Sparkles className="h-3.5 w-3.5 text-accent animate-pulse" />
-            <span>Premium Digital Marketplace &amp; Creative Agency</span>
+            <span className="flex h-2 w-2 rounded-full bg-accent" />
+            <span className="font-semibold text-foreground">BADARSH Creative Studio</span>
+            <span className="text-muted/50">•</span>
+            <span>Canva Templates &amp; Pro Services</span>
           </motion.div>
 
-          {/* Main Headline */}
+          {/* Main Headline — Apple bold typographic hierarchy */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-6 font-heading text-4xl font-extrabold tracking-tight text-foreground sm:text-6xl lg:text-7xl"
+            transition={{ duration: 0.55, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-6 font-heading text-4xl sm:text-6xl md:text-7xl lg:text-[5rem] font-extrabold tracking-[-0.035em] text-foreground leading-[1.06]"
           >
-            Your Business, <br />
-            <span className="bg-gradient-to-r from-accent via-purple-500 to-amber-500 bg-clip-text text-transparent">
-              Beautifully Digital
-            </span>
+            Your Business, <br className="hidden sm:inline" />
+            Beautifully Digital.
           </motion.h1>
 
           {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-6 text-lg leading-relaxed text-muted sm:text-xl"
+            transition={{ duration: 0.55, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-6 text-lg sm:text-xl leading-relaxed text-muted max-w-2xl mx-auto font-normal tracking-tight"
           >
-            Stand out online with handcrafted Canva templates, high-impact e-books,
-            and professional done-for-you video editing &amp; website building.
-            Built for modern businesses, shops, and creators.
+            Handcrafted Canva templates, high-conversion playbooks, and done-for-you creative services engineered to elevate your brand presence.
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* Apple-Grade Action Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+            transition={{ duration: 0.55, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5"
           >
             <Link
               href="/templates"
-              className="group flex w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 font-heading text-base font-bold text-white shadow-lg shadow-accent/25 transition-[transform,background-color,box-shadow] duration-150 hover:bg-accent-hover hover:shadow-xl hover:shadow-accent/35 active:scale-[0.97] sm:w-auto"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-foreground text-background px-8 py-3.5 text-sm font-semibold shadow-xs transition-all duration-150 hover:opacity-90 active:scale-[0.97]"
             >
               <span>Explore Products</span>
               <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -105,7 +67,7 @@ export function Hero() {
 
             <Link
               href="/services"
-              className="flex w-full items-center justify-center gap-2 rounded-full border border-card-border/80 bg-card/80 px-8 py-4 font-heading text-base font-bold text-foreground backdrop-blur-md transition-[transform,border-color,background-color] duration-150 hover:border-accent/40 hover:bg-card active:scale-[0.97] sm:w-auto"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-card-border bg-card/80 backdrop-blur-md px-8 py-3.5 text-sm font-semibold text-foreground shadow-xs transition-all duration-150 hover:bg-card hover:border-foreground/20 active:scale-[0.97]"
             >
               <span>Done-For-You Services</span>
             </Link>
@@ -115,7 +77,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.32 }}
             className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-muted"
           >
             <div className="flex items-center gap-1.5">
@@ -133,12 +95,106 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* Stats Row */}
+        {/* Apple-Grade Product Showcase Stage (Interactive Bento Dock) */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.5 }}
-          className="mt-16 grid grid-cols-2 gap-4 rounded-3xl border border-card-border/80 bg-card/50 p-6 backdrop-blur-xl sm:grid-cols-4 sm:p-8"
+          transition={{ duration: 0.65, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-14 max-w-5xl mx-auto"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {/* Showcase Card 1: Social Media Carousel */}
+            <Link
+              href="/templates/instagram-reels-template-pack"
+              className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-card-border bg-card p-6 shadow-xs transition-all duration-300 hover:border-accent/40 hover:shadow-xl hover:shadow-accent/5 active:scale-[0.985]"
+            >
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="rounded-full bg-accent/10 px-2.5 py-1 text-[11px] font-bold text-accent">
+                    Social Media
+                  </span>
+                  <span className="text-[11px] text-muted">65+ Templates</span>
+                </div>
+                <h3 className="mt-4 font-heading text-lg font-bold text-foreground transition-colors group-hover:text-accent">
+                  Viral Instagram Carousel &amp; Reels Suite
+                </h3>
+                <p className="mt-2 text-xs leading-relaxed text-muted">
+                  High-converting layouts for educational carousels, video covers, and viral story hooks.
+                </p>
+              </div>
+              <div className="mt-6 flex items-center justify-between border-t border-card-border/60 pt-4 text-xs">
+                <span className="font-semibold text-foreground">Canva Free &bull; 1080x1350</span>
+                <span className="flex items-center gap-1 font-bold text-accent">
+                  View <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </div>
+            </Link>
+
+            {/* Showcase Card 2: Elevated Center Brand Kit */}
+            <Link
+              href="/templates"
+              className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border-2 border-accent/30 bg-card p-6 shadow-md transition-all duration-300 hover:border-accent hover:shadow-2xl hover:shadow-accent/10 active:scale-[0.985] md:-translate-y-2"
+            >
+              <div className="absolute top-0 right-0 rounded-bl-xl bg-accent px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                Featured System
+              </div>
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="rounded-full bg-amber-500/10 px-2.5 py-1 text-[11px] font-bold text-amber-600 dark:text-amber-400">
+                    Full Identity
+                  </span>
+                  <span className="text-[11px] text-muted">200+ Assets</span>
+                </div>
+                <h3 className="mt-4 font-heading text-lg font-bold text-foreground transition-colors group-hover:text-accent">
+                  Master Brand Identity &amp; Launch System
+                </h3>
+                <p className="mt-2 text-xs leading-relaxed text-muted">
+                  Complete brand guideline book, typography scales, logo suites, and NFC business cards.
+                </p>
+              </div>
+              <div className="mt-6 flex items-center justify-between border-t border-card-border/60 pt-4 text-xs">
+                <span className="font-semibold text-foreground">Turnkey Kit &bull; Instant Access</span>
+                <span className="flex items-center gap-1 font-bold text-accent">
+                  Explore <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </div>
+            </Link>
+
+            {/* Showcase Card 3: Pitch Decks & Proposals */}
+            <Link
+              href="/templates/linkedin-carousel-templates"
+              className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-card-border bg-card p-6 shadow-xs transition-all duration-300 hover:border-accent/40 hover:shadow-xl hover:shadow-accent/5 active:scale-[0.985]"
+            >
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="rounded-full bg-blue-500/10 px-2.5 py-1 text-[11px] font-bold text-blue-600 dark:text-blue-400">
+                    Pitch &amp; Sales
+                  </span>
+                  <span className="text-[11px] text-muted">40+ Slides</span>
+                </div>
+                <h3 className="mt-4 font-heading text-lg font-bold text-foreground transition-colors group-hover:text-accent">
+                  Investor Pitch Deck &amp; Agency Proposal
+                </h3>
+                <p className="mt-2 text-xs leading-relaxed text-muted">
+                  Tested presentation architecture designed to close enterprise deals and secure funding.
+                </p>
+              </div>
+              <div className="mt-6 flex items-center justify-between border-t border-card-border/60 pt-4 text-xs">
+                <span className="font-semibold text-foreground">16:9 4K &bull; PPTX &amp; Canva</span>
+                <span className="flex items-center gap-1 font-bold text-accent">
+                  View <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </div>
+            </Link>
+          </div>
+        </motion.div>
+
+        {/* Stats Strip — Apple-grade minimalist dock */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mt-14 max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4 rounded-2xl border border-card-border bg-card/60 p-6 backdrop-blur-xl shadow-xs"
         >
           {STATS.map((stat) => (
             <AnimatedCounter

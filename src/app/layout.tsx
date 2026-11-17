@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       className={`${fontHeading.variable} ${fontBody.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground font-body">
+      <body className="min-h-full flex flex-col bg-background text-foreground font-body overflow-x-clip max-w-[100vw]">
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

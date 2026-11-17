@@ -30,15 +30,15 @@ export function Newsletter() {
   };
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="overflow-hidden py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-3xl border border-accent/30 bg-gradient-to-br from-accent/15 via-purple-900/20 to-card p-8 md:p-16 shadow-2xl">
-          {/* Decorative glow */}
-          <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-accent/30 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-amber-500/20 blur-3xl" />
+        <div className="relative overflow-hidden rounded-3xl border border-card-border bg-card p-8 md:p-16 shadow-xl">
+          {/* Decorative subtle glow — strictly bounded */}
+          <div className="pointer-events-none absolute -top-12 -right-12 h-64 w-64 rounded-full bg-accent/8 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-12 -left-12 h-64 w-64 rounded-full bg-accent/5 blur-3xl" />
 
           <div className="relative mx-auto max-w-3xl text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-background/60 px-4 py-1.5 text-xs font-semibold text-accent backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 rounded-full border border-card-border bg-background/80 px-4 py-1.5 text-xs font-semibold text-accent shadow-xs backdrop-blur-md">
               <Gift className="h-4 w-4" />
               <span>Free Founder Gift</span>
             </div>
@@ -89,7 +89,7 @@ export function Newsletter() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 font-heading text-sm font-bold text-white shadow-lg shadow-accent/25 transition-all hover:bg-accent-hover hover:shadow-xl sm:w-auto"
+                  className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-foreground text-background px-8 py-4 font-heading text-sm font-bold shadow-xs transition-all hover:opacity-90 active:scale-[0.97] sm:w-auto"
                 >
                   <span>{loading ? "Sending..." : "Claim Free Pack"}</span>
                   <ArrowRight className="h-4 w-4" />
