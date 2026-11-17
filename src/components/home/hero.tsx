@@ -26,7 +26,7 @@ export function Hero() {
             transition={{ type: "spring", duration: 0.45, bounce: 0.15 }}
             className="mb-6 flex justify-center"
           >
-            <div className="group relative flex h-20 w-20 items-center justify-center rounded-3xl border border-white/20 bg-gradient-to-tr from-accent/20 via-purple-900/30 to-amber-500/20 p-3 shadow-xl backdrop-blur-xl transition-[transform,box-shadow] duration-200 hover:scale-105 hover:shadow-2xl hover:shadow-accent/20 active:scale-95">
+            <div className="group relative flex h-20 w-20 items-center justify-center rounded-3xl border border-border/60 bg-gradient-to-tr from-accent/15 via-purple-500/10 to-amber-500/15 p-3 shadow-xl backdrop-blur-xl transition-[transform,box-shadow] duration-200 hover:scale-105 hover:shadow-2xl hover:shadow-accent/20 active:scale-95 dark:border-white/20 dark:bg-gradient-to-tr dark:from-accent/20 dark:via-purple-900/30 dark:to-amber-500/20">
               <div className="absolute inset-0 rounded-3xl bg-amber-500/10 blur-xl group-hover:bg-accent/20" />
               {/* Light Mode Emblem */}
               <Image
