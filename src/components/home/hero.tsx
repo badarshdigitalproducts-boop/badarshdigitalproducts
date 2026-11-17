@@ -30,20 +30,20 @@ export function Hero() {
               <div className="absolute inset-0 rounded-3xl bg-amber-500/10 blur-xl group-hover:bg-accent/20" />
               {/* Light Mode Emblem */}
               <Image
-                src="/logo-icon-dark-v2.png"
+                src="/logo-icon-dark-v3.png"
                 alt="BADARSH Brand Identity"
-                width={128}
-                height={128}
+                width={512}
+                height={512}
                 className="relative z-10 h-full w-full object-contain filter drop-shadow-md dark:hidden"
                 priority
                 unoptimized
               />
               {/* Dark Mode Emblem */}
               <Image
-                src="/logo-icon-light-v2.png"
+                src="/logo-icon-light-v3.png"
                 alt="BADARSH Brand Identity"
-                width={128}
-                height={128}
+                width={512}
+                height={512}
                 className="relative z-10 hidden h-full w-full object-contain filter drop-shadow-md dark:block"
                 priority
                 unoptimized

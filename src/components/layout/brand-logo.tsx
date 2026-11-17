@@ -26,22 +26,22 @@ export function BrandLogo({
         aria-label="BADARSH Home"
       >
         <div className="relative h-9 w-9 overflow-hidden rounded-xl bg-gradient-to-tr from-accent/15 via-amber-500/10 to-transparent p-1 border border-border/60 shadow-xs backdrop-blur-md">
-          {/* Light Mode Icon (Dark Obsidian Wings + Radiant Gold Arrow) */}
+          {/* Light Mode Icon (Obsidian Navy Emblem + Electric Coral Arrow) */}
           <Image
-            src="/logo-icon-dark-v2.png"
+            src="/logo-icon-dark-v3.png"
             alt="BADARSH Emblem"
-            width={128}
-            height={128}
+            width={512}
+            height={512}
             className="h-full w-full object-contain dark:hidden"
             priority
             unoptimized
           />
-          {/* Dark Mode Icon (Platinum White Wings + Radiant Gold Arrow) */}
+          {/* Dark Mode Icon (Diamond White Emblem + Electric Coral Arrow) */}
           <Image
-            src="/logo-icon-light-v2.png"
+            src="/logo-icon-light-v3.png"
             alt="BADARSH Emblem"
-            width={128}
-            height={128}
+            width={512}
+            height={512}
             className="hidden h-full w-full object-contain dark:block"
             priority
             unoptimized
@@ -60,26 +60,26 @@ export function BrandLogo({
       )}
       aria-label="BADARSH Home"
     >
-      {/* Light Mode Logo (Solid Obsidian Text + 3D Obsidian 'B' + Vibrant Royal Gold Arrow + Slate Subtitle) */}
+      {/* Light Mode Logo (Midnight Navy Typography + Coral Arrow + Slate Tagline) */}
       <div className="relative h-8 w-auto min-w-[140px] max-w-[210px] sm:h-9 sm:max-w-[230px] md:h-10 md:max-w-[245px] dark:hidden">
         <Image
-          src="/logo-dark-v2.png"
+          src="/logo-dark-v3.png"
           alt="BADARSH — Digital Marketing"
-          width={1658}
-          height={360}
+          width={1432}
+          height={319}
           className="h-full w-auto object-contain object-left transition-transform duration-300 group-hover:scale-[1.02]"
           priority
           unoptimized
         />
       </div>
 
-      {/* Dark Mode Logo (Diamond White Text + Platinum 3D 'B' + Molten Gold Arrow + Silver Subtitle) */}
+      {/* Dark Mode Logo (Diamond White Typography + Coral Arrow + Platinum Tagline) */}
       <div className="relative hidden h-8 w-auto min-w-[140px] max-w-[210px] sm:h-9 sm:max-w-[220px] md:h-10 md:max-w-[245px] dark:block">
         <Image
-          src="/logo-white-v2.png"
+          src="/logo-white-v3.png"
           alt="BADARSH — Digital Marketing"
-          width={1658}
-          height={360}
+          width={1432}
+          height={319}
           className="h-full w-auto object-contain object-left transition-transform duration-300 group-hover:scale-[1.02]"
           priority
           unoptimized
