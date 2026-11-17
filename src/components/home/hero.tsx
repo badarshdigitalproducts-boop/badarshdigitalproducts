@@ -1,13 +1,24 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, CheckCircle2, ShieldCheck, Zap } from "lucide-react";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 import { STATS } from "@/lib/constants";
 import { AnimatedCounter } from "@/components/shared/animated-counter";
 
 export function Hero() {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = mounted && resolvedTheme === "dark";
+
   return (
     <section className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-32">
       {/* Background Glows & Gradients */}
@@ -28,23 +39,13 @@ export function Hero() {
           >
             <div className="group relative flex h-20 w-20 items-center justify-center rounded-3xl border border-border/60 bg-gradient-to-tr from-accent/15 via-purple-500/10 to-amber-500/15 p-3 shadow-xl backdrop-blur-xl transition-[transform,box-shadow] duration-200 hover:scale-105 hover:shadow-2xl hover:shadow-accent/20 active:scale-95 dark:border-white/20 dark:bg-gradient-to-tr dark:from-accent/20 dark:via-purple-900/30 dark:to-amber-500/20">
               <div className="absolute inset-0 rounded-3xl bg-amber-500/10 blur-xl group-hover:bg-accent/20" />
-              {/* Light Mode Emblem */}
+              {/* Light Theme: Dark Emblem (/logo-icon-dark-v3.png) | Dark Theme: White Emblem (/logo-icon-light-v3.png) */}
               <Image
-                src="/logo-icon-dark-v3.png"
+                src={isDark ? "/logo-icon-light-v3.png" : "/logo-icon-dark-v3.png"}
                 alt="BADARSH Brand Identity"
                 width={512}
                 height={512}
-                className="relative z-10 h-full w-full object-contain filter drop-shadow-md dark:hidden"
-                priority
-                unoptimized
-              />
-              {/* Dark Mode Emblem */}
-              <Image
-                src="/logo-icon-light-v3.png"
-                alt="BADARSH Brand Identity"
-                width={512}
-                height={512}
-                className="relative z-10 hidden h-full w-full object-contain filter drop-shadow-md dark:block"
+                className="relative z-10 h-full w-full object-contain filter drop-shadow-md"
                 priority
                 unoptimized
               />
