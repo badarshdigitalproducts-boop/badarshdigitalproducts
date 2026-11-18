@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, ArrowRight, ShieldCheck, Zap, Clock, MessageSquare } from "lucide-react";
+import { Menu, ArrowRight, ShieldCheck, Zap, Clock, MessageSquare, ChevronDown } from "lucide-react";
 import { cn, getWhatsAppUrl } from "@/lib/utils";
 import { WHATSAPP_DISPLAY } from "@/lib/constants";
 import { useScroll } from "@/hooks/use-scroll";
@@ -285,24 +285,13 @@ export function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<DropdownKey>(null);
   const { isScrolled } = useScroll();
   const pathname = usePathname();
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const headerRef = useRef<HTMLElement>(null);
 
-  const openMenu = useCallback((key: DropdownKey) => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    setOpenDropdown(key);
-  }, []);
-
-  const startClose = useCallback(() => {
-    closeTimer.current = setTimeout(() => setOpenDropdown(null), 220);
-  }, []);
-
-  const cancelClose = useCallback(() => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
+  const toggleMenu = useCallback((key: "shop" | "services") => {
+    setOpenDropdown((prev) => (prev === key ? null : key));
   }, []);
 
   const closeImmediately = useCallback(() => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
     setOpenDropdown(null);
   }, []);
 
@@ -310,6 +299,17 @@ export function Navbar() {
   useEffect(() => {
     closeImmediately();
   }, [pathname, closeImmediately]);
+
+  // Close on Escape key press
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeImmediately();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [closeImmediately]);
 
   // Close on outside click
   useEffect(() => {
@@ -331,12 +331,11 @@ export function Navbar() {
     <>
       <header
         ref={headerRef}
-        onMouseLeave={startClose}
         className={cn(
           "sticky top-0 z-50 w-full transition-[background-color,border-color,box-shadow] duration-200 ease-out",
           // Apple translucent header bar
           isScrolled || openDropdown
-            ? "border-b border-border/40 bg-background/80 shadow-xs"
+            ? "border-b border-border/40 bg-background/85 shadow-xs"
             : "border-b border-transparent bg-background/60",
           "backdrop-blur-2xl"
         )}
@@ -349,50 +348,55 @@ export function Navbar() {
             <BrandLogo />
           </div>
 
-          {/* Nav Links — Centered like Apple */}
-          <nav
-            className="hidden items-center md:flex"
-            onMouseEnter={cancelClose}
-          >
-            {/* Shop Item with Mega Menu */}
-            <div
-              className="relative"
-              onMouseEnter={() => openMenu("shop")}
+          {/* Nav Links — Centered like Apple with explicit click trigger */}
+          <nav className="hidden items-center gap-1 md:flex">
+            {/* Shop Item — Click to Show */}
+            <button
+              type="button"
+              onClick={() => toggleMenu("shop")}
+              className={cn(
+                "group inline-flex items-center gap-1 cursor-pointer select-none rounded-full px-3 py-1.5 text-[12px] font-normal tracking-[-0.01em] transition-all duration-150 active:scale-[0.97]",
+                openDropdown === "shop"
+                  ? "bg-muted/70 text-foreground font-semibold"
+                  : isShopActive
+                  ? "text-foreground font-semibold"
+                  : "text-foreground/75 hover:text-foreground hover:bg-muted/30"
+              )}
+              aria-expanded={openDropdown === "shop"}
+              aria-haspopup="true"
             >
-              <button
-                onClick={() => (openDropdown === "shop" ? closeImmediately() : openMenu("shop"))}
+              <span>Shop</span>
+              <ChevronDown
                 className={cn(
-                  "cursor-pointer select-none px-3.5 py-2 text-[12px] font-normal tracking-[-0.01em] transition-opacity duration-150",
-                  isShopActive || openDropdown === "shop"
-                    ? "text-foreground font-semibold opacity-100"
-                    : "text-foreground/75 hover:opacity-100"
+                  "h-3 w-3 text-muted transition-transform duration-200",
+                  openDropdown === "shop" ? "rotate-180 text-foreground" : "group-hover:text-foreground"
                 )}
-                aria-expanded={openDropdown === "shop"}
-                aria-haspopup="true"
-              >
-                Shop
-              </button>
-            </div>
+              />
+            </button>
 
-            {/* Services Item with Mega Menu */}
-            <div
-              className="relative"
-              onMouseEnter={() => openMenu("services")}
+            {/* Services Item — Click to Show */}
+            <button
+              type="button"
+              onClick={() => toggleMenu("services")}
+              className={cn(
+                "group inline-flex items-center gap-1 cursor-pointer select-none rounded-full px-3 py-1.5 text-[12px] font-normal tracking-[-0.01em] transition-all duration-150 active:scale-[0.97]",
+                openDropdown === "services"
+                  ? "bg-muted/70 text-foreground font-semibold"
+                  : isServicesActive
+                  ? "text-foreground font-semibold"
+                  : "text-foreground/75 hover:text-foreground hover:bg-muted/30"
+              )}
+              aria-expanded={openDropdown === "services"}
+              aria-haspopup="true"
             >
-              <button
-                onClick={() => (openDropdown === "services" ? closeImmediately() : openMenu("services"))}
+              <span>Services</span>
+              <ChevronDown
                 className={cn(
-                  "cursor-pointer select-none px-3.5 py-2 text-[12px] font-normal tracking-[-0.01em] transition-opacity duration-150",
-                  isServicesActive || openDropdown === "services"
-                    ? "text-foreground font-semibold opacity-100"
-                    : "text-foreground/75 hover:opacity-100"
+                  "h-3 w-3 text-muted transition-transform duration-200",
+                  openDropdown === "services" ? "rotate-180 text-foreground" : "group-hover:text-foreground"
                 )}
-                aria-expanded={openDropdown === "services"}
-                aria-haspopup="true"
-              >
-                Services
-              </button>
-            </div>
+              />
+            </button>
 
             {/* Direct Links */}
             {[
@@ -407,12 +411,12 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  onMouseEnter={() => openMenu(null)}
+                  onClick={closeImmediately}
                   className={cn(
-                    "cursor-pointer select-none px-3.5 py-2 text-[12px] font-normal tracking-[-0.01em] transition-opacity duration-150",
+                    "cursor-pointer select-none rounded-full px-3 py-1.5 text-[12px] font-normal tracking-[-0.01em] transition-all duration-150 hover:bg-muted/30 active:scale-[0.97]",
                     isActive
-                      ? "text-foreground font-semibold opacity-100"
-                      : "text-foreground/75 hover:opacity-100"
+                      ? "text-foreground font-semibold"
+                      : "text-foreground/75 hover:text-foreground"
                   )}
                 >
                   {link.label}
@@ -429,6 +433,7 @@ export function Navbar() {
             {/* Apple-style clean CTA pill */}
             <Link
               href="/templates"
+              onClick={closeImmediately}
               className="hidden md:inline-flex cursor-pointer items-center rounded-full bg-accent px-4 py-1.5 text-[12px] font-semibold text-white shadow-xs transition-[transform,background-color] duration-150 hover:bg-accent-hover active:scale-[0.96] ml-1"
             >
               Shop Now
@@ -445,10 +450,11 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* ── Full-Width Mega Menu Dropdown Panel ── */}
+        {/* ── Full-Width Mega Menu Dropdown Panel (Shown On Click) ── */}
         <AnimatePresence>
           {openDropdown && (
             <motion.div
+              key="mega-panel"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
@@ -456,13 +462,21 @@ export function Navbar() {
                 duration: 0.22,
                 ease: [0.23, 1, 0.32, 1], // Emil's custom ease-out curve
               }}
-              onMouseEnter={cancelClose}
-              onMouseLeave={startClose}
               className="overflow-hidden border-t border-border/30 bg-background/95 backdrop-blur-3xl shadow-xl"
               style={{ WebkitBackdropFilter: "blur(28px) saturate(180%)" }}
             >
-              {openDropdown === "shop" && <ShopMegaMenu onClose={closeImmediately} />}
-              {openDropdown === "services" && <ServicesMegaMenu onClose={closeImmediately} />}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={openDropdown}
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
+                >
+                  {openDropdown === "shop" && <ShopMegaMenu onClose={closeImmediately} />}
+                  {openDropdown === "services" && <ServicesMegaMenu onClose={closeImmediately} />}
+                </motion.div>
+              </AnimatePresence>
             </motion.div>
           )}
         </AnimatePresence>
