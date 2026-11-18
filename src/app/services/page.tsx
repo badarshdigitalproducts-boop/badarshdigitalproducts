@@ -16,7 +16,7 @@ import {
 import { SectionHeader } from "@/components/shared/section-header";
 import { PricingTable } from "@/components/services/pricing-table";
 import { services } from "@/content/services";
-import { WHATSAPP_NUMBER } from "@/lib/constants";
+import { getWhatsAppUrl } from "@/lib/utils";
 
 export default function ServicesPage() {
   const [openFaq, setOpenFaq] = useState<string | null>(null);
@@ -68,9 +68,10 @@ export default function ServicesPage() {
                 </div>
 
                 <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-                    `Hi BADARSH! I'm interested in hiring you for ${service.title}. Let's chat!`
-                  )}`}
+                  href={getWhatsAppUrl(
+                    `Hi BADARSH! I'm interested in hiring your team for ${service.title}. Let's chat!`,
+                    service.title
+                  )}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 font-heading text-xs font-bold text-white shadow-md hover:bg-accent-hover"
@@ -197,9 +198,10 @@ export default function ServicesPage() {
         </p>
 
         <a
-          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-            "Hi BADARSH founders! I have a custom agency requirement and would like to schedule a discovery call."
-          )}`}
+          href={getWhatsAppUrl(
+            "Hi BADARSH founders! I have a custom agency requirement and would like to schedule a discovery call.",
+            "Custom Agency Discovery"
+          )}
           target="_blank"
           rel="noopener noreferrer"
           className="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 font-heading text-sm font-bold text-white shadow-lg shadow-accent/25 hover:bg-accent-hover"

@@ -65,7 +65,7 @@ export function BrandLogo({
         {/* Light Theme: Dark Logo on White background | Dark Theme: White Logo on Black background */}
         <Image
           src={isDark ? "/logo-white-v3.png" : "/logo-dark-v3.png"}
-          alt="BADARSH — Digital Marketing"
+          alt="BADARSH — Digital Products & Creative Studio"
           width={1432}
           height={319}
           className="h-full w-auto object-contain object-left transition-transform duration-300 group-hover:scale-[1.02]"

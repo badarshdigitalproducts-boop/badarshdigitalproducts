@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Gift, CheckCircle, ArrowRight, MessageSquare, ShieldCheck } from "lucide-react";
-import { WHATSAPP_NUMBER } from "@/lib/constants";
+import { getWhatsAppUrl } from "@/lib/utils";
 
 export function Newsletter() {
   const [email, setEmail] = useState("");
@@ -15,12 +16,11 @@ export function Newsletter() {
     if (!email) return;
 
     setLoading(true);
-    // Simulate or call API
     try {
       await fetch("/api/newsletter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, source: "Homepage 10 Free Templates Section" }),
       });
     } catch {
       // fallback
@@ -44,11 +44,11 @@ export function Newsletter() {
             </div>
 
             <h2 className="mt-6 font-heading text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl">
-              Download 10 Free Viral Instagram Templates
+              Download 10 Free Viral Canva Templates
             </h2>
 
             <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
-              Join 5,000+ business owners receiving weekly marketing tactics, free Canva design drops, and high-converting copy frameworks.
+              Join thousands of creators and ambitious founders receiving weekly Canva design drops, conversion copy frameworks, and growth tactics.
             </p>
 
             {submitted ? (
@@ -62,12 +62,13 @@ export function Newsletter() {
                   You're in! Check your inbox.
                 </h3>
                 <p className="mt-1 text-xs text-muted">
-                  Your 10 Free Canva Templates link is on its way. In the meantime, feel free to join our WhatsApp VIP list for flash discounts!
+                  Your 10 Free Canva Templates link is on its way. In the meantime, join our WhatsApp broadcast for flash discounts!
                 </p>
                 <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-                    "Hi BADARSH! I just subscribed for the 10 free templates and want to join the WhatsApp VIP list."
-                  )}`}
+                  href={getWhatsAppUrl(
+                    "Hi BADARSH! I just subscribed for the 10 free templates and want to join the WhatsApp VIP list.",
+                    "Newsletter Welcome"
+                  )}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-600 px-6 py-2.5 text-xs font-bold text-white transition hover:bg-emerald-700"
@@ -91,22 +92,22 @@ export function Newsletter() {
                   disabled={loading}
                   className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-foreground text-background px-8 py-4 font-heading text-sm font-bold shadow-xs transition-all hover:opacity-90 active:scale-[0.97] sm:w-auto"
                 >
-                  <span>{loading ? "Sending..." : "Claim Free Pack"}</span>
+                  <span>{loading ? "Sending..." : "Get 10 Free Templates"}</span>
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </form>
             )}
 
-            <div className="mt-6 flex items-center justify-center gap-4 text-xs text-muted">
-              <span className="flex items-center gap-1">
-                <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
-                Zero spam. Unsubscribe anytime.
-              </span>
-            </div>
+            <p className="mt-4 text-center text-xs text-muted">
+              🔒 By subscribing, you consent to receive design updates in accordance with our{" "}
+              <Link href="/privacy" className="underline hover:text-foreground">
+                Privacy Policy
+              </Link>
+              . Zero spam. Unsubscribe anytime with 1 click.
+            </p>
           </div>
         </div>
       </div>
     </section>
   );
 }
-

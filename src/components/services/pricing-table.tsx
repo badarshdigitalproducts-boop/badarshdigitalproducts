@@ -3,7 +3,7 @@
 import { Check, Sparkles, MessageCircle } from "lucide-react";
 import type { ServicePackage } from "@/types";
 import { useCurrency } from "@/context/currency-context";
-import { WHATSAPP_NUMBER } from "@/lib/constants";
+import { getWhatsAppUrl } from "@/lib/utils";
 
 interface PricingTableProps {
   packages: ServicePackage[];
@@ -15,10 +15,11 @@ export function PricingTable({ packages, serviceTitle }: PricingTableProps) {
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
       {packages.map((pkg) => {
-        const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+        const whatsappUrl = getWhatsAppUrl(
           pkg.whatsappMessage ||
-            `Hi BADARSH! I'm interested in the ${pkg.name} package for ${serviceTitle}. Can we discuss details?`
-        )}`;
+            `Hi BADARSH! I'm interested in the ${pkg.name} package for ${serviceTitle}. Can we discuss details?`,
+          `${serviceTitle} - ${pkg.name}`
+        );
 
         return (
           <div

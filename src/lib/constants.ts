@@ -3,19 +3,23 @@ import { SiteConfig } from "@/types";
 export const siteConfig: SiteConfig = {
   name: "BADARSH",
   description:
-    "Premium digital templates, e-books & creative services to make your brand stand out online. Canva templates, digital planners, video editing & website building for businesses.",
+    "High-impact Canva templates, marketing playbooks & done-for-you creative services. Built for ambitious founders and creators to scale their brand online.",
   url: "https://badarsh.com",
   ogImage: "/images/og/og-default.png",
   links: {
     instagram: "https://instagram.com/badarsh",
     youtube: "https://youtube.com/@badarsh",
-    whatsapp: "https://wa.me/919999999999",
+    whatsapp: "https://wa.me/917204250115",
     email: "hello@badarsh.com",
     pinterest: "https://pinterest.com/badarsh",
   },
 };
 
-export const WHATSAPP_NUMBER = "919999999999";
+export const WHATSAPP_NUMBER = "917204250115";
+export const WHATSAPP_DISPLAY = "+91 72042 50115";
+export const SUPPORT_EMAIL = "hello@badarsh.com";
+export const BUSINESS_LEGAL_NAME = "BADARSH Digital Products";
+export const BUSINESS_LOCATION = "Bengaluru, Karnataka, India";
 
 export const NAV_LINKS = [
   { label: "Templates", href: "/templates" },
@@ -39,9 +43,10 @@ export const CATEGORIES = [
 ] as const;
 
 export const STATS = [
-  { value: 500, label: "Templates", suffix: "+" },
-  { value: 100, label: "Happy Clients", suffix: "+" },
-  { value: 50, label: "E-Books", suffix: "+" },
-  { value: 24, label: "Hour Support", suffix: "/7" },
+  { value: 500, label: "Designer Templates", suffix: "+" },
+  { value: 1200, label: "Digital Downloads", suffix: "+" },
+  { value: 98, label: "Satisfaction Rate", suffix: "%" },
+  { value: 24, label: "Support on WhatsApp", suffix: "h" },
 ] as const;
+
 

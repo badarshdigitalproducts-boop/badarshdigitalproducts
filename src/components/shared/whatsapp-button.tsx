@@ -1,15 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { WHATSAPP_NUMBER } from "@/lib/constants";
+import { getWhatsAppUrl } from "@/lib/utils";
 
 export function WhatsappButton() {
   return (
     <motion.a
-      href={`https://wa.me/${WHATSAPP_NUMBER}`}
+      href={getWhatsAppUrl(
+        "Hi BADARSH! I'm browsing your website and have a question about your digital products & services.",
+        "Floating Chat Button"
+      )}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Chat on WhatsApp"
+      aria-label="Chat directly with BADARSH on WhatsApp"
       className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 shadow-lg shadow-green-500/30 transition-shadow duration-200 hover:shadow-xl hover:shadow-green-500/40"
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}

@@ -86,3 +86,4 @@ export interface AdminDatabase {
   settings: SystemSettings;
   auditLogs: AuditLog[];
 }
+

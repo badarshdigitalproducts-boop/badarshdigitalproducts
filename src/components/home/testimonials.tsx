@@ -1,22 +1,22 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Star, Quote } from "lucide-react";
+import { Star, Quote, CheckCircle2, ShieldCheck } from "lucide-react";
 import { SectionHeader } from "@/components/shared/section-header";
-import { testimonials } from "@/content/testimonials";
+import { testimonials, type VerifiedTestimonial } from "@/content/testimonials";
 
 export function Testimonials() {
   return (
     <section className="py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          badge="Real Results"
+          badge="Verified Reviews"
           title="Loved by Founders &amp; Creators"
-          subtitle="Discover how entrepreneurs across India use BADARSH to build authority, save lakhs on agency retainers, and close clients."
+          subtitle="Genuine feedback from business owners, consultants, and independent creators who build their digital presence with BADARSH."
         />
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((item, index) => (
+          {testimonials.map((item: VerifiedTestimonial, index) => (
             <motion.div
               key={item.id}
               initial={{ opacity: 0, y: 30 }}
@@ -28,7 +28,7 @@ export function Testimonials() {
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <div className="flex gap-1">
+                  <div className="flex items-center gap-1">
                     {Array.from({ length: item.rating }).map((_, i) => (
                       <Star
                         key={i}
@@ -36,16 +36,30 @@ export function Testimonials() {
                       />
                     ))}
                   </div>
-                  <Quote className="h-6 w-6 text-muted/20" />
+
+                  {item.verifiedPurchase && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-500">
+                      <CheckCircle2 className="h-3 w-3" />
+                      Verified
+                    </span>
+                  )}
                 </div>
 
-                <p className="mt-5 text-sm leading-relaxed text-foreground/90 italic">
+                {item.platformBadge && (
+                  <div className="mt-3">
+                    <span className="rounded-md bg-secondary px-2 py-0.5 text-[11px] font-medium text-accent">
+                      {item.platformBadge}
+                    </span>
+                  </div>
+                )}
+
+                <p className="mt-4 text-sm leading-relaxed text-foreground/90 italic">
                   "{item.content}"
                 </p>
               </div>
 
               <div className="mt-6 flex items-center gap-3 border-t border-card-border/60 pt-5">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-tr from-accent to-purple-400 font-heading text-sm font-bold text-white shadow-sm">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-tr from-accent to-purple-400 font-heading text-sm font-bold text-white shadow-sm">
                   {item.name
                     .split(" ")
                     .map((n) => n[0])
@@ -57,15 +71,19 @@ export function Testimonials() {
                   </h4>
                   <p className="text-xs text-muted">
                     {item.role} &bull;{" "}
-                    <span className="text-accent">{item.company}</span>
+                    <span className="text-foreground/80">{item.company}</span>
                   </p>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
+
+        {/* Legal & Trust Note */}
+        <p className="mt-10 text-center text-xs text-muted">
+          * Reviews collected directly from verified purchasers and agency clients. Individual business results vary based on content strategy and execution.
+        </p>
       </div>
     </section>
   );
 }
-

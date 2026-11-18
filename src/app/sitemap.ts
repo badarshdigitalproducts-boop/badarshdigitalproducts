@@ -5,74 +5,98 @@ import { blogPosts } from "@/content/blog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
-  const buildDate = new Date("2026-03-15T00:00:00.000Z");
+  const now = new Date();
 
-  // Static routes
+  // Core static routes
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
-      lastModified: buildDate,
+      lastModified: now,
       changeFrequency: "daily",
       priority: 1.0,
     },
     {
       url: `${baseUrl}/templates`,
-      lastModified: buildDate,
+      lastModified: now,
       changeFrequency: "daily",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/ebooks`,
-      lastModified: buildDate,
+      lastModified: now,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/planners`,
-      lastModified: buildDate,
+      lastModified: now,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/services`,
-      lastModified: buildDate,
+      lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/blog`,
-      lastModified: buildDate,
-      changeFrequency: "daily",
+      lastModified: now,
+      changeFrequency: "weekly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: buildDate,
+      lastModified: now,
       changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/contact`,
-      lastModified: buildDate,
+      lastModified: now,
       changeFrequency: "monthly",
       priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/refund-policy`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/license`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/privacy`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/terms`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.5,
     },
   ];
 
   // Dynamic product routes
   const productRoutes: MetadataRoute.Sitemap = products.map((product) => ({
     url: `${baseUrl}/templates/${product.slug}`,
-    lastModified: new Date(product.createdAt ? `${product.createdAt}T00:00:00.000Z` : "2026-03-15T00:00:00.000Z"),
+    lastModified: product.createdAt ? new Date(product.createdAt) : now,
     changeFrequency: "weekly",
-    priority: 0.8,
+    priority: 0.85,
   }));
 
   // Dynamic blog routes
   const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: buildDate,
+    lastModified: now,
     changeFrequency: "monthly",
-    priority: 0.7,
+    priority: 0.75,
   }));
 
   return [...staticRoutes, ...productRoutes, ...blogRoutes];

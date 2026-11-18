@@ -2,13 +2,60 @@ import type { BlogPost } from "@/types";
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "digital-product-playbook-2026",
+    title: "The 2026 Digital Product Playbook: How Indian Creators Build Recurring Revenue with Canva & Next.js",
+    excerpt:
+      "A step-by-step breakdown of how modern creators turn niche knowledge and customizable templates into high-margin digital product empires with zero inventory.",
+    category: "Creator Economy",
+    author: "BADARSH Editorial",
+    date: "November 18, 2026",
+    readTime: "8 min read",
+    coverImage: "/images/blog/canva-hacks.png",
+    tags: ["Digital Products", "Canva", "Passive Income", "Creator Economy"],
+    content: `
+## Why Digital Products are the Highest-Leverage Asset in 2026
+
+Building a service business or agency is great for cash flow, but you are always selling time. When you create digital assets — customizable Canva templates, business planners, financial trackers, and pitch decks — you build once and sell an unlimited number of times at near 100% gross margins.
+
+In India, the digital creator ecosystem has matured. With instant UPI payments, WhatsApp integration, and automated downloads, Indian creators and entrepreneurs are generating substantial recurring income.
+
+Here is the exact framework we use at BADARSH to design, package, and sell high-converting digital products.
+
+### 1. Identify "High Pain, High Frequency" Problems
+Don't build generic motivational wallpapers or random quote templates. Build solutions for businesses that are actively losing money without them:
+- **Client Proposal & Pitch Decks**: Founders preparing for investor meetings will happily pay ₹799+ to save 15 hours of formatting.
+- **Service Agreement & Invoice Packs**: Freelancers needing legally clear, professional client onboarding documents.
+- **Social Media Content Kits**: Real estate agents, wellness clinics, and restaurants that must post daily but cannot afford full-time designers.
+
+### 2. Design for "Canva Free" First
+A common pitfall for template creators is using Canva Pro elements (stock photos, premium fonts, vectors). When customers with free accounts try to download, they hit paywalls or watermarks and demand refunds.
+- Always design exclusively with Canva's free asset library.
+- If premium imagery is needed, provide unwatermarked free Unsplash/Pexels links or placeholders.
+- Test template share links in a private browser window logged into a standard free Canva account before publishing.
+
+### 3. Clear Commercial Licensing
+Buyers want certainty. If they buy your template, can they use it for their client work?
+- Provide a simple, transparent commercial license (like BADARSH's Commercial License).
+- Allow client deliverables and marketing usage.
+- Explicitly restrict direct resale or redistribution of the raw template link.
+
+### 4. Frictionless Checkout via UPI and WhatsApp
+In the Indian market, credit card checkout has massive drop-off rates. Ensure your store:
+- Supports UPI autopay and one-click QR transfers.
+- Delivers the instant access link immediately on screen and via an automated email/WhatsApp message.
+- Backs up every purchase with responsive WhatsApp support to answer quick questions.
+
+By combining well-crafted Canva assets with instant digital delivery, you build a sustainable, trusted digital brand.
+    `,
+  },
+  {
     slug: "canva-hacks-for-small-business",
     title: "7 Canva Hacks Every Business Owner Needs in 2026",
     excerpt:
       "Cut your design time by 80% with these lesser-known Canva keyboard shortcuts, brand kit setups, and animation features.",
     category: "Design Tips",
     author: "BADARSH Editorial",
-    date: "March 10, 2026",
+    date: "November 15, 2026",
     readTime: "5 min read",
     coverImage: "/images/blog/canva-hacks.png",
     tags: ["Canva", "Productivity", "Graphic Design", "Small Business"],
@@ -55,7 +102,7 @@ Turn on **Show Rulers & Guides** (\`Shift + R\`) to ensure critical text doesn't
       "A complete guide on hooks, carousel pacing, and Reel retention tactics to attract qualified leads without spending on ads.",
     category: "Marketing Strategy",
     author: "BADARSH Editorial",
-    date: "March 02, 2026",
+    date: "November 10, 2026",
     readTime: "7 min read",
     coverImage: "/images/blog/instagram-growth.png",
     tags: ["Instagram", "Organic Reach", "Reels", "Social Selling"],
@@ -92,7 +139,7 @@ Make it effortless for followers to buy from you. In India, trust closes on What
       "The 5 critical design mistakes killing your conversion rate — from sluggish mobile load speeds to buried call-to-actions.",
     category: "Web Design",
     author: "BADARSH Editorial",
-    date: "February 24, 2026",
+    date: "November 04, 2026",
     readTime: "6 min read",
     coverImage: "/images/blog/website-conversions.png",
     tags: ["Web Design", "Conversion Rate", "Landing Pages", "UX"],

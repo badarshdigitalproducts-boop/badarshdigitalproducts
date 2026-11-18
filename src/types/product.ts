@@ -1,3 +1,10 @@
+export interface ProductSpecs {
+  dimensions: string;
+  count: string;
+  aspectRatio?: string;
+  compatibility?: string;
+}
+
 export interface Product {
   id: string;
   slug: string;
@@ -11,6 +18,7 @@ export interface Product {
   tags: string[];
   images: string[];
   features: string[];
+  specs?: ProductSpecs;
   rating: number;
   reviewCount: number;
   downloads: number;
@@ -38,4 +46,3 @@ export interface ProductFilter {
   sortBy: "popular" | "newest" | "price-low" | "price-high";
   search: string;
 }
-

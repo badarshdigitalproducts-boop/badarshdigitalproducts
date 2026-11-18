@@ -2,8 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { CheckCircle2 } from "lucide-react";
-import { siteConfig } from "@/lib/constants";
+import { CheckCircle2, ShieldCheck } from "lucide-react";
+import {
+  siteConfig,
+  WHATSAPP_DISPLAY,
+  SUPPORT_EMAIL,
+  BUSINESS_LEGAL_NAME,
+  BUSINESS_LOCATION,
+} from "@/lib/constants";
 import { BrandLogo } from "./brand-logo";
 
 function InstagramIcon({ className }: { className?: string }) {
@@ -81,17 +87,17 @@ function WhatsAppIcon({ className }: { className?: string }) {
 }
 
 const productLinks = [
-  { label: "Social Media Templates", href: "/templates" },
-  { label: "Presentation Templates", href: "/templates" },
-  { label: "Branding Kits", href: "/templates" },
-  { label: "E-Books", href: "/ebooks" },
+  { label: "Social Media Templates", href: "/templates?category=social-media" },
+  { label: "Presentation Decks", href: "/templates?category=presentations" },
+  { label: "Branding Kits", href: "/templates?category=branding" },
+  { label: "E-Books & Playbooks", href: "/ebooks" },
   { label: "Digital Planners", href: "/planners" },
 ];
 
 const serviceLinks = [
-  { label: "Video Editing", href: "/services" },
-  { label: "Website Building", href: "/services" },
-  { label: "Social Media Management", href: "/services" },
+  { label: "Video Editing", href: "/services#video-editing" },
+  { label: "Website Building", href: "/services#website-building" },
+  { label: "Social Media Management", href: "/services#social-media-management" },
   { label: "Custom Design", href: "/services" },
 ];
 
@@ -109,7 +115,7 @@ export function Footer() {
       await fetch("/api/newsletter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, source: "Footer Form" }),
       });
     } catch {
       // fallback
@@ -127,18 +133,17 @@ export function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <BrandLogo />
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              Premium digital templates, e-books &amp; creative services to make
-              your brand stand out online.
+              Premium Canva templates, digital planners, and done-for-you creative services engineered to elevate your business online.
             </p>
 
-            {/* Social icons */}
+            {/* Social icons with accessible aria-labels */}
             <div className="mt-5 flex items-center gap-3">
               <a
                 href={siteConfig.links.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cursor-pointer rounded-full border border-border/50 p-2 text-muted transition-colors duration-200 hover:border-accent hover:text-accent"
-                aria-label="Instagram"
+                aria-label="Follow BADARSH on Instagram"
               >
                 <InstagramIcon className="h-4 w-4" />
               </a>
@@ -147,7 +152,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cursor-pointer rounded-full border border-border/50 p-2 text-muted transition-colors duration-200 hover:border-accent hover:text-accent"
-                aria-label="YouTube"
+                aria-label="Subscribe to BADARSH on YouTube"
               >
                 <YoutubeIcon className="h-4 w-4" />
               </a>
@@ -156,7 +161,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cursor-pointer rounded-full border border-border/50 p-2 text-muted transition-colors duration-200 hover:border-accent hover:text-accent"
-                aria-label="Pinterest"
+                aria-label="Follow BADARSH on Pinterest"
               >
                 <PinterestIcon className="h-4 w-4" />
               </a>
@@ -165,7 +170,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cursor-pointer rounded-full border border-border/50 p-2 text-muted transition-colors duration-200 hover:border-green-500 hover:text-green-500"
-                aria-label="WhatsApp"
+                aria-label="Chat with BADARSH on WhatsApp"
               >
                 <WhatsAppIcon className="h-4 w-4" />
               </a>
@@ -175,7 +180,7 @@ export function Footer() {
           {/* Products column */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
-              Products
+              Digital Products
             </h3>
             <ul className="mt-4 space-y-3">
               {productLinks.map((link) => (
@@ -194,7 +199,7 @@ export function Footer() {
           {/* Services column */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
-              Services
+              Creative Services
             </h3>
             <ul className="mt-4 space-y-3">
               {serviceLinks.map((link) => (
@@ -210,36 +215,34 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Contact column */}
+          {/* Trust & Company column */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
-              Contact
+              Company &amp; Legal
             </h3>
             <ul className="mt-4 space-y-3">
-              <li>
-                <a
-                  href={`mailto:${siteConfig.links.email}`}
-                  className="cursor-pointer text-sm text-muted transition-colors duration-200 hover:text-accent"
-                >
-                  {siteConfig.links.email}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={siteConfig.links.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="cursor-pointer text-sm text-muted transition-colors duration-200 hover:text-green-500"
-                >
-                  WhatsApp Support
-                </a>
-              </li>
               <li>
                 <Link
                   href="/about"
                   className="cursor-pointer text-sm text-muted transition-colors duration-200 hover:text-accent"
                 >
-                  About Us
+                  About Our Studio
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/license"
+                  className="cursor-pointer text-sm text-muted transition-colors duration-200 hover:text-accent"
+                >
+                  Commercial License Terms
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/refund-policy"
+                  className="cursor-pointer text-sm text-muted transition-colors duration-200 hover:text-accent"
+                >
+                  Refund &amp; Delivery Policy
                 </Link>
               </li>
               <li>
@@ -247,7 +250,15 @@ export function Footer() {
                   href="/blog"
                   className="cursor-pointer text-sm text-muted transition-colors duration-200 hover:text-accent"
                 >
-                  Blog
+                  Growth Blog
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="cursor-pointer text-sm text-muted transition-colors duration-200 hover:text-accent"
+                >
+                  Contact &amp; Grievances
                 </Link>
               </li>
             </ul>
@@ -260,48 +271,63 @@ export function Footer() {
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-4 py-8 sm:flex-row sm:justify-between sm:px-6 lg:px-8">
           <div>
             <h3 className="text-sm font-semibold text-foreground">
-              Subscribe to our newsletter
+              Join the BADARSH Creator Community
             </h3>
             <p className="mt-1 text-xs text-muted">
-              Get the latest Canva templates, tips &amp; 10 free gifts.
+              Subscribe for weekly Canva design drops &amp; get 10 free starter templates.
             </p>
           </div>
           {submitted ? (
             <div className="flex items-center gap-2 text-xs font-semibold text-emerald-500">
               <CheckCircle2 className="h-4 w-4" />
-              <span>Subscribed! Check your inbox for the free templates link.</span>
+              <span>Subscribed! Check your inbox for your 10 free Canva templates.</span>
             </div>
           ) : (
-            <form
-              className="flex w-full max-w-md gap-2 sm:w-auto"
-              onSubmit={handleSubscribe}
-            >
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                placeholder="Enter your email"
-                className="min-w-0 flex-1 rounded-full border border-border/50 bg-background px-4 py-2 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-                aria-label="Email address"
-              />
-              <button
-                type="submit"
-                disabled={loading}
-                className="cursor-pointer whitespace-nowrap rounded-full bg-accent px-5 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-accent-hover disabled:opacity-50"
+            <div className="flex flex-col gap-1.5 w-full max-w-md sm:w-auto">
+              <form
+                className="flex w-full gap-2 sm:w-auto"
+                onSubmit={handleSubscribe}
               >
-                {loading ? "..." : "Subscribe"}
-              </button>
-            </form>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="Enter your email"
+                  className="min-w-0 flex-1 rounded-full border border-border/50 bg-background px-4 py-2 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                  aria-label="Email address for newsletter"
+                />
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="cursor-pointer whitespace-nowrap rounded-full bg-accent px-5 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-accent-hover disabled:opacity-50"
+                >
+                  {loading ? "..." : "Subscribe"}
+                </button>
+              </form>
+              <p className="text-[11px] text-muted">
+                🔒 Protected by our{" "}
+                <Link href="/privacy" className="underline hover:text-foreground">
+                  Privacy Policy
+                </Link>
+                . Unsubscribe anytime.
+              </p>
+            </div>
           )}
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-border/50">
-        <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 px-4 py-5 text-xs text-muted sm:flex-row sm:justify-between sm:px-6 lg:px-8">
-          <p>&copy; {currentYear} BADARSH. All rights reserved.</p>
-          <div className="flex gap-6">
+      {/* Bottom bar with legal & entity info */}
+      <div className="border-t border-border/50 bg-background/40">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 px-4 py-6 text-xs text-muted sm:flex-row sm:justify-between sm:px-6 lg:px-8">
+          <div>
+            <p>&copy; {currentYear} {BUSINESS_LEGAL_NAME}. All rights reserved.</p>
+            <p className="text-[11px] text-muted/80 mt-0.5">
+              {BUSINESS_LOCATION} &bull; WhatsApp: {WHATSAPP_DISPLAY} &bull; {SUPPORT_EMAIL}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
             <Link
               href="/privacy"
               className="cursor-pointer transition-colors duration-200 hover:text-foreground"
@@ -313,6 +339,18 @@ export function Footer() {
               className="cursor-pointer transition-colors duration-200 hover:text-foreground"
             >
               Terms of Service
+            </Link>
+            <Link
+              href="/refund-policy"
+              className="cursor-pointer transition-colors duration-200 hover:text-foreground"
+            >
+              Refund Policy
+            </Link>
+            <Link
+              href="/license"
+              className="cursor-pointer transition-colors duration-200 hover:text-foreground"
+            >
+              Commercial License
             </Link>
           </div>
         </div>

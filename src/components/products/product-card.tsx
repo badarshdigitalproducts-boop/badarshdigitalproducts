@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Star, Download, Sparkles, ArrowUpRight, Eye } from "lucide-react";
 import type { Product } from "@/types/product";
@@ -14,12 +15,14 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
   const [previewOpen, setPreviewOpen] = useState(false);
 
-  const discountPercent = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-    : 0;
+  const discountPercent =
+    product.originalPrice && product.originalPrice > product.price
+      ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+      : 0;
 
   // Visual backdrop tint based on category — subtle Apple studio tones
   const getCategoryGradient = (cat: string) => {
@@ -34,56 +37,64 @@ export function ProductCard({ product }: ProductCardProps) {
         return "from-emerald-500/8 via-card to-teal-500/4";
       case "planners":
         return "from-rose-500/8 via-card to-pink-500/4";
+      case "bundles":
+        return "from-purple-500/8 via-card to-indigo-500/4";
       default:
         return "from-accent/8 via-card to-accent/4";
     }
   };
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Only navigate if click wasn't on a preview button or interactive control
+    const target = e.target as HTMLElement;
+    if (target.closest("button")) return;
+    router.push(`/templates/${product.slug}`);
+  };
+
   return (
     <>
       <motion.div
+        onClick={handleCardClick}
         whileHover={{ y: -5 }}
         whileTap={{ scale: 0.985 }}
         transition={{ type: "spring", duration: 0.35, bounce: 0.15 }}
-        className="group relative flex flex-col overflow-hidden rounded-2xl border border-card-border bg-card shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-foreground/20 hover:shadow-xl hover:shadow-black/[0.04]"
+        className="group relative flex flex-col overflow-hidden rounded-2xl border border-card-border bg-card shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-foreground/20 hover:shadow-xl hover:shadow-black/[0.04] cursor-pointer"
       >
         {/* Product Visual Area */}
         <div className="relative aspect-[16/10] w-full overflow-hidden bg-secondary/50">
-          <Link
-            href={`/templates/${product.slug}`}
-            className="absolute inset-0 block"
-            aria-label={`View ${product.title}`}
-          >
-            <div
-              className={`absolute inset-0 bg-gradient-to-br ${getCategoryGradient(
-                product.category
-              )} transition-transform duration-500 group-hover:scale-105`}
-            />
+          <div
+            className={`absolute inset-0 bg-gradient-to-br ${getCategoryGradient(
+              product.category
+            )} transition-transform duration-500 group-hover:scale-105`}
+          />
 
-            {/* Template Card Art Frame */}
-            <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
-              <div className="rounded-xl border border-card-border bg-card/90 p-4 shadow-sm backdrop-blur-md transition-all duration-300 group-hover:border-accent/40 group-hover:shadow-md">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-accent">
-                  {product.format}
-                </span>
-                <p className="mt-1 line-clamp-1 font-heading text-sm font-bold text-foreground">
-                  {product.title}
-                </p>
-                <span className="mt-1 block text-[10px] text-muted">
-                  50+ Custom Slides &bull; 1080x1920 HD
-                </span>
-              </div>
+          {/* Template Card Art Frame */}
+          <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
+            <div className="rounded-xl border border-card-border bg-card/90 p-4 shadow-sm backdrop-blur-md transition-all duration-300 group-hover:border-accent/40 group-hover:shadow-md">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-accent">
+                {product.format}
+              </span>
+              <p className="mt-1 line-clamp-1 font-heading text-sm font-bold text-foreground">
+                {product.title}
+              </p>
+              <span className="mt-1 block text-[10px] text-muted">
+                {product.specs?.count || product.format} &bull; {product.specs?.dimensions || "HD Resolution"}
+              </span>
             </div>
-          </Link>
+          </div>
 
           {/* Quick Preview Hover Trigger */}
           <div className="absolute bottom-3 right-3 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
             <button
-              onClick={() => setPreviewOpen(true)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setPreviewOpen(true);
+              }}
+              aria-label={`Quick preview slides for ${product.title}`}
               className="flex cursor-pointer items-center gap-1.5 rounded-full border border-card-border/80 bg-card/90 px-3 py-1.5 text-xs font-bold text-foreground shadow-sm backdrop-blur-md transition-[transform,background-color] duration-150 hover:bg-accent hover:text-white active:scale-90"
             >
               <Eye className="h-3.5 w-3.5" />
-              <span>Preview</span>
+              <span>Quick Preview</span>
             </button>
           </div>
 
@@ -101,9 +112,10 @@ export function ProductCard({ product }: ProductCardProps) {
             )}
           </div>
 
+          {/* Honest Bundle Savings (Only shown on real bundle discounts) */}
           {discountPercent > 0 && (
-            <div className="absolute top-3 right-3 rounded-full bg-rose-500/90 px-2.5 py-0.5 text-[11px] font-bold text-white shadow-sm backdrop-blur-sm pointer-events-none">
-              Save {discountPercent}%
+            <div className="absolute top-3 right-3 rounded-full bg-emerald-600/90 px-2.5 py-0.5 text-[11px] font-bold text-white shadow-sm backdrop-blur-sm pointer-events-none">
+              Bundle Value &bull; Save {discountPercent}%
             </div>
           )}
         </div>
@@ -121,11 +133,9 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
           </div>
 
-          <Link href={`/templates/${product.slug}`} className="mt-2 block">
-            <h3 className="line-clamp-2 font-heading text-lg font-bold text-foreground transition-colors group-hover:text-accent">
-              {product.title}
-            </h3>
-          </Link>
+          <h3 className="mt-2 line-clamp-2 font-heading text-lg font-bold text-foreground transition-colors group-hover:text-accent">
+            {product.title}
+          </h3>
 
           <p className="mt-1.5 line-clamp-2 text-sm text-muted">
             {product.description}
@@ -147,7 +157,7 @@ export function ProductCard({ product }: ProductCardProps) {
                   <span className="font-heading text-xl font-bold text-foreground">
                     {formatCurr(product.price)}
                   </span>
-                  {product.originalPrice && (
+                  {product.originalPrice && product.originalPrice > product.price && (
                     <span className="text-xs text-muted line-through">
                       {formatCurr(product.originalPrice)}
                     </span>
@@ -157,20 +167,23 @@ export function ProductCard({ product }: ProductCardProps) {
 
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => setPreviewOpen(true)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setPreviewOpen(true);
+                  }}
                   className="hidden sm:inline-flex cursor-pointer items-center rounded-lg border border-card-border bg-background p-1.5 text-muted hover:border-accent hover:text-accent"
                   title="Preview Slides"
+                  aria-label={`Preview slides for ${product.title}`}
                 >
                   <Eye className="h-4 w-4" />
                 </button>
 
-                <Link
-                  href={`/templates/${product.slug}`}
-                  className="flex items-center gap-1 rounded-xl bg-accent px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition-all duration-200 hover:bg-accent-hover hover:shadow"
+                <span
+                  className="flex items-center gap-1 rounded-xl bg-accent px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition-all duration-200 group-hover:bg-accent-hover group-hover:shadow"
                 >
                   Get Template
-                  <ArrowUpRight className="h-3.5 w-3.5" />
-                </Link>
+                  <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </span>
               </div>
             </div>
           </div>

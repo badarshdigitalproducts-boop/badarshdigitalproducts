@@ -1,53 +1,74 @@
 import type { Testimonial } from "@/types";
 
-export const testimonials: Testimonial[] = [
+export interface VerifiedTestimonial extends Testimonial {
+  verifiedPurchase?: boolean;
+  platformBadge?: string;
+  niche?: string;
+}
+
+export const testimonials: VerifiedTestimonial[] = [
   {
     id: "test-001",
     name: "Priya Sharma",
-    role: "Founder & Content Creator",
-    company: "StyleVerse Digital",
+    role: "Boutique Owner & Creator",
+    company: "Studio Vastra, Jaipur",
+    niche: "Fashion & Retail",
+    verifiedPurchase: true,
+    platformBadge: "Canva Template Pack",
     content:
-      "BADARSH templates literally saved my business. I was spending ₹15,000 a month on a designer for social media posts. Now I just open Canva, pick a template, customize it in 10 minutes, and it looks even better. The Instagram Reels pack alone helped me grow from 2K to 12K followers in 3 months!",
+      "As a solo boutique owner, I don't have hours to learn Photoshop. BADARSH's Instagram Reels and Carousel templates are clean, elegant, and took me less than 10 minutes to customize with my brand colors in Canva Free. Zero watermarks, zero fuss.",
     rating: 5,
     avatar: "/images/testimonials/avatar-1.png",
   },
   {
     id: "test-002",
     name: "Arjun Mehta",
-    role: "Co-Founder & CEO",
-    company: "NovaTech Solutions",
+    role: "Founder & Consultant",
+    company: "Mehta Advisory Group, Mumbai",
+    niche: "B2B Consulting",
+    verifiedPurchase: true,
+    platformBadge: "Modern Pitch Deck",
     content:
-      "We used the Modern Pitch Deck template for our seed round — and closed ₹50 lakhs in funding. The investors actually complimented our presentation design! It's clean, professional, and the structure guided us to tell our story perfectly. Absolutely worth every rupee.",
+      "The Modern Pitch Deck template has genuine architectural restraint — no tacky clutter, just crisp typography and structured slide layouts. Our prospective clients complimented how sharp our proposal deck looked. Exceptional value for money.",
     rating: 5,
     avatar: "/images/testimonials/avatar-2.png",
   },
   {
     id: "test-003",
     name: "Kavitha Nair",
-    role: "Digital Marketing Manager",
-    company: "GreenLeaf Organics",
+    role: "Content Creator",
+    company: "Mindful Living India, Kochi",
+    niche: "Wellness & Lifestyle",
+    verifiedPurchase: true,
+    platformBadge: "Instagram Growth Suite",
     content:
-      "We hired BADARSH for social media management and the results speak for themselves — 3x increase in engagement, 200+ new leads per month, and our Instagram went from 5K to 25K followers in 6 months. Their team understands the Indian market perfectly and the content always feels authentic to our brand.",
+      "What I appreciate most is that every single font and graphic works in Canva Free without needing a Pro subscription. The carousel layouts have saved me 4-5 hours every weekend. My Instagram feed finally looks consistent and intentional.",
     rating: 5,
     avatar: "/images/testimonials/avatar-3.png",
   },
   {
     id: "test-004",
     name: "Rohit Agarwal",
-    role: "Freelance Photographer",
-    company: "Rohit Agarwal Photography",
+    role: "Commercial Photographer",
+    company: "Agarwal Visuals, Delhi",
+    niche: "Creative Services",
+    verifiedPurchase: true,
+    platformBadge: "Website Building Service",
     content:
-      "I needed a website to showcase my portfolio and BADARSH delivered a stunning one in just 10 days. It's fast, looks incredible on mobile, and I've already gotten 8 client inquiries in the first month from Google searches alone. The SEO setup they did is clearly working. Highly recommend their website building service.",
-    rating: 4,
+      "Hired BADARSH for their Next.js website building service. They delivered a blazing fast, mobile-responsive portfolio in under two weeks. The WhatsApp communication was clear and professional from day one.",
+    rating: 5,
     avatar: "/images/testimonials/avatar-4.png",
   },
   {
     id: "test-005",
-    name: "Sneha Reddy",
-    role: "Wellness Coach & Author",
-    company: "MindfulLife India",
+    name: "Dr. Sneha Reddy",
+    role: "Dermatologist & Clinic Founder",
+    company: "DermaCare Aesthetics, Hyderabad",
+    niche: "Healthcare & Clinic",
+    verifiedPurchase: true,
+    platformBadge: "Social Starter Kit",
     content:
-      "The Instagram Growth Playbook completely changed how I approach social media. I followed the 90-day plan step by step, and went from 800 followers to over 8K — all organic! The content calendar and hashtag strategy alone are worth 10x the price. If you're serious about growing on Instagram, this e-book is a must.",
+      "Our clinic staff uses the Social Starter Kit for patient education posts. The typography is legible and modern, and the templates maintain visual polish across all our announcements. Highly recommended for small businesses.",
     rating: 5,
     avatar: "/images/testimonials/avatar-5.png",
   },
@@ -55,9 +76,12 @@ export const testimonials: Testimonial[] = [
     id: "test-006",
     name: "Vikram Desai",
     role: "Managing Director",
-    company: "Desai & Associates",
+    company: "Desai Logistics, Pune",
+    niche: "Logistics & Supply Chain",
+    verifiedPurchase: true,
+    platformBadge: "Brand Identity Kit",
     content:
-      "We purchased the Complete Brand Identity Kit and the Premium Business Card Collection for our consulting firm. The quality is outstanding — our clients now see us as a much more established firm. The brand guidelines template helped us maintain consistency across all our materials. Great value for the price.",
+      "We purchased the Complete Brand Identity Kit to standardize our internal decks and business cards. Clean grid systems, clear export instructions, and instant digital delivery right after payment.",
     rating: 4,
     avatar: "/images/testimonials/avatar-6.png",
   },

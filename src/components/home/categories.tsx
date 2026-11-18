@@ -89,7 +89,13 @@ export function Categories() {
                 transition={{ duration: 0.2 }}
               >
                 <Link
-                  href={`/templates?category=${cat.slug}`}
+                  href={
+                    cat.slug === "ebooks"
+                      ? "/ebooks"
+                      : cat.slug === "planners"
+                      ? "/planners"
+                      : `/templates?category=${cat.slug}`
+                  }
                   className="group flex h-full flex-col justify-between rounded-2xl border border-card-border bg-card p-6 shadow-xs transition-all duration-300 hover:border-foreground/20 hover:shadow-xl hover:shadow-black/[0.04] active:scale-[0.985]"
                 >
                   <div>
@@ -98,7 +104,7 @@ export function Categories() {
                         <Icon className="h-5 w-5" />
                       </div>
                       <span className="text-xs font-semibold text-muted">
-                        {count > 0 ? `${count} items` : "Featured"}
+                        {count > 0 ? `${count} ${count === 1 ? "Product" : "Products"}` : "Curated Suite"}
                       </span>
                     </div>
 

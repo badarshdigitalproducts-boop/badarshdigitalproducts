@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useInView,
@@ -22,24 +22,33 @@ export function AnimatedCounter({
 }: AnimatedCounterProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const [displayNumber, setDisplayNumber] = useState(value); // SSR default is the real value!
+
   const motionValue = useMotionValue(0);
   const rounded = useTransform(motionValue, (latest) => Math.round(latest));
 
   useEffect(() => {
-    if (isInView) {
-      animate(motionValue, value, {
-        duration: 2,
-        ease: "easeOut",
+    // Only animate on client-side when scrolled into view
+    if (isInView && !hasAnimated) {
+      setHasAnimated(true);
+      const controls = animate(motionValue, value, {
+        duration: 1.8,
+        ease: [0.16, 1, 0.3, 1],
+        onUpdate: (latest) => {
+          setDisplayNumber(Math.round(latest));
+        },
       });
+      return () => controls.stop();
     }
-  }, [isInView, motionValue, value]);
+  }, [isInView, hasAnimated, motionValue, value]);
 
   return (
     <div ref={ref} className="text-center">
       <div className="flex items-baseline justify-center gap-0.5">
-        <motion.span className="text-4xl font-bold text-foreground md:text-5xl">
-          {rounded}
-        </motion.span>
+        <span className="text-4xl font-bold tracking-tight text-foreground md:text-5xl">
+          {displayNumber.toLocaleString()}
+        </span>
         {suffix && (
           <span className="text-2xl font-bold text-accent md:text-3xl">
             {suffix}
