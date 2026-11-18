@@ -4,6 +4,33 @@ import { products as initialStaticProducts } from "@/content/products";
 import { services as initialStaticServices } from "@/content/services";
 import { blogPosts as initialStaticBlogPosts } from "@/content/blog";
 import { WHATSAPP_NUMBER, SUPPORT_EMAIL } from "@/lib/constants";
+import {
+  fsGetProducts,
+  fsSaveProduct,
+  fsDeleteProduct,
+  fsGetServices,
+  fsSaveService,
+  fsDeleteService,
+  fsGetBlogPosts,
+  fsSaveBlogPost,
+  fsDeleteBlogPost,
+  fsGetOrders,
+  fsSaveOrder,
+  fsDeleteOrder,
+  fsGetCoupons,
+  fsSaveCoupon,
+  fsDeleteCoupon,
+  fsGetLeads,
+  fsSaveLead,
+  fsDeleteLead,
+  fsGetSubscribers,
+  fsSaveSubscriber,
+  fsDeleteSubscriber,
+  fsGetSettings,
+  fsSaveSettings,
+  fsSyncFullDatabase,
+  checkFirebaseConnection,
+} from "@/lib/firebase/db";
 import type {
   AdminDatabase,
   AdminProduct,
@@ -299,6 +326,8 @@ function getSeedDatabase(): AdminDatabase {
 export async function getDatabase(): Promise<AdminDatabase> {
   if (cachedDb) return cachedDb;
 
+  let localDb: AdminDatabase;
+
   try {
     const raw = await fs.readFile(STORE_PATH, "utf8");
     const parsed = JSON.parse(raw);
@@ -332,8 +361,7 @@ export async function getDatabase(): Promise<AdminDatabase> {
       }
     }
 
-    cachedDb = parsed;
-    return cachedDb!;
+    localDb = parsed;
   } catch {
     // Initialize file if not found
     const seed = getSeedDatabase();
@@ -343,9 +371,37 @@ export async function getDatabase(): Promise<AdminDatabase> {
     } catch {
       // In serverless read-only environments fallback gracefully to memory
     }
-    cachedDb = seed;
-    return cachedDb;
+    localDb = seed;
   }
+
+  // Attempt live Firestore sync if cloud collections are populated
+  try {
+    const [fsProds, fsServices, fsPosts, fsOrders, fsCoupons, fsLeads, fsSubs, fsSettings] =
+      await Promise.all([
+        fsGetProducts().catch(() => []),
+        fsGetServices().catch(() => []),
+        fsGetBlogPosts().catch(() => []),
+        fsGetOrders().catch(() => []),
+        fsGetCoupons().catch(() => []),
+        fsGetLeads().catch(() => []),
+        fsGetSubscribers().catch(() => []),
+        fsGetSettings().catch(() => null),
+      ]);
+
+    if (fsProds && fsProds.length > 0) localDb.products = fsProds;
+    if (fsServices && fsServices.length > 0) localDb.services = fsServices;
+    if (fsPosts && fsPosts.length > 0) localDb.blogPosts = fsPosts;
+    if (fsOrders && fsOrders.length > 0) localDb.orders = fsOrders;
+    if (fsCoupons && fsCoupons.length > 0) localDb.coupons = fsCoupons;
+    if (fsLeads && fsLeads.length > 0) localDb.leads = fsLeads;
+    if (fsSubs && fsSubs.length > 0) localDb.subscribers = fsSubs;
+    if (fsSettings) localDb.settings = fsSettings;
+  } catch {
+    // Keep localDb without throwing
+  }
+
+  cachedDb = localDb;
+  return cachedDb;
 }
 
 export async function saveDatabase(db: AdminDatabase): Promise<void> {
@@ -464,6 +520,7 @@ export async function saveAdminProduct(productData: Partial<AdminProduct> & { ti
     `Product "${product.title}" saved with price ₹${product.price}`
   );
   await saveDatabase(db);
+  fsSaveProduct(product).catch((err) => console.warn("Firestore product save error:", err));
   return product;
 }
 
@@ -475,6 +532,7 @@ export async function deleteAdminProduct(id: string): Promise<boolean> {
   if (db.products.length !== initialLength) {
     await addAuditLog("PRODUCT_DELETED", `Product "${target?.title || id}" deleted`);
     await saveDatabase(db);
+    fsDeleteProduct(id).catch((err) => console.warn("Firestore product delete error:", err));
     return true;
   }
   return false;
@@ -543,6 +601,7 @@ export async function saveAdminService(serviceData: Partial<AdminService> & { ti
     `Service "${service.title}" updated`
   );
   await saveDatabase(db);
+  fsSaveService(service).catch((err) => console.warn("Firestore service save error:", err));
   return service;
 }
 
@@ -554,6 +613,7 @@ export async function deleteAdminService(id: string): Promise<boolean> {
   if (db.services.length !== initialLength) {
     await addAuditLog("SERVICE_DELETED", `Service "${target?.title || id}" deleted`);
     await saveDatabase(db);
+    fsDeleteService(id).catch((err) => console.warn("Firestore service delete error:", err));
     return true;
   }
   return false;
@@ -603,6 +663,7 @@ export async function saveAdminBlogPost(postData: Partial<AdminBlogPost> & { tit
 
   await addAuditLog("BLOG_SAVED", `Blog post "${post.title}" saved`);
   await saveDatabase(db);
+  fsSaveBlogPost(post).catch((err) => console.warn("Firestore blog save error:", err));
   return post;
 }
 
@@ -613,6 +674,7 @@ export async function deleteAdminBlogPost(slug: string): Promise<boolean> {
   if (db.blogPosts.length !== initialLength) {
     await addAuditLog("BLOG_DELETED", `Blog post "${slug}" deleted`);
     await saveDatabase(db);
+    fsDeleteBlogPost(slug).catch((err) => console.warn("Firestore blog delete error:", err));
     return true;
   }
   return false;
@@ -679,6 +741,7 @@ export async function saveAdminOrder(orderData: Partial<OrderRecord> & { custome
 
   await addAuditLog("ORDER_SAVED", `Order ${order.id} for ${order.customerName} (₹${order.totalAmount}) saved`);
   await saveDatabase(db);
+  fsSaveOrder(order).catch((err) => console.warn("Firestore order save error:", err));
   return order;
 }
 
@@ -689,6 +752,7 @@ export async function deleteAdminOrder(id: string): Promise<boolean> {
   if (db.orders.length !== initialLength) {
     await addAuditLog("ORDER_DELETED", `Order ${id} deleted`);
     await saveDatabase(db);
+    fsDeleteOrder(id).catch((err) => console.warn("Firestore order delete error:", err));
     return true;
   }
   return false;
@@ -734,6 +798,7 @@ export async function saveAdminCoupon(couponData: Partial<AdminCoupon> & { code:
 
   await addAuditLog("COUPON_SAVED", `Coupon "${coupon.code}" (${coupon.discountValue}${coupon.discountType === "percentage" ? "%" : "₹"}) saved`);
   await saveDatabase(db);
+  fsSaveCoupon(coupon).catch((err) => console.warn("Firestore coupon save error:", err));
   return coupon;
 }
 
@@ -744,6 +809,7 @@ export async function deleteAdminCoupon(id: string): Promise<boolean> {
   if (db.coupons.length !== initialLength) {
     await addAuditLog("COUPON_DELETED", `Coupon ${id} deleted`);
     await saveDatabase(db);
+    fsDeleteCoupon(id).catch((err) => console.warn("Firestore coupon delete error:", err));
     return true;
   }
   return false;
@@ -776,6 +842,7 @@ export async function addLead(data: {
   db.leads.unshift(newLead);
   await addAuditLog("LEAD_RECEIVED", `Inbound lead from ${newLead.name} for ${newLead.interest}`);
   await saveDatabase(db);
+  fsSaveLead(newLead).catch((err) => console.warn("Firestore lead save error:", err));
   return newLead;
 }
 
@@ -790,6 +857,7 @@ export async function updateLead(id: string, updates: Partial<LeadInquiry>): Pro
     updatedAt: new Date().toISOString(),
   };
   await saveDatabase(db);
+  fsSaveLead(db.leads[idx]).catch((err) => console.warn("Firestore lead update error:", err));
   return db.leads[idx];
 }
 
@@ -800,6 +868,7 @@ export async function deleteLead(id: string): Promise<boolean> {
   if (db.leads.length !== len) {
     await addAuditLog("LEAD_DELETED", `Lead ${id} deleted`);
     await saveDatabase(db);
+    fsDeleteLead(id).catch((err) => console.warn("Firestore lead delete error:", err));
     return true;
   }
   return false;
@@ -827,6 +896,7 @@ export async function addSubscriber(email: string, source = "Website"): Promise<
   db.subscribers.unshift(newSub);
   await addAuditLog("SUBSCRIBER_JOINED", `New newsletter subscriber: ${email}`);
   await saveDatabase(db);
+  fsSaveSubscriber(newSub).catch((err) => console.warn("Firestore subscriber save error:", err));
   return newSub;
 }
 
@@ -836,6 +906,7 @@ export async function deleteSubscriber(id: string): Promise<boolean> {
   db.subscribers = db.subscribers.filter((s) => s.id !== id);
   if (db.subscribers.length !== len) {
     await saveDatabase(db);
+    fsDeleteSubscriber(id).catch((err) => console.warn("Firestore subscriber delete error:", err));
     return true;
   }
   return false;
@@ -856,6 +927,7 @@ export async function updateSystemSettings(updates: Partial<SystemSettings>): Pr
   };
   await addAuditLog("SETTINGS_UPDATED", "System global settings updated");
   await saveDatabase(db);
+  fsSaveSettings(db.settings).catch((err) => console.warn("Firestore settings save error:", err));
   return db.settings;
 }
 
@@ -900,4 +972,50 @@ export async function getExecutiveHUD() {
     recentLogs: db.auditLogs.slice(0, 6),
     settings: db.settings,
   };
+}
+
+
+/* ---------------- Firebase Cloud Sync & Status ---------------- */
+
+export async function syncDatabaseToFirebase(): Promise<{
+  success: boolean;
+  synced: {
+    products: number;
+    services: number;
+    blogPosts: number;
+    orders: number;
+    coupons: number;
+    leads: number;
+    subscribers: number;
+  };
+  error?: string;
+}> {
+  try {
+    const db = await getDatabase();
+    const synced = await fsSyncFullDatabase(db);
+    await addAuditLog(
+      "FIREBASE_SYNCED",
+      `Synchronized ${synced.products} products, ${synced.services} services, ${synced.orders} orders to Firebase Firestore`
+    );
+    return { success: true, synced };
+  } catch (error: any) {
+    console.error("Firebase sync error:", error);
+    return {
+      success: false,
+      synced: {
+        products: 0,
+        services: 0,
+        blogPosts: 0,
+        orders: 0,
+        coupons: 0,
+        leads: 0,
+        subscribers: 0,
+      },
+      error: error?.message || "Failed to synchronize to Firebase Firestore",
+    };
+  }
+}
+
+export async function getFirebaseStatus() {
+  return await checkFirebaseConnection();
 }

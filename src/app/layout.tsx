@@ -6,6 +6,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { WhatsappButton } from "@/components/shared/whatsapp-button";
 import { SocialProofToast } from "@/components/shared/social-proof-toast";
+import { FirebaseAnalytics } from "@/components/shared/firebase-analytics";
 import { CurrencyProvider } from "@/context/currency-context";
 import {
   siteConfig,
@@ -82,6 +83,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <Footer />
             <WhatsappButton />
             <SocialProofToast />
+            <FirebaseAnalytics />
           </CurrencyProvider>
         </ThemeProvider>
       </body>

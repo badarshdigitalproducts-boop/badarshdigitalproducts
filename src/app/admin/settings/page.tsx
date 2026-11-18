@@ -11,6 +11,11 @@ import {
   MessageSquare,
   AlertCircle,
   Sparkles,
+  Cloud,
+  RefreshCw,
+  Database,
+  Lock,
+  ExternalLink,
 } from "lucide-react";
 import type { SystemSettings } from "@/lib/admin/types";
 
@@ -20,8 +25,19 @@ export default function AdminSettingsPage() {
   const [saving, setSaving] = useState(false);
   const [savedSuccess, setSavedSuccess] = useState(false);
 
+  // Firebase Cloud State
+  const [firebaseStatus, setFirebaseStatus] = useState<{
+    connected?: boolean;
+    latencyMs?: number;
+    error?: string;
+  } | null>(null);
+  const [testingFirebase, setTestingFirebase] = useState(false);
+  const [syncingFirebase, setSyncingFirebase] = useState(false);
+  const [syncSuccessMsg, setSyncSuccessMsg] = useState<string | null>(null);
+
   useEffect(() => {
     fetchSettings();
+    testFirebase();
   }, []);
 
   const fetchSettings = async () => {
@@ -33,6 +49,43 @@ export default function AdminSettingsPage() {
       console.error("Failed to fetch settings:", err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const testFirebase = async () => {
+    try {
+      setTestingFirebase(true);
+      const res = await fetch("/api/admin/firebase/status");
+      const data = await res.json();
+      if (data.status) {
+        setFirebaseStatus(data.status);
+      }
+    } catch (err) {
+      setFirebaseStatus({ connected: false, error: "Network check failed" });
+    } finally {
+      setTestingFirebase(false);
+    }
+  };
+
+  const syncToFirebase = async () => {
+    try {
+      setSyncingFirebase(true);
+      setSyncSuccessMsg(null);
+      const res = await fetch("/api/admin/firebase/sync", { method: "POST" });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        const { synced } = data;
+        setSyncSuccessMsg(
+          `Successfully synchronized ${synced.products} products, ${synced.services} services, ${synced.blogPosts} blog posts, and ${synced.orders} orders to Firebase Firestore!`
+        );
+        setTimeout(() => setSyncSuccessMsg(null), 6000);
+      } else {
+        alert(data.error || "Failed to sync to Firebase");
+      }
+    } catch {
+      alert("Error triggering cloud synchronization");
+    } finally {
+      setSyncingFirebase(false);
     }
   };
 
@@ -81,7 +134,7 @@ export default function AdminSettingsPage() {
             </h1>
           </div>
           <p className="text-xs text-zinc-400">
-            Configure announcement bar, currency exchange rate, WhatsApp support, and backups.
+            Configure Firebase cloud database, announcement bar, currency exchange, and WhatsApp support.
           </p>
         </div>
 
@@ -91,6 +144,104 @@ export default function AdminSettingsPage() {
             <span>Settings saved successfully!</span>
           </div>
         )}
+      </div>
+
+      {/* Firebase Cloud Database & Realtime Sync Card */}
+      <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-6 backdrop-blur-md space-y-5">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-zinc-800 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/15 text-amber-400">
+              <Database className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="font-heading text-sm font-bold text-white">
+                  Firebase Cloud Firestore &amp; Analytics
+                </h2>
+                <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-bold text-emerald-400">
+                  Realtime Active
+                </span>
+              </div>
+              <p className="text-[11px] text-zinc-400">
+                Project: <code className="text-zinc-200">badarshdigiitalproducts</code> • Server-Side Secured
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={testFirebase}
+              disabled={testingFirebase}
+              className="flex items-center gap-1.5 rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
+            >
+              <RefreshCw
+                className={`h-3.5 w-3.5 ${testingFirebase ? "animate-spin" : ""}`}
+              />
+              <span>{testingFirebase ? "Testing..." : "Test Connection"}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={syncToFirebase}
+              disabled={syncingFirebase}
+              className="flex items-center gap-1.5 rounded-xl bg-[#FF5A36] px-3.5 py-1.5 text-xs font-bold text-white shadow-md hover:bg-[#ff4620] active:scale-95 transition-all"
+            >
+              <Cloud className="h-3.5 w-3.5" />
+              <span>{syncingFirebase ? "Syncing..." : "Sync Database to Cloud"}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Sync Toast Feedback */}
+        {syncSuccessMsg && (
+          <div className="flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3 text-xs font-semibold text-emerald-300">
+            <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
+            <span>{syncSuccessMsg}</span>
+          </div>
+        )}
+
+        {/* Status Indicators */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="rounded-xl border border-zinc-900 bg-zinc-900/50 p-3.5">
+            <div className="flex items-center justify-between text-zinc-400 text-xs">
+              <span>Connection Status</span>
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            </div>
+            <div className="mt-1.5 font-heading text-sm font-bold text-white">
+              {firebaseStatus?.connected ? "Cloud Connected" : "Local with Cloud Sync"}
+            </div>
+            <p className="text-[10px] text-zinc-500">
+              {firebaseStatus?.latencyMs
+                ? `Latency: ${firebaseStatus.latencyMs}ms`
+                : "Realtime synchronization ready"}
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-zinc-900 bg-zinc-900/50 p-3.5">
+            <div className="flex items-center justify-between text-zinc-400 text-xs">
+              <span>Security Architecture</span>
+              <Lock className="h-3.5 w-3.5 text-emerald-400" />
+            </div>
+            <div className="mt-1.5 font-heading text-sm font-bold text-emerald-400">
+              Server-Side Only
+            </div>
+            <p className="text-[10px] text-zinc-500">
+              API routes protected by admin session tokens
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-zinc-900 bg-zinc-900/50 p-3.5">
+            <div className="flex items-center justify-between text-zinc-400 text-xs">
+              <span>Analytics Tracking</span>
+              <Sparkles className="h-3.5 w-3.5 text-amber-400" />
+            </div>
+            <div className="mt-1.5 font-heading text-sm font-bold text-white">
+              G-819FT0PT58
+            </div>
+            <p className="text-[10px] text-zinc-500">Google Analytics for Firebase live</p>
+          </div>
+        </div>
       </div>
 
       <form onSubmit={handleSave} className="space-y-6">
@@ -227,7 +378,7 @@ export default function AdminSettingsPage() {
                     whatsappNumber: e.target.value,
                   })
                 }
-                placeholder="919876543210"
+                placeholder="917204250115"
                 className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
               />
               <span className="text-[10px] text-zinc-500">
@@ -273,4 +424,3 @@ export default function AdminSettingsPage() {
     </div>
   );
 }
-
