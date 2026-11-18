@@ -39,6 +39,9 @@ export type ProductCategory =
   | "ebooks"
   | "planners"
   | "bundles"
+  | "editing-apps"
+  | "editing-bundles"
+  | "photo-presets"
   | "assets";
 
 export interface ProductFilter {

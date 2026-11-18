@@ -14,16 +14,32 @@ import {
   Menu,
   X,
   ShieldCheck,
-  Sparkles,
+  BarChart3,
+  ShoppingCart,
+  FileText,
+  Tag,
+  MessageSquare,
+  Layers,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { label: "Overview", href: "/admin", icon: LayoutDashboard },
-  { label: "Products & Assets", href: "/admin/products", icon: Package },
-  { label: "Client Leads CRM", href: "/admin/leads", icon: Users2 },
-  { label: "Newsletter Audience", href: "/admin/subscribers", icon: Mail },
-  { label: "System Settings", href: "/admin/settings", icon: Settings },
+  { label: "Overview", href: "/admin", icon: LayoutDashboard, group: null as null | string },
+  { label: "Products & Assets", href: "/admin/products", icon: Package, group: "Catalog" },
+  { label: "Categories & Tags", href: "/admin/products", icon: Tag, group: "Catalog" },
+  { label: "Client Leads CRM", href: "/admin/leads", icon: Users2, group: "Sales" },
+  { label: "Orders & Delivery", href: "/admin/leads", icon: ShoppingCart, group: "Sales" },
+  { label: "Newsletter Audience", href: "/admin/subscribers", icon: Mail, group: "Audience" },
+  { label: "Messages & Chats", href: "/admin/leads", icon: MessageSquare, group: "Audience" },
+  { label: "Site Settings", href: "/admin/settings", icon: Settings, group: "Config" },
+];
+
+const NAV_GROUPS = [
+  { title: null as null | string, items: NAV_ITEMS.filter((i) => i.group === null) },
+  { title: "Catalog", items: NAV_ITEMS.filter((i) => i.group === "Catalog") },
+  { title: "Sales", items: NAV_ITEMS.filter((i) => i.group === "Sales") },
+  { title: "Audience", items: NAV_ITEMS.filter((i) => i.group === "Audience") },
+  { title: "Config", items: NAV_ITEMS.filter((i) => i.group === "Config") },
 ];
 
 export default function AdminLayout({
@@ -77,29 +93,59 @@ export default function AdminLayout({
             </div>
           </div>
 
-          {/* Navigation Links */}
-          <nav className="mt-8 space-y-1">
-            {NAV_ITEMS.map((item) => {
+          {/* Navigation Links — Grouped */}
+          <nav className="mt-6 space-y-4">
+            {/* Overview */}
+            {NAV_ITEMS.filter((i) => i.group === null).map((item) => {
               const Icon = item.icon;
-              const isActive =
-                item.href === "/admin"
-                  ? pathname === "/admin"
-                  : pathname.startsWith(item.href);
-
+              const isActive = pathname === "/admin";
               return (
                 <Link
-                  key={item.href}
+                  key={item.label}
                   href={item.href}
                   className={cn(
                     "flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-all duration-150 active:scale-[0.98]",
-                    isActive
-                      ? "bg-[#FF5A36] text-white shadow-xs"
-                      : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                    isActive ? "bg-[#FF5A36] text-white shadow-xs" : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
                   )}
                 >
                   <Icon className="h-4 w-4 shrink-0" />
                   <span>{item.label}</span>
                 </Link>
+              );
+            })}
+
+            {/* Grouped sections */}
+            {["Catalog", "Sales", "Audience", "Config"].map((group) => {
+              const groupItems = NAV_ITEMS.filter((i) => i.group === group);
+              if (!groupItems.length) return null;
+              return (
+                <div key={group}>
+                  <p className="mb-1.5 px-3.5 text-[10px] font-bold uppercase tracking-widest text-zinc-600">
+                    {group}
+                  </p>
+                  <div className="space-y-0.5">
+                    {groupItems.map((item) => {
+                      const Icon = item.icon;
+                      const isActive =
+                        item.href === "/admin"
+                          ? pathname === "/admin"
+                          : pathname.startsWith(item.href) && item.href !== "/admin";
+                      return (
+                        <Link
+                          key={item.label}
+                          href={item.href}
+                          className={cn(
+                            "flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-all duration-150 active:scale-[0.98]",
+                            isActive ? "bg-[#FF5A36] text-white shadow-xs" : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                          )}
+                        >
+                          <Icon className="h-4 w-4 shrink-0" />
+                          <span>{item.label}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
               );
             })}
           </nav>

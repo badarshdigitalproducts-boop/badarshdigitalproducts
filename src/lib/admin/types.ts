@@ -1,10 +1,47 @@
 import type { Product, ProductCategory } from "@/types/product";
 
-export interface AdminProduct extends Product {
+export type ProductType =
+  | "canva-template"
+  | "ebook"
+  | "planner"
+  | "app-license"
+  | "video-preset"
+  | "photo-preset"
+  | "bundle"
+  | "editing-bundle"
+  | "website-template"
+  | "audio"
+  | "font-pack"
+  | "other";
+
+export type DeliveryType =
+  | "canva-link"
+  | "download-url"
+  | "google-drive"
+  | "external-url"
+  | "whatsapp-delivery";
+
+export interface AdminProduct extends Omit<Product, "tags" | "isFeatured" | "isNew" | "isBestseller"> {
+  productType?: ProductType;
+  deliveryType?: DeliveryType;
   canvaUrl?: string;
   downloadUrl?: string;
-  status: "published" | "draft";
+  externalUrl?: string;
+  googleDriveUrl?: string;
+  fileSize?: string;
+  fileFormats?: string[];
+  softwareRequired?: string;
+  compatibleWith?: string[];
+  tags?: string[];
+  status: "published" | "draft" | "archived";
+  isFeatured?: boolean;
+  isBestseller?: boolean;
+  isNew?: boolean;
   updatedAt?: string;
+  publishedAt?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  coverImageUrl?: string;
 }
 
 export type LeadStatus = "new" | "contacted" | "proposal" | "won" | "archived";
