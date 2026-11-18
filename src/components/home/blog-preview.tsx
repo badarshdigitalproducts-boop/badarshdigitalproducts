@@ -1,13 +1,28 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Clock, BookOpen } from "lucide-react";
 import { SectionHeader } from "@/components/shared/section-header";
-import { blogPosts } from "@/content/blog";
+import { blogPosts as initialBlogPosts } from "@/content/blog";
+import type { BlogPost } from "@/types";
 
 export function BlogPreview() {
-  const posts = blogPosts.slice(0, 3);
+  const [postsList, setPostsList] = useState<BlogPost[]>(initialBlogPosts);
+
+  useEffect(() => {
+    fetch("/api/blog")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.posts && data.posts.length > 0) {
+          setPostsList(data.posts);
+        }
+      })
+      .catch((err) => console.error("Error loading live blog preview:", err));
+  }, []);
+
+  const posts = postsList.slice(0, 3);
 
   return (
     <section className="border-t border-card-border/60 bg-card/20 py-20 md:py-28">

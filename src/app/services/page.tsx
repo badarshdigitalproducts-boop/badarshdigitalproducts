@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Video,
@@ -17,11 +17,24 @@ import {
 } from "lucide-react";
 import { SectionHeader } from "@/components/shared/section-header";
 import { PricingTable } from "@/components/services/pricing-table";
-import { services } from "@/content/services";
+import { services as initialServices } from "@/content/services";
 import { getWhatsAppUrl } from "@/lib/utils";
+import type { Service } from "@/types";
 
 export default function ServicesPage() {
+  const [serviceList, setServiceList] = useState<Service[]>(initialServices);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/services")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.services && data.services.length > 0) {
+          setServiceList(data.services);
+        }
+      })
+      .catch((err) => console.error("Error loading live services:", err));
+  }, []);
 
   const toggleFaq = (key: string) => {
     setOpenFaq(openFaq === key ? null : key);
@@ -48,7 +61,7 @@ export default function ServicesPage() {
 
       {/* Services List */}
       <div className="mt-16 space-y-24 md:space-y-36">
-        {services.map((service, idx) => {
+        {serviceList.map((service, idx) => {
           const Icon = getIcon(service.title);
 
           return (

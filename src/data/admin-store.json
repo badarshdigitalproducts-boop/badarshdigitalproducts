@@ -1103,6 +1103,17 @@
   ],
   "coupons": [
     {
+      "id": "cpn-000",
+      "code": "BADARSH50",
+      "discountType": "percentage",
+      "discountValue": 50,
+      "minOrderAmount": 299,
+      "usageCount": 18,
+      "usageLimit": 1000,
+      "status": "active",
+      "createdAt": "2026-11-18T18:13:19.539Z"
+    },
+    {
       "id": "cpn-001",
       "code": "LAUNCH50",
       "discountType": "percentage",

@@ -3,8 +3,8 @@ import { getAdminProducts } from "@/lib/admin/store";
 import { products as fallbackProducts } from "@/content/products";
 
 export async function GET(request: NextRequest) {
+  const category = request.nextUrl.searchParams.get("category");
   try {
-    const category = request.nextUrl.searchParams.get("category");
     const adminProducts = await getAdminProducts();
 
     const allProducts = adminProducts && adminProducts.length > 0 ? adminProducts : fallbackProducts;
@@ -16,7 +16,8 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ products: published, total: published.length });
-  } catch (error) {
+  } catch (error: any) {
+    if (error?.digest) throw error;
     console.error("Error reading products:", error);
     return NextResponse.json({ products: fallbackProducts, total: fallbackProducts.length });
   }

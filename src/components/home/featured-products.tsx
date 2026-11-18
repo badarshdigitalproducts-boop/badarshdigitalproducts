@@ -1,13 +1,28 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SectionHeader } from "@/components/shared/section-header";
 import { ProductCard } from "@/components/products/product-card";
-import { products } from "@/content/products";
+import { products as initialProducts } from "@/content/products";
+import type { Product } from "@/types";
 
 export function FeaturedProducts() {
-  const featured = products.filter((p) => p.isFeatured).slice(0, 3);
+  const [productList, setProductList] = useState<Product[]>(initialProducts);
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.products && data.products.length > 0) {
+          setProductList(data.products);
+        }
+      })
+      .catch((err) => console.error("Error loading live products:", err));
+  }, []);
+
+  const featured = productList.filter((p) => p.isFeatured).slice(0, 3);
 
   return (
     <section className="py-20 md:py-28">
@@ -29,7 +44,7 @@ export function FeaturedProducts() {
             href="/templates"
             className="inline-flex items-center gap-2 rounded-full border border-card-border bg-card px-8 py-3.5 font-heading text-sm font-bold text-foreground shadow-sm transition-all duration-200 hover:border-accent hover:text-accent hover:shadow-md"
           >
-            <span>View All {products.length} Products</span>
+            <span>View All {productList.length} Products</span>
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

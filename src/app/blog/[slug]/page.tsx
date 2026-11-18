@@ -7,9 +7,35 @@ import { ArrowLeft, Clock, Calendar, User, Share2, Sparkles, BookOpen } from "lu
 import { blogPosts } from "@/content/blog";
 import { constructMetadata } from "@/lib/metadata";
 import { BlogViewTracker } from "@/components/blog/blog-view-tracker";
+import { getAdminBlogPosts } from "@/lib/admin/store";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
+}
+
+async function getPostBySlug(slug: string) {
+  try {
+    const adminPosts = await getAdminBlogPosts();
+    if (adminPosts && adminPosts.length > 0) {
+      const found = adminPosts.find((p) => p.slug === slug);
+      if (found) return found;
+    }
+  } catch {
+    // fallback
+  }
+  return blogPosts.find((p) => p.slug === slug);
+}
+
+async function getAllPosts() {
+  try {
+    const adminPosts = await getAdminBlogPosts();
+    if (adminPosts && adminPosts.length > 0) {
+      return adminPosts;
+    }
+  } catch {
+    // fallback
+  }
+  return blogPosts;
 }
 
 function parseInlineMarkdown(text: string): ReactNode {
@@ -60,7 +86,7 @@ export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return constructMetadata({
@@ -78,13 +104,14 @@ export async function generateMetadata({
 
 async function BlogPostContent({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     notFound();
   }
 
-  const related = blogPosts.filter((p) => p.slug !== post.slug).slice(0, 2);
+  const all = await getAllPosts();
+  const related = all.filter((p) => p.slug !== post.slug).slice(0, 2);
 
   // Render markdown-like paragraphs and headings
   const renderContent = (content: string) => {

@@ -1,18 +1,34 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Video, Globe, Megaphone, Check, ArrowRight, MessageSquare } from "lucide-react";
 import { SectionHeader } from "@/components/shared/section-header";
-import { services } from "@/content/services";
+import { services as initialServices } from "@/content/services";
 import { useCurrency } from "@/context/currency-context";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
+import type { Service } from "@/types";
 
 export function ServicesPreview() {
+  const [serviceList, setServiceList] = useState<Service[]>(initialServices);
   const { formatPrice: formatCurr } = useCurrency();
+
+  useEffect(() => {
+    fetch("/api/services")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.services && data.services.length > 0) {
+          setServiceList(data.services);
+        }
+      })
+      .catch((err) => console.error("Error loading live services:", err));
+  }, []);
+
   const getIcon = (title: string) => {
-    if (title.toLowerCase().includes("video")) return Video;
-    if (title.toLowerCase().includes("website")) return Globe;
+    const t = title.toLowerCase();
+    if (t.includes("video")) return Video;
+    if (t.includes("website")) return Globe;
     return Megaphone;
   };
 
@@ -26,7 +42,7 @@ export function ServicesPreview() {
         />
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          {services.map((service, index) => {
+          {serviceList.slice(0, 3).map((service, index) => {
             const Icon = getIcon(service.title);
             const starterPlan = service.packages[0];
 

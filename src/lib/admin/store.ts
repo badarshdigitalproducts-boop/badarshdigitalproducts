@@ -120,6 +120,17 @@ function getSeedDatabase(): AdminDatabase {
 
   const seededCoupons: AdminCoupon[] = [
     {
+      id: "cpn-000",
+      code: "BADARSH50",
+      discountType: "percentage",
+      discountValue: 50,
+      minOrderAmount: 299,
+      usageCount: 18,
+      usageLimit: 1000,
+      status: "active",
+      createdAt: new Date().toISOString(),
+    },
+    {
       id: "cpn-001",
       code: "LAUNCH50",
       discountType: "percentage",
@@ -346,6 +357,9 @@ export async function getDatabase(): Promise<AdminDatabase> {
     }
     if (!parsed.coupons || !parsed.coupons.length) {
       parsed.coupons = seed.coupons;
+      modified = true;
+    } else if (!parsed.coupons.some((c: any) => c.code?.toUpperCase() === "BADARSH50")) {
+      parsed.coupons.unshift(seed.coupons[0]);
       modified = true;
     }
     if (!parsed.products || !parsed.products.length) {

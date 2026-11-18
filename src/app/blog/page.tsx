@@ -1,19 +1,38 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { Search, Clock, BookOpen, ArrowRight, Sparkles } from "lucide-react";
 import { SectionHeader } from "@/components/shared/section-header";
-import { blogPosts } from "@/content/blog";
+import { blogPosts as initialBlogPosts } from "@/content/blog";
+import type { BlogPost } from "@/types";
 
 export default function BlogListingPage() {
+  const [postsList, setPostsList] = useState<BlogPost[]>(initialBlogPosts);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
 
-  const categories = ["all", "Design Tips", "Marketing Strategy", "Web Design"];
+  useEffect(() => {
+    fetch("/api/blog")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.posts && data.posts.length > 0) {
+          setPostsList(data.posts);
+        }
+      })
+      .catch((err) => console.error("Error loading live blog posts:", err));
+  }, []);
+
+  const categories = useMemo(() => {
+    const set = new Set<string>();
+    postsList.forEach((p) => {
+      if (p.category) set.add(p.category);
+    });
+    return ["all", ...Array.from(set)];
+  }, [postsList]);
 
   const filteredPosts = useMemo(() => {
-    return blogPosts.filter((post) => {
+    return postsList.filter((post) => {
       const matchesCat = category === "all" || post.category === category;
       const matchesSearch =
         search === "" ||
@@ -22,9 +41,9 @@ export default function BlogListingPage() {
         post.tags.some((t) => t.toLowerCase().includes(search.toLowerCase()));
       return matchesCat && matchesSearch;
     });
-  }, [search, category]);
+  }, [postsList, search, category]);
 
-  const featured = blogPosts[0];
+  const featured = postsList[0];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
