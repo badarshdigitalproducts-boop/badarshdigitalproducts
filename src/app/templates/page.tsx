@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { SectionHeader } from "@/components/shared/section-header";
 import { ProductFilter } from "@/components/products/product-filter";
@@ -10,11 +10,16 @@ import { CATEGORIES } from "@/lib/constants";
 
 function TemplatesContent() {
   const searchParams = useSearchParams();
-  const initialCategory = searchParams.get("category") || "all";
+  const categoryParam = searchParams.get("category") || "all";
 
-  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
+  const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("popular");
+
+  // Keep state in sync with URL search parameter
+  useEffect(() => {
+    setSelectedCategory(categoryParam);
+  }, [categoryParam]);
 
   const filteredProducts = useMemo(() => {
     return products

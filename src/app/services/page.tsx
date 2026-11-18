@@ -6,12 +6,14 @@ import {
   Video,
   Globe,
   Megaphone,
+  Smartphone,
+  Camera,
+  Sparkles,
   CheckCircle2,
   HelpCircle,
   ChevronDown,
   ArrowRight,
   MessageSquare,
-  Sparkles,
 } from "lucide-react";
 import { SectionHeader } from "@/components/shared/section-header";
 import { PricingTable } from "@/components/services/pricing-table";
@@ -26,8 +28,12 @@ export default function ServicesPage() {
   };
 
   const getIcon = (title: string) => {
-    if (title.toLowerCase().includes("video")) return Video;
-    if (title.toLowerCase().includes("website")) return Globe;
+    const t = title.toLowerCase();
+    if (t.includes("video")) return Video;
+    if (t.includes("website")) return Globe;
+    if (t.includes("app")) return Smartphone;
+    if (t.includes("photo")) return Camera;
+    if (t.includes("brand")) return Sparkles;
     return Megaphone;
   };
 
