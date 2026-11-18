@@ -400,11 +400,9 @@ export function Navbar() {
 
             {/* Direct Links */}
             {[
-              { label: "Templates", href: "/templates" },
-              { label: "E-Books", href: "/ebooks" },
-              { label: "Planners", href: "/planners" },
               { label: "Blog", href: "/blog" },
               { label: "About", href: "/about" },
+              { label: "Contact", href: "/contact" },
             ].map((link) => {
               const isActive = pathname === link.href;
               return (

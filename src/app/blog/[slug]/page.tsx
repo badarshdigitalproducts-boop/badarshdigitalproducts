@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { ArrowLeft, Clock, Calendar, User, Share2, Sparkles, BookOpen } from "lucide-react";
@@ -74,7 +75,7 @@ export async function generateMetadata({
   });
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
+async function BlogPostContent({ params }: BlogPostPageProps) {
   const { slug } = await params;
   const post = blogPosts.find((p) => p.slug === slug);
 
@@ -239,5 +240,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
       )}
     </article>
+  );
+}
+
+export default function BlogPostPage(props: BlogPostPageProps) {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-[60vh] items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent border-t-transparent" />
+        </div>
+      }
+    >
+      <BlogPostContent params={props.params} />
+    </Suspense>
   );
 }

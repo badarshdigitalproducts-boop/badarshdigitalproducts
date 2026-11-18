@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { products } from "@/content/products";
 import { constructMetadata } from "@/lib/metadata";
@@ -35,7 +36,7 @@ export async function generateMetadata({
   });
 }
 
-export default async function ProductDetailPage({ params }: ProductPageProps) {
+async function ProductDetailContent({ params }: ProductPageProps) {
   const { slug } = await params;
   const product = products.find((p) => p.slug === slug);
 
@@ -93,5 +94,19 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         relatedProducts={fallbackRelated}
       />
     </>
+  );
+}
+
+export default function ProductDetailPage(props: ProductPageProps) {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-[60vh] items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent border-t-transparent" />
+        </div>
+      }
+    >
+      <ProductDetailContent params={props.params} />
+    </Suspense>
   );
 }

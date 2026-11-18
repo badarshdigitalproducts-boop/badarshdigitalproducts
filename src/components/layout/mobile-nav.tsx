@@ -39,7 +39,7 @@ function MobileGroup({
   items: readonly { label: string; href: string; desc: string }[];
   onClose: () => void;
 }) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   return (
     <div className="border-b border-border/40">
