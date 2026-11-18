@@ -12,6 +12,28 @@ interface PricingTableProps {
 
 export function PricingTable({ packages, serviceTitle }: PricingTableProps) {
   const { formatPrice: formatCurr } = useCurrency();
+
+  const handleInquireClick = (pkg: ServicePackage) => {
+    try {
+      fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: "Prospective Client",
+          email: "inquiry@client.com",
+          interest: `${serviceTitle} - ${pkg.name}`,
+          message:
+            pkg.whatsappMessage ||
+            `Client initiated WhatsApp inquiry for ${serviceTitle} (${pkg.name} Package - ₹${pkg.price})`,
+          budget: `₹${pkg.price}`,
+        }),
+        keepalive: true,
+      }).catch(() => {});
+    } catch {
+      // Non-blocking
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
       {packages.map((pkg) => {
@@ -75,6 +97,7 @@ export function PricingTable({ packages, serviceTitle }: PricingTableProps) {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => handleInquireClick(pkg)}
                 className={`flex w-full cursor-pointer items-center justify-center gap-2 rounded-full py-3.5 font-heading text-xs font-bold transition-all duration-200 ${
                   pkg.isPopular
                     ? "bg-accent text-white shadow-md shadow-accent/20 hover:bg-accent-hover hover:shadow-lg"
@@ -91,4 +114,3 @@ export function PricingTable({ packages, serviceTitle }: PricingTableProps) {
     </div>
   );
 }
-

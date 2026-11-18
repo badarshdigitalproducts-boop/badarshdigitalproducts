@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 import { ArrowLeft, Clock, Calendar, User, Share2, Sparkles, BookOpen } from "lucide-react";
 import { blogPosts } from "@/content/blog";
 import { constructMetadata } from "@/lib/metadata";
+import { BlogViewTracker } from "@/components/blog/blog-view-tracker";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -135,6 +136,7 @@ async function BlogPostContent({ params }: BlogPostPageProps) {
 
   return (
     <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
+      <BlogViewTracker slug={post.slug} />
       {/* Back to Blog */}
       <Link
         href="/blog"
