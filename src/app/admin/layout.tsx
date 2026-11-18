@@ -26,20 +26,22 @@ import { cn } from "@/lib/utils";
 const NAV_ITEMS = [
   { label: "Overview", href: "/admin", icon: LayoutDashboard, group: null as null | string },
   { label: "Products & Assets", href: "/admin/products", icon: Package, group: "Catalog" },
-  { label: "Categories & Tags", href: "/admin/products", icon: Tag, group: "Catalog" },
-  { label: "Client Leads CRM", href: "/admin/leads", icon: Users2, group: "Sales" },
-  { label: "Orders & Delivery", href: "/admin/leads", icon: ShoppingCart, group: "Sales" },
+  { label: "Agency Services", href: "/admin/services", icon: Layers, group: "Catalog" },
+  { label: "Blog & Editorial", href: "/admin/blog", icon: FileText, group: "Content" },
+  { label: "Orders & Delivery", href: "/admin/orders", icon: ShoppingCart, group: "Commerce" },
+  { label: "Discount Coupons", href: "/admin/coupons", icon: Tag, group: "Commerce" },
+  { label: "Inbound Leads CRM", href: "/admin/leads", icon: Users2, group: "Audience" },
   { label: "Newsletter Audience", href: "/admin/subscribers", icon: Mail, group: "Audience" },
-  { label: "Messages & Chats", href: "/admin/leads", icon: MessageSquare, group: "Audience" },
-  { label: "Site Settings", href: "/admin/settings", icon: Settings, group: "Config" },
+  { label: "System Settings", href: "/admin/settings", icon: Settings, group: "System" },
 ];
 
 const NAV_GROUPS = [
   { title: null as null | string, items: NAV_ITEMS.filter((i) => i.group === null) },
   { title: "Catalog", items: NAV_ITEMS.filter((i) => i.group === "Catalog") },
-  { title: "Sales", items: NAV_ITEMS.filter((i) => i.group === "Sales") },
+  { title: "Content", items: NAV_ITEMS.filter((i) => i.group === "Content") },
+  { title: "Commerce", items: NAV_ITEMS.filter((i) => i.group === "Commerce") },
   { title: "Audience", items: NAV_ITEMS.filter((i) => i.group === "Audience") },
-  { title: "Config", items: NAV_ITEMS.filter((i) => i.group === "Config") },
+  { title: "System", items: NAV_ITEMS.filter((i) => i.group === "System") },
 ];
 
 export default function AdminLayout({
@@ -115,7 +117,7 @@ export default function AdminLayout({
             })}
 
             {/* Grouped sections */}
-            {["Catalog", "Sales", "Audience", "Config"].map((group) => {
+            {["Catalog", "Content", "Commerce", "Audience", "System"].map((group) => {
               const groupItems = NAV_ITEMS.filter((i) => i.group === group);
               if (!groupItems.length) return null;
               return (
@@ -219,7 +221,7 @@ export default function AdminLayout({
 
                 return (
                   <Link
-                    key={item.href}
+                    key={item.label}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
                     className={cn(

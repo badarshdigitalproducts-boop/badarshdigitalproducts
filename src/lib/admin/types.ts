@@ -1,4 +1,5 @@
-import type { Product, ProductCategory } from "@/types/product";
+import type { Product, ProductCategory, ProductSpecs } from "@/types/product";
+import type { Service, ServicePackage } from "@/types";
 
 export type ProductType =
   | "canva-template"
@@ -44,6 +45,62 @@ export interface AdminProduct extends Omit<Product, "tags" | "isFeatured" | "isN
   coverImageUrl?: string;
 }
 
+export interface AdminServicePackage {
+  name: string;
+  price: number;
+  currency: string;
+  period?: string;
+  description: string;
+  features: string[];
+  isPopular?: boolean;
+  ctaText?: string;
+  whatsappMessage?: string;
+}
+
+export interface AdminService {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  longDescription: string;
+  icon: string;
+  category?: string;
+  status: "active" | "inactive";
+  turnaround?: string;
+  features: string[];
+  packages: AdminServicePackage[];
+  updatedAt?: string;
+}
+
+export interface AdminBlogPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  category: string;
+  author: string;
+  date: string;
+  readTime: string;
+  coverImage?: string;
+  tags: string[];
+  status: "published" | "draft";
+  views?: number;
+  updatedAt?: string;
+}
+
+export interface AdminCoupon {
+  id: string;
+  code: string;
+  discountType: "percentage" | "fixed";
+  discountValue: number;
+  minOrderAmount?: number;
+  usageCount: number;
+  usageLimit?: number;
+  expiresAt?: string;
+  status: "active" | "inactive";
+  createdAt: string;
+}
+
 export type LeadStatus = "new" | "contacted" | "proposal" | "won" | "archived";
 
 export interface LeadInquiry {
@@ -73,6 +130,8 @@ export interface OrderItem {
   title: string;
   price: number;
   quantity: number;
+  productType?: string;
+  downloadUrl?: string;
 }
 
 export interface OrderRecord {
@@ -87,7 +146,9 @@ export interface OrderRecord {
   paymentStatus: "completed" | "pending" | "refunded";
   licenseKey: string;
   canvaAccessDelivered: boolean;
+  deliveryNotes?: string;
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface AnnouncementBarConfig {
@@ -117,6 +178,9 @@ export interface AuditLog {
 
 export interface AdminDatabase {
   products: AdminProduct[];
+  services: AdminService[];
+  blogPosts: AdminBlogPost[];
+  coupons: AdminCoupon[];
   leads: LeadInquiry[];
   subscribers: Subscriber[];
   orders: OrderRecord[];

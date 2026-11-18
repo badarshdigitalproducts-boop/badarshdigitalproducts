@@ -5,13 +5,15 @@ import { useSearchParams } from "next/navigation";
 import { SectionHeader } from "@/components/shared/section-header";
 import { ProductFilter } from "@/components/products/product-filter";
 import { ProductGrid } from "@/components/products/product-grid";
-import { products } from "@/content/products";
+import { products as initialProducts } from "@/content/products";
 import { CATEGORIES } from "@/lib/constants";
+import type { Product } from "@/types";
 
 function TemplatesContent() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category") || "all";
 
+  const [productList, setProductList] = useState<Product[]>(initialProducts);
   const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("popular");
@@ -21,8 +23,20 @@ function TemplatesContent() {
     setSelectedCategory(categoryParam);
   }, [categoryParam]);
 
+  // Fetch updated catalog from admin database
+  useEffect(() => {
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.products && data.products.length > 0) {
+          setProductList(data.products);
+        }
+      })
+      .catch((err) => console.error("Error loading live products:", err));
+  }, []);
+
   const filteredProducts = useMemo(() => {
-    return products
+    return productList
       .filter((product) => {
         const matchesCategory =
           selectedCategory === "all" || product.category === selectedCategory;
@@ -30,7 +44,7 @@ function TemplatesContent() {
           searchQuery === "" ||
           product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.tags.some((t) =>
+          product.tags?.some((t: string) =>
             t.toLowerCase().includes(searchQuery.toLowerCase())
           );
         return matchesCategory && matchesSearch;
@@ -46,16 +60,16 @@ function TemplatesContent() {
           return b.price - a.price;
         }
         // Popular: sort by downloads
-        return b.downloads - a.downloads;
+        return (b.downloads || 0) - (a.downloads || 0);
       });
-  }, [selectedCategory, searchQuery, sortBy]);
+  }, [productList, selectedCategory, searchQuery, sortBy]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
       <SectionHeader
         badge="Marketplace"
-        title="Canva Templates &amp; Creative Suites"
-        subtitle="Download professionally designed social media packs, investor pitch decks, branding kits, and sales documents."
+        title="Canva Templates &amp; Digital Creative Suites"
+        subtitle="Download professionally designed social media packs, video editing assets, apps, pitch decks, and digital tools."
       />
 
       <div className="mt-8 mb-12">
@@ -72,7 +86,7 @@ function TemplatesContent() {
 
       <ProductGrid
         products={filteredProducts}
-        emptyMessage={`No digital templates found matching "${searchQuery}". Try searching for Reels, LinkedIn, or Pitch Decks.`}
+        emptyMessage={`No digital templates found matching "${searchQuery}". Try searching for Reels, Video Editing, or Pitch Decks.`}
       />
     </div>
   );
@@ -91,4 +105,3 @@ export default function TemplatesPage() {
     </Suspense>
   );
 }
-

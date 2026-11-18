@@ -534,5 +534,604 @@
       "details": "BADARSH Admin Operating System initialized with 30 seeded templates.",
       "timestamp": "2026-11-17T18:37:56.489Z"
     }
+  ],
+  "services": [
+    {
+      "id": "svc-001",
+      "slug": "video-editing",
+      "title": "Video Editing",
+      "description": "Professional video editing for YouTube, Instagram Reels, ads, and brand content. From raw footage to polished, scroll-stopping videos.",
+      "longDescription": "Transform your raw footage into cinematic content that captivates your audience. Our video editing service covers everything from YouTube long-form to Instagram Reels and ad creatives. We handle color grading, motion graphics, subtitles, sound design, and transitions — all tailored to your brand's aesthetic and platform requirements. Whether you're a creator, coach, or business, we'll make your videos look like they were produced by a studio.",
+      "icon": "Video",
+      "category": "Agency Creative",
+      "status": "active",
+      "turnaround": "48-72 Hours",
+      "features": [
+        "Professional color grading & correction",
+        "Motion graphics & text animations",
+        "Subtitle & caption integration",
+        "Royalty-free music & sound design",
+        "Multi-platform export (YouTube, Reels, TikTok)",
+        "Thumbnail design included",
+        "Unlimited revisions on all packages",
+        "Fast 48-hour turnaround available"
+      ],
+      "packages": [
+        {
+          "name": "Basic",
+          "price": 1499,
+          "currency": "INR",
+          "period": "per video",
+          "description": "Perfect for simple edits on short-form content like Reels and Shorts.",
+          "features": [
+            "Up to 60 seconds duration",
+            "Basic cuts & transitions",
+            "Background music",
+            "Text overlays & captions",
+            "1 revision round",
+            "Delivery in 3 business days"
+          ],
+          "isPopular": false,
+          "ctaText": "Get Started",
+          "whatsappMessage": "Hi! I'm interested in the Basic Video Editing package (₹1,499/video). Can we discuss my project?"
+        },
+        {
+          "name": "Standard",
+          "price": 3999,
+          "currency": "INR",
+          "period": "per video",
+          "description": "Ideal for YouTube videos, brand content, and marketing videos up to 10 minutes.",
+          "features": [
+            "Up to 10 minutes duration",
+            "Advanced transitions & effects",
+            "Color grading",
+            "Motion graphics & lower thirds",
+            "Subtitles & captions",
+            "Custom thumbnail design",
+            "2 revision rounds",
+            "Delivery in 5 business days"
+          ],
+          "isPopular": true,
+          "ctaText": "Most Popular",
+          "whatsappMessage": "Hi! I'm interested in the Standard Video Editing package (₹3,999/video). Can we discuss my project?"
+        },
+        {
+          "name": "Premium",
+          "price": 7999,
+          "currency": "INR",
+          "period": "per video",
+          "description": "Full-production editing for ads, course content, and cinematic brand films.",
+          "features": [
+            "Up to 30 minutes duration",
+            "Cinematic color grading",
+            "Advanced motion graphics",
+            "Sound design & mixing",
+            "Multi-cam editing",
+            "Custom animated intro/outro",
+            "Subtitles in multiple languages",
+            "Unlimited revisions",
+            "Priority delivery in 3 business days"
+          ],
+          "isPopular": false,
+          "ctaText": "Go Premium",
+          "whatsappMessage": "Hi! I'm interested in the Premium Video Editing package (₹7,999/video). Can we discuss my project?"
+        }
+      ],
+      "updatedAt": "2026-11-18T16:58:25.659Z"
+    },
+    {
+      "id": "svc-002",
+      "slug": "website-building",
+      "title": "Website Building",
+      "description": "Custom, responsive websites for businesses, portfolios, and e-commerce — built with modern tech that loads fast and looks stunning.",
+      "longDescription": "Get a website that actually works for your business. We design and build fast, responsive, SEO-optimized websites using the latest technologies — from simple landing pages and portfolios to full e-commerce stores. Every site is mobile-first, loads under 3 seconds, and is designed to convert visitors into customers. We handle everything: design, development, hosting setup, domain configuration, and post-launch support.",
+      "icon": "Globe",
+      "category": "Agency Creative",
+      "status": "active",
+      "turnaround": "48-72 Hours",
+      "features": [
+        "Custom responsive design",
+        "Mobile-first approach",
+        "SEO-optimized structure",
+        "Fast load times (under 3 seconds)",
+        "SSL certificate & security setup",
+        "Google Analytics & Search Console integration",
+        "Contact forms & WhatsApp integration",
+        "Post-launch support & training"
+      ],
+      "packages": [
+        {
+          "name": "Basic",
+          "price": 4999,
+          "currency": "INR",
+          "description": "A clean, professional single-page website — perfect for freelancers and personal brands.",
+          "features": [
+            "Single-page responsive website",
+            "Up to 5 sections",
+            "Mobile-optimized design",
+            "Contact form integration",
+            "Basic SEO setup",
+            "WhatsApp chat button",
+            "Delivery in 7 business days",
+            "1 month free support"
+          ],
+          "isPopular": false,
+          "ctaText": "Get Started",
+          "whatsappMessage": "Hi! I'm interested in the Basic Website package (₹4,999). Can we discuss my requirements?"
+        },
+        {
+          "name": "Standard",
+          "price": 14999,
+          "currency": "INR",
+          "description": "Multi-page business website with blog, animations, and full SEO — ideal for growing businesses.",
+          "features": [
+            "Up to 7 pages",
+            "Custom UI/UX design",
+            "Blog/News section",
+            "Smooth animations & interactions",
+            "Full SEO optimization",
+            "Google Analytics & Search Console",
+            "Social media integration",
+            "Delivery in 14 business days",
+            "3 months free support"
+          ],
+          "isPopular": true,
+          "ctaText": "Most Popular",
+          "whatsappMessage": "Hi! I'm interested in the Standard Website package (₹14,999). Can we discuss my requirements?"
+        },
+        {
+          "name": "Premium",
+          "price": 29999,
+          "currency": "INR",
+          "description": "Full-featured e-commerce or web application with payment gateway, admin panel, and advanced functionality.",
+          "features": [
+            "Unlimited pages",
+            "E-commerce / booking functionality",
+            "Payment gateway integration",
+            "Admin dashboard & CMS",
+            "Advanced animations & micro-interactions",
+            "Performance optimization",
+            "Multi-language support",
+            "Email marketing integration",
+            "Delivery in 21 business days",
+            "6 months free support & maintenance"
+          ],
+          "isPopular": false,
+          "ctaText": "Go Premium",
+          "whatsappMessage": "Hi! I'm interested in the Premium Website package (₹29,999). Can we discuss my requirements?"
+        }
+      ],
+      "updatedAt": "2026-11-18T16:58:25.659Z"
+    },
+    {
+      "id": "svc-003",
+      "slug": "social-media-management",
+      "title": "Social Media Management",
+      "description": "End-to-end social media management — strategy, content creation, scheduling, engagement & analytics for Instagram, LinkedIn & more.",
+      "longDescription": "Stop spending hours on social media and let us handle it. Our social media management service covers everything from content strategy and creation to daily posting, community engagement, and performance analytics. We craft platform-specific content that resonates with your audience, maintains brand consistency, and drives real business results — whether that's followers, leads, or sales.",
+      "icon": "Share2",
+      "category": "Agency Creative",
+      "status": "active",
+      "turnaround": "48-72 Hours",
+      "features": [
+        "Custom content strategy & calendar",
+        "Professional graphic design for posts",
+        "Copywriting & hashtag research",
+        "Daily posting & scheduling",
+        "Community management & engagement",
+        "Monthly analytics & performance reports",
+        "Competitor analysis",
+        "Trend monitoring & content ideas"
+      ],
+      "packages": [
+        {
+          "name": "Basic",
+          "price": 4999,
+          "currency": "INR",
+          "period": "per month",
+          "description": "Essential social media presence for small businesses — 12 posts per month on one platform.",
+          "features": [
+            "1 social media platform",
+            "12 posts per month (3/week)",
+            "Custom graphic design",
+            "Caption writing & hashtags",
+            "Content calendar",
+            "Basic monthly report",
+            "Response to comments (business hours)"
+          ],
+          "isPopular": false,
+          "ctaText": "Get Started",
+          "whatsappMessage": "Hi! I'm interested in the Basic Social Media Management package (₹4,999/month). Can we discuss my brand?"
+        },
+        {
+          "name": "Standard",
+          "price": 9999,
+          "currency": "INR",
+          "period": "per month",
+          "description": "Comprehensive management for 2 platforms with Reels, Stories, and active community engagement.",
+          "features": [
+            "2 social media platforms",
+            "20 posts per month",
+            "4 Reels/short videos per month",
+            "Story content (10/month)",
+            "Advanced copywriting & hashtags",
+            "Community engagement (daily)",
+            "Competitor analysis",
+            "Detailed monthly analytics report"
+          ],
+          "isPopular": true,
+          "ctaText": "Most Popular",
+          "whatsappMessage": "Hi! I'm interested in the Standard Social Media Management package (₹9,999/month). Can we discuss my brand?"
+        },
+        {
+          "name": "Premium",
+          "price": 19999,
+          "currency": "INR",
+          "period": "per month",
+          "description": "Full-scale social media growth engine across 3+ platforms with paid ad management and influencer outreach.",
+          "features": [
+            "3+ social media platforms",
+            "30 posts per month",
+            "8 Reels/short videos per month",
+            "Daily Stories content",
+            "Paid ad campaign management",
+            "Influencer outreach & collaboration",
+            "Crisis management",
+            "Weekly performance calls",
+            "Real-time analytics dashboard",
+            "Dedicated account manager"
+          ],
+          "isPopular": false,
+          "ctaText": "Go Premium",
+          "whatsappMessage": "Hi! I'm interested in the Premium Social Media Management package (₹19,999/month). Can we discuss my brand?"
+        }
+      ],
+      "updatedAt": "2026-11-18T16:58:25.659Z"
+    },
+    {
+      "id": "svc-004",
+      "slug": "app-development",
+      "title": "App Development",
+      "description": "Native & cross-platform mobile apps for iOS and Android, plus progressive web applications with seamless cloud backends.",
+      "longDescription": "Turn your product vision into a polished, high-performance app on the App Store and Google Play. We develop responsive cross-platform mobile apps using React Native and Flutter, complete with secure authentication, real-time database sync, push notifications, and payment processing. Designed to scale from day one.",
+      "icon": "Smartphone",
+      "category": "Agency Creative",
+      "status": "active",
+      "turnaround": "48-72 Hours",
+      "features": [
+        "iOS and Android store readiness",
+        "Modern React Native / Flutter architecture",
+        "Secure user authentication (OTP, Google, Apple ID)",
+        "Instant payment gateway integration (Razorpay, Stripe)",
+        "Push notifications & analytics tracking",
+        "Admin control panel for content management",
+        "API integrations & cloud database setup",
+        "App Store & Play Store publishing support"
+      ],
+      "packages": [
+        {
+          "name": "MVP Starter",
+          "price": 24999,
+          "currency": "INR",
+          "description": "Quick-launch prototype or MVP to validate your concept with early users.",
+          "features": [
+            "Single platform (Android or iOS)",
+            "Up to 5 functional screens",
+            "Firebase backend & authentication",
+            "Basic database integration",
+            "Delivery in 21 business days",
+            "1 month post-launch support"
+          ],
+          "isPopular": false,
+          "ctaText": "Start MVP",
+          "whatsappMessage": "Hi! I'm interested in the MVP Starter App Development package (₹24,999). Can we discuss my app concept?"
+        },
+        {
+          "name": "Cross-Platform Pro",
+          "price": 49999,
+          "currency": "INR",
+          "description": "Full-fledged production app for both iOS & Android with admin dashboard and payments.",
+          "features": [
+            "Both iOS & Android native builds",
+            "Up to 12 responsive screens",
+            "Full payment gateway & push notifications",
+            "Admin management dashboard",
+            "Automated cloud backups & security",
+            "Store submission & approval guarantee",
+            "Delivery in 30 business days",
+            "3 months dedicated warranty support"
+          ],
+          "isPopular": true,
+          "ctaText": "Most Popular",
+          "whatsappMessage": "Hi! I'm interested in the Cross-Platform Pro App package (₹49,999). Can we discuss my app?"
+        },
+        {
+          "name": "Enterprise Custom",
+          "price": 89999,
+          "currency": "INR",
+          "description": "Complex mobile application with real-time chat, AI integration, and multi-tenant infrastructure.",
+          "features": [
+            "Unlimited custom screens & complex workflows",
+            "Real-time chat / audio / video capabilities",
+            "AI model integration (Gemini / Claude APIs)",
+            "Custom microservices backend",
+            "Full source code ownership & CI/CD pipeline",
+            "Delivery in 45-60 business days",
+            "6 months 24/7 priority support"
+          ],
+          "isPopular": false,
+          "ctaText": "Contact Enterprise",
+          "whatsappMessage": "Hi! I'm interested in the Enterprise App Development package (₹89,999). Can we schedule a technical scoping call?"
+        }
+      ],
+      "updatedAt": "2026-11-18T16:58:25.659Z"
+    },
+    {
+      "id": "svc-005",
+      "slug": "photo-editing",
+      "title": "Photo Editing & Retouching",
+      "description": "Studio-grade retouching for e-commerce, high-fashion portfolios, jewelry, real estate, and digital ad campaigns.",
+      "longDescription": "Transform raw photos into high-converting commercial assets. We provide high-end frequency separation, realistic lighting correction, reflection manipulation, clean background isolation, and color grading that meets the exacting standards of luxury brands and top marketplaces.",
+      "icon": "Camera",
+      "category": "Agency Creative",
+      "status": "active",
+      "turnaround": "48-72 Hours",
+      "features": [
+        "High-end frequency separation skin retouching",
+        "E-commerce pure white/transparent cutouts",
+        "Shadow & reflection generation",
+        "Jewelry, watch & metal reflection cleanup",
+        "Bulk catalog batch processing",
+        "Color matching across product SKUs",
+        "High-resolution print export (CMYK ready)",
+        "Rapid 24-48 hour turnaround"
+      ],
+      "packages": [
+        {
+          "name": "E-Commerce Batch",
+          "price": 1999,
+          "currency": "INR",
+          "description": "Clean product cutouts and alignment for Amazon, Shopify, or catalog listings.",
+          "features": [
+            "Up to 20 product photos",
+            "Pure white background / PNG cutout",
+            "Natural drop shadow creation",
+            "Color correction & cropping",
+            "Delivery in 48 hours",
+            "2 revision rounds"
+          ],
+          "isPopular": false,
+          "ctaText": "Order Batch",
+          "whatsappMessage": "Hi! I'm interested in the E-Commerce Batch Photo Editing (₹1,999). Can I send sample photos?"
+        },
+        {
+          "name": "High-End Commercial",
+          "price": 4999,
+          "currency": "INR",
+          "description": "Editorial & luxury retouching for hero brand banners, fashion, and social media campaigns.",
+          "features": [
+            "Up to 15 high-detail photos",
+            "Frequency separation & texture preservation",
+            "Lighting enhancements & dodge/burn",
+            "Clothing crease removal & shape refinement",
+            "Delivery in 3 business days",
+            "Unlimited revisions"
+          ],
+          "isPopular": true,
+          "ctaText": "Most Popular",
+          "whatsappMessage": "Hi! I'm interested in the High-End Commercial Photo Editing package (₹4,999). Can we discuss my photoshoot?"
+        },
+        {
+          "name": "Brand Campaign Suite",
+          "price": 9999,
+          "currency": "INR",
+          "description": "Complete photo post-production for seasonal campaigns, lookbooks, and multi-channel creative.",
+          "features": [
+            "Up to 40 retouched editorial images",
+            "Custom artistic color grading / LUT application",
+            "Format variations for Billboard, Print & Web",
+            "Dedicated senior retoucher",
+            "Delivery in 5 business days",
+            "VIP priority support"
+          ],
+          "isPopular": false,
+          "ctaText": "Book Suite",
+          "whatsappMessage": "Hi! I'm interested in the Brand Campaign Suite Photo Editing package (₹9,999). Let's chat!"
+        }
+      ],
+      "updatedAt": "2026-11-18T16:58:25.659Z"
+    },
+    {
+      "id": "svc-006",
+      "slug": "brand-identity",
+      "title": "Brand Identity Design",
+      "description": "Timeless logo systems, typography palettes, brand books, and design tokens that position you as an industry leader.",
+      "longDescription": "Great brands are not designed by accident. We build cohesive visual identity systems that communicate prestige, trust, and clarity across every touchpoint — from business cards and packaging to mobile apps and investor pitch decks.",
+      "icon": "Sparkles",
+      "category": "Agency Creative",
+      "status": "active",
+      "turnaround": "48-72 Hours",
+      "features": [
+        "Custom primary, secondary & submark logo suite",
+        "Typography pairing & font licensing guide",
+        "Semantic color palette with dark/light mode codes",
+        "30+ page comprehensive Brand Guidelines PDF",
+        "Social media profile & cover kit",
+        "Vector source files (.AI, .SVG, .EPS, .PDF)",
+        "Stationery & merchandise mockups",
+        "Complete commercial copyright transfer"
+      ],
+      "packages": [
+        {
+          "name": "Founder Essentials",
+          "price": 7999,
+          "currency": "INR",
+          "description": "Essential visual kit for new startups, consultants, and creators launching their brand.",
+          "features": [
+            "2 distinct logo concept directions",
+            "Primary logo + monochrome variations",
+            "Curated font pairing & hex color palette",
+            "Social media avatar & banner templates",
+            "Delivery in 7 business days",
+            "2 revision rounds"
+          ],
+          "isPopular": false,
+          "ctaText": "Launch Brand",
+          "whatsappMessage": "Hi! I'm interested in the Founder Essentials Brand Identity package (₹7,999). Can we discuss my startup?"
+        },
+        {
+          "name": "Full Brand System",
+          "price": 18999,
+          "currency": "INR",
+          "description": "Complete end-to-end corporate identity system for ambitious companies and scaling businesses.",
+          "features": [
+            "3 premium custom logo directions",
+            "Full logo suite (horizontal, stacked, icon badge)",
+            "Detailed 30-page Brand Style Guidebook",
+            "Stationery pack (Business card, letterhead, email signature)",
+            "Packaging or merchandise mockup set",
+            "Vector & high-res PNG/SVG exports",
+            "Delivery in 14 business days",
+            "Unlimited revisions"
+          ],
+          "isPopular": true,
+          "ctaText": "Most Popular",
+          "whatsappMessage": "Hi! I'm interested in the Full Brand System package (₹18,999). Can we schedule a brand discovery call?"
+        },
+        {
+          "name": "Agency Brand & Web",
+          "price": 34999,
+          "currency": "INR",
+          "description": "Comprehensive rebrand paired with a custom high-converting Next.js website design.",
+          "features": [
+            "Everything in Full Brand System",
+            "Custom Figma UI design system & components",
+            "Matching 5-page responsive website build",
+            "Pitch deck & presentation template in Canva",
+            "Delivery in 25 business days",
+            "6 months dedicated design support"
+          ],
+          "isPopular": false,
+          "ctaText": "Get Complete Suite",
+          "whatsappMessage": "Hi! I'm interested in the Agency Brand & Web package (₹34,999). Let's collaborate!"
+        }
+      ],
+      "updatedAt": "2026-11-18T16:58:25.659Z"
+    }
+  ],
+  "blogPosts": [
+    {
+      "slug": "digital-product-playbook-2026",
+      "title": "The 2026 Digital Product Playbook: How Indian Creators Build Recurring Revenue with Canva & Next.js",
+      "excerpt": "A step-by-step breakdown of how modern creators turn niche knowledge and customizable templates into high-margin digital product empires with zero inventory.",
+      "content": "\n## Why Digital Products are the Highest-Leverage Asset in 2026\n\nBuilding a service business or agency is great for cash flow, but you are always selling time. When you create digital assets — customizable Canva templates, business planners, financial trackers, and pitch decks — you build once and sell an unlimited number of times at near 100% gross margins.\n\nIn India, the digital creator ecosystem has matured. With instant UPI payments, WhatsApp integration, and automated downloads, Indian creators and entrepreneurs are generating substantial recurring income.\n\nHere is the exact framework we use at BADARSH to design, package, and sell high-converting digital products.\n\n### 1. Identify \"High Pain, High Frequency\" Problems\nDon't build generic motivational wallpapers or random quote templates. Build solutions for businesses that are actively losing money without them:\n- **Client Proposal & Pitch Decks**: Founders preparing for investor meetings will happily pay ₹799+ to save 15 hours of formatting.\n- **Service Agreement & Invoice Packs**: Freelancers needing legally clear, professional client onboarding documents.\n- **Social Media Content Kits**: Real estate agents, wellness clinics, and restaurants that must post daily but cannot afford full-time designers.\n\n### 2. Design for \"Canva Free\" First\nA common pitfall for template creators is using Canva Pro elements (stock photos, premium fonts, vectors). When customers with free accounts try to download, they hit paywalls or watermarks and demand refunds.\n- Always design exclusively with Canva's free asset library.\n- If premium imagery is needed, provide unwatermarked free Unsplash/Pexels links or placeholders.\n- Test template share links in a private browser window logged into a standard free Canva account before publishing.\n\n### 3. Clear Commercial Licensing\nBuyers want certainty. If they buy your template, can they use it for their client work?\n- Provide a simple, transparent commercial license (like BADARSH's Commercial License).\n- Allow client deliverables and marketing usage.\n- Explicitly restrict direct resale or redistribution of the raw template link.\n\n### 4. Frictionless Checkout via UPI and WhatsApp\nIn the Indian market, credit card checkout has massive drop-off rates. Ensure your store:\n- Supports UPI autopay and one-click QR transfers.\n- Delivers the instant access link immediately on screen and via an automated email/WhatsApp message.\n- Backs up every purchase with responsive WhatsApp support to answer quick questions.\n\nBy combining well-crafted Canva assets with instant digital delivery, you build a sustainable, trusted digital brand.\n    ",
+      "category": "Creator Economy",
+      "author": "BADARSH Editorial",
+      "date": "November 18, 2026",
+      "readTime": "8 min read",
+      "coverImage": "/images/blog/canva-hacks.png",
+      "tags": [
+        "Digital Products",
+        "Canva",
+        "Passive Income",
+        "Creator Economy"
+      ],
+      "status": "published",
+      "views": 212,
+      "updatedAt": "2026-11-18T16:58:25.659Z"
+    },
+    {
+      "slug": "canva-hacks-for-small-business",
+      "title": "7 Canva Hacks Every Business Owner Needs in 2026",
+      "excerpt": "Cut your design time by 80% with these lesser-known Canva keyboard shortcuts, brand kit setups, and animation features.",
+      "content": "\n## Why Design Speed Matters for Modern Businesses\n\nIn 2026, consistent visual presence is not optional. Whether you run an artisan cafe in Bangalore or a boutique consulting firm in Mumbai, potential clients vet you on Instagram and LinkedIn before they ever reply to an email.\n\nHere are 7 Canva superpowers that will transform you from a frustrated dabbler into a rapid-fire visual creator.\n\n### 1. Master the Quick Insert Magic Slash (/)\nSimply press the forward slash key `/` anywhere on your Canva canvas. A quick search menu pops up instantly right under your cursor. You can insert text boxes, circles, arrows, tables, or AI images without moving your mouse to the left toolbar.\n\n### 2. Lock Down Your Brand Kit Once and For All\nStop searching for your hex codes. With a configured Brand Kit:\n- One click turns any generic template into your exact brand colors.\n- \"Shuffle\" through color combinations until the layout pops.\n- Consistent typography across all documents without guesswork.\n\n### 3. Smart Mockups for Instant Product Legitimacy\nSelling a digital guide or coaching course? Drag your cover graphic into Canva's Smartmockups app. In 3 seconds, you have realistic 3D book renders, iPhone mockups, and laptop displays that multiply perceived value.\n\n### 4. Bulk Create with CSV Data\nNeed 30 quote posts or testimonial slides for the month? \n1. Create a spreadsheet with your quotes and author names.\n2. Open Canva's **Bulk Create** tool.\n3. Connect data fields to your template elements.\n4. Hit generate — 30 customized posts ready in 15 seconds flat.\n\n### 5. Position & Tidy Up Alignment\nNever manually eyeball spacing between bullet points or icons. Select all elements, click **Position** &rarr; **Tidy Up**, and Canva will evenly distribute vertical and horizontal margins instantly.\n\n### 6. Video Export with Transparent Backgrounds\nCreating animated lower-thirds or sticker overlays for your Instagram Reels? Export animated MP4s or WebMs with transparent backgrounds to drop right into Premiere or CapCut.\n\n### 7. Custom Guides & Safe Margins\nTurn on **Show Rulers & Guides** (`Shift + R`) to ensure critical text doesn't get covered by Instagram's UI icons (like comments, likes, and audio titles) on mobile screens.\n    ",
+      "category": "Design Tips",
+      "author": "BADARSH Editorial",
+      "date": "November 15, 2026",
+      "readTime": "5 min read",
+      "coverImage": "/images/blog/canva-hacks.png",
+      "tags": [
+        "Canva",
+        "Productivity",
+        "Graphic Design",
+        "Small Business"
+      ],
+      "status": "published",
+      "views": 828,
+      "updatedAt": "2026-11-18T16:58:25.659Z"
+    },
+    {
+      "slug": "instagram-organic-growth-blueprint",
+      "title": "How Indian Businesses Are Scaling Organically on Instagram",
+      "excerpt": "A complete guide on hooks, carousel pacing, and Reel retention tactics to attract qualified leads without spending on ads.",
+      "content": "\n## The New Rules of Social Selling in India\n\nThe days of posting a static photo of your product with generic hashtags and expecting sales are over. In 2026, Instagram's algorithm favors two primary signals: **Watch Time (Retention)** and **Direct Message Shares (Saves & Forwards)**.\n\nIf your content teaches, solves an immediate irritation, or evokes a strong \"I need to share this with my partner/friend\" reaction, you win.\n\n### Pillar 1: The 3-Second Visual Hook\nViewers scroll with zero patience. Your video or carousel cover must answer one question immediately: *\"What will I lose if I scroll past this?\"*\n- Use bold, contrasting text overlays (44pt+ on mobile).\n- State the specific outcome (e.g., \"Stop paying ₹25,000 for simple websites\").\n- Avoid generic titles like \"Tips for today\".\n\n### Pillar 2: High-Save Carousels\nCarousels remain the champion for collecting saves and bookmarks.\n- **Slide 1**: The promise or pain point.\n- **Slide 2-7**: One actionable, bite-sized insight per slide.\n- **Slide 8**: The exact summary checklist.\n- **Slide 9**: A clear Call-To-Action (e.g., \"Comment TEMPLATE and we'll DM you the link\").\n\n### Pillar 3: Turning Comments into Direct WhatsApp Inquiries\nMake it effortless for followers to buy from you. In India, trust closes on WhatsApp:\n- Add a direct wa.me link in your bio.\n- Use automated keyword triggers to send prospective buyers your template catalog or service brochure directly in DMs.\n    ",
+      "category": "Marketing Strategy",
+      "author": "BADARSH Editorial",
+      "date": "November 10, 2026",
+      "readTime": "7 min read",
+      "coverImage": "/images/blog/instagram-growth.png",
+      "tags": [
+        "Instagram",
+        "Organic Reach",
+        "Reels",
+        "Social Selling"
+      ],
+      "status": "published",
+      "views": 837,
+      "updatedAt": "2026-11-18T16:58:25.659Z"
+    },
+    {
+      "slug": "why-diy-websites-fail",
+      "title": "Why Most Small Business Websites Fail to Convert (And How to Fix It)",
+      "excerpt": "The 5 critical design mistakes killing your conversion rate — from sluggish mobile load speeds to buried call-to-actions.",
+      "content": "\n## Your Website is Your 24/7 Digital Salesperson\n\nMost business owners treat their website like a digital brochure. They list everything they've ever done since 2012, bury the contact button in a complex dropdown, and wonder why visitors leave within 8 seconds.\n\nHere is the blueprint for a high-converting website in 2026.\n\n### 1. Speed is Your First Impression\nIf your website takes more than 2.5 seconds to load on a mobile 4G connection, 53% of users bounce before seeing your logo. Use modern frameworks like Next.js, compress images to WebP, and eliminate bloated plugins.\n\n### 2. The 5-Second Hero Test\nWhen someone lands on your homepage above the fold, they must instantly understand:\n1. What you do.\n2. Who you do it for.\n3. What action they should take right now.\n\n### 3. Clear, Repetitive Call-to-Actions (CTAs)\nDon't make visitors hunt for a contact form. Place your primary CTA button:\n- Top right of the sticky navbar.\n- Directly below the hero headline.\n- After every major feature or service card.\n- In the final footer close.\n\n### 4. Overwhelming Social Proof\nPeople buy what others have already approved. Display client reviews with real names, ratings, and tangible outcomes (e.g. \"Saved 20 hours a week\" or \"Closed ₹50,000 deal\").\n    ",
+      "category": "Web Design",
+      "author": "BADARSH Editorial",
+      "date": "November 04, 2026",
+      "readTime": "6 min read",
+      "coverImage": "/images/blog/website-conversions.png",
+      "tags": [
+        "Web Design",
+        "Conversion Rate",
+        "Landing Pages",
+        "UX"
+      ],
+      "status": "published",
+      "views": 661,
+      "updatedAt": "2026-11-18T16:58:25.659Z"
+    }
+  ],
+  "coupons": [
+    {
+      "id": "cpn-001",
+      "code": "LAUNCH50",
+      "discountType": "percentage",
+      "discountValue": 50,
+      "minOrderAmount": 299,
+      "usageCount": 142,
+      "usageLimit": 500,
+      "status": "active",
+      "createdAt": "2026-11-18T16:58:25.659Z"
+    },
+    {
+      "id": "cpn-002",
+      "code": "CREATOR20",
+      "discountType": "percentage",
+      "discountValue": 20,
+      "minOrderAmount": 0,
+      "usageCount": 68,
+      "status": "active",
+      "createdAt": "2026-11-18T16:58:25.659Z"
+    },
+    {
+      "id": "cpn-003",
+      "code": "FLAT100",
+      "discountType": "fixed",
+      "discountValue": 100,
+      "minOrderAmount": 499,
+      "usageCount": 29,
+      "status": "active",
+      "createdAt": "2026-11-18T16:58:25.659Z"
+    }
   ]
 }

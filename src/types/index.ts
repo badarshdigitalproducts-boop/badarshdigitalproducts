@@ -72,3 +72,5 @@ export interface SiteConfig {
   };
 }
 
+
+export * from "./product";

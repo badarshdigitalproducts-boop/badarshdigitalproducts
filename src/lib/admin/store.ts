@@ -1,10 +1,15 @@
 import fs from "fs/promises";
 import path from "path";
 import { products as initialStaticProducts } from "@/content/products";
-import { WHATSAPP_NUMBER } from "@/lib/constants";
+import { services as initialStaticServices } from "@/content/services";
+import { blogPosts as initialStaticBlogPosts } from "@/content/blog";
+import { WHATSAPP_NUMBER, SUPPORT_EMAIL } from "@/lib/constants";
 import type {
   AdminDatabase,
   AdminProduct,
+  AdminService,
+  AdminBlogPost,
+  AdminCoupon,
   LeadInquiry,
   Subscriber,
   OrderRecord,
@@ -24,13 +29,13 @@ function getDefaultSettings(): SystemSettings {
     announcementBar: {
       enabled: true,
       badge: "LIMITED LAUNCH OFFER",
-      text: "Get 50% off all Canva Templates with code",
+      text: "Get 50% off all Canva Templates & Editing Bundles with code",
       linkText: "CLAIM DISCOUNT",
       linkUrl: "/templates",
     },
     currencyRateUsdToInr: 86.5,
-    whatsappNumber: WHATSAPP_NUMBER || "919876543210",
-    supportEmail: "support@badarsh.com",
+    whatsappNumber: WHATSAPP_NUMBER || "917204250115",
+    supportEmail: SUPPORT_EMAIL || "hello@badarsh.com",
     maintenanceMode: false,
     lastBackupAt: new Date().toISOString(),
   };
@@ -44,6 +49,81 @@ function getSeedDatabase(): AdminDatabase {
     status: "published",
     updatedAt: new Date().toISOString(),
   }));
+
+  const seededServices: AdminService[] = initialStaticServices.map((s) => ({
+    id: s.id,
+    slug: s.slug,
+    title: s.title,
+    description: s.description,
+    longDescription: s.longDescription,
+    icon: s.icon,
+    category: "Agency Creative",
+    status: "active",
+    turnaround: "48-72 Hours",
+    features: s.features,
+    packages: s.packages.map((pkg) => ({
+      name: pkg.name,
+      price: pkg.price,
+      currency: pkg.currency,
+      period: pkg.period,
+      description: pkg.description,
+      features: pkg.features,
+      isPopular: pkg.isPopular,
+      ctaText: pkg.ctaText,
+      whatsappMessage: pkg.whatsappMessage,
+    })),
+    updatedAt: new Date().toISOString(),
+  }));
+
+  const seededBlogPosts: AdminBlogPost[] = initialStaticBlogPosts.map((b) => ({
+    slug: b.slug,
+    title: b.title,
+    excerpt: b.excerpt,
+    content: b.content,
+    category: b.category,
+    author: b.author,
+    date: b.date,
+    readTime: b.readTime,
+    coverImage: b.coverImage,
+    tags: b.tags,
+    status: "published",
+    views: Math.floor(Math.random() * 800) + 200,
+    updatedAt: new Date().toISOString(),
+  }));
+
+  const seededCoupons: AdminCoupon[] = [
+    {
+      id: "cpn-001",
+      code: "LAUNCH50",
+      discountType: "percentage",
+      discountValue: 50,
+      minOrderAmount: 299,
+      usageCount: 142,
+      usageLimit: 500,
+      status: "active",
+      createdAt: new Date().toISOString(),
+    },
+    {
+      id: "cpn-002",
+      code: "CREATOR20",
+      discountType: "percentage",
+      discountValue: 20,
+      minOrderAmount: 0,
+      usageCount: 68,
+      status: "active",
+      createdAt: new Date().toISOString(),
+    },
+    {
+      id: "cpn-003",
+      code: "FLAT100",
+      discountType: "fixed",
+      discountValue: 100,
+      minOrderAmount: 499,
+      usageCount: 29,
+      status: "active",
+      createdAt: new Date().toISOString(),
+    },
+  ];
 
   const sampleLeads: LeadInquiry[] = [
     {
@@ -126,6 +206,8 @@ function getSeedDatabase(): AdminDatabase {
           title: "LinkedIn Carousel Templates",
           price: 399,
           quantity: 1,
+          productType: "canva-template",
+          downloadUrl: "https://www.canva.com/design/templates/sample-linkedin",
         },
       ],
       totalAmount: 399,
@@ -134,24 +216,29 @@ function getSeedDatabase(): AdminDatabase {
       paymentStatus: "completed",
       licenseKey: "BDRSH-LNKD-8821-X9",
       canvaAccessDelivered: true,
+      deliveryNotes: "Sent Canva direct access link via email & WhatsApp.",
       createdAt: new Date(Date.now() - 5 * 3600 * 1000).toISOString(),
     },
     {
       id: "ORD-94813",
       customerName: "Sneha Nair",
       customerEmail: "sneha.creatives@gmail.com",
+      customerPhone: "+91 97401 55667",
       items: [
         {
           id: "prod-001",
           title: "Instagram Reels Template Pack",
           price: 299,
           quantity: 1,
+          productType: "canva-template",
         },
         {
-          id: "prod-003",
-          title: "Ultimate Brand Identity Kit",
+          id: "prod-015",
+          title: "Viral Video SFX & Motion Overlay Bundle",
           price: 499,
           quantity: 1,
+          productType: "editing-bundle",
+          downloadUrl: "/downloads/viral-sfx-bundle.zip",
         },
       ],
       totalAmount: 798,
@@ -160,7 +247,30 @@ function getSeedDatabase(): AdminDatabase {
       paymentStatus: "completed",
       licenseKey: "BDRSH-BNDL-4412-M2",
       canvaAccessDelivered: true,
+      deliveryNotes: "Automated instant checkout delivery completed.",
       createdAt: new Date(Date.now() - 22 * 3600 * 1000).toISOString(),
+    },
+    {
+      id: "ORD-94814",
+      customerName: "Karthik Raja",
+      customerEmail: "karthik@rajafilms.in",
+      customerPhone: "+91 98400 99881",
+      items: [
+        {
+          id: "prod-016",
+          title: "Cinematic Mood & Warm Aesthetic Presets",
+          price: 299,
+          quantity: 1,
+          productType: "photo-preset",
+        },
+      ],
+      totalAmount: 299,
+      currency: "INR",
+      paymentMethod: "UPI",
+      paymentStatus: "completed",
+      licenseKey: "BDRSH-PRST-9912-K4",
+      canvaAccessDelivered: true,
+      createdAt: new Date(Date.now() - 32 * 3600 * 1000).toISOString(),
     },
   ];
 
@@ -168,13 +278,16 @@ function getSeedDatabase(): AdminDatabase {
     {
       id: "log-001",
       action: "SYSTEM_INITIALIZED",
-      details: "BADARSH Admin Operating System initialized with 30 seeded templates.",
+      details: "BADARSH Admin Operating System initialized with full digital catalog.",
       timestamp: new Date().toISOString(),
     },
   ];
 
   return {
     products: seededProducts,
+    services: seededServices,
+    blogPosts: seededBlogPosts,
+    coupons: seededCoupons,
     leads: sampleLeads,
     subscribers: sampleSubscribers,
     orders: sampleOrders,
@@ -188,7 +301,38 @@ export async function getDatabase(): Promise<AdminDatabase> {
 
   try {
     const raw = await fs.readFile(STORE_PATH, "utf8");
-    cachedDb = JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+
+    // Auto-backfill new collections if reading legacy JSON
+    const seed = getSeedDatabase();
+    let modified = false;
+
+    if (!parsed.services || !parsed.services.length) {
+      parsed.services = seed.services;
+      modified = true;
+    }
+    if (!parsed.blogPosts || !parsed.blogPosts.length) {
+      parsed.blogPosts = seed.blogPosts;
+      modified = true;
+    }
+    if (!parsed.coupons || !parsed.coupons.length) {
+      parsed.coupons = seed.coupons;
+      modified = true;
+    }
+    if (!parsed.products || !parsed.products.length) {
+      parsed.products = seed.products;
+      modified = true;
+    }
+
+    if (modified) {
+      try {
+        await fs.writeFile(STORE_PATH, JSON.stringify(parsed, null, 2), "utf8");
+      } catch {
+        // Safe in serverless
+      }
+    }
+
+    cachedDb = parsed;
     return cachedDb!;
   } catch {
     // Initialize file if not found
@@ -211,6 +355,27 @@ export async function saveDatabase(db: AdminDatabase): Promise<void> {
     await fs.writeFile(STORE_PATH, JSON.stringify(db, null, 2), "utf8");
   } catch (error) {
     console.warn("Failed to persist database to filesystem (serverless environment fallback):", error);
+  }
+}
+
+/* ---------------- Audit Log ---------------- */
+
+export async function addAuditLog(action: string, details: string): Promise<void> {
+  try {
+    const db = await getDatabase();
+    const newLog: AuditLog = {
+      id: `log-${Date.now().toString(36)}`,
+      action,
+      details,
+      timestamp: new Date().toISOString(),
+    };
+    db.auditLogs.unshift(newLog);
+    if (db.auditLogs.length > 100) {
+      db.auditLogs = db.auditLogs.slice(0, 100);
+    }
+    await saveDatabase(db);
+  } catch {
+    // Non-blocking
   }
 }
 
@@ -254,7 +419,7 @@ export async function saveAdminProduct(productData: Partial<AdminProduct> & { ti
         reviewCount: productData.reviewCount || 1,
         downloads: productData.downloads || 0,
         isFeatured: Boolean(productData.isFeatured),
-        isNew: true,
+        isNew: Boolean(productData.isNew ?? true),
         isBestseller: Boolean(productData.isBestseller),
         format: productData.format || "Canva Template",
         status: productData.status || "published",
@@ -294,6 +459,10 @@ export async function saveAdminProduct(productData: Partial<AdminProduct> & { ti
     db.products.unshift(product);
   }
 
+  await addAuditLog(
+    productData.id ? "PRODUCT_UPDATED" : "PRODUCT_CREATED",
+    `Product "${product.title}" saved with price ₹${product.price}`
+  );
   await saveDatabase(db);
   return product;
 }
@@ -301,8 +470,279 @@ export async function saveAdminProduct(productData: Partial<AdminProduct> & { ti
 export async function deleteAdminProduct(id: string): Promise<boolean> {
   const db = await getDatabase();
   const initialLength = db.products.length;
+  const target = db.products.find((p) => p.id === id);
   db.products = db.products.filter((p) => p.id !== id);
   if (db.products.length !== initialLength) {
+    await addAuditLog("PRODUCT_DELETED", `Product "${target?.title || id}" deleted`);
+    await saveDatabase(db);
+    return true;
+  }
+  return false;
+}
+
+/* ---------------- Services ---------------- */
+
+export async function getAdminServices(): Promise<AdminService[]> {
+  const db = await getDatabase();
+  return db.services || [];
+}
+
+export async function saveAdminService(serviceData: Partial<AdminService> & { title: string }): Promise<AdminService> {
+  const db = await getDatabase();
+  const now = new Date().toISOString();
+
+  let service: AdminService;
+
+  if (serviceData.id) {
+    const idx = db.services.findIndex((s) => s.id === serviceData.id);
+    if (idx >= 0) {
+      service = {
+        ...db.services[idx],
+        ...serviceData,
+        updatedAt: now,
+      };
+      db.services[idx] = service;
+    } else {
+      service = {
+        id: serviceData.id,
+        slug: serviceData.slug || serviceData.title.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+        title: serviceData.title,
+        description: serviceData.description || "",
+        longDescription: serviceData.longDescription || "",
+        icon: serviceData.icon || "Sparkles",
+        category: serviceData.category || "Agency Creative",
+        status: serviceData.status || "active",
+        turnaround: serviceData.turnaround || "48-72 Hours",
+        features: serviceData.features || [],
+        packages: serviceData.packages || [],
+        updatedAt: now,
+      };
+      db.services.push(service);
+    }
+  } else {
+    const newId = `svc-${Date.now().toString(36)}`;
+    service = {
+      id: newId,
+      slug: serviceData.slug || serviceData.title.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+      title: serviceData.title,
+      description: serviceData.description || "",
+      longDescription: serviceData.longDescription || "",
+      icon: serviceData.icon || "Sparkles",
+      category: serviceData.category || "Agency Creative",
+      status: serviceData.status || "active",
+      turnaround: serviceData.turnaround || "48-72 Hours",
+      features: serviceData.features || [],
+      packages: serviceData.packages || [],
+      updatedAt: now,
+    };
+    db.services.push(service);
+  }
+
+  await addAuditLog(
+    serviceData.id ? "SERVICE_UPDATED" : "SERVICE_CREATED",
+    `Service "${service.title}" updated`
+  );
+  await saveDatabase(db);
+  return service;
+}
+
+export async function deleteAdminService(id: string): Promise<boolean> {
+  const db = await getDatabase();
+  const initialLength = db.services.length;
+  const target = db.services.find((s) => s.id === id);
+  db.services = db.services.filter((s) => s.id !== id);
+  if (db.services.length !== initialLength) {
+    await addAuditLog("SERVICE_DELETED", `Service "${target?.title || id}" deleted`);
+    await saveDatabase(db);
+    return true;
+  }
+  return false;
+}
+
+/* ---------------- Blog Posts ---------------- */
+
+export async function getAdminBlogPosts(): Promise<AdminBlogPost[]> {
+  const db = await getDatabase();
+  return db.blogPosts || [];
+}
+
+export async function saveAdminBlogPost(postData: Partial<AdminBlogPost> & { title: string }): Promise<AdminBlogPost> {
+  const db = await getDatabase();
+  const now = new Date().toISOString();
+
+  let post: AdminBlogPost;
+  const slug = postData.slug || postData.title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+  const idx = db.blogPosts.findIndex((b) => b.slug === slug);
+  if (idx >= 0) {
+    post = {
+      ...db.blogPosts[idx],
+      ...postData,
+      slug,
+      updatedAt: now,
+    };
+    db.blogPosts[idx] = post;
+  } else {
+    post = {
+      slug,
+      title: postData.title,
+      excerpt: postData.excerpt || "",
+      content: postData.content || "",
+      category: postData.category || "Creative Insights",
+      author: postData.author || "BADARSH Editorial",
+      date: postData.date || new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
+      readTime: postData.readTime || "5 min read",
+      coverImage: postData.coverImage || "/images/blog/canva-hacks.png",
+      tags: postData.tags || ["Business", "Growth"],
+      status: postData.status || "published",
+      views: postData.views || 0,
+      updatedAt: now,
+    };
+    db.blogPosts.unshift(post);
+  }
+
+  await addAuditLog("BLOG_SAVED", `Blog post "${post.title}" saved`);
+  await saveDatabase(db);
+  return post;
+}
+
+export async function deleteAdminBlogPost(slug: string): Promise<boolean> {
+  const db = await getDatabase();
+  const initialLength = db.blogPosts.length;
+  db.blogPosts = db.blogPosts.filter((b) => b.slug !== slug);
+  if (db.blogPosts.length !== initialLength) {
+    await addAuditLog("BLOG_DELETED", `Blog post "${slug}" deleted`);
+    await saveDatabase(db);
+    return true;
+  }
+  return false;
+}
+
+/* ---------------- Orders ---------------- */
+
+export async function getAdminOrders(): Promise<OrderRecord[]> {
+  const db = await getDatabase();
+  return db.orders || [];
+}
+
+export async function saveAdminOrder(orderData: Partial<OrderRecord> & { customerName: string; totalAmount: number }): Promise<OrderRecord> {
+  const db = await getDatabase();
+  const now = new Date().toISOString();
+
+  let order: OrderRecord;
+
+  if (orderData.id) {
+    const idx = db.orders.findIndex((o) => o.id === orderData.id);
+    if (idx >= 0) {
+      order = {
+        ...db.orders[idx],
+        ...orderData,
+        updatedAt: now,
+      };
+      db.orders[idx] = order;
+    } else {
+      order = {
+        ...orderData,
+        id: orderData.id,
+        customerEmail: orderData.customerEmail || "",
+        items: orderData.items || [],
+        currency: orderData.currency || "INR",
+        paymentMethod: orderData.paymentMethod || "UPI",
+        paymentStatus: orderData.paymentStatus || "completed",
+        licenseKey: orderData.licenseKey || `BDRSH-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
+        canvaAccessDelivered: Boolean(orderData.canvaAccessDelivered ?? true),
+        createdAt: now,
+        updatedAt: now,
+      } as OrderRecord;
+      db.orders.unshift(order);
+    }
+  } else {
+    const newId = `ORD-${Math.floor(10000 + Math.random() * 90000)}`;
+    order = {
+      id: newId,
+      customerName: orderData.customerName,
+      customerEmail: orderData.customerEmail || "",
+      customerPhone: orderData.customerPhone || "",
+      items: orderData.items || [],
+      totalAmount: orderData.totalAmount,
+      currency: orderData.currency || "INR",
+      paymentMethod: orderData.paymentMethod || "UPI",
+      paymentStatus: orderData.paymentStatus || "completed",
+      licenseKey: `BDRSH-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
+      canvaAccessDelivered: Boolean(orderData.canvaAccessDelivered ?? true),
+      deliveryNotes: orderData.deliveryNotes || "Manual founder creation",
+      createdAt: now,
+      updatedAt: now,
+    };
+    db.orders.unshift(order);
+  }
+
+  await addAuditLog("ORDER_SAVED", `Order ${order.id} for ${order.customerName} (₹${order.totalAmount}) saved`);
+  await saveDatabase(db);
+  return order;
+}
+
+export async function deleteAdminOrder(id: string): Promise<boolean> {
+  const db = await getDatabase();
+  const initialLength = db.orders.length;
+  db.orders = db.orders.filter((o) => o.id !== id);
+  if (db.orders.length !== initialLength) {
+    await addAuditLog("ORDER_DELETED", `Order ${id} deleted`);
+    await saveDatabase(db);
+    return true;
+  }
+  return false;
+}
+
+/* ---------------- Coupons ---------------- */
+
+export async function getAdminCoupons(): Promise<AdminCoupon[]> {
+  const db = await getDatabase();
+  return db.coupons || [];
+}
+
+export async function saveAdminCoupon(couponData: Partial<AdminCoupon> & { code: string; discountValue: number }): Promise<AdminCoupon> {
+  const db = await getDatabase();
+  const now = new Date().toISOString();
+  const code = couponData.code.toUpperCase().trim();
+
+  let coupon: AdminCoupon;
+  const idx = db.coupons.findIndex((c) => c.code === code || (couponData.id && c.id === couponData.id));
+
+  if (idx >= 0) {
+    coupon = {
+      ...db.coupons[idx],
+      ...couponData,
+      code,
+    };
+    db.coupons[idx] = coupon;
+  } else {
+    coupon = {
+      id: `cpn-${Date.now().toString(36)}`,
+      code,
+      discountType: couponData.discountType || "percentage",
+      discountValue: couponData.discountValue,
+      minOrderAmount: couponData.minOrderAmount || 0,
+      usageCount: 0,
+      usageLimit: couponData.usageLimit,
+      expiresAt: couponData.expiresAt,
+      status: couponData.status || "active",
+      createdAt: now,
+    };
+    db.coupons.unshift(coupon);
+  }
+
+  await addAuditLog("COUPON_SAVED", `Coupon "${coupon.code}" (${coupon.discountValue}${coupon.discountType === "percentage" ? "%" : "₹"}) saved`);
+  await saveDatabase(db);
+  return coupon;
+}
+
+export async function deleteAdminCoupon(id: string): Promise<boolean> {
+  const db = await getDatabase();
+  const initialLength = db.coupons.length;
+  db.coupons = db.coupons.filter((c) => c.id !== id);
+  if (db.coupons.length !== initialLength) {
+    await addAuditLog("COUPON_DELETED", `Coupon ${id} deleted`);
     await saveDatabase(db);
     return true;
   }
@@ -334,6 +774,7 @@ export async function addLead(data: {
     updatedAt: now,
   };
   db.leads.unshift(newLead);
+  await addAuditLog("LEAD_RECEIVED", `Inbound lead from ${newLead.name} for ${newLead.interest}`);
   await saveDatabase(db);
   return newLead;
 }
@@ -357,6 +798,7 @@ export async function deleteLead(id: string): Promise<boolean> {
   const len = db.leads.length;
   db.leads = db.leads.filter((l) => l.id !== id);
   if (db.leads.length !== len) {
+    await addAuditLog("LEAD_DELETED", `Lead ${id} deleted`);
     await saveDatabase(db);
     return true;
   }
@@ -383,6 +825,7 @@ export async function addSubscriber(email: string, source = "Website"): Promise<
     createdAt: new Date().toISOString(),
   };
   db.subscribers.unshift(newSub);
+  await addAuditLog("SUBSCRIBER_JOINED", `New newsletter subscriber: ${email}`);
   await saveDatabase(db);
   return newSub;
 }
@@ -398,13 +841,6 @@ export async function deleteSubscriber(id: string): Promise<boolean> {
   return false;
 }
 
-/* ---------------- Orders ---------------- */
-
-export async function getOrders(): Promise<OrderRecord[]> {
-  const db = await getDatabase();
-  return db.orders;
-}
-
 /* ---------------- Settings ---------------- */
 
 export async function getSystemSettings(): Promise<SystemSettings> {
@@ -418,6 +854,7 @@ export async function updateSystemSettings(updates: Partial<SystemSettings>): Pr
     ...db.settings,
     ...updates,
   };
+  await addAuditLog("SETTINGS_UPDATED", "System global settings updated");
   await saveDatabase(db);
   return db.settings;
 }
@@ -439,6 +876,9 @@ export async function getExecutiveHUD() {
   const totalLeadsCount = db.leads.length;
 
   const totalSubscribersCount = db.subscribers.filter((s) => s.status === "active").length;
+  const activeServicesCount = (db.services || []).filter((s) => s.status === "active").length;
+  const publishedBlogCount = (db.blogPosts || []).filter((b) => b.status === "published").length;
+  const activeCouponsCount = (db.coupons || []).filter((c) => c.status === "active").length;
 
   return {
     metrics: {
@@ -446,6 +886,10 @@ export async function getExecutiveHUD() {
       totalDownloads,
       publishedProducts,
       totalProducts,
+      activeServicesCount,
+      publishedBlogCount,
+      activeCouponsCount,
+      totalOrdersCount: db.orders.length,
       newLeadsCount,
       totalLeadsCount,
       totalSubscribersCount,
@@ -453,7 +897,7 @@ export async function getExecutiveHUD() {
     recentLeads: db.leads.slice(0, 5),
     recentOrders: db.orders.slice(0, 5),
     recentSubscribers: db.subscribers.slice(0, 5),
+    recentLogs: db.auditLogs.slice(0, 6),
     settings: db.settings,
   };
 }
-
