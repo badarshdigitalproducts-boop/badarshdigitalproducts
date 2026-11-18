@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Star, Download, Sparkles, ArrowUpRight, Eye } from "lucide-react";
+import { Star, Download, Sparkles, ArrowUpRight, Eye, Play, X } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { TemplatePreviewModal } from "./template-preview-modal";
@@ -18,6 +18,8 @@ export function ProductCard({ product }: ProductCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const discountPercent =
     product.originalPrice && product.originalPrice > product.price
@@ -51,6 +53,8 @@ export function ProductCard({ product }: ProductCardProps) {
     router.push(`/templates/${product.slug}`);
   };
 
+  const coverImg = product.images?.[0];
+
   return (
     <>
       <motion.div
@@ -68,23 +72,50 @@ export function ProductCard({ product }: ProductCardProps) {
             )} transition-transform duration-500 group-hover:scale-105`}
           />
 
-          {/* Template Card Art Frame */}
-          <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
-            <div className="rounded-xl border border-card-border bg-card/90 p-4 shadow-sm backdrop-blur-md transition-all duration-300 group-hover:border-accent/40 group-hover:shadow-md">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-accent">
-                {product.format}
-              </span>
-              <p className="mt-1 line-clamp-1 font-heading text-sm font-bold text-foreground">
-                {product.title}
-              </p>
-              <span className="mt-1 block text-[10px] text-muted">
-                {product.specs?.count || product.format} &bull; {product.specs?.dimensions || "HD Resolution"}
-              </span>
+          {/* Actual Product Image if available */}
+          {coverImg && !imageError ? (
+            <img
+              src={coverImg}
+              alt={product.title}
+              onError={() => setImageError(true)}
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          ) : (
+            /* Template Card Art Frame Fallback */
+            <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
+              <div className="rounded-xl border border-card-border bg-card/90 p-4 shadow-sm backdrop-blur-md transition-all duration-300 group-hover:border-accent/40 group-hover:shadow-md">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-accent">
+                  {product.format}
+                </span>
+                <p className="mt-1 line-clamp-1 font-heading text-sm font-bold text-foreground">
+                  {product.title}
+                </p>
+                <span className="mt-1 block text-[10px] text-muted">
+                  {product.specs?.count || product.format} &bull; {product.specs?.dimensions || "HD Resolution"}
+                </span>
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Video Demo Button if product has video preview */}
+          {product.videoUrl && (
+            <div className="absolute bottom-3 left-3 z-10">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setVideoModalOpen(true);
+                }}
+                aria-label={`Watch video preview for ${product.title}`}
+                className="flex cursor-pointer items-center gap-1.5 rounded-full border border-white/20 bg-black/80 px-3 py-1.5 text-xs font-bold text-white shadow-lg backdrop-blur-md transition-all hover:bg-accent hover:scale-105 active:scale-95"
+              >
+                <Play className="h-3 w-3 fill-white" />
+                <span>Video Demo</span>
+              </button>
+            </div>
+          )}
 
           {/* Quick Preview Hover Trigger */}
-          <div className="absolute bottom-3 right-3 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+          <div className="absolute bottom-3 right-3 opacity-0 transition-opacity duration-200 group-hover:opacity-100 z-10">
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -181,7 +212,13 @@ export function ProductCard({ product }: ProductCardProps) {
                 <span
                   className="flex items-center gap-1 rounded-xl bg-accent px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition-all duration-200 group-hover:bg-accent-hover group-hover:shadow"
                 >
-                  Get Template
+                  {product.category.includes("editing")
+                    ? "View Bundle"
+                    : product.category.includes("preset")
+                    ? "Get Presets"
+                    : product.category === "ebooks"
+                    ? "Read Playbook"
+                    : "Get Asset"}
                   <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </span>
               </div>
@@ -195,6 +232,59 @@ export function ProductCard({ product }: ProductCardProps) {
         isOpen={previewOpen}
         onClose={() => setPreviewOpen(false)}
       />
+
+      {/* Video Demo Modal */}
+      {videoModalOpen && product.videoUrl && (
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            setVideoModalOpen(false);
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-md animate-fadeIn"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-3xl overflow-hidden rounded-2xl border border-white/20 bg-zinc-950 shadow-2xl"
+          >
+            <div className="flex items-center justify-between border-b border-zinc-800 px-5 py-3.5">
+              <div className="flex items-center gap-2">
+                <Play className="h-4 w-4 text-[#FF5A36] fill-[#FF5A36]" />
+                <h4 className="font-heading text-sm font-bold text-white">
+                  {product.title} &bull; Video Demo
+                </h4>
+              </div>
+              <button
+                onClick={() => setVideoModalOpen(false)}
+                className="cursor-pointer rounded-full p-1.5 text-zinc-400 hover:bg-zinc-800 hover:text-white"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <div className="aspect-video w-full bg-black">
+              {product.videoUrl.includes("youtube.com") || product.videoUrl.includes("youtu.be") ? (
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${
+                    product.videoUrl.includes("v=")
+                      ? product.videoUrl.split("v=")[1]?.split("&")[0]
+                      : product.videoUrl.split("/").pop()
+                  }?autoplay=1`}
+                  title={product.title}
+                  className="h-full w-full border-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <video
+                  controls
+                  autoPlay
+                  src={product.videoUrl}
+                  className="h-full w-full object-contain"
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -4,10 +4,9 @@
       "id": "prod-001",
       "slug": "instagram-reels-template-pack",
       "title": "Instagram Reels Template Pack",
-      "description": "50+ trendy Instagram Reels cover templates designed for creators, influencers & small businesses. Fully editable in Canva.",
-      "longDescription": "Elevate your Instagram game with our premium Reels template pack. Featuring 50+ professionally designed covers that match the latest trends — from aesthetic minimalism to bold typography. Each template is fully customizable in Canva Free, so you can swap colors, fonts, and images in minutes. Perfect for content creators, coaches, influencers, and small business owners who want a cohesive, scroll-stopping feed.",
+      "description": "50+ trendy Instagram Reels cover & story templates designed for creators, coaches & modern brands. Fully editable in Canva Free.",
+      "longDescription": "Elevate your Instagram game with our premium Reels template pack. Featuring 50+ professionally designed covers and hook slides that match current aesthetic trends — from architectural minimalism to bold high-contrast typography. Each template is fully customizable in Canva Free, so you can swap colors, fonts, and images in seconds without watermarks.",
       "price": 299,
-      "originalPrice": 599,
       "currency": "INR",
       "category": "social-media",
       "tags": [
@@ -18,18 +17,23 @@
         "social media"
       ],
       "images": [
-        "/images/products/product-1.png",
-        "/images/products/product-1-2.png"
+        "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80",
+        "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=70"
       ],
       "features": [
         "50+ unique Reels cover designs",
-        "Fully editable in Canva Free",
-        "Drag-and-drop customization",
-        "Trendy fonts & color palettes included",
-        "Instant download — PNG & Canva links",
-        "Free lifetime updates"
+        "100% editable in Canva Free (no Pro required)",
+        "Instant drag-and-drop customization",
+        "High-contrast mobile typography layouts",
+        "Instant download: Direct Canva links & PNGs",
+        "Commercial license included for client work"
       ],
-      "rating": 4.8,
+      "specs": {
+        "count": "50+ Reels Templates",
+        "dimensions": "1080x1920 (9:16 Vertical HD)",
+        "compatibility": "Canva Free & Pro"
+      },
+      "rating": 4.9,
       "reviewCount": 124,
       "downloads": 1850,
       "isFeatured": true,
@@ -37,21 +41,22 @@
       "isBestseller": true,
       "format": "Canva Template",
       "fileSize": "12 MB",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4",
+      "downloadUrl": "https://badarsh.com/downloads/instagram-reels-template-pack.zip",
       "gumroadUrl": "https://badarsh.gumroad.com/l/reels-pack",
       "createdAt": "2025-03-15",
+      "deliveryType": "download-url",
       "canvaUrl": "https://badarsh.gumroad.com/l/reels-pack",
-      "downloadUrl": "/downloads/instagram-reels-template-pack.zip",
       "status": "published",
-      "updatedAt": "2026-11-17T18:37:56.489Z"
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "id": "prod-002",
       "slug": "linkedin-carousel-templates",
       "title": "LinkedIn Carousel Templates",
-      "description": "30 professional LinkedIn carousel templates to grow your personal brand, drive engagement & generate leads.",
-      "longDescription": "Stand out on LinkedIn with our curated carousel template pack. Designed for thought leaders, founders, and marketers, these 30 templates follow proven engagement patterns — storytelling hooks, data visuals, and clear CTAs. Each slide is editable in Canva and optimized for LinkedIn's algorithm with the ideal aspect ratio and text density.",
+      "description": "30 professional LinkedIn carousel templates (10 slides each) to grow your personal brand, drive engagement & generate inbound leads.",
+      "longDescription": "Stand out on LinkedIn with our curated carousel template pack. Designed for founders, advisors, and B2B marketers, these 30 templates follow proven engagement patterns — storytelling hooks, comparison frameworks, data visuals, and clear call-to-actions. Each slide is editable in Canva Free and optimized for LinkedIn's 4:5 portrait viewing ratio.",
       "price": 399,
-      "originalPrice": 799,
       "currency": "INR",
       "category": "social-media",
       "tags": [
@@ -62,17 +67,22 @@
         "B2B"
       ],
       "images": [
-        "/images/products/product-2.png",
-        "/images/products/product-2-2.png"
+        "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&q=80",
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80"
       ],
       "features": [
-        "30 carousel templates (10 slides each)",
-        "Proven engagement frameworks",
-        "Data visualization slides included",
-        "Editable in Canva Free",
-        "Brand color customization guide",
+        "30 carousel templates (10 slides each, 300 total slides)",
+        "Proven swipe retention frameworks",
+        "Data visualization & quote slides included",
+        "100% editable in Canva Free",
+        "Brand color customization in 1 click",
         "Bonus: 10 hook headlines that convert"
       ],
+      "specs": {
+        "count": "30 Carousel Packs (10 Slides Each)",
+        "dimensions": "1080x1350 (4:5 Portrait Ratio)",
+        "compatibility": "Canva Free & Pro"
+      },
       "rating": 4.9,
       "reviewCount": 89,
       "downloads": 1230,
@@ -81,21 +91,21 @@
       "isBestseller": true,
       "format": "Canva Template",
       "fileSize": "18 MB",
+      "downloadUrl": "https://badarsh.com/downloads/linkedin-carousel-templates.zip",
       "gumroadUrl": "https://badarsh.gumroad.com/l/linkedin-carousel",
       "createdAt": "2025-05-20",
+      "deliveryType": "download-url",
       "canvaUrl": "https://badarsh.gumroad.com/l/linkedin-carousel",
-      "downloadUrl": "/downloads/linkedin-carousel-templates.zip",
       "status": "published",
-      "updatedAt": "2026-11-17T18:37:56.489Z"
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "id": "prod-003",
       "slug": "social-media-starter-kit",
       "title": "Social Media Starter Kit",
-      "description": "Complete social media template kit with 100+ designs for Instagram, Facebook, Pinterest & LinkedIn stories and posts.",
-      "longDescription": "Everything you need to launch a professional social media presence in one pack. This starter kit includes 100+ templates across Instagram posts, stories, Facebook covers, Pinterest pins, and LinkedIn banners. Designed with a cohesive aesthetic so your brand looks polished on every platform. Just open in Canva, drop in your brand colors, and publish.",
+      "description": "Complete social media template kit with 100+ designs for Instagram, Facebook, Pinterest & LinkedIn stories, posts, and banners.",
+      "longDescription": "Everything you need to launch a professional social media presence in one cohesive pack. Includes 100+ templates spanning square posts, vertical stories, banners, and pin graphics. Designed with a consistent visual system so your business looks authoritative across every platform. Just open in Canva Free and add your brand identity.",
       "price": 499,
-      "originalPrice": 999,
       "currency": "INR",
       "category": "social-media",
       "tags": [
@@ -111,14 +121,19 @@
         "/images/products/product-3-2.png"
       ],
       "features": [
-        "100+ templates across 4 platforms",
-        "Instagram posts, stories & highlights",
-        "Facebook covers & event banners",
+        "100+ templates across 4 major platforms",
+        "Instagram square posts & story highlights",
+        "Facebook covers & event headers",
         "Pinterest pin templates",
-        "LinkedIn banners & post templates",
-        "Brand style guide included"
+        "LinkedIn banner and post graphics",
+        "Brand style guidelines sheet included"
       ],
-      "rating": 4.7,
+      "specs": {
+        "count": "100+ Multi-Platform Templates",
+        "dimensions": "1080x1080 Square & 1080x1920 Stories",
+        "compatibility": "Canva Free & Pro"
+      },
+      "rating": 4.8,
       "reviewCount": 203,
       "downloads": 2940,
       "isFeatured": false,
@@ -128,19 +143,19 @@
       "fileSize": "35 MB",
       "gumroadUrl": "https://badarsh.gumroad.com/l/social-starter",
       "createdAt": "2025-01-10",
+      "deliveryType": "download-url",
       "canvaUrl": "https://badarsh.gumroad.com/l/social-starter",
       "downloadUrl": "/downloads/social-media-starter-kit.zip",
       "status": "published",
-      "updatedAt": "2026-11-17T18:37:56.489Z"
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "id": "prod-004",
       "slug": "modern-pitch-deck-template",
       "title": "Modern Pitch Deck Template",
-      "description": "Investor-ready pitch deck with 25 slides, data charts, mockups and a clean modern layout. Canva & PowerPoint.",
-      "longDescription": "Win over investors with a pitch deck that looks like a million dollars. This modern template includes 25 carefully structured slides following the proven pitch sequence — problem, solution, market, traction, team, and ask. Includes animated chart placeholders, device mockups, and a consistent visual hierarchy that keeps your audience focused on your story.",
+      "description": "Investor-ready pitch deck with 25 slides, financial data charts, device mockups and clean modern layout. Canva & PowerPoint.",
+      "longDescription": "Present to investors and enterprise clients with confidence. This modern template includes 25 carefully structured slides following the standard venture sequence — problem, solution, market size, traction, business model, team, and funding ask. Includes device mockups, chart placeholders, and clear hierarchy that keeps audiences focused.",
       "price": 349,
-      "originalPrice": 699,
       "currency": "INR",
       "category": "presentations",
       "tags": [
@@ -155,384 +170,620 @@
         "/images/products/product-4-2.png"
       ],
       "features": [
-        "25 slide layouts",
-        "Proven pitch deck structure",
-        "Data charts & infographics",
-        "Device mockup slides",
-        "Available in Canva & PowerPoint",
-        "Dark & light variants included"
+        "25 structured investor slide layouts",
+        "Problem-Solution-Market-Traction sequence",
+        "Editable data charts & KPI callouts",
+        "Realistic laptop & mobile mockups",
+        "Available in Canva Free & PowerPoint (.pptx)",
+        "Dark & light slide variants included"
       ],
+      "specs": {
+        "count": "25 Master Slides",
+        "dimensions": "1920x1080 (16:9 Widescreen Full HD)",
+        "compatibility": "Canva Free & PowerPoint"
+      },
       "rating": 4.9,
       "reviewCount": 67,
       "downloads": 890,
       "isFeatured": true,
-      "isNew": true,
-      "isBestseller": false,
+      "isNew": false,
+      "isBestseller": true,
       "format": "Canva & PPTX",
-      "fileSize": "22 MB",
+      "fileSize": "24 MB",
       "gumroadUrl": "https://badarsh.gumroad.com/l/pitch-deck",
-      "createdAt": "2025-08-05",
+      "createdAt": "2025-04-12",
+      "deliveryType": "download-url",
       "canvaUrl": "https://badarsh.gumroad.com/l/pitch-deck",
       "downloadUrl": "/downloads/modern-pitch-deck-template.zip",
       "status": "published",
-      "updatedAt": "2026-11-17T18:37:56.489Z"
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "id": "prod-005",
-      "slug": "webinar-presentation-template",
-      "title": "Webinar & Workshop Presentation",
-      "description": "Professional webinar slide deck with 30 layouts for online courses, workshops, and training sessions.",
-      "longDescription": "Deliver online sessions that keep attendees engaged from start to finish. This template pack features 30 purpose-built slide layouts: title slides, agenda, content breakdowns, Q&A, polls, takeaway summaries, and CTAs. The clean, spacious design ensures readability on screens of all sizes, from desktop monitors to mobile phones.",
-      "price": 249,
-      "originalPrice": 499,
+      "slug": "webinar-slide-deck",
+      "title": "Webinar & Keynote Slide Deck",
+      "description": "40 dynamic presentation slides designed to keep webinar attendees engaged from intro to your high-converting offer.",
+      "longDescription": "Host workshops, client presentations, and online webinars that convert. Packed with 40 presentation slides built around educational retention — framework diagrams, step-by-step processes, case study spotlights, and irresistible pricing tables. Fully editable in Canva Free with drag-and-drop flexibility.",
+      "price": 299,
       "currency": "INR",
       "category": "presentations",
       "tags": [
         "webinar",
+        "keynote",
         "workshop",
-        "presentation",
-        "online course",
-        "training"
+        "slides",
+        "presentation"
       ],
       "images": [
         "/images/products/product-5.png",
         "/images/products/product-5-2.png"
       ],
       "features": [
-        "30 webinar-optimized slide layouts",
-        "Agenda & timeline templates",
-        "Interactive Q&A & poll slides",
-        "Speaker intro & bio slides",
-        "CTA & upsell slide templates",
-        "Canva & Google Slides compatible"
+        "40 interactive webinar slides",
+        "Framework & process flow diagrams",
+        "Case study & testimonial layouts",
+        "Offer stack & pricing announcement slides",
+        "Presenter notes & timing guide included"
       ],
-      "rating": 4.6,
-      "reviewCount": 45,
+      "specs": {
+        "count": "40 Presentation Slides",
+        "dimensions": "1920x1080 (16:9 Widescreen Full HD)",
+        "compatibility": "Canva Free & Pro"
+      },
+      "rating": 4.8,
+      "reviewCount": 42,
       "downloads": 620,
       "isFeatured": false,
-      "isNew": true,
+      "isNew": false,
       "isBestseller": false,
-      "format": "Canva & Google Slides",
-      "fileSize": "19 MB",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/webinar-slides",
-      "createdAt": "2025-09-12",
-      "canvaUrl": "https://badarsh.gumroad.com/l/webinar-slides",
-      "downloadUrl": "/downloads/webinar-presentation-template.zip",
+      "format": "Canva Template",
+      "fileSize": "20 MB",
+      "gumroadUrl": "https://badarsh.gumroad.com/l/webinar-deck",
+      "createdAt": "2025-06-01",
+      "deliveryType": "download-url",
+      "canvaUrl": "https://badarsh.gumroad.com/l/webinar-deck",
+      "downloadUrl": "/downloads/webinar-slide-deck.zip",
       "status": "published",
-      "updatedAt": "2026-11-17T18:37:56.489Z"
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "id": "prod-006",
-      "slug": "complete-brand-identity-kit",
-      "title": "Complete Brand Identity Kit",
-      "description": "All-in-one branding kit with logo templates, brand guidelines, social media assets, stationery & packaging mockups.",
-      "longDescription": "Build a cohesive brand from scratch in a single afternoon. This comprehensive branding kit includes 15 logo template variations, a complete brand guideline document, social media profile assets, letterhead, invoice, and packaging mockup templates. Perfect for freelancers, startups, and small businesses who want to look professional without hiring an agency.",
-      "price": 799,
-      "originalPrice": 1499,
+      "slug": "ultimate-brand-identity-kit",
+      "title": "Ultimate Brand Identity Kit",
+      "description": "Complete branding system: 40+ logo variations, brand guideline template, color palettes, and typography pairing cheat-sheet.",
+      "longDescription": "Build a cohesive corporate identity without hiring an expensive branding agency. This kit includes 40+ modular logo marks, a 16-page brand guideline book, font pairing recommendations from Google Fonts, and modern color palette combinations. Everything is set up for instant customization in Canva Free.",
+      "price": 499,
       "currency": "INR",
       "category": "branding",
       "tags": [
         "branding",
         "logo",
-        "brand identity",
         "brand guidelines",
-        "business"
+        "identity",
+        "style guide"
       ],
       "images": [
         "/images/products/product-6.png",
         "/images/products/product-6-2.png"
       ],
       "features": [
-        "15 logo template variations",
-        "Brand guidelines document template",
-        "Social media profile & cover assets",
-        "Business stationery (letterhead, invoice)",
-        "Packaging & label mockups",
-        "Color palette & typography guide"
+        "40+ customizable logo concepts",
+        "16-page brand style guideline book",
+        "10 curated color palettes with HEX codes",
+        "Free commercial font pairing cheat-sheet",
+        "Vector SVG and PNG exports supported"
       ],
-      "rating": 4.8,
-      "reviewCount": 156,
-      "downloads": 1680,
+      "specs": {
+        "count": "40+ Brand Assets & 16-Page Guide",
+        "dimensions": "Vector & Print Ready (A4 Guidelines)",
+        "compatibility": "Canva Free & Pro"
+      },
+      "rating": 4.9,
+      "reviewCount": 95,
+      "downloads": 1450,
       "isFeatured": true,
       "isNew": false,
       "isBestseller": true,
-      "format": "Canva & AI/EPS",
-      "fileSize": "45 MB",
+      "format": "Canva & Vector",
+      "fileSize": "28 MB",
       "gumroadUrl": "https://badarsh.gumroad.com/l/brand-kit",
-      "createdAt": "2025-02-28",
+      "createdAt": "2025-02-18",
+      "deliveryType": "download-url",
       "canvaUrl": "https://badarsh.gumroad.com/l/brand-kit",
-      "downloadUrl": "/downloads/complete-brand-identity-kit.zip",
+      "downloadUrl": "/downloads/ultimate-brand-identity-kit.zip",
       "status": "published",
-      "updatedAt": "2026-11-17T18:37:56.489Z"
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "id": "prod-007",
-      "slug": "premium-business-card-collection",
-      "title": "Premium Business Card Collection",
-      "description": "40 modern business card designs for professionals, agencies, and creatives. Print-ready with bleed marks.",
-      "longDescription": "Make a lasting first impression with our premium business card collection. Featuring 40 unique designs across modern, minimalist, creative, and corporate styles. Every card is print-ready at 300 DPI with proper bleed marks and safe zones. Editable in Canva — just add your details and send to any online or local printer.",
+      "slug": "luxury-business-card-collection",
+      "title": "Luxury Business Card Collection",
+      "description": "20 double-sided luxury business card designs with QR code & NFC placement zones. Ready for local printing.",
+      "longDescription": "Make an unforgettable in-person impression. Features 20 double-sided business card templates ranging from ultra-clean minimalism to dark luxury aesthetics. Set up with standard 3.5\" x 2\" print dimensions, bleed margins, and designated zones for digital QR contact cards or NFC integration.",
       "price": 199,
-      "originalPrice": 399,
       "currency": "INR",
       "category": "business-cards",
       "tags": [
         "business cards",
-        "print",
-        "professional",
-        "networking",
-        "canva"
+        "stationery",
+        "print ready",
+        "luxury",
+        "nfc"
       ],
       "images": [
         "/images/products/product-7.png",
         "/images/products/product-7-2.png"
       ],
       "features": [
-        "40 unique business card designs",
-        "Print-ready 300 DPI quality",
-        "Proper bleed marks & safe zones",
-        "Front & back designs",
-        "Modern, minimal & creative styles",
-        "Editable in Canva Free"
+        "20 double-sided card designs",
+        "Standard 3.5 x 2 inch print bleed setup",
+        "QR code & digital contact placeholders",
+        "Vertical & horizontal card layouts",
+        "Print-ready PDF export setup guide"
       ],
-      "rating": 4.5,
-      "reviewCount": 92,
-      "downloads": 1340,
+      "specs": {
+        "count": "20 Double-Sided Layouts",
+        "dimensions": "3.5\" x 2\" Standard Print + 300 DPI Bleed",
+        "compatibility": "Canva Free (Print Ready)"
+      },
+      "rating": 4.7,
+      "reviewCount": 56,
+      "downloads": 780,
       "isFeatured": false,
       "isNew": false,
       "isBestseller": false,
-      "format": "Canva & PDF",
+      "format": "Canva Template",
       "fileSize": "8 MB",
       "gumroadUrl": "https://badarsh.gumroad.com/l/business-cards",
-      "createdAt": "2025-04-18",
+      "createdAt": "2025-04-05",
+      "deliveryType": "download-url",
       "canvaUrl": "https://badarsh.gumroad.com/l/business-cards",
-      "downloadUrl": "/downloads/premium-business-card-collection.zip",
+      "downloadUrl": "/downloads/luxury-business-card-collection.zip",
       "status": "published",
-      "updatedAt": "2026-11-17T18:37:56.489Z"
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "id": "prod-008",
-      "slug": "ultimate-digital-creator-bundle",
-      "title": "Ultimate Digital Creator Bundle",
-      "description": "Mega bundle: 500+ templates covering social media, presentations, branding, planners & business cards. Best value pack.",
-      "longDescription": "The only template bundle you will ever need. Get instant access to 500+ premium templates across every category — social media posts, stories and carousels, pitch decks and webinar slides, complete branding kits, digital planners, and business cards. Individually valued at ₹4,999, this mega bundle saves you over 80% and includes free lifetime updates whenever new templates are added.",
+      "slug": "business-launch-bundle",
+      "title": "Business Launch Mega Bundle",
+      "description": "Our entire digital catalog in one comprehensive package: 200+ templates spanning social media, pitch decks, brand kits & cards.",
+      "longDescription": "The ultimate shortcut for founders launching a new venture. Get immediate access to our 5 bestselling collections in one bundled package: Instagram Reels Pack, LinkedIn Carousel Pack, Pitch Deck Template, Brand Identity Kit, and Business Card Collection. Save over 60% compared to purchasing individually.",
       "price": 999,
-      "originalPrice": 4999,
+      "originalPrice": 2490,
       "currency": "INR",
       "category": "bundles",
       "tags": [
-        "mega bundle",
-        "all-in-one",
-        "templates",
-        "canva",
-        "best value",
-        "creator"
+        "bundle",
+        "mega pack",
+        "all in one",
+        "startup bundle",
+        "complete kit"
       ],
       "images": [
         "/images/products/product-8.png",
         "/images/products/product-8-2.png"
       ],
       "features": [
-        "500+ premium templates",
-        "All categories included",
-        "80% savings vs individual packs",
-        "Free lifetime updates",
-        "Exclusive bonus templates monthly",
-        "Priority support access"
+        "200+ templates across all 5 core suites",
+        "Social media, carousels, reels, and stories",
+        "Investor pitch deck & presentation slides",
+        "Complete brand guidelines & logo kit",
+        "Luxury business card collection",
+        "Free lifetime updates to all included packs",
+        "Commercial license for personal & client work"
       ],
-      "rating": 4.9,
-      "reviewCount": 312,
-      "downloads": 4200,
+      "specs": {
+        "count": "200+ Combined Templates",
+        "dimensions": "All Formats Included (16:9, 9:16, 4:5, 1:1, Print)",
+        "compatibility": "Canva Free & Pro"
+      },
+      "rating": 5,
+      "reviewCount": 178,
+      "downloads": 2150,
       "isFeatured": true,
       "isNew": false,
       "isBestseller": true,
-      "format": "Canva Template",
-      "fileSize": "120 MB",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/mega-bundle",
-      "createdAt": "2025-06-01",
-      "canvaUrl": "https://badarsh.gumroad.com/l/mega-bundle",
-      "downloadUrl": "/downloads/ultimate-digital-creator-bundle.zip",
+      "format": "Canva Bundle",
+      "fileSize": "95 MB",
+      "gumroadUrl": "https://badarsh.gumroad.com/l/launch-bundle",
+      "createdAt": "2025-01-01",
+      "deliveryType": "download-url",
+      "canvaUrl": "https://badarsh.gumroad.com/l/launch-bundle",
+      "downloadUrl": "/downloads/business-launch-bundle.zip",
       "status": "published",
-      "updatedAt": "2026-11-17T18:37:56.489Z"
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "id": "prod-009",
-      "slug": "instagram-growth-ebook",
-      "title": "The Instagram Growth Playbook",
-      "description": "120-page e-book revealing proven strategies to grow your Instagram from 0 to 10K followers organically in 90 days.",
-      "longDescription": "Stop guessing and start growing. This 120-page actionable e-book covers everything from optimizing your bio and content pillars to mastering Reels, hashtag strategy, and community engagement. Packed with real case studies from Indian creators and small businesses who went from zero to 10K+ followers without spending a rupee on ads. Includes downloadable worksheets, a 90-day content calendar, and engagement tracker.",
-      "price": 149,
-      "originalPrice": 349,
+      "slug": "instagram-growth-playbook",
+      "title": "Instagram Organic Growth Playbook",
+      "description": "85-page actionable marketing blueprint: 90-day content calendar, proven viral hook formulas, and algorithm growth strategy.",
+      "longDescription": "Stop guessing what works on social media. Written by experienced digital marketers, this 85-page comprehensive playbook breaks down the exact mechanics of organic reach in 2026: hook retention science, carousel storytelling structures, conversion-focused bio optimization, and turning post saves into paying clients.",
+      "price": 399,
       "currency": "INR",
       "category": "ebooks",
       "tags": [
         "ebook",
-        "instagram growth",
-        "social media marketing",
-        "organic growth",
-        "digital marketing"
+        "playbook",
+        "instagram",
+        "marketing",
+        "organic growth"
       ],
       "images": [
         "/images/products/product-9.png",
         "/images/products/product-9-2.png"
       ],
       "features": [
-        "120 pages of actionable strategies",
-        "Real case studies from Indian creators",
-        "90-day content calendar template",
-        "Hashtag research framework",
-        "Engagement tracker worksheet",
-        "Reels scripting templates"
+        "85-page structured tactical guide (PDF)",
+        "90-day plug-and-play content schedule",
+        "50 proven viral hook frameworks",
+        "DM conversion script templates",
+        "Accessible on iPad, Kindle, desktop, and mobile"
       ],
-      "rating": 4.7,
-      "reviewCount": 178,
-      "downloads": 2560,
-      "isFeatured": false,
+      "specs": {
+        "count": "85 Actionable Pages",
+        "dimensions": "Standard A4 & Mobile-Optimized PDF",
+        "compatibility": "PDF & Notion Companion"
+      },
+      "rating": 4.9,
+      "reviewCount": 112,
+      "downloads": 1680,
+      "isFeatured": true,
       "isNew": false,
       "isBestseller": true,
-      "format": "PDF",
+      "format": "PDF E-Book",
       "fileSize": "15 MB",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/ig-growth",
-      "createdAt": "2025-07-22",
-      "canvaUrl": "https://badarsh.gumroad.com/l/ig-growth",
-      "downloadUrl": "/downloads/instagram-growth-ebook.zip",
+      "gumroadUrl": "https://badarsh.gumroad.com/l/growth-playbook",
+      "createdAt": "2025-02-28",
+      "deliveryType": "download-url",
+      "canvaUrl": "https://badarsh.gumroad.com/l/growth-playbook",
+      "downloadUrl": "/downloads/instagram-growth-playbook.zip",
       "status": "published",
-      "updatedAt": "2026-11-17T18:37:56.489Z"
-    }
-  ],
-  "leads": [
-    {
-      "id": "lead-001",
-      "name": "Aarav Sharma",
-      "email": "aarav.sharma@growthagency.in",
-      "phone": "+91 98234 56789",
-      "interest": "Video Editing",
-      "message": "Looking for a monthly retainer for 20 Instagram Reels and YouTube Shorts. Need cinematic grading and fast turnaround.",
-      "budget": "₹25,000 / month",
-      "status": "new",
-      "notes": "Founder of a D2C fitness brand. High-priority lead.",
-      "createdAt": "2026-11-17T16:37:56.489Z",
-      "updatedAt": "2026-11-17T16:37:56.489Z"
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
-      "id": "lead-002",
-      "name": "Priya Sundaram",
-      "email": "priya@sundaramdesign.com",
-      "phone": "+91 98450 12345",
-      "interest": "Website Building",
-      "message": "We need a modern, high-speed Next.js portfolio website for our interior architecture studio.",
-      "budget": "₹60,000 one-time",
-      "status": "contacted",
-      "notes": "Sent preliminary portfolio deck on WhatsApp. Scheduled discovery call for Thursday.",
-      "createdAt": "2026-11-17T04:37:56.489Z",
-      "updatedAt": "2026-11-17T14:37:56.489Z"
-    },
-    {
-      "id": "lead-003",
-      "name": "Vikram Malhotra",
-      "email": "vikram@malhotracapital.co",
-      "phone": "+91 99887 76655",
-      "interest": "Social Media Management",
-      "message": "Seeking complete organic management for LinkedIn and Instagram. We want thought-leadership carousels and founder branding.",
-      "budget": "₹45,000 / month",
-      "status": "proposal",
-      "notes": "Proposal draft #2 sent. Awaiting board approval.",
-      "createdAt": "2026-11-16T06:37:56.489Z",
-      "updatedAt": "2026-11-17T08:37:56.489Z"
-    }
-  ],
-  "subscribers": [
-    {
-      "id": "sub-001",
-      "email": "rohit.verma@gmail.com",
-      "source": "Homepage Hero Lead Magnet",
-      "status": "active",
-      "createdAt": "2026-11-17T14:37:56.489Z"
-    },
-    {
-      "id": "sub-002",
-      "email": "kavita.deshmukh@yahoo.in",
-      "source": "Footer Newsletter",
-      "status": "active",
-      "createdAt": "2026-11-17T00:37:56.489Z"
-    },
-    {
-      "id": "sub-003",
-      "email": "neha.patel@startupcollective.io",
-      "source": "Free Canva Templates Popup",
-      "status": "active",
-      "createdAt": "2026-11-15T18:37:56.489Z"
-    }
-  ],
-  "orders": [
-    {
-      "id": "ORD-94812",
-      "customerName": "Aakash Mehta",
-      "customerEmail": "aakash@mehtaconsulting.com",
-      "customerPhone": "+91 98111 22233",
-      "items": [
-        {
-          "id": "prod-002",
-          "title": "LinkedIn Carousel Templates",
-          "price": 399,
-          "quantity": 1
-        }
-      ],
-      "totalAmount": 399,
+      "id": "prod-010",
+      "slug": "canva-mastery-playbook",
+      "title": "Canva Mastery Playbook: Zero to Pro",
+      "description": "65-page visual guide to master Canva Free: keyboard shortcuts, brand kit alignment, layout hierarchy, and export settings.",
+      "longDescription": "Unlock the full design potential of Canva without needing a graphic design degree. This playbook takes you from absolute beginner to creating studio-quality marketing assets in minutes. Learn the exact grid techniques, typography rules, color theory combinations, and export resolutions that top agencies use.",
+      "price": 299,
       "currency": "INR",
-      "paymentMethod": "UPI",
-      "paymentStatus": "completed",
-      "licenseKey": "BDRSH-LNKD-8821-X9",
-      "canvaAccessDelivered": true,
-      "createdAt": "2026-11-17T13:37:56.489Z"
-    },
-    {
-      "id": "ORD-94813",
-      "customerName": "Sneha Nair",
-      "customerEmail": "sneha.creatives@gmail.com",
-      "items": [
-        {
-          "id": "prod-001",
-          "title": "Instagram Reels Template Pack",
-          "price": 299,
-          "quantity": 1
-        },
-        {
-          "id": "prod-003",
-          "title": "Ultimate Brand Identity Kit",
-          "price": 499,
-          "quantity": 1
-        }
+      "category": "ebooks",
+      "tags": [
+        "canva",
+        "guide",
+        "design",
+        "playbook",
+        "ebook"
       ],
-      "totalAmount": 798,
-      "currency": "INR",
-      "paymentMethod": "Razorpay",
-      "paymentStatus": "completed",
-      "licenseKey": "BDRSH-BNDL-4412-M2",
-      "canvaAccessDelivered": true,
-      "createdAt": "2026-11-16T20:37:56.489Z"
-    }
-  ],
-  "settings": {
-    "siteName": "BADARSH Creative Studio",
-    "announcementBar": {
-      "enabled": true,
-      "badge": "LIMITED LAUNCH OFFER",
-      "text": "Get 50% off all Canva Templates with code",
-      "linkText": "CLAIM DISCOUNT",
-      "linkUrl": "/templates"
+      "images": [
+        "/images/products/product-1.png",
+        "/images/products/product-2.png"
+      ],
+      "features": [
+        "65-page illustrated walkthrough (PDF)",
+        "25 Canva keyboard shortcuts cheat-sheet",
+        "Typography pairing & hierarchy formulas",
+        "Export settings for crisp Instagram & print",
+        "Printable design checklist"
+      ],
+      "specs": {
+        "count": "65 Illustrated Pages",
+        "dimensions": "Standard A4 & Digital PDF",
+        "compatibility": "PDF & Mobile"
+      },
+      "rating": 4.8,
+      "reviewCount": 38,
+      "downloads": 490,
+      "isFeatured": false,
+      "isNew": true,
+      "isBestseller": false,
+      "format": "PDF E-Book",
+      "fileSize": "14 MB",
+      "gumroadUrl": "https://badarsh.gumroad.com/l/canva-mastery",
+      "createdAt": "2026-10-15",
+      "deliveryType": "download-url",
+      "canvaUrl": "https://badarsh.gumroad.com/l/canva-mastery",
+      "downloadUrl": "/downloads/canva-mastery-playbook.zip",
+      "status": "published",
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
-    "currencyRateUsdToInr": 86.5,
-    "whatsappNumber": "917204250115",
-    "supportEmail": "hello@badarsh.com",
-    "maintenanceMode": false,
-    "lastBackupAt": "2026-11-17T18:37:56.489Z"
-  },
-  "auditLogs": [
     {
-      "id": "log-001",
-      "action": "SYSTEM_INITIALIZED",
-      "details": "BADARSH Admin Operating System initialized with 30 seeded templates.",
-      "timestamp": "2026-11-17T18:37:56.489Z"
+      "id": "prod-011",
+      "slug": "content-calendar-planner-2026",
+      "title": "365-Day Social Media Content Planner",
+      "description": "Complete annual content planner: 365 daily post ideas, holiday prompts, caption hooks, and Google Sheets tracking system.",
+      "longDescription": "Never wonder what to post again. This comprehensive 2026 content calendar planner includes 365 daily prompts tailored for small businesses, service providers, and creators. Includes interactive Google Sheets for tracking content pipelines, plus printable Canva planner pages for your physical desk.",
+      "price": 349,
+      "currency": "INR",
+      "category": "planners",
+      "tags": [
+        "planner",
+        "content calendar",
+        "2026",
+        "productivity",
+        "organization"
+      ],
+      "images": [
+        "/images/products/product-3.png",
+        "/images/products/product-4.png"
+      ],
+      "features": [
+        "365 daily social media prompts & hooks",
+        "Interactive Google Sheets content tracker",
+        "Printable daily & monthly planner pages",
+        "Key Indian & international marketing dates calendar",
+        "Content categorization matrix (educate, entertain, convert)"
+      ],
+      "specs": {
+        "count": "365 Prompts + 12 Monthly Dashboards",
+        "dimensions": "Google Sheets Hub + Printable A4 / US Letter",
+        "compatibility": "Canva Free & Google Sheets"
+      },
+      "rating": 4.9,
+      "reviewCount": 45,
+      "downloads": 670,
+      "isFeatured": true,
+      "isNew": false,
+      "isBestseller": true,
+      "format": "Canva & Google Sheets",
+      "fileSize": "10 MB",
+      "gumroadUrl": "https://badarsh.gumroad.com/l/content-planner",
+      "createdAt": "2025-11-01",
+      "deliveryType": "download-url",
+      "canvaUrl": "https://badarsh.gumroad.com/l/content-planner",
+      "downloadUrl": "/downloads/content-calendar-planner-2026.zip",
+      "status": "published",
+      "updatedAt": "2026-11-18T18:44:25.219Z"
+    },
+    {
+      "id": "prod-012",
+      "slug": "freelance-client-tracker-planner",
+      "title": "Freelance & Agency Client Tracker Planner",
+      "description": "50-page client pipeline & project management organizer. Track project milestones, invoices, deadlines, and revisions in one hub.",
+      "longDescription": "Designed specifically for creative freelancers, consultants, and boutique agencies. Stop losing track of client feedback and unpaid invoices. This planner provides structured layouts for onboarding checklists, proposal scopes, revision trackers, and monthly revenue summaries.",
+      "price": 299,
+      "currency": "INR",
+      "category": "planners",
+      "tags": [
+        "freelance",
+        "planner",
+        "agency",
+        "client tracker",
+        "invoices"
+      ],
+      "images": [
+        "/images/products/product-5.png",
+        "/images/products/product-6.png"
+      ],
+      "features": [
+        "50 structured planner & tracking pages",
+        "Client onboarding & discovery checklists",
+        "Invoice and milestone payment log",
+        "Project revision and delivery sheets",
+        "Digital tablet ready (GoodNotes, Notability, Canva)"
+      ],
+      "specs": {
+        "count": "50-Page Project System",
+        "dimensions": "Printable A4 / US Letter & Tablet PDF",
+        "compatibility": "Canva Free, GoodNotes & PDF"
+      },
+      "rating": 4.7,
+      "reviewCount": 29,
+      "downloads": 380,
+      "isFeatured": false,
+      "isNew": true,
+      "isBestseller": false,
+      "format": "Canva & Tablet PDF",
+      "fileSize": "9 MB",
+      "gumroadUrl": "https://badarsh.gumroad.com/l/client-tracker",
+      "createdAt": "2026-09-20",
+      "deliveryType": "download-url",
+      "canvaUrl": "https://badarsh.gumroad.com/l/client-tracker",
+      "downloadUrl": "/downloads/freelance-client-tracker-planner.zip",
+      "status": "published",
+      "updatedAt": "2026-11-18T18:44:25.219Z"
+    },
+    {
+      "id": "prod-013",
+      "slug": "digital-mockup-graphics-kit",
+      "title": "3D Device & Studio Mockup Graphics Kit",
+      "description": "45 high-resolution device mockup frames (MacBook, iPhone, iPad, studio desks) with transparent backgrounds. Drag & drop in Canva.",
+      "longDescription": "Showcase your digital products, websites, and client work in ultra-crisp studio settings. Includes 45 custom device mockup frames created with transparent backgrounds. Just drag and drop your screenshots directly into the Canva frame holders for instant professional portfolio images.",
+      "price": 299,
+      "currency": "INR",
+      "category": "assets",
+      "tags": [
+        "mockups",
+        "3d",
+        "devices",
+        "iphone",
+        "macbook",
+        "graphics"
+      ],
+      "images": [
+        "/images/products/product-7.png",
+        "/images/products/product-8.png"
+      ],
+      "features": [
+        "45 transparent device and scene mockups",
+        "MacBook Pro, iPhone 16, iPad, and desktop setups",
+        "Native Canva drag-and-drop frame integration",
+        "Ultra-high resolution (4000x3000px)",
+        "Commercial client presentation license"
+      ],
+      "specs": {
+        "count": "45 Studio Mockup Frames",
+        "dimensions": "4000x3000 Ultra HD (Transparent PNG)",
+        "compatibility": "Canva Free Drag-and-Drop"
+      },
+      "rating": 4.8,
+      "reviewCount": 34,
+      "downloads": 410,
+      "isFeatured": false,
+      "isNew": true,
+      "isBestseller": false,
+      "format": "Canva Frames & PNG",
+      "fileSize": "48 MB",
+      "gumroadUrl": "https://badarsh.gumroad.com/l/mockup-kit",
+      "createdAt": "2026-10-01",
+      "deliveryType": "download-url",
+      "canvaUrl": "https://badarsh.gumroad.com/l/mockup-kit",
+      "downloadUrl": "/downloads/digital-mockup-graphics-kit.zip",
+      "status": "published",
+      "updatedAt": "2026-11-18T18:44:25.219Z"
+    },
+    {
+      "id": "prod-014",
+      "slug": "creator-editing-apps-vault",
+      "title": "Creator Editing Apps & Workflow Vault",
+      "description": "Curated mobile & desktop editing apps toolkit: step-by-step export presets, keyboard shortcut maps & mobile color workflows.",
+      "longDescription": "Master the essential mobile and desktop video editing tools used by top Indian creators. Includes export configuration recipes for CapCut, VN Editor, Premiere Pro, and DaVinci Resolve, plus printable cheat sheets for lightning-fast editing speed.",
+      "price": 349,
+      "currency": "INR",
+      "category": "editing-apps",
+      "tags": [
+        "editing apps",
+        "vn editor",
+        "capcut",
+        "premiere pro",
+        "shortcuts",
+        "workflow"
+      ],
+      "images": [
+        "/images/products/product-1.png",
+        "/images/products/product-2.png"
+      ],
+      "features": [
+        "Optimal bit-rate & 4K export presets for Instagram Reels",
+        "Printable keyboard shortcuts map for Premiere & DaVinci",
+        "Top 15 free mobile editing apps comparison guide",
+        "Color grading workflows for iPhone & Android footage",
+        "Commercial usage & lifetime updates"
+      ],
+      "specs": {
+        "count": "4 App Guides & 12 Preset Configurations",
+        "dimensions": "PDF Guide + XML Preset Files",
+        "compatibility": "VN Editor, CapCut, Premiere, DaVinci"
+      },
+      "rating": 4.9,
+      "reviewCount": 42,
+      "downloads": 520,
+      "isFeatured": false,
+      "isNew": true,
+      "isBestseller": false,
+      "format": "Guide & Presets",
+      "fileSize": "18 MB",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+      "downloadUrl": "https://badarsh.com/downloads/creator-editing-apps-vault.zip",
+      "gumroadUrl": "https://badarsh.gumroad.com/l/editing-apps",
+      "createdAt": "2026-11-01",
+      "deliveryType": "download-url",
+      "canvaUrl": "https://badarsh.gumroad.com/l/editing-apps",
+      "status": "published",
+      "updatedAt": "2026-11-18T18:44:25.219Z"
+    },
+    {
+      "id": "prod-015",
+      "slug": "viral-sfx-motion-overlay-bundle",
+      "title": "Viral Video SFX & Motion Overlay Bundle",
+      "description": "350+ creator sound effects (whooshes, risers, pops, camera clicks) plus 4K film grains, light leaks & drag-and-drop overlays.",
+      "longDescription": "Elevate your short-form video retention instantly with audio-visual impact. Includes 350+ master-quality WAV/MP3 sound effects crafted specifically for pacing Instagram Reels and YouTube Shorts, alongside 40 seamless 4K grain and light leak overlays.",
+      "price": 499,
+      "originalPrice": 999,
+      "currency": "INR",
+      "category": "editing-bundles",
+      "tags": [
+        "sfx",
+        "sound effects",
+        "motion graphics",
+        "overlays",
+        "reels editing",
+        "video bundle"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80",
+        "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80"
+      ],
+      "features": [
+        "350+ high-fidelity sound effects (WAV + MP3)",
+        "40 seamless 4K ProRes light leaks & film grains",
+        "Drag-and-drop compatible with any mobile or desktop editor",
+        "100% royalty-free commercial license",
+        "Organized into intuitive category folders"
+      ],
+      "specs": {
+        "count": "350+ SFX & 40 4K Video Overlays",
+        "dimensions": "4K UHD (3840x2160) & 24-bit 48kHz Audio",
+        "compatibility": "CapCut, VN, Premiere, FCPX, DaVinci"
+      },
+      "rating": 5,
+      "reviewCount": 89,
+      "downloads": 940,
+      "isFeatured": true,
+      "isNew": true,
+      "isBestseller": true,
+      "format": "WAV, MP3 & MP4",
+      "fileSize": "680 MB",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      "downloadUrl": "https://badarsh.com/downloads/viral-sfx-motion-overlay-bundle.zip",
+      "gumroadUrl": "https://badarsh.gumroad.com/l/sfx-bundle",
+      "createdAt": "2026-11-05",
+      "deliveryType": "download-url",
+      "canvaUrl": "https://badarsh.gumroad.com/l/sfx-bundle",
+      "status": "published",
+      "updatedAt": "2026-11-18T18:44:25.219Z"
+    },
+    {
+      "id": "prod-016",
+      "slug": "cinematic-lightroom-presets",
+      "title": "Cinematic Mood & Warm Aesthetic Presets",
+      "description": "25 one-click Lightroom presets (.DNG + .XMP) for iPhone and camera photos. Professional warm tones, clean skin, and moody contrast.",
+      "longDescription": "Give your social feed and commercial photo galleries a cohesive, luxury editorial look. Developed across hundreds of portrait, cafe, street, and product photography shots, these 25 presets balance skin tones naturally while introducing rich contrast and soft cinematic warmth.",
+      "price": 299,
+      "currency": "INR",
+      "category": "photo-presets",
+      "tags": [
+        "lightroom presets",
+        "presets",
+        "photo editing",
+        "dng",
+        "instagram aesthetic",
+        "cinematic"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1200&q=80",
+        "https://images.unsplash.com/photo-1502759683299-cdcd1a7082fe?w=1200&q=80"
+      ],
+      "features": [
+        "25 Desktop (.XMP) and Mobile (.DNG) presets",
+        "One-click install guide with video walkthrough",
+        "Preserves natural skin tones with advanced HSL curves",
+        "Works with free Adobe Lightroom Mobile app (no subscription required)",
+        "Commercial license for client portraits & commercial work"
+      ],
+      "specs": {
+        "count": "25 Presets (DNG + XMP)",
+        "dimensions": "Compatible with all RAW & JPEG photos",
+        "compatibility": "Lightroom Mobile (Free) & Desktop"
+      },
+      "rating": 4.9,
+      "reviewCount": 67,
+      "downloads": 690,
+      "isFeatured": false,
+      "isNew": true,
+      "isBestseller": false,
+      "format": "DNG & XMP Presets",
+      "fileSize": "22 MB",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+      "downloadUrl": "https://badarsh.com/downloads/cinematic-lightroom-presets.zip",
+      "gumroadUrl": "https://badarsh.gumroad.com/l/lightroom-presets",
+      "createdAt": "2026-11-10",
+      "deliveryType": "download-url",
+      "canvaUrl": "https://badarsh.gumroad.com/l/lightroom-presets",
+      "status": "published",
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     }
   ],
   "services": [
@@ -617,7 +868,7 @@
           "whatsappMessage": "Hi! I'm interested in the Premium Video Editing package (₹7,999/video). Can we discuss my project?"
         }
       ],
-      "updatedAt": "2026-11-18T16:58:25.659Z"
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "id": "svc-002",
@@ -701,7 +952,7 @@
           "whatsappMessage": "Hi! I'm interested in the Premium Website package (₹29,999). Can we discuss my requirements?"
         }
       ],
-      "updatedAt": "2026-11-18T16:58:25.659Z"
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "id": "svc-003",
@@ -786,7 +1037,7 @@
           "whatsappMessage": "Hi! I'm interested in the Premium Social Media Management package (₹19,999/month). Can we discuss my brand?"
         }
       ],
-      "updatedAt": "2026-11-18T16:58:25.659Z"
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "id": "svc-004",
@@ -864,7 +1115,7 @@
           "whatsappMessage": "Hi! I'm interested in the Enterprise App Development package (₹89,999). Can we schedule a technical scoping call?"
         }
       ],
-      "updatedAt": "2026-11-18T16:58:25.659Z"
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "id": "svc-005",
@@ -939,7 +1190,7 @@
           "whatsappMessage": "Hi! I'm interested in the Brand Campaign Suite Photo Editing package (₹9,999). Let's chat!"
         }
       ],
-      "updatedAt": "2026-11-18T16:58:25.659Z"
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "id": "svc-006",
@@ -1016,7 +1267,7 @@
           "whatsappMessage": "Hi! I'm interested in the Agency Brand & Web package (₹34,999). Let's collaborate!"
         }
       ],
-      "updatedAt": "2026-11-18T16:58:25.659Z"
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     }
   ],
   "blogPosts": [
@@ -1037,8 +1288,8 @@
         "Creator Economy"
       ],
       "status": "published",
-      "views": 212,
-      "updatedAt": "2026-11-18T16:58:25.659Z"
+      "views": 536,
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "slug": "canva-hacks-for-small-business",
@@ -1057,8 +1308,8 @@
         "Small Business"
       ],
       "status": "published",
-      "views": 828,
-      "updatedAt": "2026-11-18T16:58:25.659Z"
+      "views": 486,
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "slug": "instagram-organic-growth-blueprint",
@@ -1077,8 +1328,8 @@
         "Social Selling"
       ],
       "status": "published",
-      "views": 837,
-      "updatedAt": "2026-11-18T16:58:25.659Z"
+      "views": 511,
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "slug": "why-diy-websites-fail",
@@ -1097,8 +1348,8 @@
         "UX"
       ],
       "status": "published",
-      "views": 661,
-      "updatedAt": "2026-11-18T16:58:25.659Z"
+      "views": 416,
+      "updatedAt": "2026-11-18T18:44:25.219Z"
     }
   ],
   "coupons": [
@@ -1111,7 +1362,7 @@
       "usageCount": 18,
       "usageLimit": 1000,
       "status": "active",
-      "createdAt": "2026-11-18T18:13:19.539Z"
+      "createdAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "id": "cpn-001",
@@ -1122,7 +1373,7 @@
       "usageCount": 142,
       "usageLimit": 500,
       "status": "active",
-      "createdAt": "2026-11-18T16:58:25.659Z"
+      "createdAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "id": "cpn-002",
@@ -1132,7 +1383,7 @@
       "minOrderAmount": 0,
       "usageCount": 68,
       "status": "active",
-      "createdAt": "2026-11-18T16:58:25.659Z"
+      "createdAt": "2026-11-18T18:44:25.219Z"
     },
     {
       "id": "cpn-003",
@@ -1142,7 +1393,173 @@
       "minOrderAmount": 499,
       "usageCount": 29,
       "status": "active",
-      "createdAt": "2026-11-18T16:58:25.659Z"
+      "createdAt": "2026-11-18T18:44:25.219Z"
+    }
+  ],
+  "leads": [
+    {
+      "id": "lead-001",
+      "name": "Aarav Sharma",
+      "email": "aarav.sharma@growthagency.in",
+      "phone": "+91 98234 56789",
+      "interest": "Video Editing",
+      "message": "Looking for a monthly retainer for 20 Instagram Reels and YouTube Shorts. Need cinematic grading and fast turnaround.",
+      "budget": "₹25,000 / month",
+      "status": "new",
+      "notes": "Founder of a D2C fitness brand. High-priority lead.",
+      "createdAt": "2026-11-18T16:44:25.219Z",
+      "updatedAt": "2026-11-18T16:44:25.219Z"
+    },
+    {
+      "id": "lead-002",
+      "name": "Priya Sundaram",
+      "email": "priya@sundaramdesign.com",
+      "phone": "+91 98450 12345",
+      "interest": "Website Building",
+      "message": "We need a modern, high-speed Next.js portfolio website for our interior architecture studio.",
+      "budget": "₹60,000 one-time",
+      "status": "contacted",
+      "notes": "Sent preliminary portfolio deck on WhatsApp. Scheduled discovery call for Thursday.",
+      "createdAt": "2026-11-18T04:44:25.219Z",
+      "updatedAt": "2026-11-18T14:44:25.219Z"
+    },
+    {
+      "id": "lead-003",
+      "name": "Vikram Malhotra",
+      "email": "vikram@malhotracapital.co",
+      "phone": "+91 99887 76655",
+      "interest": "Social Media Management",
+      "message": "Seeking complete organic management for LinkedIn and Instagram. We want thought-leadership carousels and founder branding.",
+      "budget": "₹45,000 / month",
+      "status": "proposal",
+      "notes": "Proposal draft #2 sent. Awaiting board approval.",
+      "createdAt": "2026-11-17T06:44:25.219Z",
+      "updatedAt": "2026-11-18T08:44:25.220Z"
+    }
+  ],
+  "subscribers": [
+    {
+      "id": "sub-001",
+      "email": "rohit.verma@gmail.com",
+      "source": "Homepage Hero Lead Magnet",
+      "status": "active",
+      "createdAt": "2026-11-18T14:44:25.220Z"
+    },
+    {
+      "id": "sub-002",
+      "email": "kavita.deshmukh@yahoo.in",
+      "source": "Footer Newsletter",
+      "status": "active",
+      "createdAt": "2026-11-18T00:44:25.220Z"
+    },
+    {
+      "id": "sub-003",
+      "email": "neha.patel@startupcollective.io",
+      "source": "Free Canva Templates Popup",
+      "status": "active",
+      "createdAt": "2026-11-16T18:44:25.220Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ORD-94812",
+      "customerName": "Aakash Mehta",
+      "customerEmail": "aakash@mehtaconsulting.com",
+      "customerPhone": "+91 98111 22233",
+      "items": [
+        {
+          "id": "prod-002",
+          "title": "LinkedIn Carousel Templates",
+          "price": 399,
+          "quantity": 1,
+          "productType": "canva-template",
+          "downloadUrl": "https://www.canva.com/design/templates/sample-linkedin"
+        }
+      ],
+      "totalAmount": 399,
+      "currency": "INR",
+      "paymentMethod": "UPI",
+      "paymentStatus": "completed",
+      "licenseKey": "BDRSH-LNKD-8821-X9",
+      "canvaAccessDelivered": true,
+      "deliveryNotes": "Sent Canva direct access link via email & WhatsApp.",
+      "createdAt": "2026-11-18T13:44:25.220Z"
+    },
+    {
+      "id": "ORD-94813",
+      "customerName": "Sneha Nair",
+      "customerEmail": "sneha.creatives@gmail.com",
+      "customerPhone": "+91 97401 55667",
+      "items": [
+        {
+          "id": "prod-001",
+          "title": "Instagram Reels Template Pack",
+          "price": 299,
+          "quantity": 1,
+          "productType": "canva-template"
+        },
+        {
+          "id": "prod-015",
+          "title": "Viral Video SFX & Motion Overlay Bundle",
+          "price": 499,
+          "quantity": 1,
+          "productType": "editing-bundle",
+          "downloadUrl": "/downloads/viral-sfx-bundle.zip"
+        }
+      ],
+      "totalAmount": 798,
+      "currency": "INR",
+      "paymentMethod": "Razorpay",
+      "paymentStatus": "completed",
+      "licenseKey": "BDRSH-BNDL-4412-M2",
+      "canvaAccessDelivered": true,
+      "deliveryNotes": "Automated instant checkout delivery completed.",
+      "createdAt": "2026-11-17T20:44:25.220Z"
+    },
+    {
+      "id": "ORD-94814",
+      "customerName": "Karthik Raja",
+      "customerEmail": "karthik@rajafilms.in",
+      "customerPhone": "+91 98400 99881",
+      "items": [
+        {
+          "id": "prod-016",
+          "title": "Cinematic Mood & Warm Aesthetic Presets",
+          "price": 299,
+          "quantity": 1,
+          "productType": "photo-preset"
+        }
+      ],
+      "totalAmount": 299,
+      "currency": "INR",
+      "paymentMethod": "UPI",
+      "paymentStatus": "completed",
+      "licenseKey": "BDRSH-PRST-9912-K4",
+      "canvaAccessDelivered": true,
+      "createdAt": "2026-11-17T10:44:25.220Z"
+    }
+  ],
+  "settings": {
+    "siteName": "BADARSH Creative Studio",
+    "announcementBar": {
+      "enabled": true,
+      "badge": "LIMITED LAUNCH OFFER",
+      "text": "Get 50% off all Canva Templates & Editing Bundles with code",
+      "linkText": "CLAIM DISCOUNT",
+      "linkUrl": "/templates"
+    },
+    "currencyRateUsdToInr": 86.5,
+    "whatsappNumber": "917204250115",
+    "supportEmail": "hello@badarsh.com",
+    "maintenanceMode": false,
+    "lastBackupAt": "2026-11-18T18:44:25.220Z"
+  },
+  "auditLogs": [
+    {
+      "id": "log-001",
+      "action": "SYSTEM_INITIALIZED",
+      "details": "BADARSH Admin Operating System initialized with full digital catalog.",
+      "timestamp": "2026-11-18T18:44:25.220Z"
     }
   ]
 }

@@ -5,6 +5,13 @@ export interface ProductSpecs {
   compatibility?: string;
 }
 
+export type DeliveryType =
+  | "canva-link"
+  | "download-url"
+  | "google-drive"
+  | "external-url"
+  | "whatsapp-delivery";
+
 export interface Product {
   id: string;
   slug: string;
@@ -17,6 +24,13 @@ export interface Product {
   category: ProductCategory;
   tags: string[];
   images: string[];
+  videoUrl?: string;
+  previewVideoUrl?: string;
+  downloadUrl?: string;
+  canvaUrl?: string;
+  googleDriveUrl?: string;
+  deliveryType?: DeliveryType;
+  softwareRequired?: string;
   features: string[];
   specs?: ProductSpecs;
   rating: number;

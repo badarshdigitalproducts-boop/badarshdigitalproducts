@@ -18,6 +18,10 @@ import {
   MessageCircle,
   HelpCircle,
   Award,
+  Play,
+  Film,
+  Video,
+  Key,
 } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
@@ -40,6 +44,10 @@ export function ProductDetailView({
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
   const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [selectedMedia, setSelectedMedia] = useState<"video" | number>(
+    product.videoUrl ? "video" : 0
+  );
+  const [imgLoadError, setImgLoadError] = useState<Record<number, boolean>>({});
 
   const discountPercent = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
@@ -47,20 +55,24 @@ export function ProductDetailView({
 
   const faqs = [
     {
-      q: "Do I need Canva Pro to use this template?",
-      a: "No! All our templates are engineered using 100% free elements and fonts available in Canva Free. You never have to pay for a Canva subscription to download or customize your designs.",
+      q: "Who designs these digital products and assets?",
+      a: "Every single digital product, video editing bundle, preset pack, playbook, and template is personally conceptualized, designed, and tested by the BADARSH in-house creative agency team. We never sell generic scraped assets.",
     },
     {
-      q: "How will I receive the files after purchase?",
-      a: "Immediately after checkout, you'll receive instant access links that open directly in your Canva account. We also provide a PDF guide with direct links and instructions sent to your email or WhatsApp.",
+      q: "How will I receive the files immediately after payment?",
+      a: "Instant delivery! The moment your payment is verified, you are shown your direct download links (ZIP, PDF, presets) and Canva/project links on screen, along with a verified commercial license key and an instant WhatsApp confirmation copy.",
     },
     {
-      q: "Can I use these templates for client projects?",
-      a: "Yes! Every BADARSH template comes with a full Commercial License. You are free to edit and deliver finished designs to paying clients or use them across unlimited business accounts.",
+      q: "Can I use these assets for client projects and commercial videos?",
+      a: "Yes! Every BADARSH asset includes a Commercial License. You are free to produce client videos, commercial social media content, brand identity deliverables, and client campaigns with zero royalty fees.",
     },
     {
-      q: "What if I get stuck while customizing?",
-      a: "We offer dedicated WhatsApp support for all template buyers. Simply message our creative team, and we'll help you format, align, or customize your assets.",
+      q: "What software do I need to use this product?",
+      a: `Compatible with ${product.softwareRequired || "Canva Free & Pro, VN Editor, CapCut, Premiere Pro, and DaVinci Resolve"}. All templates and guides are tested with free apps so you never need expensive subscriptions.`,
+    },
+    {
+      q: "What if I need help downloading or editing?",
+      a: "We offer direct founder support on WhatsApp at +91 72042 50115. Message us anytime for quick walkthroughs, asset help, or formatting assistance.",
     },
   ];
 
@@ -111,77 +123,163 @@ export function ProductDetailView({
       {/* Main Product Showcase Grid */}
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
         {/* Left Col: Visual Preview Display */}
-        <div className="lg:col-span-7">
-          <div className="relative overflow-hidden rounded-3xl border border-card-border bg-gradient-to-br from-accent/15 via-purple-900/10 to-card p-8 md:p-12 shadow-sm">
-            {/* Visual device canvas */}
-            <div className="relative flex aspect-[16/10] w-full flex-col items-center justify-center rounded-2xl border border-white/20 bg-background/80 p-8 text-center shadow-2xl backdrop-blur-xl">
-              <span className="rounded-full bg-accent/15 px-4 py-1 text-xs font-bold text-accent">
-                {product.format} &bull; Canva Free &amp; Pro
-              </span>
-              <h2 className="mt-4 font-heading text-2xl font-extrabold text-foreground md:text-3xl">
-                {product.title}
-              </h2>
-              <p className="mt-3 max-w-md text-xs leading-relaxed text-muted">
-                {product.description}
-              </p>
+        <div className="lg:col-span-7 space-y-4">
+          <div className="relative overflow-hidden rounded-3xl border border-card-border bg-gradient-to-br from-accent/10 via-purple-900/10 to-card p-3 sm:p-4 shadow-sm">
+            {/* Main Showcase Viewport */}
+            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-black shadow-2xl border border-white/10">
+              {selectedMedia === "video" && product.videoUrl ? (
+                product.videoUrl.includes("youtube.com") || product.videoUrl.includes("youtu.be") ? (
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${
+                      product.videoUrl.includes("v=")
+                        ? product.videoUrl.split("v=")[1]?.split("&")[0]
+                        : product.videoUrl.split("/").pop()
+                    }?autoplay=1`}
+                    title={product.title}
+                    className="h-full w-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <video
+                    controls
+                    autoPlay
+                    src={product.videoUrl}
+                    className="h-full w-full object-contain"
+                  />
+                )
+              ) : (
+                /* Image Mode */
+                (() => {
+                  const currentIdx = typeof selectedMedia === "number" ? selectedMedia : 0;
+                  const currentImg = product.images?.[currentIdx];
+                  if (currentImg && !imgLoadError[currentIdx]) {
+                    return (
+                      <img
+                        src={currentImg}
+                        alt={`${product.title} view ${currentIdx + 1}`}
+                        onError={() => setImgLoadError((prev) => ({ ...prev, [currentIdx]: true }))}
+                        className="h-full w-full object-cover"
+                      />
+                    );
+                  }
+                  return (
+                    <div className="flex h-full w-full flex-col items-center justify-center p-8 text-center bg-gradient-to-br from-accent/20 via-card to-secondary/30">
+                      <span className="rounded-full bg-accent/20 px-3.5 py-1 text-xs font-bold text-accent">
+                        {product.format} &bull; Studio Master
+                      </span>
+                      <h3 className="mt-4 font-heading text-xl font-bold text-foreground">
+                        {product.title}
+                      </h3>
+                      <p className="mt-2 max-w-sm text-xs text-muted">
+                        {product.description}
+                      </p>
+                    </div>
+                  );
+                })()
+              )}
 
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-                {product.tags.slice(0, 4).map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-lg border border-card-border bg-card px-2.5 py-1 text-[11px] font-semibold text-muted"
-                  >
-                    #{tag}
+              {/* Badges Overlay */}
+              <div className="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                {product.isBestseller && (
+                  <span className="flex items-center gap-1 rounded-full bg-amber-500/90 px-3 py-1 text-xs font-bold text-white shadow-sm backdrop-blur-sm">
+                    <Sparkles className="h-3.5 w-3.5" /> Bestseller
                   </span>
-                ))}
+                )}
+                {discountPercent > 0 && (
+                  <span className="rounded-full bg-rose-500/90 px-3 py-1 text-xs font-bold text-white shadow-sm backdrop-blur-sm">
+                    Save {discountPercent}%
+                  </span>
+                )}
               </div>
 
-              {/* Interactive Preview Trigger */}
-              <button
-                onClick={() => setPreviewModalOpen(true)}
-                className="mt-6 inline-flex cursor-pointer items-center gap-2 rounded-full bg-accent px-5 py-2.5 font-heading text-xs font-bold text-white shadow-md transition hover:bg-accent-hover hover:scale-105"
-              >
-                <Eye className="h-4 w-4" />
-                <span>Preview Template Slides Inside</span>
-              </button>
+              {/* Studio Proof Watermark */}
+              <div className="absolute bottom-3 right-3 rounded-full bg-black/75 px-3 py-1 text-[10px] font-bold text-white backdrop-blur-md border border-white/10 pointer-events-none">
+                Crafted by BADARSH Studio
+              </div>
             </div>
 
-            {/* Badges */}
-            <div className="absolute top-4 left-4 flex gap-2">
-              {product.isBestseller && (
-                <span className="flex items-center gap-1 rounded-full bg-amber-500 px-3 py-1 text-xs font-bold text-white shadow-sm">
-                  <Sparkles className="h-3.5 w-3.5" /> Bestseller
-                </span>
+            {/* Media Gallery Thumbnails */}
+            <div className="mt-3 flex items-center gap-2.5 overflow-x-auto pb-1">
+              {product.videoUrl && (
+                <button
+                  type="button"
+                  onClick={() => setSelectedMedia("video")}
+                  className={`relative flex aspect-[16/10] h-16 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-xl border transition-all ${
+                    selectedMedia === "video"
+                      ? "border-accent ring-2 ring-accent/30"
+                      : "border-card-border bg-black/60 opacity-70 hover:opacity-100"
+                  }`}
+                >
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-accent text-white shadow">
+                    <Play className="h-3.5 w-3.5 fill-white ml-0.5" />
+                  </div>
+                  <span className="absolute bottom-1 text-[9px] font-bold text-white uppercase tracking-wider">
+                    Video Demo
+                  </span>
+                </button>
               )}
-              {discountPercent > 0 && (
-                <span className="rounded-full bg-rose-500 px-3 py-1 text-xs font-bold text-white shadow-sm">
-                  Save {discountPercent}%
-                </span>
-              )}
+
+              {(product.images && product.images.length > 0 ? product.images : ["/images/products/product-1.png"]).map((img, idx) => (
+                <button
+                  key={`${img}-${idx}`}
+                  type="button"
+                  onClick={() => setSelectedMedia(idx)}
+                  className={`relative aspect-[16/10] h-16 shrink-0 cursor-pointer overflow-hidden rounded-xl border transition-all ${
+                    selectedMedia === idx
+                      ? "border-accent ring-2 ring-accent/30"
+                      : "border-card-border bg-card opacity-70 hover:opacity-100"
+                  }`}
+                >
+                  <img
+                    src={img}
+                    alt={`Thumb ${idx + 1}`}
+                    className="h-full w-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLElement).style.display = "none";
+                    }}
+                  />
+                  <span className="absolute bottom-1 left-1 rounded bg-black/70 px-1 text-[9px] text-white">
+                    #{idx + 1}
+                  </span>
+                </button>
+              ))}
+
+              {/* Quick Preview slides button */}
+              <button
+                type="button"
+                onClick={() => setPreviewModalOpen(true)}
+                className="ml-auto inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-card-border bg-card px-4 py-2 text-xs font-bold text-foreground shadow-sm hover:border-accent hover:text-accent transition-colors"
+              >
+                <Eye className="h-3.5 w-3.5" />
+                <span>Quick Preview</span>
+              </button>
             </div>
           </div>
 
           {/* Key Product Guarantees */}
-          <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-            <div className="rounded-2xl border border-card-border bg-card p-4 text-center">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="rounded-2xl border border-card-border bg-card p-3.5 text-center">
               <FileCheck className="mx-auto h-5 w-5 text-accent" />
-              <p className="mt-2 text-xs font-bold text-foreground">Canva Free Ready</p>
-              <p className="text-[11px] text-muted">No subscription needed</p>
+              <p className="mt-1.5 text-xs font-bold text-foreground">
+                {product.softwareRequired?.split("/")[0]?.trim() || "Multi-App Ready"}
+              </p>
+              <p className="text-[11px] text-muted">Free software compatible</p>
             </div>
-            <div className="rounded-2xl border border-card-border bg-card p-4 text-center">
+            <div className="rounded-2xl border border-card-border bg-card p-3.5 text-center">
               <Download className="mx-auto h-5 w-5 text-emerald-500" />
-              <p className="mt-2 text-xs font-bold text-foreground">Instant Delivery</p>
-              <p className="text-[11px] text-muted">Direct Canva links</p>
+              <p className="mt-1.5 text-xs font-bold text-foreground">Instant Delivery</p>
+              <p className="text-[11px] text-muted">Direct download &amp; WhatsApp</p>
             </div>
-            <div className="rounded-2xl border border-card-border bg-card p-4 text-center">
+            <div className="rounded-2xl border border-card-border bg-card p-3.5 text-center">
               <ShieldCheck className="mx-auto h-5 w-5 text-amber-500" />
-              <p className="mt-2 text-xs font-bold text-foreground">Commercial Rights</p>
-              <p className="text-[11px] text-muted">Use for clients</p>
+              <p className="mt-1.5 text-xs font-bold text-foreground">Commercial Rights</p>
+              <p className="text-[11px] text-muted">Use freely for clients</p>
             </div>
-            <div className="rounded-2xl border border-card-border bg-card p-4 text-center">
+            <div className="rounded-2xl border border-card-border bg-card p-3.5 text-center">
               <Clock className="mx-auto h-5 w-5 text-indigo-500" />
-              <p className="mt-2 text-xs font-bold text-foreground">Lifetime Updates</p>
-              <p className="text-[11px] text-muted">Free updated links</p>
+              <p className="mt-1.5 text-xs font-bold text-foreground">Lifetime Access</p>
+              <p className="text-[11px] text-muted">Free ongoing updates</p>
             </div>
           </div>
         </div>
@@ -367,28 +465,28 @@ export function ProductDetailView({
                 <div className="rounded-2xl border border-card-border bg-background p-6">
                   <span className="font-heading text-2xl font-black text-accent">01</span>
                   <h4 className="mt-2 font-heading text-sm font-bold text-foreground">
-                    Click Your Access Link
+                    Instant Download / Access
                   </h4>
                   <p className="mt-1 text-xs text-muted">
-                    After checkout, click the link to automatically open and copy the templates into your Canva account.
+                    Immediately after checkout, download your master ZIP bundle, presets, or open the editable project files.
                   </p>
                 </div>
                 <div className="rounded-2xl border border-card-border bg-background p-6">
                   <span className="font-heading text-2xl font-black text-accent">02</span>
                   <h4 className="mt-2 font-heading text-sm font-bold text-foreground">
-                    Customize Colors &amp; Text
+                    Import &amp; Customize
                   </h4>
                   <p className="mt-1 text-xs text-muted">
-                    Replace placeholders with your brand photos, font choices, and message in 5 minutes.
+                    Drop video overlays &amp; SFX into CapCut/Premiere, apply Lightroom presets in 1 click, or brand your slides.
                   </p>
                 </div>
                 <div className="rounded-2xl border border-card-border bg-background p-6">
                   <span className="font-heading text-2xl font-black text-accent">03</span>
                   <h4 className="mt-2 font-heading text-sm font-bold text-foreground">
-                    Export &amp; Publish
+                    Publish &amp; Monetize
                   </h4>
                   <p className="mt-1 text-xs text-muted">
-                    Download in high-res PNG, JPG, or MP4 and share across Instagram, LinkedIn, or print.
+                    Export in 4K resolution, deliver finished assets to paying clients, or scale your social brand with full commercial rights.
                   </p>
                 </div>
               </div>

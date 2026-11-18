@@ -31,6 +31,10 @@ import {
   IndianRupee,
   X,
   Save,
+  Play,
+  Image as ImageIcon,
+  Film,
+  UploadCloud,
 } from "lucide-react";
 import type { AdminProduct, ProductType, DeliveryType } from "@/lib/admin/types";
 import { CATEGORIES, PRODUCT_TYPES, DELIVERY_TYPES } from "@/lib/constants";
@@ -57,17 +61,20 @@ const DEFAULT_PRODUCT: Partial<AdminProduct> = {
   originalPrice: 599,
   category: "social-media",
   productType: "canva-template",
-  deliveryType: "canva-link",
+  deliveryType: "download-url",
   status: "published",
+  images: ["https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80"],
+  coverImageUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80",
+  videoUrl: "",
   canvaUrl: "",
   downloadUrl: "",
   externalUrl: "",
   googleDriveUrl: "",
-  fileSize: "",
-  softwareRequired: "",
+  fileSize: "48 MB",
+  softwareRequired: "Canva Free / CapCut / Premiere Pro",
   isFeatured: false,
   isBestseller: false,
-  isNew: false,
+  isNew: true,
   tags: [],
   seoTitle: "",
   seoDescription: "",
@@ -108,6 +115,7 @@ export default function AdminProductsPage() {
   const [editingProduct, setEditingProduct] = useState<Partial<AdminProduct> | null>(null);
   const [saving, setSaving] = useState(false);
   const [tagInput, setTagInput] = useState("");
+  const [newImageUrl, setNewImageUrl] = useState("");
   const [copySuccess, setCopySuccess] = useState<string | null>(null);
 
   useEffect(() => {
@@ -337,6 +345,11 @@ export default function AdminProductsPage() {
                               {p.title}
                               {p.isFeatured && <Star className="h-3 w-3 fill-amber-400 text-amber-400" />}
                               {p.isNew && <Zap className="h-3 w-3 text-blue-400" />}
+                              {p.videoUrl && (
+                                <span className="inline-flex items-center gap-0.5 rounded-full bg-red-500/20 border border-red-500/40 px-1.5 py-0.2 text-[9px] font-bold text-red-400">
+                                  <Play className="h-2 w-2 fill-red-400" /> Video Demo
+                                </span>
+                              )}
                             </div>
                             <div className="text-[11px] text-zinc-500">
                               {(p.downloads || 0).toLocaleString()} downloads
@@ -569,6 +582,245 @@ export default function AdminProductsPage() {
                       placeholder="Add a tag..."
                       className="flex-1 min-w-[80px] bg-transparent text-xs text-white outline-none placeholder:text-zinc-600"
                     />
+                  </div>
+                </FormField>
+              </div>
+
+              {/* Section: Media & Visual Assets (Photos, Gallery & Video Preview) */}
+              <div className="p-6 space-y-5 bg-zinc-950/40">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-widest text-[#FF5A36]">
+                      Media &amp; Visual Showcase
+                    </p>
+                    <p className="text-[11px] text-zinc-400 mt-0.5">
+                      Upload and link custom preview images, product photo galleries, and video editing demos.
+                    </p>
+                  </div>
+                  <span className="flex items-center gap-1.5 rounded-full border border-zinc-800 bg-zinc-900 px-3 py-1 text-[11px] text-zinc-300">
+                    <Film className="h-3 w-3 text-[#FF5A36]" />
+                    <span>In-House Studio Assets</span>
+                  </span>
+                </div>
+
+                {/* Cover Image */}
+                <FormField
+                  label="Primary Cover Image URL"
+                  required
+                  hint="Paste image link from CDN, Imgur, Firebase, Unsplash, or local /images/..."
+                >
+                  <div className="space-y-3">
+                    <div className="flex gap-2">
+                      <div className="relative flex-1">
+                        <ImageIcon className="pointer-events-none absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2 text-zinc-500" />
+                        <input
+                          type="url"
+                          value={editingProduct.images?.[0] || editingProduct.coverImageUrl || ""}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            const currentImgs = [...(editingProduct.images || [])];
+                            currentImgs[0] = val;
+                            setEditingProduct({
+                              ...editingProduct,
+                              images: currentImgs,
+                              coverImageUrl: val,
+                            });
+                          }}
+                          placeholder="https://images.unsplash.com/... or /images/products/product-1.png"
+                          className={`${inputCls} pl-8`}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Quick Preset Badges */}
+                    <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+                      <span className="text-zinc-500 font-medium">Quick Presets:</span>
+                      {[
+                        { label: "Canva Studio Pack", url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80" },
+                        { label: "Video Motion SFX", url: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80" },
+                        { label: "Creator Apps & Code", url: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80" },
+                        { label: "Cinematic Lightroom", url: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1200&q=80" },
+                        { label: "E-Book Masterclass", url: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=1200&q=80" },
+                      ].map((preset) => (
+                        <button
+                          key={preset.label}
+                          type="button"
+                          onClick={() => {
+                            const currentImgs = [...(editingProduct.images || [])];
+                            currentImgs[0] = preset.url;
+                            setEditingProduct({
+                              ...editingProduct,
+                              images: currentImgs,
+                              coverImageUrl: preset.url,
+                            });
+                          }}
+                          className="cursor-pointer rounded-md border border-zinc-800 bg-zinc-900 px-2 py-0.5 text-[10px] text-zinc-300 hover:border-[#FF5A36]/40 hover:text-white transition-colors"
+                        >
+                          {preset.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Live Preview Thumbnail Box */}
+                    {(editingProduct.images?.[0] || editingProduct.coverImageUrl) && (
+                      <div className="relative aspect-[16/9] max-w-sm overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
+                        <img
+                          src={editingProduct.images?.[0] || editingProduct.coverImageUrl}
+                          alt="Cover Preview"
+                          className="h-full w-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLElement).style.display = "none";
+                          }}
+                        />
+                        <div className="absolute top-2 left-2 rounded-full bg-black/60 px-2.5 py-0.5 text-[10px] font-bold text-white backdrop-blur-md">
+                          Live Cover Preview
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </FormField>
+
+                {/* Additional Gallery Images */}
+                <FormField
+                  label="Product Image Gallery (Additional Screenshots & Slides)"
+                  hint="Add slides, before/after comparisons, and interior preview angles"
+                >
+                  <div className="space-y-3">
+                    <div className="flex gap-2">
+                      <input
+                        type="url"
+                        value={newImageUrl}
+                        onChange={(e) => setNewImageUrl(e.target.value)}
+                        placeholder="Paste image URL and click '+ Add'"
+                        className={inputCls}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            if (newImageUrl.trim()) {
+                              const imgs = [...(editingProduct.images || [])];
+                              imgs.push(newImageUrl.trim());
+                              setEditingProduct({ ...editingProduct, images: imgs });
+                              setNewImageUrl("");
+                            }
+                          }
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (newImageUrl.trim()) {
+                            const imgs = [...(editingProduct.images || [])];
+                            imgs.push(newImageUrl.trim());
+                            setEditingProduct({ ...editingProduct, images: imgs });
+                            setNewImageUrl("");
+                          }
+                        }}
+                        className="cursor-pointer rounded-xl bg-zinc-800 px-4 py-2 text-xs font-semibold text-white hover:bg-zinc-700 transition-colors shrink-0"
+                      >
+                        + Add Image
+                      </button>
+                    </div>
+
+                    {/* Gallery Thumbnails List */}
+                    <div className="flex flex-wrap gap-2.5">
+                      {(editingProduct.images || []).map((img, i) => (
+                        <div
+                          key={`${img}-${i}`}
+                          className="group relative h-16 w-24 overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900"
+                        >
+                          <img
+                            src={img}
+                            alt={`Gallery ${i}`}
+                            className="h-full w-full object-cover"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const imgs = (editingProduct.images || []).filter((_, idx) => idx !== i);
+                              setEditingProduct({ ...editingProduct, images: imgs });
+                            }}
+                            className="cursor-pointer absolute top-1 right-1 rounded-full bg-black/70 p-1 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                            title="Remove image"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                          <span className="absolute bottom-1 left-1 rounded bg-black/60 px-1 text-[9px] text-zinc-300">
+                            #{i + 1}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </FormField>
+
+                {/* Video Preview / Reel Demo */}
+                <FormField
+                  label="Demo / Preview Video URL (Reel, MP4, or YouTube Embed)"
+                  hint="Show real video editing pacing, motion overlays, or app walkthroughs to boost conversions"
+                >
+                  <div className="space-y-3">
+                    <div className="relative">
+                      <Video className="pointer-events-none absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2 text-zinc-500" />
+                      <input
+                        type="text"
+                        value={editingProduct.videoUrl || ""}
+                        onChange={(e) => setEditingProduct({ ...editingProduct, videoUrl: e.target.value })}
+                        placeholder="e.g. https://www.youtube.com/watch?v=... or https://cdn.../preview.mp4"
+                        className={`${inputCls} pl-8`}
+                      />
+                    </div>
+
+                    {/* Quick Demo Video Presets for BADARSH Studio */}
+                    <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+                      <span className="text-zinc-500 font-medium">Sample Reels / Demos:</span>
+                      {[
+                        { label: "Viral SFX & Pacing Demo", url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+                        { label: "Motion Graphics Reel", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" },
+                        { label: "Shorts Video Editing", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" },
+                      ].map((demo) => (
+                        <button
+                          key={demo.label}
+                          type="button"
+                          onClick={() => setEditingProduct({ ...editingProduct, videoUrl: demo.url })}
+                          className="cursor-pointer rounded-md border border-zinc-800 bg-zinc-900 px-2 py-0.5 text-[10px] text-zinc-300 hover:border-[#FF5A36]/40 hover:text-white transition-colors"
+                        >
+                          {demo.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Video Player Live Preview */}
+                    {editingProduct.videoUrl && (
+                      <div className="overflow-hidden rounded-xl border border-zinc-800 bg-black p-2">
+                        <div className="flex items-center justify-between pb-2 px-1 text-[11px] text-zinc-400">
+                          <span className="flex items-center gap-1 text-emerald-400 font-semibold">
+                            <Play className="h-3 w-3" /> Live Video Preview Player
+                          </span>
+                          <span>Will render on storefront product card &amp; details</span>
+                        </div>
+                        {editingProduct.videoUrl.includes("youtube.com") || editingProduct.videoUrl.includes("youtu.be") ? (
+                          <div className="relative aspect-[16/9] w-full rounded-lg overflow-hidden">
+                            <iframe
+                              src={`https://www.youtube-nocookie.com/embed/${
+                                editingProduct.videoUrl.includes("v=")
+                                  ? editingProduct.videoUrl.split("v=")[1]?.split("&")[0]
+                                  : editingProduct.videoUrl.split("/").pop()
+                              }`}
+                              title="Product Demo Video"
+                              className="h-full w-full border-0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            />
+                          </div>
+                        ) : (
+                          <video
+                            controls
+                            src={editingProduct.videoUrl}
+                            className="aspect-[16/9] w-full rounded-lg bg-black object-contain"
+                          />
+                        )}
+                      </div>
+                    )}
                   </div>
                 </FormField>
               </div>

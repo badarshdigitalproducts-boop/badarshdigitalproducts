@@ -14,8 +14,8 @@ export const products: Product[] = [
     category: "social-media",
     tags: ["instagram", "reels", "canva", "templates", "social media"],
     images: [
-      "/images/products/product-1.png",
-      "/images/products/product-1-2.png",
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80",
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=70",
     ],
     features: [
       "50+ unique Reels cover designs",
@@ -38,6 +38,8 @@ export const products: Product[] = [
     isBestseller: true,
     format: "Canva Template",
     fileSize: "12 MB",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4",
+    downloadUrl: "https://badarsh.com/downloads/instagram-reels-template-pack.zip",
     gumroadUrl: "https://badarsh.gumroad.com/l/reels-pack",
     createdAt: "2025-03-15",
   },
@@ -54,8 +56,8 @@ export const products: Product[] = [
     category: "social-media",
     tags: ["linkedin", "carousel", "canva", "personal branding", "B2B"],
     images: [
-      "/images/products/product-2.png",
-      "/images/products/product-2-2.png",
+      "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&q=80",
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80",
     ],
     features: [
       "30 carousel templates (10 slides each, 300 total slides)",
@@ -78,6 +80,7 @@ export const products: Product[] = [
     isBestseller: true,
     format: "Canva Template",
     fileSize: "18 MB",
+    downloadUrl: "https://badarsh.com/downloads/linkedin-carousel-templates.zip",
     gumroadUrl: "https://badarsh.gumroad.com/l/linkedin-carousel",
     createdAt: "2025-05-20",
   },
@@ -551,6 +554,8 @@ export const products: Product[] = [
     isBestseller: false,
     format: "Guide & Presets",
     fileSize: "18 MB",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+    downloadUrl: "https://badarsh.com/downloads/creator-editing-apps-vault.zip",
     gumroadUrl: "https://badarsh.gumroad.com/l/editing-apps",
     createdAt: "2026-11-01",
   },
@@ -568,8 +573,8 @@ export const products: Product[] = [
     category: "editing-bundles",
     tags: ["sfx", "sound effects", "motion graphics", "overlays", "reels editing", "video bundle"],
     images: [
-      "/images/products/product-3.png",
-      "/images/products/product-4.png",
+      "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80",
+      "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80",
     ],
     features: [
       "350+ high-fidelity sound effects (WAV + MP3)",
@@ -591,6 +596,8 @@ export const products: Product[] = [
     isBestseller: true,
     format: "WAV, MP3 & MP4",
     fileSize: "680 MB",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    downloadUrl: "https://badarsh.com/downloads/viral-sfx-motion-overlay-bundle.zip",
     gumroadUrl: "https://badarsh.gumroad.com/l/sfx-bundle",
     createdAt: "2026-11-05",
   },
@@ -607,8 +614,8 @@ export const products: Product[] = [
     category: "photo-presets",
     tags: ["lightroom presets", "presets", "photo editing", "dng", "instagram aesthetic", "cinematic"],
     images: [
-      "/images/products/product-5.png",
-      "/images/products/product-6.png",
+      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1200&q=80",
+      "https://images.unsplash.com/photo-1502759683299-cdcd1a7082fe?w=1200&q=80",
     ],
     features: [
       "25 Desktop (.XMP) and Mobile (.DNG) presets",
@@ -630,6 +637,8 @@ export const products: Product[] = [
     isBestseller: false,
     format: "DNG & XMP Presets",
     fileSize: "22 MB",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+    downloadUrl: "https://badarsh.com/downloads/cinematic-lightroom-presets.zip",
     gumroadUrl: "https://badarsh.gumroad.com/l/lightroom-presets",
     createdAt: "2026-11-10",
   },

@@ -254,16 +254,29 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
 
               {/* Instant Access Buttons */}
               <div className="space-y-3">
-                <a
-                  href={orderConfirmed.canvaUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent py-3.5 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-accent-hover active:scale-95"
-                >
-                  <Sparkles className="h-4 w-4" />
-                  <span>Open &amp; Edit Template in Canva</span>
-                  <ExternalLink className="h-3.5 w-3.5" />
-                </a>
+                {orderConfirmed.downloadUrl && (
+                  <a
+                    href={orderConfirmed.downloadUrl}
+                    download
+                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent py-3.5 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-accent-hover active:scale-95"
+                  >
+                    <Download className="h-4 w-4" />
+                    <span>Download Product Files (ZIP / Assets)</span>
+                  </a>
+                )}
+
+                {orderConfirmed.canvaUrl && !orderConfirmed.canvaUrl.includes("gumroad") && (
+                  <a
+                    href={orderConfirmed.canvaUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-card-border bg-card py-3 font-heading text-xs font-bold text-foreground shadow-sm transition-all hover:border-accent hover:text-accent active:scale-95"
+                  >
+                    <Sparkles className="h-4 w-4 text-accent" />
+                    <span>Open Editable Project in Canva</span>
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                )}
 
                 <button
                   onClick={() => handleWhatsAppDelivery(orderConfirmed)}
@@ -458,14 +471,22 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                 {activeTab === "upi" && (
                   <div className="space-y-4">
                     <div className="rounded-2xl border border-card-border bg-background p-4 text-center">
-                      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-accent/10 text-accent">
-                        <QrCode className="h-7 w-7" />
+                      <div className="mx-auto flex h-36 w-36 items-center justify-center rounded-2xl border border-card-border bg-white p-2 shadow-sm">
+                        <img
+                          src={`https://quickchart.io/qr?text=${encodeURIComponent(
+                            `upi://pay?pa=7204250115@ybl&pn=BADARSH%20STUDIO&am=${finalTotal}&cu=INR&tn=${encodeURIComponent(
+                              product.title.slice(0, 20)
+                            )}`
+                          )}&size=160&margin=1`}
+                          alt="Scan to Pay via UPI"
+                          className="h-full w-full object-contain"
+                        />
                       </div>
-                      <h4 className="mt-2 font-heading text-sm font-bold text-foreground">
-                        Instant UPI Payment
+                      <h4 className="mt-3 font-heading text-sm font-bold text-foreground">
+                        Scan with Any UPI App to Pay
                       </h4>
                       <p className="text-xs text-muted">
-                        GPay &bull; PhonePe &bull; Paytm &bull; BHIM &bull; CRED
+                        PhonePe &bull; Google Pay &bull; Paytm &bull; BHIM &bull; CRED
                       </p>
                       <div className="mt-3 flex items-center justify-center gap-2 rounded-xl border border-dashed border-accent/40 bg-accent/5 p-2.5">
                         <span className="font-mono text-xs font-bold text-foreground">
@@ -479,6 +500,19 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                           {copiedUpi ? "Copied!" : "Copy"}
                         </button>
                       </div>
+
+                      {/* Mobile Intent link */}
+                      <div className="mt-3">
+                        <a
+                          href={`upi://pay?pa=7204250115@ybl&pn=BADARSH%20STUDIO&am=${finalTotal}&cu=INR&tn=${encodeURIComponent(
+                            product.title.slice(0, 20)
+                          )}`}
+                          className="inline-flex sm:hidden items-center gap-1.5 text-xs font-bold text-accent hover:underline"
+                        >
+                          <span>Tap here to launch UPI App on Phone</span>
+                          <ExternalLink className="h-3 w-3" />
+                        </a>
+                      </div>
                     </div>
 
                     <button
@@ -490,12 +524,12 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                       {submitting ? (
                         <>
                           <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                          <span>Fulfilling Order...</span>
+                          <span>Verifying &amp; Unlocking Assets...</span>
                         </>
                       ) : (
                         <>
                           <Lock className="h-4 w-4" />
-                          <span>Complete Order &amp; Unlock Instant Access &bull; {formatCurr(finalTotal)}</span>
+                          <span>I Have Paid &bull; Unlock Instant Access ({formatCurr(finalTotal)})</span>
                         </>
                       )}
                     </button>

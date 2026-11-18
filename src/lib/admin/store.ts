@@ -71,8 +71,9 @@ function getDefaultSettings(): SystemSettings {
 function getSeedDatabase(): AdminDatabase {
   const seededProducts: AdminProduct[] = initialStaticProducts.map((p) => ({
     ...p,
-    canvaUrl: p.gumroadUrl || `https://www.canva.com/design/templates/${p.slug}`,
-    downloadUrl: `/downloads/${p.slug}.zip`,
+    deliveryType: p.deliveryType || "download-url",
+    canvaUrl: p.canvaUrl || p.gumroadUrl || `https://www.canva.com/design/templates/${p.slug}`,
+    downloadUrl: p.downloadUrl || `/downloads/${p.slug}.zip`,
     status: "published",
     updatedAt: new Date().toISOString(),
   }));
@@ -365,6 +366,27 @@ export async function getDatabase(): Promise<AdminDatabase> {
     if (!parsed.products || !parsed.products.length) {
       parsed.products = seed.products;
       modified = true;
+    } else {
+      seed.products.forEach((sp) => {
+        const existing = parsed.products.find((p: any) => p.id === sp.id || p.slug === sp.slug);
+        if (existing) {
+          if (!existing.videoUrl && sp.videoUrl) {
+            existing.videoUrl = sp.videoUrl;
+            modified = true;
+          }
+          if (sp.images && sp.images[0] && (!existing.images || !existing.images.length || existing.images[0]?.startsWith("/images/products/"))) {
+            existing.images = sp.images;
+            modified = true;
+          }
+          if (sp.downloadUrl && (!existing.downloadUrl || existing.downloadUrl.startsWith("/downloads/"))) {
+            existing.downloadUrl = sp.downloadUrl;
+            modified = true;
+          }
+        } else {
+          parsed.products.push(sp);
+          modified = true;
+        }
+      });
     }
 
     if (modified) {
