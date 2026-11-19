@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Video,
@@ -63,17 +64,23 @@ export default function ServicesPage() {
         subtitle="Skip the amateur freelancers. Hire our dedicated in-house team to produce viral video edits, build blazing-fast Next.js websites, retouch commercial photos, and scale your brand identity."
       />
 
-      {/* Quick Jump Bar */}
+      {/* Dedicated Services Bar */}
       <div className="mt-8 mb-16 flex flex-wrap items-center justify-center gap-2">
-        {serviceList.map((s) => (
-          <a
-            key={s.id}
-            href={`#${s.slug}`}
-            className="rounded-full border border-card-border bg-card px-4 py-2 text-xs font-bold text-muted transition-all hover:border-accent hover:text-foreground"
-          >
-            {s.title}
-          </a>
-        ))}
+        {serviceList.map((s) => {
+          const dedicatedHref =
+            s.slug === "website-building"
+              ? "/services/website-design"
+              : `/services/${s.slug}`;
+          return (
+            <Link
+              key={s.id}
+              href={dedicatedHref}
+              className="rounded-full border border-card-border bg-card px-4 py-2 text-xs font-bold text-muted transition-all hover:border-accent hover:text-accent hover:bg-accent/5"
+            >
+              {s.title} &rarr;
+            </Link>
+          );
+        })}
       </div>
 
       {/* Services List */}
@@ -103,18 +110,32 @@ export default function ServicesPage() {
                   </div>
                 </div>
 
-                <a
-                  href={getWhatsAppUrl(
-                    `Hi BADARSH! I'm interested in hiring your team for ${service.title}. Let's discuss my project!`,
-                    service.title
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-heading text-xs font-bold text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent-hover hover:scale-105"
-                >
-                  <MessageSquare className="h-4 w-4" />
-                  <span>Discuss On WhatsApp (+91 72042 50115)</span>
-                </a>
+                <div className="flex flex-wrap items-center gap-3">
+                  <Link
+                    href={
+                      service.slug === "website-building"
+                        ? "/services/website-design"
+                        : `/services/${service.slug}`
+                    }
+                    className="inline-flex items-center gap-1.5 rounded-full border border-card-border bg-card px-5 py-3 font-heading text-xs font-bold text-foreground hover:border-accent hover:text-accent transition-all"
+                  >
+                    <span>View Dedicated Page</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+
+                  <a
+                    href={getWhatsAppUrl(
+                      `Hi BADARSH! I'm interested in hiring your team for ${service.title}. Let's discuss my project!`,
+                      service.title
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-heading text-xs font-bold text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent-hover hover:scale-105"
+                  >
+                    <MessageSquare className="h-4 w-4" />
+                    <span>WhatsApp (+91 72042 50115)</span>
+                  </a>
+                </div>
               </div>
 
               <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted">

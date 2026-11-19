@@ -45,7 +45,7 @@ function ShopMegaMenu({ onClose }: { onClose: () => void }) {
               {
                 title: "All-in-One Bundles",
                 desc: "Curated collections with up to 60% savings",
-                href: "/templates?category=bundles",
+                href: "/bundles",
               },
             ].map((item) => (
               <li key={item.href}>
@@ -69,29 +69,24 @@ function ShopMegaMenu({ onClose }: { onClose: () => void }) {
         {/* Column 2: Creator Tools & Presets (4 cols) */}
         <div className="space-y-4 md:col-span-4">
           <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">
-            Creative Assets &amp; Presets
+            Creator Software &amp; Assets
           </p>
           <ul className="space-y-2.5">
             {[
               {
-                title: "Editing Apps & Vault",
-                desc: "Export recipes, shortcuts & mobile workflows",
-                href: "/templates?category=editing-apps",
+                title: "Editing Apps (APKs)",
+                desc: "Verified video editing APKs & tools",
+                href: "/editing-apps",
               },
               {
                 title: "Video SFX & Motion Overlays",
-                desc: "350+ creator sounds, 4K film grains & leaks",
-                href: "/templates?category=editing-bundles",
+                desc: "350+ sounds, light leaks & 1-click CapCut templates",
+                href: "/editing-bundles",
               },
               {
                 title: "Lightroom Presets",
-                desc: "25 cinematic desktop & mobile DNG presets",
-                href: "/templates?category=photo-presets",
-              },
-              {
-                title: "3D Device Mockup Frames",
-                desc: "MacBook, iPhone & studio scene holders",
-                href: "/templates?category=assets",
+                desc: "1-click cinematic desktop & mobile DNG presets",
+                href: "/photo-presets",
               },
             ].map((item) => (
               <li key={item.href}>
@@ -168,17 +163,17 @@ function ServicesMegaMenu({ onClose }: { onClose: () => void }) {
               {
                 title: "Video Editing",
                 desc: "High-retention Reels, YouTube edits & motion graphics",
-                href: "/services#video-editing",
+                href: "/services/video-editing",
               },
               {
                 title: "Photo Retouching",
                 desc: "Commercial catalog, frequency separation & color grading",
-                href: "/services#photo-editing",
+                href: "/services/photo-editing",
               },
               {
                 title: "Social Media Management",
                 desc: "End-to-end strategy, content calendar & community growth",
-                href: "/services#social-media-management",
+                href: "/services/social-media-management",
               },
             ].map((item) => (
               <li key={item.href}>
@@ -208,18 +203,18 @@ function ServicesMegaMenu({ onClose }: { onClose: () => void }) {
             {[
               {
                 title: "Website Design & Development",
-                desc: "High-performance Next.js sites built for maximum conversion",
-                href: "/services#website-building",
+                desc: "High-performance Next.js sites: ₹3k-6k / ₹9k-11k / ₹15k+",
+                href: "/services/website-design",
               },
               {
                 title: "Mobile App Development",
                 desc: "iOS & Android native cross-platform apps with cloud backends",
-                href: "/services#app-development",
+                href: "/services/app-development",
               },
               {
                 title: "Brand Identity Design",
                 desc: "Logos, comprehensive style guides & design tokens",
-                href: "/services#brand-identity",
+                href: "/services/brand-identity",
               },
             ].map((item) => (
               <li key={item.href}>
