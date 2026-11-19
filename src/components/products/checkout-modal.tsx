@@ -252,19 +252,93 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                 </div>
               </div>
 
-              {/* Instant Access Buttons */}
+              {/* Smart Context-Aware Delivery Buttons */}
               <div className="space-y-3">
-                {orderConfirmed.downloadUrl && (
+                {/* 1. Direct APK Download (for Editing Apps) */}
+                {(product.appApkUrl || product.category === "editing-apps") && (
                   <a
-                    href={orderConfirmed.downloadUrl}
+                    href={product.appApkUrl || orderConfirmed.downloadUrl || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-emerald-600 py-3.5 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-emerald-700 active:scale-95"
+                  >
+                    <Download className="h-4 w-4" />
+                    <span>Download APK Directly ({product.fileSize || "Android Package"})</span>
+                  </a>
+                )}
+
+                {/* 2. Direct Lightroom Preset Link */}
+                {(product.presetLinkUrl || product.category === "photo-presets") && (
+                  <a
+                    href={product.presetLinkUrl || orderConfirmed.downloadUrl || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent py-3.5 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-accent-hover active:scale-95"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    <span>Open in Adobe Lightroom (Import Preset)</span>
+                  </a>
+                )}
+
+                {/* 3. Direct CapCut / Premiere Overlay Link */}
+                {(product.overlayLinkUrl || product.category === "editing-bundles") && (
+                  <a
+                    href={product.overlayLinkUrl || orderConfirmed.downloadUrl || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent py-3.5 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-accent-hover active:scale-95"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    <span>Launch Template in CapCut / Premiere</span>
+                  </a>
+                )}
+
+                {/* 4. Google Drive Mega Bundle Access */}
+                {(product.googleDriveUrl || (product.category === "bundles" && !product.appApkUrl)) && (
+                  <a
+                    href={product.googleDriveUrl || orderConfirmed.downloadUrl || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent py-3.5 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-accent-hover active:scale-95"
+                  >
+                    <Download className="h-4 w-4" />
+                    <span>Access Google Drive Mega Bundle (ZIP &amp; 4K Assets)</span>
+                  </a>
+                )}
+
+                {/* 5. PDF E-Book / Planner Direct Download */}
+                {(product.category === "ebooks" || product.category === "planners") && (
+                  <a
+                    href={product.downloadUrl || orderConfirmed.downloadUrl || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     download
                     className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent py-3.5 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-accent-hover active:scale-95"
                   >
                     <Download className="h-4 w-4" />
-                    <span>Download Product Files (ZIP / Assets)</span>
+                    <span>Download Master PDF ({product.fileSize || "Full Version"})</span>
                   </a>
                 )}
 
+                {/* 6. Generic File Download Fallback */}
+                {orderConfirmed.downloadUrl &&
+                  product.category !== "editing-apps" &&
+                  product.category !== "photo-presets" &&
+                  product.category !== "editing-bundles" &&
+                  product.category !== "bundles" &&
+                  product.category !== "ebooks" &&
+                  product.category !== "planners" && (
+                    <a
+                      href={orderConfirmed.downloadUrl}
+                      download
+                      className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent py-3.5 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-accent-hover active:scale-95"
+                    >
+                      <Download className="h-4 w-4" />
+                      <span>Download Product Files (ZIP / Assets)</span>
+                    </a>
+                  )}
+
+                {/* 7. Canva Link if applicable */}
                 {orderConfirmed.canvaUrl && !orderConfirmed.canvaUrl.includes("gumroad") && (
                   <a
                     href={orderConfirmed.canvaUrl}
@@ -278,12 +352,13 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                   </a>
                 )}
 
+                {/* 8. WhatsApp Confirmation & Personal Concierge Delivery */}
                 <button
                   onClick={() => handleWhatsAppDelivery(orderConfirmed)}
                   className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 py-3.5 font-heading text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 active:scale-95 transition-all"
                 >
                   <MessageCircle className="h-4 w-4" />
-                  <span>Receive Copy on WhatsApp</span>
+                  <span>Receive Instant Copy on WhatsApp (+91 72042 50115)</span>
                 </button>
               </div>
             </div>

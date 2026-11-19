@@ -31,6 +31,12 @@ export interface Product {
   googleDriveUrl?: string;
   deliveryType?: DeliveryType;
   softwareRequired?: string;
+  previewPdfUrl?: string;        // ebook/planner PDF preview URL
+  portfolioImages?: string[];    // service portfolio showcase
+  portfolioVideos?: string[];    // service video portfolio
+  appApkUrl?: string;            // direct APK download
+  presetLinkUrl?: string;        // Lightroom preset link
+  overlayLinkUrl?: string;       // SFX/overlay template link
   features: string[];
   specs?: ProductSpecs;
   rating: number;
@@ -55,8 +61,7 @@ export type ProductCategory =
   | "bundles"
   | "editing-apps"
   | "editing-bundles"
-  | "photo-presets"
-  | "assets";
+  | "photo-presets";
 
 export interface ProductFilter {
   category: ProductCategory | "all";

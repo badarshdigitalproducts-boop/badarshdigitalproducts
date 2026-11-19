@@ -68,6 +68,12 @@ export const SHOP_MENU = [
     desc: "Complete video & photo editing starter packs",
     icon: "",
   },
+  {
+    label: "Photo Presets",
+    href: "/templates?category=photo-presets",
+    desc: "1-click Lightroom mobile & desktop presets",
+    icon: "",
+  },
 ] as const;
 
 export const SERVICES_MENU = [
@@ -121,7 +127,6 @@ export const CATEGORIES = [
   { value: "editing-apps", label: "Editing Apps" },
   { value: "editing-bundles", label: "Editing Bundles" },
   { value: "photo-presets", label: "Photo Presets" },
-  { value: "assets", label: "Digital Assets" },
 ] as const;
 
 // All product delivery types supported by BADARSH admin
@@ -144,7 +149,7 @@ export const DELIVERY_TYPES = [
   { value: "canva-link", label: "Canva Template Link" },
   { value: "download-url", label: "Direct Download URL" },
   { value: "google-drive", label: "Google Drive Link" },
-  { value: "external-url", label: "External URL (Gumroad, etc.)" },
+  { value: "external-url", label: "External Link (App / Preset / Template)" },
   { value: "whatsapp-delivery", label: "Manual WhatsApp Delivery" },
 ] as const;
 

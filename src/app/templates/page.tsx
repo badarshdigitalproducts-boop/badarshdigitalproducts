@@ -72,7 +72,7 @@ function TemplatesContent() {
         subtitle="Download professionally designed social media packs, video editing assets, apps, pitch decks, and digital tools."
       />
 
-      <div className="mt-8 mb-12">
+      <div className="mt-8 mb-8">
         <ProductFilter
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
@@ -83,6 +83,95 @@ function TemplatesContent() {
           categoriesList={CATEGORIES}
         />
       </div>
+
+      {/* Category Spotlight Banners */}
+      {selectedCategory === "editing-bundles" && (
+        <div className="mb-10 rounded-3xl border border-accent/30 bg-gradient-to-r from-accent/15 via-purple-900/10 to-card p-6 md:p-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div>
+              <span className="rounded-full bg-accent/20 px-3 py-1 text-xs font-bold text-accent">
+                🎬 1-Click Video Editing Workflow
+              </span>
+              <h2 className="mt-2 font-heading text-2xl font-black text-foreground">
+                Video SFX, Light Leaks &amp; Motion Overlays
+              </h2>
+              <p className="mt-1 text-sm text-muted max-w-2xl">
+                Our team crafts the visual effects and provides direct template links. You click the link, it opens right inside CapCut or Premiere, you drop your own clip or photo in, and your edit is done!
+              </p>
+            </div>
+            <div className="flex items-center gap-2 rounded-2xl bg-card/80 border border-card-border px-4 py-3 text-xs font-medium text-foreground/90 shrink-0">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>CapCut &amp; Premiere Ready</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selectedCategory === "photo-presets" && (
+        <div className="mb-10 rounded-3xl border border-accent/30 bg-gradient-to-r from-accent/15 via-amber-900/10 to-card p-6 md:p-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div>
+              <span className="rounded-full bg-accent/20 px-3 py-1 text-xs font-bold text-accent">
+                🎨 1-Click Lightroom Mobile Presets
+              </span>
+              <h2 className="mt-2 font-heading text-2xl font-black text-foreground">
+                Cinematic Mood &amp; Warm Editorial Presets
+              </h2>
+              <p className="mt-1 text-sm text-muted max-w-2xl">
+                Our team color-grades the photos and shares the direct Lightroom preset link. Click the link to open Adobe Lightroom Mobile (Free), add your photo, and your professional color grade is applied instantly!
+              </p>
+            </div>
+            <div className="flex items-center gap-2 rounded-2xl bg-card/80 border border-card-border px-4 py-3 text-xs font-medium text-foreground/90 shrink-0">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Free Lightroom App Compatible</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selectedCategory === "editing-apps" && (
+        <div className="mb-10 rounded-3xl border border-accent/30 bg-gradient-to-r from-accent/15 via-blue-900/10 to-card p-6 md:p-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div>
+              <span className="rounded-full bg-accent/20 px-3 py-1 text-xs font-bold text-accent">
+                📱 Creator App Downloads &amp; APKs
+              </span>
+              <h2 className="mt-2 font-heading text-2xl font-black text-foreground">
+                Verified Video Editing Apps &amp; Workflows
+              </h2>
+              <p className="mt-1 text-sm text-muted max-w-2xl">
+                Download verified Android APKs directly from BADARSH cloud servers. All premium transitions, AI tools, and 4K exports unlocked without third-party redirects.
+              </p>
+            </div>
+            <div className="flex items-center gap-2 rounded-2xl bg-card/80 border border-card-border px-4 py-3 text-xs font-medium text-foreground/90 shrink-0">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Virus-Scanned &amp; Tested</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selectedCategory === "bundles" && (
+        <div className="mb-10 rounded-3xl border border-accent/30 bg-gradient-to-r from-accent/15 via-purple-900/10 to-card p-6 md:p-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div>
+              <span className="rounded-full bg-accent/20 px-3 py-1 text-xs font-bold text-accent">
+                🔥 All-in-One Mega Bundles
+              </span>
+              <h2 className="mt-2 font-heading text-2xl font-black text-foreground">
+                2026 Video &amp; Graphics Master Vaults
+              </h2>
+              <p className="mt-1 text-sm text-muted max-w-2xl">
+                Uploaded straight from BADARSH Studio cloud drive: 500+ sound effects, 100 transitions, 50 LUTs, title packs, and green screen elements. Instant cloud drive access after payment.
+              </p>
+            </div>
+            <div className="flex items-center gap-2 rounded-2xl bg-card/80 border border-card-border px-4 py-3 text-xs font-medium text-foreground/90 shrink-0">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Google Drive Direct Link</span>
+            </div>
+          </div>
+        </div>
+      )}
 
       <ProductGrid
         products={filteredProducts}

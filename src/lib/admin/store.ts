@@ -88,6 +88,8 @@ function getSeedDatabase(): AdminDatabase {
     category: "Agency Creative",
     status: "active",
     turnaround: "48-72 Hours",
+    portfolioImages: s.portfolioImages,
+    portfolioVideos: s.portfolioVideos,
     features: s.features,
     packages: s.packages.map((pkg) => ({
       name: pkg.name,
@@ -363,6 +365,15 @@ export async function getDatabase(): Promise<AdminDatabase> {
       parsed.coupons.unshift(seed.coupons[0]);
       modified = true;
     }
+    // Purge legacy 3D mockup frame (prod-013 / assets category)
+    if (parsed.products && Array.isArray(parsed.products)) {
+      const beforeLen = parsed.products.length;
+      parsed.products = parsed.products.filter(
+        (p: any) => p.id !== "prod-013" && p.slug !== "digital-mockup-graphics-kit" && p.category !== "assets"
+      );
+      if (parsed.products.length !== beforeLen) modified = true;
+    }
+
     if (!parsed.products || !parsed.products.length) {
       parsed.products = seed.products;
       modified = true;
@@ -382,9 +393,54 @@ export async function getDatabase(): Promise<AdminDatabase> {
             existing.downloadUrl = sp.downloadUrl;
             modified = true;
           }
+          if (sp.previewPdfUrl && !existing.previewPdfUrl) {
+            existing.previewPdfUrl = sp.previewPdfUrl;
+            modified = true;
+          }
+          if (sp.appApkUrl && !existing.appApkUrl) {
+            existing.appApkUrl = sp.appApkUrl;
+            modified = true;
+          }
+          if (sp.presetLinkUrl && !existing.presetLinkUrl) {
+            existing.presetLinkUrl = sp.presetLinkUrl;
+            modified = true;
+          }
+          if (sp.overlayLinkUrl && !existing.overlayLinkUrl) {
+            existing.overlayLinkUrl = sp.overlayLinkUrl;
+            modified = true;
+          }
+          if (sp.googleDriveUrl && !existing.googleDriveUrl) {
+            existing.googleDriveUrl = sp.googleDriveUrl;
+            modified = true;
+          }
+          if (sp.deliveryType && (!existing.deliveryType || existing.deliveryType === "download-url")) {
+            existing.deliveryType = sp.deliveryType;
+            modified = true;
+          }
         } else {
           parsed.products.push(sp);
           modified = true;
+        }
+      });
+    }
+
+    // Backfill service portfolios & updated packages from seed
+    if (parsed.services && Array.isArray(parsed.services)) {
+      seed.services.forEach((ss) => {
+        const existing = parsed.services.find((s: any) => s.id === ss.id || s.slug === ss.slug);
+        if (existing) {
+          if (ss.portfolioVideos && (!existing.portfolioVideos || !existing.portfolioVideos.length)) {
+            existing.portfolioVideos = ss.portfolioVideos;
+            modified = true;
+          }
+          if (ss.portfolioImages && (!existing.portfolioImages || !existing.portfolioImages.length)) {
+            existing.portfolioImages = ss.portfolioImages;
+            modified = true;
+          }
+          if (ss.packages && ss.packages.length > 0) {
+            existing.packages = ss.packages;
+            modified = true;
+          }
         }
       });
     }

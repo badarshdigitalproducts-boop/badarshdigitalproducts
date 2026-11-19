@@ -5,15 +5,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Video,
   Globe,
-  Megaphone,
+  Share2,
   Smartphone,
   Camera,
   Sparkles,
   CheckCircle2,
-  HelpCircle,
   ChevronDown,
   ArrowRight,
   MessageSquare,
+  Play,
+  Download,
+  Eye,
+  Check,
+  Zap,
 } from "lucide-react";
 import { SectionHeader } from "@/components/shared/section-header";
 import { PricingTable } from "@/components/services/pricing-table";
@@ -24,6 +28,7 @@ import type { Service } from "@/types";
 export default function ServicesPage() {
   const [serviceList, setServiceList] = useState<Service[]>(initialServices);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const [activeVideoIndex, setActiveVideoIndex] = useState<Record<string, number>>({});
 
   useEffect(() => {
     fetch("/api/services")
@@ -40,29 +45,41 @@ export default function ServicesPage() {
     setOpenFaq(openFaq === key ? null : key);
   };
 
-  const getIcon = (title: string) => {
-    const t = title.toLowerCase();
-    if (t.includes("video")) return Video;
-    if (t.includes("website")) return Globe;
-    if (t.includes("app")) return Smartphone;
-    if (t.includes("photo")) return Camera;
-    if (t.includes("brand")) return Sparkles;
-    return Megaphone;
+  const getIcon = (slug: string) => {
+    if (slug.includes("video")) return Video;
+    if (slug.includes("website")) return Globe;
+    if (slug.includes("app")) return Smartphone;
+    if (slug.includes("photo")) return Camera;
+    if (slug.includes("brand")) return Sparkles;
+    return Share2;
   };
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
       {/* Top Hero */}
       <SectionHeader
-        badge="Done-For-You Agency"
-        title="Creative Services for Growing Brands"
-        subtitle="Skip the guesswork and hire our elite team. We produce high-converting short-form videos, build ultra-fast Next.js websites, and grow your digital audience."
+        badge="BADARSH Done-For-You Agency"
+        title="Creative &amp; Technical Services for Growing Brands"
+        subtitle="Skip the amateur freelancers. Hire our dedicated in-house team to produce viral video edits, build blazing-fast Next.js websites, retouch commercial photos, and scale your brand identity."
       />
 
+      {/* Quick Jump Bar */}
+      <div className="mt-8 mb-16 flex flex-wrap items-center justify-center gap-2">
+        {serviceList.map((s) => (
+          <a
+            key={s.id}
+            href={`#${s.slug}`}
+            className="rounded-full border border-card-border bg-card px-4 py-2 text-xs font-bold text-muted transition-all hover:border-accent hover:text-foreground"
+          >
+            {s.title}
+          </a>
+        ))}
+      </div>
+
       {/* Services List */}
-      <div className="mt-16 space-y-24 md:space-y-36">
+      <div className="space-y-24 md:space-y-36">
         {serviceList.map((service, idx) => {
-          const Icon = getIcon(service.title);
+          const Icon = getIcon(service.slug);
 
           return (
             <section
@@ -88,21 +105,250 @@ export default function ServicesPage() {
 
                 <a
                   href={getWhatsAppUrl(
-                    `Hi BADARSH! I'm interested in hiring your team for ${service.title}. Let's chat!`,
+                    `Hi BADARSH! I'm interested in hiring your team for ${service.title}. Let's discuss my project!`,
                     service.title
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 font-heading text-xs font-bold text-white shadow-md hover:bg-accent-hover"
+                  className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-heading text-xs font-bold text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent-hover hover:scale-105"
                 >
                   <MessageSquare className="h-4 w-4" />
-                  <span>Discuss Your Project</span>
+                  <span>Discuss On WhatsApp (+91 72042 50115)</span>
                 </a>
               </div>
 
               <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted">
                 {service.longDescription}
               </p>
+
+              {/* ---------------------------------------------------------------- */}
+              {/* DYNAMIC PORTFOLIO SHOWCASE: VIDEO EDITING */}
+              {/* ---------------------------------------------------------------- */}
+              {service.slug === "video-editing" && service.portfolioVideos && service.portfolioVideos.length > 0 && (
+                <div className="mt-10 rounded-3xl border border-card-border bg-card/60 p-6 md:p-8">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-6">
+                    <div>
+                      <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent">
+                        🎬 Real Edits Portfolio
+                      </span>
+                      <h3 className="mt-2 font-heading text-xl font-bold text-foreground">
+                        Watch Our Edits — Inspect Quality Before Hiring
+                      </h3>
+                      <p className="text-xs text-muted">
+                        Real cuts, color grading, sound design &amp; retention pacing crafted by BADARSH editors.
+                      </p>
+                    </div>
+                    <span className="text-xs text-emerald-500 font-bold flex items-center gap-1">
+                      <Check className="h-3.5 w-3.5" /> 100% In-House Production
+                    </span>
+                  </div>
+
+                  {/* Video Grid */}
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {service.portfolioVideos.map((videoSrc, vIdx) => (
+                      <div
+                        key={vIdx}
+                        className="group relative overflow-hidden rounded-2xl border border-card-border bg-black shadow-md aspect-video"
+                      >
+                        <video
+                          src={videoSrc}
+                          controls
+                          playsInline
+                          preload="metadata"
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-card-border/60 pt-4 text-xs text-muted">
+                    <span>Liked what you saw? Send your raw footage via WhatsApp or Google Drive.</span>
+                    <a
+                      href={getWhatsAppUrl(
+                        "Hi BADARSH! I watched your video editing portfolio and I want to send my raw footage for an edit.",
+                        "Video Editing Portfolio"
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-bold text-accent hover:underline flex items-center gap-1"
+                    >
+                      <span>Send Raw Footage on WhatsApp</span>
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              {/* ---------------------------------------------------------------- */}
+              {/* DYNAMIC PORTFOLIO SHOWCASE: PHOTO EDITING */}
+              {/* ---------------------------------------------------------------- */}
+              {service.slug === "photo-editing" && service.portfolioImages && service.portfolioImages.length > 0 && (
+                <div className="mt-10 rounded-3xl border border-card-border bg-card/60 p-6 md:p-8">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-6">
+                    <div>
+                      <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent">
+                        📸 Retouching &amp; Color Grading Gallery
+                      </span>
+                      <h3 className="mt-2 font-heading text-xl font-bold text-foreground">
+                        Our Retouched Commercial Work
+                      </h3>
+                      <p className="text-xs text-muted">
+                        High-end skin frequency separation, jewelry reflection cleaning, and e-commerce product alignment.
+                      </p>
+                    </div>
+                    <span className="text-xs text-emerald-500 font-bold flex items-center gap-1">
+                      <Check className="h-3.5 w-3.5" /> Studio-Grade Standard
+                    </span>
+                  </div>
+
+                  {/* Photo Grid */}
+                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                    {service.portfolioImages.map((imgSrc, pIdx) => (
+                      <div
+                        key={pIdx}
+                        className="group relative aspect-square overflow-hidden rounded-2xl border border-card-border bg-card shadow-sm"
+                      >
+                        <img
+                          src={imgSrc}
+                          alt={`Retouched Work ${pIdx + 1}`}
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                          <span className="text-[11px] font-bold text-white">
+                            BADARSH High-End Edit
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-card-border/60 pt-4 text-xs text-muted">
+                    <span>Have raw photos to retouch? We deliver samples within 24 hours.</span>
+                    <a
+                      href={getWhatsAppUrl(
+                        "Hi BADARSH! I have photos that need retouching. Can I send 1-2 samples to test your quality?",
+                        "Photo Editing Inquiry"
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-bold text-accent hover:underline flex items-center gap-1"
+                    >
+                      <span>Send Sample Photos on WhatsApp</span>
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              {/* ---------------------------------------------------------------- */}
+              {/* DYNAMIC PORTFOLIO SHOWCASE: BRAND IDENTITY (LOGOS) */}
+              {/* ---------------------------------------------------------------- */}
+              {service.slug === "brand-identity" && service.portfolioImages && service.portfolioImages.length > 0 && (
+                <div className="mt-10 rounded-3xl border border-card-border bg-card/60 p-6 md:p-8">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-6">
+                    <div>
+                      <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent">
+                        ✨ Logo Designs &amp; Identity Systems
+                      </span>
+                      <h3 className="mt-2 font-heading text-xl font-bold text-foreground">
+                        Our Designed Logos — Build Trust First
+                      </h3>
+                      <p className="text-xs text-muted">
+                        Inspect our custom logo marks, typography combinations, and brand guideline sheets.
+                      </p>
+                    </div>
+                    <a
+                      href="https://drive.google.com/drive/folders/BADARSH_SAMPLE_LOGOS"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-card-border bg-background px-4 py-2 text-xs font-bold text-foreground hover:border-accent hover:text-accent"
+                    >
+                      <Download className="h-3.5 w-3.5" />
+                      <span>Download Sample Logos</span>
+                    </a>
+                  </div>
+
+                  {/* Logo Gallery */}
+                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                    {service.portfolioImages.map((logoImg, lIdx) => (
+                      <div
+                        key={lIdx}
+                        className="group relative aspect-square overflow-hidden rounded-2xl border border-card-border bg-white p-4 shadow-sm flex items-center justify-center"
+                      >
+                        <img
+                          src={logoImg}
+                          alt={`Logo Design ${lIdx + 1}`}
+                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 rounded-xl"
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-6 rounded-2xl border border-accent/30 bg-accent/10 p-5 text-center sm:text-left sm:flex sm:items-center sm:justify-between">
+                    <div>
+                      <h4 className="font-heading text-sm font-bold text-foreground">
+                        Want a Custom Logo &amp; Brand System for Your Business?
+                      </h4>
+                      <p className="mt-0.5 text-xs text-muted">
+                        We design original vector logos with full copyright ownership. Message us directly on WhatsApp.
+                      </p>
+                    </div>
+                    <a
+                      href={getWhatsAppUrl(
+                        "Hi BADARSH! I want to order a custom logo design for my brand. Let's discuss!",
+                        "Logo Design Custom Order"
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 sm:mt-0 inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-xs font-bold text-white shadow-md hover:bg-accent-hover shrink-0"
+                    >
+                      <MessageSquare className="h-3.5 w-3.5" />
+                      <span>Order Your Logo on WhatsApp</span>
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              {/* ---------------------------------------------------------------- */}
+              {/* DYNAMIC RATE CALLOUT: WEBSITE DESIGN & APP DEV */}
+              {/* ---------------------------------------------------------------- */}
+              {service.slug === "website-building" && (
+                <div className="mt-10 rounded-3xl border border-accent/30 bg-gradient-to-r from-accent/15 via-purple-900/10 to-card p-6 md:p-8">
+                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div>
+                      <span className="rounded-full bg-accent/20 px-3 py-1 text-xs font-bold text-accent">
+                        ⚡ Transparent Tiered Pricing
+                      </span>
+                      <h3 className="mt-2 font-heading text-2xl font-black text-foreground">
+                        Website Development Rates
+                      </h3>
+                      <div className="mt-3 grid grid-cols-1 gap-2 text-xs sm:grid-cols-3">
+                        <div className="rounded-xl border border-card-border/60 bg-card/60 p-3">
+                          <span className="font-bold text-accent">Normal / Landing Site</span>
+                          <div className="font-heading text-lg font-black text-foreground mt-0.5">
+                            ₹3,000 – ₹6,000
+                          </div>
+                          <p className="text-[11px] text-muted">1 to 3 sections, mobile optimized, WhatsApp button</p>
+                        </div>
+                        <div className="rounded-xl border border-card-border/60 bg-card/60 p-3">
+                          <span className="font-bold text-emerald-500">5 to 8 Pages Business Site</span>
+                          <div className="font-heading text-lg font-black text-foreground mt-0.5">
+                            ₹9,000 – ₹11,000
+                          </div>
+                          <p className="text-[11px] text-muted">Complete SEO, blog, CMS dashboard, smooth animations</p>
+                        </div>
+                        <div className="rounded-xl border border-card-border/60 bg-card/60 p-3">
+                          <span className="font-bold text-purple-400">15 to 20 Pages Enterprise</span>
+                          <div className="font-heading text-lg font-black text-foreground mt-0.5">
+                            ₹15,000+
+                          </div>
+                          <p className="text-[11px] text-muted">Full e-commerce / custom apps, payments, speed guarantee</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Deliverables Grid */}
               <div className="mt-8 rounded-2xl border border-card-border bg-card/40 p-6 md:p-8">
@@ -122,7 +368,7 @@ export default function ServicesPage() {
               {/* Pricing Packages */}
               <div className="mt-12">
                 <h3 className="mb-6 font-heading text-xl font-bold text-foreground">
-                  Transparent Packages &amp; Pricing
+                  Packages &amp; Fixed Pricing ({service.title})
                 </h3>
                 <PricingTable
                   packages={service.packages}
@@ -134,7 +380,7 @@ export default function ServicesPage() {
               {service.process && service.process.length > 0 && (
                 <div className="mt-16 rounded-3xl border border-card-border bg-card/60 p-8 md:p-12">
                   <h3 className="font-heading text-xl font-bold text-foreground">
-                    Our 4-Step Delivery Process
+                    Our 4-Step Agency Process
                   </h3>
                   <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     {service.process.map((step) => (
@@ -210,26 +456,26 @@ export default function ServicesPage() {
       <div className="mt-28 rounded-3xl border border-accent/30 bg-gradient-to-r from-accent/10 via-purple-900/20 to-card p-10 text-center shadow-xl md:p-16">
         <Sparkles className="mx-auto h-10 w-10 text-accent" />
         <h2 className="mt-4 font-heading text-3xl font-extrabold text-foreground sm:text-4xl">
-          Have a Unique Brand or Custom Requirement?
+          Have a Custom Brand or Large Project?
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted">
-          Whether you need a full enterprise website redesign, monthly video retainer for 60+ Reels, or custom employee presentation decks, we're ready to partner with you.
+          Whether you need a full enterprise website redesign, a monthly video editing retainer, custom mobile apps, or corporate rebrands, we partner personally with you on WhatsApp.
         </p>
 
         <a
           href={getWhatsAppUrl(
-            "Hi BADARSH founders! I have a custom agency requirement and would like to schedule a discovery call.",
+            "Hi BADARSH founders! I have a custom agency requirement and would like to schedule a discovery chat.",
             "Custom Agency Discovery"
           )}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 font-heading text-sm font-bold text-white shadow-lg shadow-accent/25 hover:bg-accent-hover"
+          className="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 font-heading text-sm font-bold text-white shadow-lg shadow-accent/25 hover:bg-accent-hover hover:scale-105 transition-all"
         >
-          <span>Schedule A Custom Discovery Call</span>
+          <MessageSquare className="h-4 w-4" />
+          <span>Chat Directly With BADARSH Founders (+91 72042 50115)</span>
           <ArrowRight className="h-4 w-4" />
         </a>
       </div>
     </div>
   );
 }
-

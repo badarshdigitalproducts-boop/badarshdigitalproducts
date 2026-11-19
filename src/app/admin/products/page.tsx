@@ -66,6 +66,10 @@ const DEFAULT_PRODUCT: Partial<AdminProduct> = {
   images: ["https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80"],
   coverImageUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80",
   videoUrl: "",
+  previewPdfUrl: "",
+  appApkUrl: "",
+  presetLinkUrl: "",
+  overlayLinkUrl: "",
   canvaUrl: "",
   downloadUrl: "",
   externalUrl: "",
@@ -928,6 +932,55 @@ export default function AdminProductsPage() {
                   <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-xs text-amber-300">
                     ⚠️ WhatsApp delivery is manual. After a customer pays, you must send the file on WhatsApp manually. Use this only for custom/service-based products.
                   </div>
+                )}
+
+                {/* Conditional Delivery Inputs */}
+                {(editingProduct.category === "ebooks" || editingProduct.category === "planners" || editingProduct.productType === "ebook" || editingProduct.productType === "planner") && (
+                  <FormField label="📖 PDF Preview URL (Google Drive embed for in-page reading preview)" hint="Embed link: https://drive.google.com/file/d/.../preview">
+                    <input
+                      type="url"
+                      value={editingProduct.previewPdfUrl || ""}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, previewPdfUrl: e.target.value })}
+                      placeholder="https://drive.google.com/file/d/FILE_ID/preview"
+                      className={inputCls}
+                    />
+                  </FormField>
+                )}
+
+                {(editingProduct.category === "editing-apps" || editingProduct.productType === "app-license") && (
+                  <FormField label="📱 APK Direct Download URL" hint="Direct link to APK file for instant download after purchase">
+                    <input
+                      type="url"
+                      value={editingProduct.appApkUrl || ""}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, appApkUrl: e.target.value })}
+                      placeholder="https://drive.google.com/file/d/FILE_ID/view"
+                      className={inputCls}
+                    />
+                  </FormField>
+                )}
+
+                {(editingProduct.category === "photo-presets" || editingProduct.productType === "photo-preset") && (
+                  <FormField label="🎨 Adobe Lightroom Preset Share Link" hint="Direct Lightroom share link. Customer clicks → Lightroom app opens → preset imports">
+                    <input
+                      type="url"
+                      value={editingProduct.presetLinkUrl || ""}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, presetLinkUrl: e.target.value })}
+                      placeholder="https://lightroom.adobe.com/shares/YOUR_PRESET_ID"
+                      className={inputCls}
+                    />
+                  </FormField>
+                )}
+
+                {(editingProduct.category === "editing-bundles" || editingProduct.productType === "editing-bundle" || editingProduct.productType === "video-preset") && (
+                  <FormField label="🎬 Template / Overlay App Link (CapCut / Premiere)" hint="Template link. Customer clicks → app opens with template loaded">
+                    <input
+                      type="url"
+                      value={editingProduct.overlayLinkUrl || ""}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, overlayLinkUrl: e.target.value })}
+                      placeholder="https://www.capcut.com/template/TEMPLATE_ID"
+                      className={inputCls}
+                    />
+                  </FormField>
                 )}
 
                 <div className="grid grid-cols-2 gap-4">

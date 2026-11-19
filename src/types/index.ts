@@ -9,6 +9,8 @@ export interface Service {
   packages: ServicePackage[];
   process: ProcessStep[];
   faq: FAQ[];
+  portfolioImages?: string[];
+  portfolioVideos?: string[];
 }
 
 export interface ServicePackage {

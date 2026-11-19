@@ -7,6 +7,7 @@
       "description": "50+ trendy Instagram Reels cover & story templates designed for creators, coaches & modern brands. Fully editable in Canva Free.",
       "longDescription": "Elevate your Instagram game with our premium Reels template pack. Featuring 50+ professionally designed covers and hook slides that match current aesthetic trends — from architectural minimalism to bold high-contrast typography. Each template is fully customizable in Canva Free, so you can swap colors, fonts, and images in seconds without watermarks.",
       "price": 299,
+      "originalPrice": 599,
       "currency": "INR",
       "category": "social-media",
       "tags": [
@@ -18,7 +19,7 @@
       ],
       "images": [
         "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80",
-        "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=70"
+        "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=70"
       ],
       "features": [
         "50+ unique Reels cover designs",
@@ -42,13 +43,12 @@
       "format": "Canva Template",
       "fileSize": "12 MB",
       "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4",
+      "deliveryType": "canva-link",
+      "canvaUrl": "https://www.canva.com/design/templates/sample-reels",
       "downloadUrl": "https://badarsh.com/downloads/instagram-reels-template-pack.zip",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/reels-pack",
       "createdAt": "2025-03-15",
-      "deliveryType": "download-url",
-      "canvaUrl": "https://badarsh.gumroad.com/l/reels-pack",
       "status": "published",
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.435Z"
     },
     {
       "id": "prod-002",
@@ -57,6 +57,7 @@
       "description": "30 professional LinkedIn carousel templates (10 slides each) to grow your personal brand, drive engagement & generate inbound leads.",
       "longDescription": "Stand out on LinkedIn with our curated carousel template pack. Designed for founders, advisors, and B2B marketers, these 30 templates follow proven engagement patterns — storytelling hooks, comparison frameworks, data visuals, and clear call-to-actions. Each slide is editable in Canva Free and optimized for LinkedIn's 4:5 portrait viewing ratio.",
       "price": 399,
+      "originalPrice": 799,
       "currency": "INR",
       "category": "social-media",
       "tags": [
@@ -91,13 +92,12 @@
       "isBestseller": true,
       "format": "Canva Template",
       "fileSize": "18 MB",
+      "deliveryType": "canva-link",
+      "canvaUrl": "https://www.canva.com/design/templates/sample-linkedin",
       "downloadUrl": "https://badarsh.com/downloads/linkedin-carousel-templates.zip",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/linkedin-carousel",
       "createdAt": "2025-05-20",
-      "deliveryType": "download-url",
-      "canvaUrl": "https://badarsh.gumroad.com/l/linkedin-carousel",
       "status": "published",
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.435Z"
     },
     {
       "id": "prod-003",
@@ -106,6 +106,7 @@
       "description": "Complete social media template kit with 100+ designs for Instagram, Facebook, Pinterest & LinkedIn stories, posts, and banners.",
       "longDescription": "Everything you need to launch a professional social media presence in one cohesive pack. Includes 100+ templates spanning square posts, vertical stories, banners, and pin graphics. Designed with a consistent visual system so your business looks authoritative across every platform. Just open in Canva Free and add your brand identity.",
       "price": 499,
+      "originalPrice": 999,
       "currency": "INR",
       "category": "social-media",
       "tags": [
@@ -117,8 +118,8 @@
         "facebook"
       ],
       "images": [
-        "/images/products/product-3.png",
-        "/images/products/product-3-2.png"
+        "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=1200&q=80",
+        "https://images.unsplash.com/photo-1542744094-3a31f272c490?w=1200&q=80"
       ],
       "features": [
         "100+ templates across 4 major platforms",
@@ -141,13 +142,12 @@
       "isBestseller": true,
       "format": "Canva Template",
       "fileSize": "35 MB",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/social-starter",
+      "deliveryType": "canva-link",
+      "canvaUrl": "https://www.canva.com/design/templates/social-starter-kit",
+      "downloadUrl": "https://badarsh.com/downloads/social-media-starter-kit.zip",
       "createdAt": "2025-01-10",
-      "deliveryType": "download-url",
-      "canvaUrl": "https://badarsh.gumroad.com/l/social-starter",
-      "downloadUrl": "/downloads/social-media-starter-kit.zip",
       "status": "published",
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.435Z"
     },
     {
       "id": "prod-004",
@@ -156,6 +156,7 @@
       "description": "Investor-ready pitch deck with 25 slides, financial data charts, device mockups and clean modern layout. Canva & PowerPoint.",
       "longDescription": "Present to investors and enterprise clients with confidence. This modern template includes 25 carefully structured slides following the standard venture sequence — problem, solution, market size, traction, business model, team, and funding ask. Includes device mockups, chart placeholders, and clear hierarchy that keeps audiences focused.",
       "price": 349,
+      "originalPrice": 699,
       "currency": "INR",
       "category": "presentations",
       "tags": [
@@ -166,8 +167,8 @@
         "powerpoint"
       ],
       "images": [
-        "/images/products/product-4.png",
-        "/images/products/product-4-2.png"
+        "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1200&q=80",
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80"
       ],
       "features": [
         "25 structured investor slide layouts",
@@ -190,13 +191,12 @@
       "isBestseller": true,
       "format": "Canva & PPTX",
       "fileSize": "24 MB",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/pitch-deck",
+      "deliveryType": "canva-link",
+      "canvaUrl": "https://www.canva.com/design/templates/modern-pitch-deck",
+      "downloadUrl": "https://badarsh.com/downloads/modern-pitch-deck-template.zip",
       "createdAt": "2025-04-12",
-      "deliveryType": "download-url",
-      "canvaUrl": "https://badarsh.gumroad.com/l/pitch-deck",
-      "downloadUrl": "/downloads/modern-pitch-deck-template.zip",
       "status": "published",
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.435Z"
     },
     {
       "id": "prod-005",
@@ -205,6 +205,7 @@
       "description": "40 dynamic presentation slides designed to keep webinar attendees engaged from intro to your high-converting offer.",
       "longDescription": "Host workshops, client presentations, and online webinars that convert. Packed with 40 presentation slides built around educational retention — framework diagrams, step-by-step processes, case study spotlights, and irresistible pricing tables. Fully editable in Canva Free with drag-and-drop flexibility.",
       "price": 299,
+      "originalPrice": 599,
       "currency": "INR",
       "category": "presentations",
       "tags": [
@@ -215,8 +216,8 @@
         "presentation"
       ],
       "images": [
-        "/images/products/product-5.png",
-        "/images/products/product-5-2.png"
+        "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=1200&q=80",
+        "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1200&q=80"
       ],
       "features": [
         "40 interactive webinar slides",
@@ -238,13 +239,12 @@
       "isBestseller": false,
       "format": "Canva Template",
       "fileSize": "20 MB",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/webinar-deck",
+      "deliveryType": "canva-link",
+      "canvaUrl": "https://www.canva.com/design/templates/webinar-slide-deck",
+      "downloadUrl": "https://badarsh.com/downloads/webinar-slide-deck.zip",
       "createdAt": "2025-06-01",
-      "deliveryType": "download-url",
-      "canvaUrl": "https://badarsh.gumroad.com/l/webinar-deck",
-      "downloadUrl": "/downloads/webinar-slide-deck.zip",
       "status": "published",
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.435Z"
     },
     {
       "id": "prod-006",
@@ -253,6 +253,7 @@
       "description": "Complete branding system: 40+ logo variations, brand guideline template, color palettes, and typography pairing cheat-sheet.",
       "longDescription": "Build a cohesive corporate identity without hiring an expensive branding agency. This kit includes 40+ modular logo marks, a 16-page brand guideline book, font pairing recommendations from Google Fonts, and modern color palette combinations. Everything is set up for instant customization in Canva Free.",
       "price": 499,
+      "originalPrice": 999,
       "currency": "INR",
       "category": "branding",
       "tags": [
@@ -263,8 +264,8 @@
         "style guide"
       ],
       "images": [
-        "/images/products/product-6.png",
-        "/images/products/product-6-2.png"
+        "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=1200&q=80",
+        "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=1200&q=80"
       ],
       "features": [
         "40+ customizable logo concepts",
@@ -286,13 +287,12 @@
       "isBestseller": true,
       "format": "Canva & Vector",
       "fileSize": "28 MB",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/brand-kit",
+      "deliveryType": "canva-link",
+      "canvaUrl": "https://www.canva.com/design/templates/brand-identity-kit",
+      "downloadUrl": "https://badarsh.com/downloads/ultimate-brand-identity-kit.zip",
       "createdAt": "2025-02-18",
-      "deliveryType": "download-url",
-      "canvaUrl": "https://badarsh.gumroad.com/l/brand-kit",
-      "downloadUrl": "/downloads/ultimate-brand-identity-kit.zip",
       "status": "published",
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.435Z"
     },
     {
       "id": "prod-007",
@@ -301,6 +301,7 @@
       "description": "20 double-sided luxury business card designs with QR code & NFC placement zones. Ready for local printing.",
       "longDescription": "Make an unforgettable in-person impression. Features 20 double-sided business card templates ranging from ultra-clean minimalism to dark luxury aesthetics. Set up with standard 3.5\" x 2\" print dimensions, bleed margins, and designated zones for digital QR contact cards or NFC integration.",
       "price": 199,
+      "originalPrice": 399,
       "currency": "INR",
       "category": "business-cards",
       "tags": [
@@ -311,8 +312,8 @@
         "nfc"
       ],
       "images": [
-        "/images/products/product-7.png",
-        "/images/products/product-7-2.png"
+        "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1200&q=80",
+        "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=1200&q=80"
       ],
       "features": [
         "20 double-sided card designs",
@@ -334,20 +335,19 @@
       "isBestseller": false,
       "format": "Canva Template",
       "fileSize": "8 MB",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/business-cards",
+      "deliveryType": "canva-link",
+      "canvaUrl": "https://www.canva.com/design/templates/luxury-business-cards",
+      "downloadUrl": "https://badarsh.com/downloads/luxury-business-card-collection.zip",
       "createdAt": "2025-04-05",
-      "deliveryType": "download-url",
-      "canvaUrl": "https://badarsh.gumroad.com/l/business-cards",
-      "downloadUrl": "/downloads/luxury-business-card-collection.zip",
       "status": "published",
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.435Z"
     },
     {
       "id": "prod-008",
       "slug": "business-launch-bundle",
       "title": "Business Launch Mega Bundle",
-      "description": "Our entire digital catalog in one comprehensive package: 200+ templates spanning social media, pitch decks, brand kits & cards.",
-      "longDescription": "The ultimate shortcut for founders launching a new venture. Get immediate access to our 5 bestselling collections in one bundled package: Instagram Reels Pack, LinkedIn Carousel Pack, Pitch Deck Template, Brand Identity Kit, and Business Card Collection. Save over 60% compared to purchasing individually.",
+      "description": "Our entire creative catalog in one comprehensive package: 200+ templates spanning social media, pitch decks, brand kits & cards.",
+      "longDescription": "The ultimate shortcut for founders launching a new venture. Get immediate access to our bestselling collections in one bundled package: Instagram Reels Pack, LinkedIn Carousel Pack, Pitch Deck Template, Brand Identity Kit, and Business Card Collection. Save over 60% compared to purchasing individually.",
       "price": 999,
       "originalPrice": 2490,
       "currency": "INR",
@@ -360,11 +360,11 @@
         "complete kit"
       ],
       "images": [
-        "/images/products/product-8.png",
-        "/images/products/product-8-2.png"
+        "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80",
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80"
       ],
       "features": [
-        "200+ templates across all 5 core suites",
+        "200+ templates across all core suites",
         "Social media, carousels, reels, and stories",
         "Investor pitch deck & presentation slides",
         "Complete brand guidelines & logo kit",
@@ -385,13 +385,12 @@
       "isBestseller": true,
       "format": "Canva Bundle",
       "fileSize": "95 MB",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/launch-bundle",
+      "deliveryType": "canva-link",
+      "canvaUrl": "https://www.canva.com/design/templates/business-launch-bundle",
+      "downloadUrl": "https://badarsh.com/downloads/business-launch-bundle.zip",
       "createdAt": "2025-01-01",
-      "deliveryType": "download-url",
-      "canvaUrl": "https://badarsh.gumroad.com/l/launch-bundle",
-      "downloadUrl": "/downloads/business-launch-bundle.zip",
       "status": "published",
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.435Z"
     },
     {
       "id": "prod-009",
@@ -400,6 +399,7 @@
       "description": "85-page actionable marketing blueprint: 90-day content calendar, proven viral hook formulas, and algorithm growth strategy.",
       "longDescription": "Stop guessing what works on social media. Written by experienced digital marketers, this 85-page comprehensive playbook breaks down the exact mechanics of organic reach in 2026: hook retention science, carousel storytelling structures, conversion-focused bio optimization, and turning post saves into paying clients.",
       "price": 399,
+      "originalPrice": 799,
       "currency": "INR",
       "category": "ebooks",
       "tags": [
@@ -410,8 +410,8 @@
         "organic growth"
       ],
       "images": [
-        "/images/products/product-9.png",
-        "/images/products/product-9-2.png"
+        "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=1200&q=80",
+        "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=1200&q=80"
       ],
       "features": [
         "85-page structured tactical guide (PDF)",
@@ -433,13 +433,13 @@
       "isBestseller": true,
       "format": "PDF E-Book",
       "fileSize": "15 MB",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/growth-playbook",
-      "createdAt": "2025-02-28",
+      "previewPdfUrl": "https://drive.google.com/file/d/1sample-preview-growth-playbook/preview",
+      "downloadUrl": "https://drive.google.com/file/d/1sample-download-growth-playbook/view",
       "deliveryType": "download-url",
-      "canvaUrl": "https://badarsh.gumroad.com/l/growth-playbook",
-      "downloadUrl": "/downloads/instagram-growth-playbook.zip",
+      "createdAt": "2025-02-28",
+      "canvaUrl": "https://www.canva.com/design/templates/instagram-growth-playbook",
       "status": "published",
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.435Z"
     },
     {
       "id": "prod-010",
@@ -448,6 +448,7 @@
       "description": "65-page visual guide to master Canva Free: keyboard shortcuts, brand kit alignment, layout hierarchy, and export settings.",
       "longDescription": "Unlock the full design potential of Canva without needing a graphic design degree. This playbook takes you from absolute beginner to creating studio-quality marketing assets in minutes. Learn the exact grid techniques, typography rules, color theory combinations, and export resolutions that top agencies use.",
       "price": 299,
+      "originalPrice": 599,
       "currency": "INR",
       "category": "ebooks",
       "tags": [
@@ -458,8 +459,8 @@
         "ebook"
       ],
       "images": [
-        "/images/products/product-1.png",
-        "/images/products/product-2.png"
+        "https://images.unsplash.com/photo-1507842229451-7f01be7f7b27?w=1200&q=80",
+        "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&q=80"
       ],
       "features": [
         "65-page illustrated walkthrough (PDF)",
@@ -481,13 +482,13 @@
       "isBestseller": false,
       "format": "PDF E-Book",
       "fileSize": "14 MB",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/canva-mastery",
-      "createdAt": "2026-10-15",
+      "previewPdfUrl": "https://drive.google.com/file/d/1sample-preview-canva-playbook/preview",
+      "downloadUrl": "https://drive.google.com/file/d/1sample-download-canva-playbook/view",
       "deliveryType": "download-url",
-      "canvaUrl": "https://badarsh.gumroad.com/l/canva-mastery",
-      "downloadUrl": "/downloads/canva-mastery-playbook.zip",
+      "createdAt": "2026-10-15",
+      "canvaUrl": "https://www.canva.com/design/templates/canva-mastery-playbook",
       "status": "published",
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.435Z"
     },
     {
       "id": "prod-011",
@@ -496,6 +497,7 @@
       "description": "Complete annual content planner: 365 daily post ideas, holiday prompts, caption hooks, and Google Sheets tracking system.",
       "longDescription": "Never wonder what to post again. This comprehensive 2026 content calendar planner includes 365 daily prompts tailored for small businesses, service providers, and creators. Includes interactive Google Sheets for tracking content pipelines, plus printable Canva planner pages for your physical desk.",
       "price": 349,
+      "originalPrice": 699,
       "currency": "INR",
       "category": "planners",
       "tags": [
@@ -506,8 +508,8 @@
         "organization"
       ],
       "images": [
-        "/images/products/product-3.png",
-        "/images/products/product-4.png"
+        "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&q=80",
+        "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1200&q=80"
       ],
       "features": [
         "365 daily social media prompts & hooks",
@@ -529,13 +531,13 @@
       "isBestseller": true,
       "format": "Canva & Google Sheets",
       "fileSize": "10 MB",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/content-planner",
-      "createdAt": "2025-11-01",
+      "previewPdfUrl": "https://drive.google.com/file/d/1sample-preview-content-calendar/preview",
+      "downloadUrl": "https://drive.google.com/file/d/1sample-download-content-calendar/view",
       "deliveryType": "download-url",
-      "canvaUrl": "https://badarsh.gumroad.com/l/content-planner",
-      "downloadUrl": "/downloads/content-calendar-planner-2026.zip",
+      "createdAt": "2025-11-01",
+      "canvaUrl": "https://www.canva.com/design/templates/content-calendar-planner-2026",
       "status": "published",
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.435Z"
     },
     {
       "id": "prod-012",
@@ -544,6 +546,7 @@
       "description": "50-page client pipeline & project management organizer. Track project milestones, invoices, deadlines, and revisions in one hub.",
       "longDescription": "Designed specifically for creative freelancers, consultants, and boutique agencies. Stop losing track of client feedback and unpaid invoices. This planner provides structured layouts for onboarding checklists, proposal scopes, revision trackers, and monthly revenue summaries.",
       "price": 299,
+      "originalPrice": 599,
       "currency": "INR",
       "category": "planners",
       "tags": [
@@ -554,8 +557,8 @@
         "invoices"
       ],
       "images": [
-        "/images/products/product-5.png",
-        "/images/products/product-6.png"
+        "https://images.unsplash.com/photo-1450133064473-71024230f91b?w=1200&q=80",
+        "https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&q=80"
       ],
       "features": [
         "50 structured planner & tracking pages",
@@ -577,70 +580,22 @@
       "isBestseller": false,
       "format": "Canva & Tablet PDF",
       "fileSize": "9 MB",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/client-tracker",
+      "previewPdfUrl": "https://drive.google.com/file/d/1sample-preview-freelance-tracker/preview",
+      "downloadUrl": "https://drive.google.com/file/d/1sample-download-freelance-tracker/view",
+      "deliveryType": "download-url",
       "createdAt": "2026-09-20",
-      "deliveryType": "download-url",
-      "canvaUrl": "https://badarsh.gumroad.com/l/client-tracker",
-      "downloadUrl": "/downloads/freelance-client-tracker-planner.zip",
+      "canvaUrl": "https://www.canva.com/design/templates/freelance-client-tracker-planner",
       "status": "published",
-      "updatedAt": "2026-11-18T18:44:25.219Z"
-    },
-    {
-      "id": "prod-013",
-      "slug": "digital-mockup-graphics-kit",
-      "title": "3D Device & Studio Mockup Graphics Kit",
-      "description": "45 high-resolution device mockup frames (MacBook, iPhone, iPad, studio desks) with transparent backgrounds. Drag & drop in Canva.",
-      "longDescription": "Showcase your digital products, websites, and client work in ultra-crisp studio settings. Includes 45 custom device mockup frames created with transparent backgrounds. Just drag and drop your screenshots directly into the Canva frame holders for instant professional portfolio images.",
-      "price": 299,
-      "currency": "INR",
-      "category": "assets",
-      "tags": [
-        "mockups",
-        "3d",
-        "devices",
-        "iphone",
-        "macbook",
-        "graphics"
-      ],
-      "images": [
-        "/images/products/product-7.png",
-        "/images/products/product-8.png"
-      ],
-      "features": [
-        "45 transparent device and scene mockups",
-        "MacBook Pro, iPhone 16, iPad, and desktop setups",
-        "Native Canva drag-and-drop frame integration",
-        "Ultra-high resolution (4000x3000px)",
-        "Commercial client presentation license"
-      ],
-      "specs": {
-        "count": "45 Studio Mockup Frames",
-        "dimensions": "4000x3000 Ultra HD (Transparent PNG)",
-        "compatibility": "Canva Free Drag-and-Drop"
-      },
-      "rating": 4.8,
-      "reviewCount": 34,
-      "downloads": 410,
-      "isFeatured": false,
-      "isNew": true,
-      "isBestseller": false,
-      "format": "Canva Frames & PNG",
-      "fileSize": "48 MB",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/mockup-kit",
-      "createdAt": "2026-10-01",
-      "deliveryType": "download-url",
-      "canvaUrl": "https://badarsh.gumroad.com/l/mockup-kit",
-      "downloadUrl": "/downloads/digital-mockup-graphics-kit.zip",
-      "status": "published",
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.435Z"
     },
     {
       "id": "prod-014",
       "slug": "creator-editing-apps-vault",
-      "title": "Creator Editing Apps & Workflow Vault",
-      "description": "Curated mobile & desktop editing apps toolkit: step-by-step export presets, keyboard shortcut maps & mobile color workflows.",
-      "longDescription": "Master the essential mobile and desktop video editing tools used by top Indian creators. Includes export configuration recipes for CapCut, VN Editor, Premiere Pro, and DaVinci Resolve, plus printable cheat sheets for lightning-fast editing speed.",
+      "title": "Creator Video Editing Tools & Config Vault",
+      "description": "Complete editing software suite: 4K mobile export configs, DaVinci & Premiere keyboard shortcut maps, and color LUT recipes.",
+      "longDescription": "Master the essential mobile and desktop video editing tools used by top Indian creators. Includes export configuration recipes for CapCut, VN Editor, Premiere Pro, and DaVinci Resolve, plus printable cheat sheets and direct software workflow recipes for lightning-fast editing speed.",
       "price": 349,
+      "originalPrice": 699,
       "currency": "INR",
       "category": "editing-apps",
       "tags": [
@@ -652,8 +607,8 @@
         "workflow"
       ],
       "images": [
-        "/images/products/product-1.png",
-        "/images/products/product-2.png"
+        "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80",
+        "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80"
       ],
       "features": [
         "Optimal bit-rate & 4K export presets for Instagram Reels",
@@ -676,20 +631,19 @@
       "format": "Guide & Presets",
       "fileSize": "18 MB",
       "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-      "downloadUrl": "https://badarsh.com/downloads/creator-editing-apps-vault.zip",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/editing-apps",
-      "createdAt": "2026-11-01",
+      "downloadUrl": "https://drive.google.com/file/d/1sample-editing-apps-vault/view",
       "deliveryType": "download-url",
-      "canvaUrl": "https://badarsh.gumroad.com/l/editing-apps",
+      "createdAt": "2026-11-01",
+      "canvaUrl": "https://www.canva.com/design/templates/creator-editing-apps-vault",
       "status": "published",
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.435Z"
     },
     {
       "id": "prod-015",
       "slug": "viral-sfx-motion-overlay-bundle",
       "title": "Viral Video SFX & Motion Overlay Bundle",
-      "description": "350+ creator sound effects (whooshes, risers, pops, camera clicks) plus 4K film grains, light leaks & drag-and-drop overlays.",
-      "longDescription": "Elevate your short-form video retention instantly with audio-visual impact. Includes 350+ master-quality WAV/MP3 sound effects crafted specifically for pacing Instagram Reels and YouTube Shorts, alongside 40 seamless 4K grain and light leak overlays.",
+      "description": "350+ creator sound effects (whooshes, risers, pops, camera clicks) plus 4K film grains, light leaks & direct app templates.",
+      "longDescription": "Elevate your short-form video retention instantly with audio-visual impact. Includes 350+ master-quality WAV/MP3 sound effects crafted specifically for pacing Instagram Reels and YouTube Shorts, alongside 40 seamless 4K grain and light leak overlays. Open in your editing app with 1-click, add your clip, and get the edited result instantly.",
       "price": 499,
       "originalPrice": 999,
       "currency": "INR",
@@ -709,7 +663,8 @@
       "features": [
         "350+ high-fidelity sound effects (WAV + MP3)",
         "40 seamless 4K ProRes light leaks & film grains",
-        "Drag-and-drop compatible with any mobile or desktop editor",
+        "Direct 1-click template link: opens in CapCut/Premiere",
+        "Just add your photo or clip and export finished video",
         "100% royalty-free commercial license",
         "Organized into intuitive category folders"
       ],
@@ -727,21 +682,22 @@
       "format": "WAV, MP3 & MP4",
       "fileSize": "680 MB",
       "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-      "downloadUrl": "https://badarsh.com/downloads/viral-sfx-motion-overlay-bundle.zip",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/sfx-bundle",
+      "downloadUrl": "https://drive.google.com/drive/folders/BADARSH_SFX_OVERLAYS",
+      "overlayLinkUrl": "https://www.capcut.com/template/BADARSH_SFX_01",
+      "deliveryType": "external-url",
       "createdAt": "2026-11-05",
-      "deliveryType": "download-url",
-      "canvaUrl": "https://badarsh.gumroad.com/l/sfx-bundle",
+      "canvaUrl": "https://www.canva.com/design/templates/viral-sfx-motion-overlay-bundle",
       "status": "published",
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.435Z"
     },
     {
       "id": "prod-016",
       "slug": "cinematic-lightroom-presets",
       "title": "Cinematic Mood & Warm Aesthetic Presets",
       "description": "25 one-click Lightroom presets (.DNG + .XMP) for iPhone and camera photos. Professional warm tones, clean skin, and moody contrast.",
-      "longDescription": "Give your social feed and commercial photo galleries a cohesive, luxury editorial look. Developed across hundreds of portrait, cafe, street, and product photography shots, these 25 presets balance skin tones naturally while introducing rich contrast and soft cinematic warmth.",
+      "longDescription": "Give your social feed and commercial photo galleries a cohesive, luxury editorial look. Developed across hundreds of portrait, cafe, street, and product photography shots by the BADARSH editing team. Just click the preset link, it opens in Adobe Lightroom Mobile (Free), you add your photo, and your edit is instantly complete!",
       "price": 299,
+      "originalPrice": 599,
       "currency": "INR",
       "category": "photo-presets",
       "tags": [
@@ -758,7 +714,8 @@
       ],
       "features": [
         "25 Desktop (.XMP) and Mobile (.DNG) presets",
-        "One-click install guide with video walkthrough",
+        "Direct 1-click Adobe Lightroom Mobile share link",
+        "Import into Lightroom with 1 tap — no complex setup",
         "Preserves natural skin tones with advanced HSL curves",
         "Works with free Adobe Lightroom Mobile app (no subscription required)",
         "Commercial license for client portraits & commercial work"
@@ -771,19 +728,225 @@
       "rating": 4.9,
       "reviewCount": 67,
       "downloads": 690,
-      "isFeatured": false,
+      "isFeatured": true,
       "isNew": true,
-      "isBestseller": false,
+      "isBestseller": true,
       "format": "DNG & XMP Presets",
       "fileSize": "22 MB",
       "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-      "downloadUrl": "https://badarsh.com/downloads/cinematic-lightroom-presets.zip",
-      "gumroadUrl": "https://badarsh.gumroad.com/l/lightroom-presets",
+      "downloadUrl": "https://drive.google.com/drive/folders/BADARSH_PRESETS",
+      "presetLinkUrl": "https://lightroom.adobe.com/shares/BADARSH_PRESET_01",
+      "deliveryType": "external-url",
       "createdAt": "2026-11-10",
-      "deliveryType": "download-url",
-      "canvaUrl": "https://badarsh.gumroad.com/l/lightroom-presets",
+      "canvaUrl": "https://www.canva.com/design/templates/cinematic-lightroom-presets",
       "status": "published",
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.435Z"
+    },
+    {
+      "id": "prod-017",
+      "slug": "founders-instagram-growth-playbook",
+      "title": "Founder's Instagram Growth Playbook",
+      "description": "The step-by-step system we use to grow brand accounts from 0 to 10K followers organically. Real case studies, zero ad spend.",
+      "longDescription": "Written by BADARSH studio founders based on real client campaigns. This comprehensive 120-page playbook covers organic audience growth, viral content structures, high-retention reel pacing, DM lead-generation scripts, and monetization frameworks. Includes real screenshots and behind-the-scenes breakdowns.",
+      "price": 499,
+      "originalPrice": 999,
+      "currency": "INR",
+      "category": "ebooks",
+      "tags": [
+        "instagram",
+        "growth",
+        "ebook",
+        "marketing",
+        "organic",
+        "founder"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&q=80",
+        "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&q=80"
+      ],
+      "features": [
+        "120 pages of battle-tested organic growth blueprints",
+        "10 real brand case studies with metrics & screenshots",
+        "30-day viral content implementation roadmap",
+        "200+ proven hook headlines & script templates",
+        "Direct PDF download — read on mobile, tablet or Kindle"
+      ],
+      "specs": {
+        "count": "120 Pages Comprehensive Blueprint",
+        "dimensions": "Standard A4 & Mobile-Optimized PDF",
+        "compatibility": "All PDF Readers, iPad, Kindle, Mobile"
+      },
+      "rating": 5,
+      "reviewCount": 142,
+      "downloads": 1420,
+      "isFeatured": true,
+      "isNew": true,
+      "isBestseller": true,
+      "format": "PDF E-Book",
+      "fileSize": "8.5 MB",
+      "previewPdfUrl": "https://drive.google.com/file/d/BADARSH_EBOOK_01_PREVIEW/preview",
+      "downloadUrl": "https://drive.google.com/file/d/BADARSH_EBOOK_01_FULL/view",
+      "deliveryType": "download-url",
+      "createdAt": "2026-10-01",
+      "canvaUrl": "https://www.canva.com/design/templates/founders-instagram-growth-playbook",
+      "status": "published",
+      "updatedAt": "2026-11-19T04:40:08.436Z"
+    },
+    {
+      "id": "prod-018",
+      "slug": "life-career-fitness-planner-2026",
+      "title": "2026 Life, Career & Fitness Planner",
+      "description": "Your complete personal operating system: career roadmap, gym workouts, nutrition tracker, habits & life goals in one PDF.",
+      "longDescription": "Engineered by the BADARSH team for high-performers. No copy-paste filler templates — every single page is designed with clean typography and scientific habit-building principles. Spans 180 pages covering annual goals, quarterly career sprints, weekly gym routines, macro & diet logging, and daily reflection journals.",
+      "price": 349,
+      "originalPrice": 699,
+      "currency": "INR",
+      "category": "planners",
+      "tags": [
+        "planner",
+        "life planner",
+        "gym",
+        "diet",
+        "career",
+        "productivity",
+        "2026"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&q=80",
+        "https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&q=80"
+      ],
+      "features": [
+        "180 meticulously designed planner pages",
+        "Quarterly career milestones & income target sheets",
+        "Weekly gym split logs & progressive overload tracker",
+        "Diet & daily water/macro tracking sheets",
+        "Daily habit streak tracker & morning routine journal",
+        "Digital tablet compatible (GoodNotes, Notability, Samsung Notes)"
+      ],
+      "specs": {
+        "count": "180 Pages Personal Operating System",
+        "dimensions": "A4 & US Letter (Printable & Tablet Hyperlinked PDF)",
+        "compatibility": "GoodNotes, Notability, iPad, Android Tablet, Print"
+      },
+      "rating": 4.9,
+      "reviewCount": 88,
+      "downloads": 870,
+      "isFeatured": true,
+      "isNew": true,
+      "isBestseller": true,
+      "format": "Interactive PDF Planner",
+      "fileSize": "15 MB",
+      "previewPdfUrl": "https://drive.google.com/file/d/BADARSH_PLANNER_01_PREVIEW/preview",
+      "downloadUrl": "https://drive.google.com/file/d/BADARSH_PLANNER_01_FULL/view",
+      "deliveryType": "download-url",
+      "createdAt": "2026-11-01",
+      "canvaUrl": "https://www.canva.com/design/templates/life-career-fitness-planner-2026",
+      "status": "published",
+      "updatedAt": "2026-11-19T04:40:08.436Z"
+    },
+    {
+      "id": "prod-019",
+      "slug": "2026-video-editing-mega-bundle",
+      "title": "2026 Video Editing Mega Bundle",
+      "description": "Everything a creator or video editor needs: 500+ SFX, 100 transitions, 50 LUTs, 30 title templates & 4K green screen elements.",
+      "longDescription": "The definitive toolkit uploaded directly from the BADARSH Studio cloud drive. Includes 500+ uncompressed WAV sound effects, 100 seamless transitions, 50 cinematic color LUTs, 30 animated motion titles, and 4K green screen VFX elements. Works seamlessly across CapCut, Premiere Pro, DaVinci Resolve, and Final Cut Pro.",
+      "price": 799,
+      "originalPrice": 1999,
+      "currency": "INR",
+      "category": "bundles",
+      "tags": [
+        "bundle",
+        "video editing",
+        "2026",
+        "sfx",
+        "transitions",
+        "luts",
+        "mega pack"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80",
+        "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80"
+      ],
+      "features": [
+        "500+ royalty-free master sound effects (WAV & MP3)",
+        "100 seamless drag-and-drop transitions (CapCut & Premiere)",
+        "50 cinematic LUTs for iPhone, Sony, Canon & Panasonic footage",
+        "30 customizable animated lower-thirds & motion titles",
+        "25 4K green screen & alpha channel motion graphics",
+        "Lifetime cloud drive access with free updates throughout 2026"
+      ],
+      "specs": {
+        "count": "700+ Production Assets Total",
+        "dimensions": "4K UHD (3840×2160) & 24-bit 48kHz WAV",
+        "compatibility": "CapCut, Premiere Pro, DaVinci Resolve, FCPX, VN"
+      },
+      "rating": 5,
+      "reviewCount": 203,
+      "downloads": 2100,
+      "isFeatured": true,
+      "isNew": true,
+      "isBestseller": true,
+      "format": "Cloud Drive ZIP Bundle",
+      "fileSize": "2.1 GB",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      "googleDriveUrl": "https://drive.google.com/drive/folders/BADARSH_MEGA_BUNDLE_2026",
+      "downloadUrl": "https://drive.google.com/drive/folders/BADARSH_MEGA_BUNDLE_2026",
+      "deliveryType": "google-drive",
+      "createdAt": "2026-11-10",
+      "canvaUrl": "https://www.canva.com/design/templates/2026-video-editing-mega-bundle",
+      "status": "published",
+      "updatedAt": "2026-11-19T04:40:08.436Z"
+    },
+    {
+      "id": "prod-020",
+      "slug": "capcut-pro-unlocked-editor",
+      "title": "CapCut Pro — Full Feature APK & Creator Setup",
+      "description": "Direct APK download with all premium features unlocked: no watermarks, 4K 60fps export, all VIP transitions and AI cutout tools.",
+      "longDescription": "Get direct access to our verified CapCut Pro mobile package. Download the APK directly from BADARSH without third-party popups or redirects. Comes with installation guide for Android, unlocking all premium transition packs, auto-captions, voice synthesis, AI background cutout, and crystal-clear 4K 60fps export.",
+      "price": 199,
+      "originalPrice": 499,
+      "currency": "INR",
+      "category": "editing-apps",
+      "tags": [
+        "capcut",
+        "apk",
+        "editing app",
+        "android",
+        "pro",
+        "video editing"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1200&q=80",
+        "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80"
+      ],
+      "features": [
+        "Direct high-speed APK download from BADARSH server",
+        "All VIP transitions, filters & sound effects unlocked",
+        "No export watermark on 1080p and 4K 60fps reels",
+        "AI auto-captions & background cutout enabled",
+        "Full step-by-step Android installation guide included",
+        "100% virus scanned and tested by BADARSH technical team"
+      ],
+      "specs": {
+        "count": "1 Verified APK File + Install PDF",
+        "dimensions": "Android 8.0 or higher required",
+        "compatibility": "All Android Smartphones & Tablets"
+      },
+      "rating": 4.8,
+      "reviewCount": 345,
+      "downloads": 4200,
+      "isFeatured": true,
+      "isNew": true,
+      "isBestseller": true,
+      "format": "APK (Android Package)",
+      "fileSize": "185 MB",
+      "appApkUrl": "https://drive.google.com/file/d/BADARSH_CAPCUT_PRO_APK/view",
+      "downloadUrl": "https://drive.google.com/file/d/BADARSH_CAPCUT_PRO_APK/view",
+      "deliveryType": "download-url",
+      "createdAt": "2026-10-20",
+      "canvaUrl": "https://www.canva.com/design/templates/capcut-pro-unlocked-editor",
+      "status": "published",
+      "updatedAt": "2026-11-19T04:40:08.436Z"
     }
   ],
   "services": [
@@ -792,357 +955,382 @@
       "slug": "video-editing",
       "title": "Video Editing",
       "description": "Professional video editing for YouTube, Instagram Reels, ads, and brand content. From raw footage to polished, scroll-stopping videos.",
-      "longDescription": "Transform your raw footage into cinematic content that captivates your audience. Our video editing service covers everything from YouTube long-form to Instagram Reels and ad creatives. We handle color grading, motion graphics, subtitles, sound design, and transitions — all tailored to your brand's aesthetic and platform requirements. Whether you're a creator, coach, or business, we'll make your videos look like they were produced by a studio.",
+      "longDescription": "Transform your raw footage into cinematic content that captivates your audience. Our video editing service covers everything from YouTube long-form to Instagram Reels and ad creatives. We handle color grading, motion graphics, subtitles, sound design, and transitions — all tailored to your brand's aesthetic and platform requirements. Whether you're a creator, coach, or business, we'll make your videos look like they were produced by a top-tier studio.",
       "icon": "Video",
       "category": "Agency Creative",
       "status": "active",
       "turnaround": "48-72 Hours",
+      "portfolioImages": [
+        "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80",
+        "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80",
+        "https://images.unsplash.com/photo-1626544827763-d516dce335e2?w=1200&q=80",
+        "https://images.unsplash.com/photo-1518173946687-a4c8a383392e?w=1200&q=80"
+      ],
+      "portfolioVideos": [
+        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4",
+        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+      ],
       "features": [
-        "Professional color grading & correction",
-        "Motion graphics & text animations",
-        "Subtitle & caption integration",
-        "Royalty-free music & sound design",
-        "Multi-platform export (YouTube, Reels, TikTok)",
-        "Thumbnail design included",
-        "Unlimited revisions on all packages",
-        "Fast 48-hour turnaround available"
+        "Professional color grading & cinematic LUTs",
+        "High-retention motion graphics & text animations",
+        "Synchronized subtitles & caption integration (Hormozi style)",
+        "Royalty-free audio mastering & sound effects (SFX)",
+        "Multi-platform aspect ratios (9:16 Reels, 16:9 YouTube, 4:5 Feed)",
+        "Custom high-CTR thumbnail design included",
+        "Unlimited revisions until 100% satisfied",
+        "Fast 24 to 48-hour delivery turnaround"
       ],
       "packages": [
         {
-          "name": "Basic",
+          "name": "Basic Reels / Shorts",
           "price": 1499,
           "currency": "INR",
           "period": "per video",
-          "description": "Perfect for simple edits on short-form content like Reels and Shorts.",
+          "description": "Perfect for short-form content (Reels, TikTok & YouTube Shorts up to 60s).",
           "features": [
             "Up to 60 seconds duration",
-            "Basic cuts & transitions",
-            "Background music",
-            "Text overlays & captions",
+            "Dynamic cuts, zooms & pacing",
+            "Sound effects & background music",
+            "Animated word-by-word captions",
             "1 revision round",
-            "Delivery in 3 business days"
+            "Delivery in 2 business days"
           ],
           "isPopular": false,
           "ctaText": "Get Started",
-          "whatsappMessage": "Hi! I'm interested in the Basic Video Editing package (₹1,499/video). Can we discuss my project?"
+          "whatsappMessage": "Hi BADARSH! I'm interested in the Basic Reels/Shorts Video Editing package (₹1,499/video). Can we discuss my project?"
         },
         {
-          "name": "Standard",
+          "name": "Standard YouTube & Ads",
           "price": 3999,
           "currency": "INR",
           "period": "per video",
-          "description": "Ideal for YouTube videos, brand content, and marketing videos up to 10 minutes.",
+          "description": "Ideal for YouTube long-form videos, high-converting product ads, and brand explainers.",
           "features": [
             "Up to 10 minutes duration",
-            "Advanced transitions & effects",
-            "Color grading",
-            "Motion graphics & lower thirds",
-            "Subtitles & captions",
-            "Custom thumbnail design",
+            "Advanced motion graphics & lower thirds",
+            "Cinematic color grading",
+            "Full sound design & audio clean-up",
+            "Subtitles & custom graphics",
+            "High-CTR thumbnail design included",
             "2 revision rounds",
-            "Delivery in 5 business days"
+            "Delivery in 3 to 4 business days"
           ],
           "isPopular": true,
           "ctaText": "Most Popular",
-          "whatsappMessage": "Hi! I'm interested in the Standard Video Editing package (₹3,999/video). Can we discuss my project?"
+          "whatsappMessage": "Hi BADARSH! I'm interested in the Standard YouTube & Ads Video Editing package (₹3,999/video). Can we discuss my footage?"
         },
         {
-          "name": "Premium",
-          "price": 7999,
+          "name": "Monthly Creator Retainer",
+          "price": 14999,
           "currency": "INR",
-          "period": "per video",
-          "description": "Full-production editing for ads, course content, and cinematic brand films.",
+          "period": "per month",
+          "description": "Dedicated editor for creators & businesses needing 15 to 20 polished videos monthly.",
           "features": [
-            "Up to 30 minutes duration",
-            "Cinematic color grading",
-            "Advanced motion graphics",
-            "Sound design & mixing",
-            "Multi-cam editing",
-            "Custom animated intro/outro",
-            "Subtitles in multiple languages",
-            "Unlimited revisions",
-            "Priority delivery in 3 business days"
+            "15 to 20 Reels/Shorts per month OR 4 long-form YouTube edits",
+            "Dedicated senior editor assigned to your brand",
+            "Custom animated intro/outro & brand assets",
+            "Raw footage cloud repository management",
+            "Unlimited revisions on all deliverables",
+            "Priority 24-hour turnaround on urgent drops",
+            "Monthly content strategy & trend review"
           ],
           "isPopular": false,
-          "ctaText": "Go Premium",
-          "whatsappMessage": "Hi! I'm interested in the Premium Video Editing package (₹7,999/video). Can we discuss my project?"
+          "ctaText": "Book Retainer",
+          "whatsappMessage": "Hi BADARSH! I'm interested in the Monthly Creator Retainer (₹14,999/month). Let's set up a monthly editing workflow!"
         }
       ],
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.436Z"
     },
     {
       "id": "svc-002",
       "slug": "website-building",
-      "title": "Website Building",
-      "description": "Custom, responsive websites for businesses, portfolios, and e-commerce — built with modern tech that loads fast and looks stunning.",
-      "longDescription": "Get a website that actually works for your business. We design and build fast, responsive, SEO-optimized websites using the latest technologies — from simple landing pages and portfolios to full e-commerce stores. Every site is mobile-first, loads under 3 seconds, and is designed to convert visitors into customers. We handle everything: design, development, hosting setup, domain configuration, and post-launch support.",
+      "title": "Website Design & Development",
+      "description": "Custom, high-speed Next.js websites built to convert visitors into paying clients. Flexible rates from 1-page landing sites to 20-page portals.",
+      "longDescription": "Stop losing clients to slow, outdated websites. At BADARSH, we build blazing-fast, mobile-first websites using Next.js, React, and Tailwind CSS. Every site is designed to look like Apple or Google: ultra-clean typography, smooth micro-interactions, full technical SEO, and instant WhatsApp integration. We handle everything from design to domain launch and hosting setup.",
       "icon": "Globe",
       "category": "Agency Creative",
       "status": "active",
       "turnaround": "48-72 Hours",
+      "portfolioImages": [
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80",
+        "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80",
+        "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1200&q=80",
+        "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=1200&q=80"
+      ],
       "features": [
-        "Custom responsive design",
-        "Mobile-first approach",
-        "SEO-optimized structure",
-        "Fast load times (under 3 seconds)",
-        "SSL certificate & security setup",
-        "Google Analytics & Search Console integration",
-        "Contact forms & WhatsApp integration",
-        "Post-launch support & training"
+        "Custom UI/UX designed in Figma before coding",
+        "Next.js 16 + React for sub-second page loads",
+        "Complete technical SEO, schema & Google indexing",
+        "100% mobile-responsive layout for all screens",
+        "Direct WhatsApp chat & dynamic lead capture forms",
+        "Free SSL certificate & domain DNS configuration",
+        "Admin CMS dashboard to manage your own content",
+        "1 to 6 months of dedicated post-launch support"
       ],
       "packages": [
         {
-          "name": "Basic",
-          "price": 4999,
+          "name": "Normal / Landing Page (1 to 3 Pages)",
+          "price": 3999,
           "currency": "INR",
-          "description": "A clean, professional single-page website — perfect for freelancers and personal brands.",
+          "description": "Clean, fast single-page or simple 3-section website. Ideal for personal brands, freelancers, and local businesses (range ₹3,000–₹6,000).",
           "features": [
-            "Single-page responsive website",
-            "Up to 5 sections",
-            "Mobile-optimized design",
-            "Contact form integration",
-            "Basic SEO setup",
-            "WhatsApp chat button",
-            "Delivery in 7 business days",
-            "1 month free support"
+            "1 to 3 responsive sections / pages",
+            "Mobile-first responsive design",
+            "Fast loading under 2 seconds",
+            "WhatsApp direct click-to-chat integration",
+            "Contact form with email lead notifications",
+            "Basic Google SEO & Google Maps setup",
+            "Delivery in 4 to 6 business days",
+            "1 month free technical support"
           ],
           "isPopular": false,
-          "ctaText": "Get Started",
-          "whatsappMessage": "Hi! I'm interested in the Basic Website package (₹4,999). Can we discuss my requirements?"
+          "ctaText": "Order Landing Page",
+          "whatsappMessage": "Hi BADARSH! I'm interested in the Normal/Landing Page Website package (₹3,999 - ₹6,000). Can we discuss my requirements?"
         },
         {
-          "name": "Standard",
-          "price": 14999,
+          "name": "Standard Business Site (5 to 8 Pages)",
+          "price": 9999,
           "currency": "INR",
-          "description": "Multi-page business website with blog, animations, and full SEO — ideal for growing businesses.",
+          "description": "Complete multi-page business website with blog, services showcase, and full SEO setup (range ₹9,000–₹11,000).",
           "features": [
-            "Up to 7 pages",
-            "Custom UI/UX design",
-            "Blog/News section",
-            "Smooth animations & interactions",
-            "Full SEO optimization",
-            "Google Analytics & Search Console",
-            "Social media integration",
-            "Delivery in 14 business days",
-            "3 months free support"
+            "5 to 8 custom designed pages",
+            "Home, About, Services, Portfolio, Blog, Contact",
+            "Custom modern UI/UX with smooth animations",
+            "Complete On-Page SEO + Google Search Console indexing",
+            "WhatsApp chat widget & automated inquiry capture",
+            "Admin dashboard to update posts & text anytime",
+            "Delivery in 10 to 14 business days",
+            "3 months free maintenance & updates"
           ],
           "isPopular": true,
           "ctaText": "Most Popular",
-          "whatsappMessage": "Hi! I'm interested in the Standard Website package (₹14,999). Can we discuss my requirements?"
+          "whatsappMessage": "Hi BADARSH! I'm interested in the 5-8 Pages Business Website package (₹9,999 - ₹11,000). Can we schedule a project call?"
         },
         {
-          "name": "Premium",
-          "price": 29999,
+          "name": "Enterprise & E-Commerce (15 to 20 Pages)",
+          "price": 15000,
           "currency": "INR",
-          "description": "Full-featured e-commerce or web application with payment gateway, admin panel, and advanced functionality.",
+          "description": "Full-scale digital platform with up to 20 pages, online store / payments, customer accounts, and advanced SEO.",
           "features": [
-            "Unlimited pages",
-            "E-commerce / booking functionality",
-            "Payment gateway integration",
-            "Admin dashboard & CMS",
-            "Advanced animations & micro-interactions",
-            "Performance optimization",
-            "Multi-language support",
-            "Email marketing integration",
-            "Delivery in 21 business days",
-            "6 months free support & maintenance"
+            "15 to 20 pages + custom architecture",
+            "E-commerce catalog or service booking system",
+            "UPI, Razorpay, or Stripe payment integration",
+            "Full Next.js SSR for maximum Google SEO dominance",
+            "Interactive customer dashboard & admin OS",
+            "High-conversion copywriting & speed optimization",
+            "Delivery in 20 to 25 business days",
+            "6 months dedicated support & free hosting setup"
           ],
           "isPopular": false,
-          "ctaText": "Go Premium",
-          "whatsappMessage": "Hi! I'm interested in the Premium Website package (₹29,999). Can we discuss my requirements?"
+          "ctaText": "Build Enterprise Site",
+          "whatsappMessage": "Hi BADARSH! I'm interested in the 15-20 Pages Enterprise Website package (₹15,000+). Let's discuss my custom specifications!"
         }
       ],
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.436Z"
     },
     {
       "id": "svc-003",
       "slug": "social-media-management",
       "title": "Social Media Management",
-      "description": "End-to-end social media management — strategy, content creation, scheduling, engagement & analytics for Instagram, LinkedIn & more.",
-      "longDescription": "Stop spending hours on social media and let us handle it. Our social media management service covers everything from content strategy and creation to daily posting, community engagement, and performance analytics. We craft platform-specific content that resonates with your audience, maintains brand consistency, and drives real business results — whether that's followers, leads, or sales.",
+      "description": "End-to-end social media growth: strategy, content calendars, Reels production, graphic design, daily publishing, and audience engagement.",
+      "longDescription": "Stop stressing over what to post every day. Let BADARSH manage your entire social media presence. We craft platform-specific content that establishes your authority, builds an engaged community, and drives qualified inbound leads for your business. From Instagram Reels to LinkedIn carousels, we handle scriptwriting, editing, graphic design, scheduling, and community replies.",
       "icon": "Share2",
       "category": "Agency Creative",
       "status": "active",
       "turnaround": "48-72 Hours",
+      "portfolioImages": [
+        "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1200&q=80",
+        "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80",
+        "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&q=80",
+        "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=1200&q=80"
+      ],
       "features": [
-        "Custom content strategy & calendar",
-        "Professional graphic design for posts",
-        "Copywriting & hashtag research",
-        "Daily posting & scheduling",
-        "Community management & engagement",
-        "Monthly analytics & performance reports",
-        "Competitor analysis",
-        "Trend monitoring & content ideas"
+        "Tailored 30-day monthly content strategy & calendar",
+        "Professional graphic design for feed posts & carousels",
+        "Short-form video editing for Reels & Shorts",
+        "High-converting caption copywriting & hashtag research",
+        "Daily scheduling & optimal posting time management",
+        "Community management: comment & DM engagement",
+        "Monthly growth analytics & strategy refinement reports",
+        "Competitor audit & viral trend surveillance"
       ],
       "packages": [
         {
-          "name": "Basic",
+          "name": "Starter Growth",
           "price": 4999,
           "currency": "INR",
           "period": "per month",
-          "description": "Essential social media presence for small businesses — 12 posts per month on one platform.",
+          "description": "Essential social media presence for small businesses & solo creators — 12 custom posts per month.",
           "features": [
-            "1 social media platform",
-            "12 posts per month (3/week)",
-            "Custom graphic design",
-            "Caption writing & hashtags",
-            "Content calendar",
-            "Basic monthly report",
-            "Response to comments (business hours)"
+            "1 social platform (Instagram or LinkedIn)",
+            "12 high-impact feed posts per month (3 per week)",
+            "Custom graphic design & brand styling",
+            "Caption copywriting & targeted hashtag strategy",
+            "Monthly content calendar shared in advance",
+            "Basic monthly growth analytics report"
           ],
           "isPopular": false,
           "ctaText": "Get Started",
-          "whatsappMessage": "Hi! I'm interested in the Basic Social Media Management package (₹4,999/month). Can we discuss my brand?"
+          "whatsappMessage": "Hi BADARSH! I'm interested in the Starter Social Media Management package (₹4,999/month). Let's discuss my brand!"
         },
         {
-          "name": "Standard",
+          "name": "Authority Accelerator",
           "price": 9999,
           "currency": "INR",
           "period": "per month",
-          "description": "Comprehensive management for 2 platforms with Reels, Stories, and active community engagement.",
+          "description": "Comprehensive multi-format management with Reels, carousels, and active community engagement.",
           "features": [
-            "2 social media platforms",
-            "20 posts per month",
-            "4 Reels/short videos per month",
-            "Story content (10/month)",
-            "Advanced copywriting & hashtags",
-            "Community engagement (daily)",
-            "Competitor analysis",
-            "Detailed monthly analytics report"
+            "2 platforms (e.g. Instagram + LinkedIn or YouTube)",
+            "20 custom feed posts / carousels per month",
+            "6 professionally edited Reels / short videos",
+            "10 interactive story prompts per month",
+            "Daily comment & DM customer engagement",
+            "Bi-weekly performance review & trend ideation",
+            "Detailed monthly metrics & lead tracking report"
           ],
           "isPopular": true,
           "ctaText": "Most Popular",
-          "whatsappMessage": "Hi! I'm interested in the Standard Social Media Management package (₹9,999/month). Can we discuss my brand?"
+          "whatsappMessage": "Hi BADARSH! I'm interested in the Authority Accelerator Social Media package (₹9,999/month). Can we review my profile?"
         },
         {
-          "name": "Premium",
+          "name": "Full Brand Scale",
           "price": 19999,
           "currency": "INR",
           "period": "per month",
-          "description": "Full-scale social media growth engine across 3+ platforms with paid ad management and influencer outreach.",
+          "description": "Complete agency takeover across 3+ platforms with daily posting, 12+ Reels, and paid ad management.",
           "features": [
-            "3+ social media platforms",
-            "30 posts per month",
-            "8 Reels/short videos per month",
-            "Daily Stories content",
-            "Paid ad campaign management",
-            "Influencer outreach & collaboration",
-            "Crisis management",
-            "Weekly performance calls",
-            "Real-time analytics dashboard",
-            "Dedicated account manager"
+            "3+ platforms (Instagram, LinkedIn, YouTube, Facebook)",
+            "30 posts per month (daily publishing)",
+            "12 edited Reels / short-form videos",
+            "Daily active story campaigns",
+            "Meta Ads setup & campaign optimization",
+            "Dedicated social media manager on WhatsApp",
+            "Weekly strategy sync & real-time dashboard"
           ],
           "isPopular": false,
-          "ctaText": "Go Premium",
-          "whatsappMessage": "Hi! I'm interested in the Premium Social Media Management package (₹19,999/month). Can we discuss my brand?"
+          "ctaText": "Scale My Brand",
+          "whatsappMessage": "Hi BADARSH! I'm interested in the Full Brand Scale Social Media package (₹19,999/month). Let's schedule a kickoff call!"
         }
       ],
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.436Z"
     },
     {
       "id": "svc-004",
       "slug": "app-development",
-      "title": "App Development",
-      "description": "Native & cross-platform mobile apps for iOS and Android, plus progressive web applications with seamless cloud backends.",
-      "longDescription": "Turn your product vision into a polished, high-performance app on the App Store and Google Play. We develop responsive cross-platform mobile apps using React Native and Flutter, complete with secure authentication, real-time database sync, push notifications, and payment processing. Designed to scale from day one.",
+      "title": "Mobile App Development",
+      "description": "Native iOS & Android mobile applications built with React Native and Flutter. Flexible rates from quick MVP prototypes to enterprise platforms.",
+      "longDescription": "Turn your product idea into a high-performance mobile app on the Apple App Store and Google Play Store. We develop responsive cross-platform mobile apps complete with secure authentication, real-time database sync (Firebase / Supabase), push notifications, and payment processing. Designed with Apple Human Interface Guidelines for a fluid, premium feel.",
       "icon": "Smartphone",
       "category": "Agency Creative",
       "status": "active",
       "turnaround": "48-72 Hours",
+      "portfolioImages": [
+        "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&q=80",
+        "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=1200&q=80",
+        "https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?w=1200&q=80",
+        "https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?w=1200&q=80"
+      ],
       "features": [
-        "iOS and Android store readiness",
-        "Modern React Native / Flutter architecture",
-        "Secure user authentication (OTP, Google, Apple ID)",
-        "Instant payment gateway integration (Razorpay, Stripe)",
-        "Push notifications & analytics tracking",
-        "Admin control panel for content management",
-        "API integrations & cloud database setup",
-        "App Store & Play Store publishing support"
+        "Native builds for both iOS and Android from one codebase",
+        "React Native & Flutter high-performance architecture",
+        "Secure user auth (Phone OTP, Google, Apple ID)",
+        "Instant UPI & Razorpay in-app payment gateway",
+        "Real-time database sync & offline caching",
+        "Admin dashboard to manage users, orders & content",
+        "Push notifications & user analytics tracking",
+        "App Store & Google Play publishing support"
       ],
       "packages": [
         {
-          "name": "MVP Starter",
-          "price": 24999,
+          "name": "MVP Mobile Prototype (3 to 5 Screens)",
+          "price": 12999,
           "currency": "INR",
-          "description": "Quick-launch prototype or MVP to validate your concept with early users.",
+          "description": "Quick-launch prototype to validate your mobile app idea with early users and angel investors.",
           "features": [
-            "Single platform (Android or iOS)",
-            "Up to 5 functional screens",
-            "Firebase backend & authentication",
-            "Basic database integration",
-            "Delivery in 21 business days",
+            "Single platform (Android APK or iOS TestFlight)",
+            "Up to 5 functional responsive screens",
+            "Firebase backend & secure authentication",
+            "Clean modern UI following Apple/Google design",
+            "Delivery in 14 to 18 business days",
             "1 month post-launch support"
           ],
           "isPopular": false,
-          "ctaText": "Start MVP",
-          "whatsappMessage": "Hi! I'm interested in the MVP Starter App Development package (₹24,999). Can we discuss my app concept?"
+          "ctaText": "Launch MVP App",
+          "whatsappMessage": "Hi BADARSH! I'm interested in the MVP Mobile App package (₹12,999). Can we discuss my app concept?"
         },
         {
-          "name": "Cross-Platform Pro",
-          "price": 49999,
+          "name": "Cross-Platform Pro (6 to 12 Screens)",
+          "price": 24999,
           "currency": "INR",
-          "description": "Full-fledged production app for both iOS & Android with admin dashboard and payments.",
+          "description": "Full-fledged production app for both iOS & Android with admin dashboard, payments, and push notifications.",
           "features": [
-            "Both iOS & Android native builds",
-            "Up to 12 responsive screens",
-            "Full payment gateway & push notifications",
-            "Admin management dashboard",
-            "Automated cloud backups & security",
-            "Store submission & approval guarantee",
-            "Delivery in 30 business days",
+            "Both iOS & Android builds included",
+            "Up to 12 responsive screens with custom UI",
+            "Payment gateway integration (UPI / Razorpay / Stripe)",
+            "Push notifications & analytics dashboard",
+            "Admin control panel for content management",
+            "Store submission & compliance review assistance",
+            "Delivery in 25 to 30 business days",
             "3 months dedicated warranty support"
           ],
           "isPopular": true,
           "ctaText": "Most Popular",
-          "whatsappMessage": "Hi! I'm interested in the Cross-Platform Pro App package (₹49,999). Can we discuss my app?"
+          "whatsappMessage": "Hi BADARSH! I'm interested in the Cross-Platform Pro App package (₹24,999). Let's review the feature list!"
         },
         {
-          "name": "Enterprise Custom",
-          "price": 89999,
+          "name": "Full Enterprise App (15+ Screens)",
+          "price": 49999,
           "currency": "INR",
-          "description": "Complex mobile application with real-time chat, AI integration, and multi-tenant infrastructure.",
+          "description": "Complex mobile application with real-time chat, AI integration, audio/video streaming, and microservices backend.",
           "features": [
-            "Unlimited custom screens & complex workflows",
-            "Real-time chat / audio / video capabilities",
-            "AI model integration (Gemini / Claude APIs)",
-            "Custom microservices backend",
-            "Full source code ownership & CI/CD pipeline",
-            "Delivery in 45-60 business days",
-            "6 months 24/7 priority support"
+            "15+ custom screens & complex business workflows",
+            "Real-time chat / messaging / live updates",
+            "AI API integration (Gemini / OpenAI)",
+            "High-concurrency cloud backend & database",
+            "Full source code ownership on private GitHub repo",
+            "Delivery in 40 to 50 business days",
+            "6 months priority 24/7 technical support"
           ],
           "isPopular": false,
-          "ctaText": "Contact Enterprise",
-          "whatsappMessage": "Hi! I'm interested in the Enterprise App Development package (₹89,999). Can we schedule a technical scoping call?"
+          "ctaText": "Build Enterprise App",
+          "whatsappMessage": "Hi BADARSH! I'm interested in the Full Enterprise Mobile App package (₹49,999+). Let's set up a technical scoping call!"
         }
       ],
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.436Z"
     },
     {
       "id": "svc-005",
       "slug": "photo-editing",
-      "title": "Photo Editing & Retouching",
-      "description": "Studio-grade retouching for e-commerce, high-fashion portfolios, jewelry, real estate, and digital ad campaigns.",
-      "longDescription": "Transform raw photos into high-converting commercial assets. We provide high-end frequency separation, realistic lighting correction, reflection manipulation, clean background isolation, and color grading that meets the exacting standards of luxury brands and top marketplaces.",
+      "title": "Photo Editing & High-End Retouching",
+      "description": "Studio-grade retouching for e-commerce, portraits, real estate, fashion lookbooks, and luxury advertising campaigns.",
+      "longDescription": "Elevate your visual standards. We provide studio-level frequency separation, skin texture preservation, color grading, shadow creation, background removal, and commercial jewelry/product cleanup. Our edits look natural, crisp, and high-converting — trusted by fashion labels, Amazon sellers, and commercial photographers.",
       "icon": "Camera",
       "category": "Agency Creative",
       "status": "active",
       "turnaround": "48-72 Hours",
+      "portfolioImages": [
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1200&q=80",
+        "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?w=1200&q=80",
+        "https://images.unsplash.com/photo-1512361436605-a484bdb34b5f?w=1200&q=80",
+        "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=80"
+      ],
       "features": [
         "High-end frequency separation skin retouching",
-        "E-commerce pure white/transparent cutouts",
-        "Shadow & reflection generation",
-        "Jewelry, watch & metal reflection cleanup",
-        "Bulk catalog batch processing",
-        "Color matching across product SKUs",
-        "High-resolution print export (CMYK ready)",
-        "Rapid 24-48 hour turnaround"
+        "Pure white / transparent PNG cutouts for e-commerce",
+        "Realistic drop shadow & reflection creation",
+        "Jewelry, metals & watch reflection cleanup",
+        "Bulk batch processing for catalog listings",
+        "Color matching across product SKUs and variants",
+        "High-resolution print export (300 DPI CMYK ready)",
+        "Fast 24 to 48-hour turnaround on all batches"
       ],
       "packages": [
         {
-          "name": "E-Commerce Batch",
+          "name": "E-Commerce Batch (20 Photos)",
           "price": 1999,
           "currency": "INR",
-          "description": "Clean product cutouts and alignment for Amazon, Shopify, or catalog listings.",
+          "description": "Clean product cutouts, color correction, and natural drop shadows for Amazon, Flipkart, or Shopify listings.",
           "features": [
             "Up to 20 product photos",
             "Pure white background / PNG cutout",
@@ -1153,13 +1341,13 @@
           ],
           "isPopular": false,
           "ctaText": "Order Batch",
-          "whatsappMessage": "Hi! I'm interested in the E-Commerce Batch Photo Editing (₹1,999). Can I send sample photos?"
+          "whatsappMessage": "Hi BADARSH! I'm interested in the E-Commerce Batch Photo Editing (₹1,999). Can I send sample photos?"
         },
         {
-          "name": "High-End Commercial",
+          "name": "High-End Commercial Retouching",
           "price": 4999,
           "currency": "INR",
-          "description": "Editorial & luxury retouching for hero brand banners, fashion, and social media campaigns.",
+          "description": "Editorial & luxury retouching for hero brand banners, fashion portraits, and social media campaigns.",
           "features": [
             "Up to 15 high-detail photos",
             "Frequency separation & texture preservation",
@@ -1170,10 +1358,10 @@
           ],
           "isPopular": true,
           "ctaText": "Most Popular",
-          "whatsappMessage": "Hi! I'm interested in the High-End Commercial Photo Editing package (₹4,999). Can we discuss my photoshoot?"
+          "whatsappMessage": "Hi BADARSH! I'm interested in the High-End Commercial Photo Editing package (₹4,999). Can we discuss my photoshoot?"
         },
         {
-          "name": "Brand Campaign Suite",
+          "name": "Brand Campaign Suite (40 Photos)",
           "price": 9999,
           "currency": "INR",
           "description": "Complete photo post-production for seasonal campaigns, lookbooks, and multi-channel creative.",
@@ -1187,87 +1375,94 @@
           ],
           "isPopular": false,
           "ctaText": "Book Suite",
-          "whatsappMessage": "Hi! I'm interested in the Brand Campaign Suite Photo Editing package (₹9,999). Let's chat!"
+          "whatsappMessage": "Hi BADARSH! I'm interested in the Brand Campaign Suite Photo Editing package (₹9,999). Let's chat!"
         }
       ],
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.436Z"
     },
     {
       "id": "svc-006",
       "slug": "brand-identity",
-      "title": "Brand Identity Design",
+      "title": "Brand Identity Design (Logos)",
       "description": "Timeless logo systems, typography palettes, brand books, and design tokens that position you as an industry leader.",
-      "longDescription": "Great brands are not designed by accident. We build cohesive visual identity systems that communicate prestige, trust, and clarity across every touchpoint — from business cards and packaging to mobile apps and investor pitch decks.",
+      "longDescription": "Great brands are not designed by accident. We build cohesive visual identity systems that communicate prestige, trust, and clarity across every touchpoint — from primary logos and submarks to business cards, packaging, and digital guidelines. View our sample logos below or message us directly on WhatsApp to order your custom brand identity.",
       "icon": "Sparkles",
       "category": "Agency Creative",
       "status": "active",
       "turnaround": "48-72 Hours",
+      "portfolioImages": [
+        "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=1200&q=80",
+        "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=1200&q=80",
+        "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=1200&q=80",
+        "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=1200&q=80"
+      ],
       "features": [
         "Custom primary, secondary & submark logo suite",
-        "Typography pairing & font licensing guide",
-        "Semantic color palette with dark/light mode codes",
-        "30+ page comprehensive Brand Guidelines PDF",
-        "Social media profile & cover kit",
+        "Typography pairing & commercial font licensing guide",
+        "Semantic color palette with HEX, RGB & CMYK codes",
+        "25+ page comprehensive Brand Guidelines PDF",
+        "Social media profile kit (avatars, covers, favicons)",
         "Vector source files (.AI, .SVG, .EPS, .PDF)",
-        "Stationery & merchandise mockups",
+        "Realistic merchandise & stationery mockups",
         "Complete commercial copyright transfer"
       ],
       "packages": [
         {
-          "name": "Founder Essentials",
-          "price": 7999,
+          "name": "Founder Logo Kit",
+          "price": 4999,
           "currency": "INR",
-          "description": "Essential visual kit for new startups, consultants, and creators launching their brand.",
+          "description": "Essential logo suite for new startups, consultants, and creators launching their brand.",
           "features": [
-            "2 distinct logo concept directions",
-            "Primary logo + monochrome variations",
+            "2 distinct custom logo concept directions",
+            "Primary logo + monochrome & transparent versions",
             "Curated font pairing & hex color palette",
             "Social media avatar & banner templates",
-            "Delivery in 7 business days",
+            "Vector files (SVG, EPS, PDF, high-res PNG)",
+            "Delivery in 5 business days",
             "2 revision rounds"
           ],
           "isPopular": false,
-          "ctaText": "Launch Brand",
-          "whatsappMessage": "Hi! I'm interested in the Founder Essentials Brand Identity package (₹7,999). Can we discuss my startup?"
+          "ctaText": "Order Logo Kit",
+          "whatsappMessage": "Hi BADARSH! I'm interested in the Founder Logo Kit (₹4,999). Can we discuss my brand name and style?"
         },
         {
           "name": "Full Brand System",
-          "price": 18999,
+          "price": 9999,
           "currency": "INR",
           "description": "Complete end-to-end corporate identity system for ambitious companies and scaling businesses.",
           "features": [
             "3 premium custom logo directions",
-            "Full logo suite (horizontal, stacked, icon badge)",
-            "Detailed 30-page Brand Style Guidebook",
+            "Full logo suite (horizontal, stacked, icon badge, submark)",
+            "Detailed 25-page Brand Style Guidebook",
             "Stationery pack (Business card, letterhead, email signature)",
             "Packaging or merchandise mockup set",
             "Vector & high-res PNG/SVG exports",
-            "Delivery in 14 business days",
-            "Unlimited revisions"
+            "Delivery in 10 to 12 business days",
+            "Unlimited revisions until satisfied"
           ],
           "isPopular": true,
           "ctaText": "Most Popular",
-          "whatsappMessage": "Hi! I'm interested in the Full Brand System package (₹18,999). Can we schedule a brand discovery call?"
+          "whatsappMessage": "Hi BADARSH! I'm interested in the Full Brand System package (₹9,999). Can we schedule a brand discovery call?"
         },
         {
-          "name": "Agency Brand & Web",
-          "price": 34999,
+          "name": "Complete Brand & Website Suite",
+          "price": 19999,
           "currency": "INR",
           "description": "Comprehensive rebrand paired with a custom high-converting Next.js website design.",
           "features": [
             "Everything in Full Brand System",
+            "Matching 5-page responsive Next.js website build",
             "Custom Figma UI design system & components",
-            "Matching 5-page responsive website build",
             "Pitch deck & presentation template in Canva",
-            "Delivery in 25 business days",
+            "Delivery in 20 business days",
             "6 months dedicated design support"
           ],
           "isPopular": false,
           "ctaText": "Get Complete Suite",
-          "whatsappMessage": "Hi! I'm interested in the Agency Brand & Web package (₹34,999). Let's collaborate!"
+          "whatsappMessage": "Hi BADARSH! I'm interested in the Complete Brand & Website Suite (₹19,999). Let's collaborate!"
         }
       ],
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "updatedAt": "2026-11-19T04:40:08.436Z"
     }
   ],
   "blogPosts": [
@@ -1288,8 +1483,8 @@
         "Creator Economy"
       ],
       "status": "published",
-      "views": 536,
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "views": 915,
+      "updatedAt": "2026-11-19T04:40:08.436Z"
     },
     {
       "slug": "canva-hacks-for-small-business",
@@ -1308,8 +1503,8 @@
         "Small Business"
       ],
       "status": "published",
-      "views": 486,
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "views": 750,
+      "updatedAt": "2026-11-19T04:40:08.436Z"
     },
     {
       "slug": "instagram-organic-growth-blueprint",
@@ -1328,8 +1523,8 @@
         "Social Selling"
       ],
       "status": "published",
-      "views": 511,
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "views": 495,
+      "updatedAt": "2026-11-19T04:40:08.436Z"
     },
     {
       "slug": "why-diy-websites-fail",
@@ -1348,8 +1543,8 @@
         "UX"
       ],
       "status": "published",
-      "views": 416,
-      "updatedAt": "2026-11-18T18:44:25.219Z"
+      "views": 827,
+      "updatedAt": "2026-11-19T04:40:08.436Z"
     }
   ],
   "coupons": [
@@ -1362,7 +1557,7 @@
       "usageCount": 18,
       "usageLimit": 1000,
       "status": "active",
-      "createdAt": "2026-11-18T18:44:25.219Z"
+      "createdAt": "2026-11-19T04:40:08.436Z"
     },
     {
       "id": "cpn-001",
@@ -1373,7 +1568,7 @@
       "usageCount": 142,
       "usageLimit": 500,
       "status": "active",
-      "createdAt": "2026-11-18T18:44:25.219Z"
+      "createdAt": "2026-11-19T04:40:08.436Z"
     },
     {
       "id": "cpn-002",
@@ -1383,7 +1578,7 @@
       "minOrderAmount": 0,
       "usageCount": 68,
       "status": "active",
-      "createdAt": "2026-11-18T18:44:25.219Z"
+      "createdAt": "2026-11-19T04:40:08.436Z"
     },
     {
       "id": "cpn-003",
@@ -1393,7 +1588,7 @@
       "minOrderAmount": 499,
       "usageCount": 29,
       "status": "active",
-      "createdAt": "2026-11-18T18:44:25.219Z"
+      "createdAt": "2026-11-19T04:40:08.436Z"
     }
   ],
   "leads": [
@@ -1407,8 +1602,8 @@
       "budget": "₹25,000 / month",
       "status": "new",
       "notes": "Founder of a D2C fitness brand. High-priority lead.",
-      "createdAt": "2026-11-18T16:44:25.219Z",
-      "updatedAt": "2026-11-18T16:44:25.219Z"
+      "createdAt": "2026-11-19T02:40:08.436Z",
+      "updatedAt": "2026-11-19T02:40:08.436Z"
     },
     {
       "id": "lead-002",
@@ -1420,8 +1615,8 @@
       "budget": "₹60,000 one-time",
       "status": "contacted",
       "notes": "Sent preliminary portfolio deck on WhatsApp. Scheduled discovery call for Thursday.",
-      "createdAt": "2026-11-18T04:44:25.219Z",
-      "updatedAt": "2026-11-18T14:44:25.219Z"
+      "createdAt": "2026-11-18T14:40:08.436Z",
+      "updatedAt": "2026-11-19T00:40:08.436Z"
     },
     {
       "id": "lead-003",
@@ -1433,8 +1628,8 @@
       "budget": "₹45,000 / month",
       "status": "proposal",
       "notes": "Proposal draft #2 sent. Awaiting board approval.",
-      "createdAt": "2026-11-17T06:44:25.219Z",
-      "updatedAt": "2026-11-18T08:44:25.220Z"
+      "createdAt": "2026-11-17T16:40:08.436Z",
+      "updatedAt": "2026-11-18T18:40:08.436Z"
     }
   ],
   "subscribers": [
@@ -1443,21 +1638,21 @@
       "email": "rohit.verma@gmail.com",
       "source": "Homepage Hero Lead Magnet",
       "status": "active",
-      "createdAt": "2026-11-18T14:44:25.220Z"
+      "createdAt": "2026-11-19T00:40:08.436Z"
     },
     {
       "id": "sub-002",
       "email": "kavita.deshmukh@yahoo.in",
       "source": "Footer Newsletter",
       "status": "active",
-      "createdAt": "2026-11-18T00:44:25.220Z"
+      "createdAt": "2026-11-18T10:40:08.436Z"
     },
     {
       "id": "sub-003",
       "email": "neha.patel@startupcollective.io",
       "source": "Free Canva Templates Popup",
       "status": "active",
-      "createdAt": "2026-11-16T18:44:25.220Z"
+      "createdAt": "2026-11-17T04:40:08.436Z"
     }
   ],
   "orders": [
@@ -1483,7 +1678,7 @@
       "licenseKey": "BDRSH-LNKD-8821-X9",
       "canvaAccessDelivered": true,
       "deliveryNotes": "Sent Canva direct access link via email & WhatsApp.",
-      "createdAt": "2026-11-18T13:44:25.220Z"
+      "createdAt": "2026-11-18T23:40:08.436Z"
     },
     {
       "id": "ORD-94813",
@@ -1514,7 +1709,7 @@
       "licenseKey": "BDRSH-BNDL-4412-M2",
       "canvaAccessDelivered": true,
       "deliveryNotes": "Automated instant checkout delivery completed.",
-      "createdAt": "2026-11-17T20:44:25.220Z"
+      "createdAt": "2026-11-18T06:40:08.436Z"
     },
     {
       "id": "ORD-94814",
@@ -1536,7 +1731,7 @@
       "paymentStatus": "completed",
       "licenseKey": "BDRSH-PRST-9912-K4",
       "canvaAccessDelivered": true,
-      "createdAt": "2026-11-17T10:44:25.220Z"
+      "createdAt": "2026-11-17T20:40:08.436Z"
     }
   ],
   "settings": {
@@ -1552,14 +1747,14 @@
     "whatsappNumber": "917204250115",
     "supportEmail": "hello@badarsh.com",
     "maintenanceMode": false,
-    "lastBackupAt": "2026-11-18T18:44:25.220Z"
+    "lastBackupAt": "2026-11-19T04:40:08.436Z"
   },
   "auditLogs": [
     {
       "id": "log-001",
       "action": "SYSTEM_INITIALIZED",
       "details": "BADARSH Admin Operating System initialized with full digital catalog.",
-      "timestamp": "2026-11-18T18:44:25.220Z"
+      "timestamp": "2026-11-19T04:40:08.436Z"
     }
   ]
 }

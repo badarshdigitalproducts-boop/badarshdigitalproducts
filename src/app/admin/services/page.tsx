@@ -560,6 +560,56 @@ export default function AdminServicesPage() {
                 </div>
               </div>
 
+              {/* Portfolio Videos (For Video Editing) */}
+              <div>
+                <label className="block text-xs font-semibold text-zinc-300">
+                  Portfolio Video URLs (One URL per line — MP4 or YouTube)
+                </label>
+                <textarea
+                  rows={2}
+                  value={(editingService.portfolioVideos || []).join("\n")}
+                  onChange={(e) =>
+                    setEditingService({
+                      ...editingService,
+                      portfolioVideos: e.target.value
+                        .split("\n")
+                        .map((s) => s.trim())
+                        .filter(Boolean),
+                    })
+                  }
+                  placeholder="https://commondatastorage.googleapis.com/... or https://cdn.../sample.mp4"
+                  className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                />
+                <p className="mt-1 text-[11px] text-zinc-500">
+                  Videos displayed directly on the public service page for client trust.
+                </p>
+              </div>
+
+              {/* Portfolio Images (For Photo Editing, Websites, Logos) */}
+              <div>
+                <label className="block text-xs font-semibold text-zinc-300">
+                  Portfolio Image URLs (One image URL per line)
+                </label>
+                <textarea
+                  rows={3}
+                  value={(editingService.portfolioImages || []).join("\n")}
+                  onChange={(e) =>
+                    setEditingService({
+                      ...editingService,
+                      portfolioImages: e.target.value
+                        .split("\n")
+                        .map((s) => s.trim())
+                        .filter(Boolean),
+                    })
+                  }
+                  placeholder="https://images.unsplash.com/photo-..."
+                  className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                />
+                <p className="mt-1 text-[11px] text-zinc-500">
+                  High-res image gallery shown on public service page (before/after edits, logo marks, or website previews).
+                </p>
+              </div>
+
               {/* Footer Save Button */}
               <div className="flex justify-end gap-3 pt-4 border-t border-zinc-800">
                 <button

@@ -212,12 +212,18 @@ export function ProductCard({ product }: ProductCardProps) {
                 <span
                   className="flex items-center gap-1 rounded-xl bg-accent px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition-all duration-200 group-hover:bg-accent-hover group-hover:shadow"
                 >
-                  {product.category.includes("editing")
-                    ? "View Bundle"
-                    : product.category.includes("preset")
+                  {product.category === "photo-presets"
                     ? "Get Presets"
+                    : product.category === "editing-apps"
+                    ? "Download APK"
+                    : product.category === "editing-bundles"
+                    ? "Get Template"
+                    : product.category === "bundles"
+                    ? "Unlock Bundle"
                     : product.category === "ebooks"
                     ? "Read Playbook"
+                    : product.category === "planners"
+                    ? "Get Plan"
                     : "Get Asset"}
                   <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </span>

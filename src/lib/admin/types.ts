@@ -43,6 +43,13 @@ export interface AdminProduct extends Omit<Product, "tags" | "isFeatured" | "isN
   seoTitle?: string;
   seoDescription?: string;
   coverImageUrl?: string;
+  previewPdfUrl?: string;
+  appApkUrl?: string;
+  presetLinkUrl?: string;
+  overlayLinkUrl?: string;
+  videoUrl?: string;
+  portfolioImages?: string[];
+  portfolioVideos?: string[];
 }
 
 export interface AdminServicePackage {
@@ -67,6 +74,8 @@ export interface AdminService {
   category?: string;
   status: "active" | "inactive";
   turnaround?: string;
+  portfolioImages?: string[];
+  portfolioVideos?: string[];
   features: string[];
   packages: AdminServicePackage[];
   updatedAt?: string;

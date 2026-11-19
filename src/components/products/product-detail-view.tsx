@@ -332,7 +332,7 @@ export function ProductDetailView({
             {/* Checklist of what's inside */}
             <div className="mt-6">
               <h3 className="text-xs font-bold uppercase tracking-wider text-muted">
-                What's Included In This Suite:
+                What&apos;s Included In This Suite:
               </h3>
               <ul className="mt-3 space-y-2.5">
                 {product.features.map((feat, i) => (
@@ -343,6 +343,43 @@ export function ProductDetailView({
                 ))}
               </ul>
             </div>
+
+            {/* Category Flow Explainer Callout */}
+            {product.category === "photo-presets" && (
+              <div className="mt-6 rounded-2xl border border-accent/20 bg-accent/5 p-4 text-xs">
+                <span className="font-bold text-accent">🎨 How this Lightroom Preset works:</span>
+                <p className="mt-1 text-muted">
+                  Click the link we provide upon purchase. It opens directly in the free Adobe Lightroom Mobile app, allowing you to add any photo and apply our custom tone curve instantly.
+                </p>
+              </div>
+            )}
+
+            {product.category === "editing-bundles" && (
+              <div className="mt-6 rounded-2xl border border-accent/20 bg-accent/5 p-4 text-xs">
+                <span className="font-bold text-accent">🎬 1-Click CapCut / Premiere Template Flow:</span>
+                <p className="mt-1 text-muted">
+                  We designed this template so you don&apos;t have to edit from scratch. Click the link, open the template in CapCut/Premiere, swap your video clip, and export!
+                </p>
+              </div>
+            )}
+
+            {product.category === "editing-apps" && (
+              <div className="mt-6 rounded-2xl border border-blue-500/20 bg-blue-500/5 p-4 text-xs">
+                <span className="font-bold text-blue-400">📱 Direct APK Download:</span>
+                <p className="mt-1 text-muted">
+                  Hosted on high-speed BADARSH cloud drive. Android compatible, no subscription required, all premium effects &amp; 4K exports unlocked.
+                </p>
+              </div>
+            )}
+
+            {(product.category === "ebooks" || product.category === "planners") && (
+              <div className="mt-6 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-xs">
+                <span className="font-bold text-emerald-500">📖 Authentic BADARSH Content:</span>
+                <p className="mt-1 text-muted">
+                  100% original frameworks written and designed by our team. Zero copy-paste filler. Delivered instantly as a high-resolution PDF download.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Action CTAs */}
