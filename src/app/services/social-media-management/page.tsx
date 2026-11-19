@@ -33,11 +33,8 @@ export default function SocialMediaManagementPage() {
           <Share2 className="h-3.5 w-3.5" />
           Full-Stack Social Media Agency
         </span>
-        <h1 className="mt-4 font-heading text-4xl font-black tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Done-For-You{" "}
-          <span className="bg-gradient-to-r from-accent via-purple-400 to-indigo-500 bg-clip-text text-transparent">
-            Social Media Management
-          </span>
+        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+          Done-For-You <span className="text-accent">Social Media Management</span>
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
           Stop stressing over what to post every day. We handle your entire social media presence: custom content calendars, graphic design, edited Reels, caption copywriting, peak-hour publishing, and active follower engagement.

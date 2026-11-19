@@ -34,11 +34,8 @@ export default function BrandIdentityPage() {
           <Sparkles className="h-3.5 w-3.5" />
           BADARSH Brand &amp; Identity Atelier
         </span>
-        <h1 className="mt-4 font-heading text-4xl font-black tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Brand Identity &amp;{" "}
-          <span className="bg-gradient-to-r from-accent via-purple-400 to-pink-500 bg-clip-text text-transparent">
-            Custom Logo Design
-          </span>
+        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+          Brand Identity &amp; <span className="text-accent">Custom Logo Design</span>
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
           We design timeless logo marks, comprehensive typography systems, and brand guideline books that position your business as an undeniable industry leader. Inspect our portfolio of designed logos below, download sample vectors, or connect directly on WhatsApp to order your custom logo.

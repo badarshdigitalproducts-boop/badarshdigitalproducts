@@ -59,11 +59,8 @@ export default function EditingBundlesPage() {
           <Film className="h-3.5 w-3.5 text-accent" />
           1-Click Video Overlays &amp; SFX
         </span>
-        <h1 className="mt-4 font-heading text-4xl font-black tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Viral Video SFX &amp;{" "}
-          <span className="bg-gradient-to-r from-accent via-purple-400 to-pink-500 bg-clip-text text-transparent">
-            Motion Overlays
-          </span>
+        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+          Viral Video SFX &amp; <span className="text-accent">Motion Overlays</span>
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
           Our team creates the editing template and shares the direct app link. You click the link, it opens instantly in CapCut or Premiere, you drop your clip in, and your edit is done! Plus 350+ uncompressed creator sound effects and 4K film grains.

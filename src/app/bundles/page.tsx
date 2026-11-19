@@ -59,11 +59,8 @@ export default function BundlesPage() {
           <Flame className="h-3.5 w-3.5 text-accent" />
           BADARSH Mega Vaults
         </span>
-        <h1 className="mt-4 font-heading text-4xl font-black tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          2026 All-in-One{" "}
-          <span className="bg-gradient-to-r from-accent via-purple-400 to-indigo-500 bg-clip-text text-transparent">
-            Mega Bundles
-          </span>
+        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+          2026 All-in-One <span className="text-accent">Mega Bundles</span>
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
           Everything an ambitious editor or founder needs in one unified download. Uploaded directly from BADARSH Studio Google Drive: 500+ sound effects, 100 transitions, 50 LUTs, title templates, and 4K green screen VFX elements. Save over 60% compared to individual items.

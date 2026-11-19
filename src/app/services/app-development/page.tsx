@@ -35,11 +35,8 @@ export default function AppDevelopmentPage() {
           <Smartphone className="h-3.5 w-3.5" />
           Cross-Platform Mobile Studio
         </span>
-        <h1 className="mt-4 font-heading text-4xl font-black tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Mobile App Development for{" "}
-          <span className="bg-gradient-to-r from-accent via-blue-400 to-indigo-500 bg-clip-text text-transparent">
-            iOS &amp; Android
-          </span>
+        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+          Mobile App Development for <span className="text-accent">iOS &amp; Android</span>
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
           Turn your app concept into a production-ready mobile application on the Apple App Store and Google Play. We develop responsive cross-platform apps using React Native and Flutter with secure authentication, real-time database sync, push notifications, and payment processing.

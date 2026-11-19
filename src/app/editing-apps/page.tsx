@@ -56,11 +56,8 @@ export default function EditingAppsPage() {
           <Smartphone className="h-3.5 w-3.5 text-accent" />
           Direct Creator Tools &amp; APKs
         </span>
-        <h1 className="mt-4 font-heading text-4xl font-black tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Verified Mobile Video{" "}
-          <span className="bg-gradient-to-r from-accent via-blue-400 to-indigo-500 bg-clip-text text-transparent">
-            Editing Apps &amp; APKs
-          </span>
+        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+          Verified Mobile Video <span className="text-accent">Editing Apps &amp; APKs</span>
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
           Download video editing APKs directly from BADARSH. No shady third-party popups, no expired links. All VIP transitions, auto-captions, and 4K 60fps exports unlocked and verified by our technical team.

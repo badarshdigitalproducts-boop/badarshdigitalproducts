@@ -20,10 +20,10 @@ export function SectionHeader({
 }: SectionHeaderProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
         "mb-12 md:mb-16",
         align === "center" && "text-center",
@@ -31,14 +31,16 @@ export function SectionHeader({
       )}
     >
       {badge && (
-        <span className="mb-4 inline-block rounded-full bg-accent/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-accent">
-          {badge}
-        </span>
+        <div className="mb-3 flex items-center justify-center gap-2">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">
+            {badge}
+          </span>
+        </div>
       )}
       <h2
         className={cn(
-          "text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl",
-          badge && "mt-2"
+          "apple-title text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl",
+          badge && "mt-1"
         )}
       >
         {title}
@@ -46,7 +48,7 @@ export function SectionHeader({
       {subtitle && (
         <p
           className={cn(
-            "mt-4 text-lg text-muted",
+            "apple-subhead mt-4 text-base md:text-lg text-muted",
             align === "center" && "mx-auto max-w-2xl"
           )}
         >

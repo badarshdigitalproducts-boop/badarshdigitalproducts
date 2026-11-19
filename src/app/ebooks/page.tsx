@@ -73,11 +73,8 @@ export default function EbooksPage() {
           <BookOpen className="h-3.5 w-3.5" />
           BADARSH Digital Library
         </span>
-        <h1 className="mt-4 font-heading text-4xl font-black tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Marketing E-Books &amp;{" "}
-          <span className="bg-gradient-to-r from-accent via-purple-400 to-accent-hover bg-clip-text text-transparent">
-            Founder Playbooks
-          </span>
+        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+          Marketing E-Books &amp; <span className="text-accent">Founder Playbooks</span>
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
           No copy-paste fluff or recycled AI summaries. These are the exact growth frameworks, viral hook formulas, and monetization systems built and tested by the BADARSH studio team.

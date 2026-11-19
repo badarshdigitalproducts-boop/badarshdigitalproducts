@@ -37,6 +37,13 @@ export interface Product {
   appApkUrl?: string;            // direct APK download
   presetLinkUrl?: string;        // Lightroom preset link
   overlayLinkUrl?: string;       // SFX/overlay template link
+  beforeImage?: string;          // RAW unedited photo for preset comparison
+  afterImage?: string;           // Graded / edited photo for preset comparison
+  apkVersion?: string;           // e.g. "v11.4.0 Pro"
+  apkArchitecture?: string;      // e.g. "Android 10+ / ARM64"
+  audioPreviewUrl?: string;      // Audio preview for SFX
+  samplePages?: string[];        // Preview page images for ebooks/planners
+  totalAssetsCount?: string;     // e.g. "700+ Assets"
   features: string[];
   specs?: ProductSpecs;
   rating: number;

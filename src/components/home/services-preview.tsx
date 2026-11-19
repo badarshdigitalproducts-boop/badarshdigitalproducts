@@ -109,8 +109,8 @@ export function ServicesPreview() {
                   </div>
 
                   <Link
-                    href={`/services#${service.slug}`}
-                    className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-card-border bg-background py-3 font-heading text-xs font-bold text-foreground transition-all duration-200 hover:border-accent hover:bg-accent hover:text-white"
+                    href={`/services/${service.slug}`}
+                    className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-card-border bg-background py-3 font-heading text-xs font-bold text-foreground transition-all duration-200 hover:border-foreground/30 hover:bg-foreground hover:text-background"
                   >
                     <span>View Packages &amp; Portfolio</span>
                     <ArrowRight className="h-3.5 w-3.5" />

@@ -32,11 +32,8 @@ export default function PhotoEditingPage() {
           <Camera className="h-3.5 w-3.5" />
           BADARSH Retouching Studio
         </span>
-        <h1 className="mt-4 font-heading text-4xl font-black tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          High-End Commercial{" "}
-          <span className="bg-gradient-to-r from-accent via-amber-400 to-orange-500 bg-clip-text text-transparent">
-            Photo Editing &amp; Retouching
-          </span>
+        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+          High-End Commercial <span className="text-accent">Photo Editing &amp; Retouching</span>
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
           Studio-grade frequency separation skin retouching, reflection cleanup, e-commerce pure-white cutouts, and color grading that meets the exacting standards of luxury brands and top marketplaces.

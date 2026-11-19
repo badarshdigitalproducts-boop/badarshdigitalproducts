@@ -35,11 +35,8 @@ export default function VideoEditingPage() {
           <Video className="h-3.5 w-3.5" />
           BADARSH Video Production Studio
         </span>
-        <h1 className="mt-4 font-heading text-4xl font-black tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Professional Video Editing for{" "}
-          <span className="bg-gradient-to-r from-accent via-red-400 to-purple-500 bg-clip-text text-transparent">
-            Reels, YouTube &amp; Ads
-          </span>
+        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+          Professional Video Editing for <span className="text-accent">Reels, YouTube &amp; Ads</span>
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
           Transform your raw footage into cinematic, high-retention content that captivates audiences. We handle dynamic cuts, Hormozi-style subtitles, sound design, and color grading tailored to your brand aesthetic.

@@ -58,11 +58,8 @@ export default function PhotoPresetsPage() {
           <Camera className="h-3.5 w-3.5 text-accent" />
           1-Click Adobe Lightroom Presets
         </span>
-        <h1 className="mt-4 font-heading text-4xl font-black tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Cinematic Mood &amp; Warm{" "}
-          <span className="bg-gradient-to-r from-accent via-amber-400 to-orange-500 bg-clip-text text-transparent">
-            Photo Presets
-          </span>
+        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+          Cinematic Mood &amp; Warm <span className="text-accent">Photo Presets</span>
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
           Our team edits the photos and creates the preset share link. You click the link, it opens directly inside the free Adobe Lightroom Mobile app, you add your photo, and your edit is done! No manual DNG file imports or complex adjustments needed.

@@ -960,24 +960,103 @@ export default function AdminProductsPage() {
                 )}
 
                 {(editingProduct.category === "photo-presets" || editingProduct.productType === "photo-preset") && (
-                  <FormField label="🎨 Adobe Lightroom Preset Share Link" hint="Direct Lightroom share link. Customer clicks → Lightroom app opens → preset imports">
-                    <input
-                      type="url"
-                      value={editingProduct.presetLinkUrl || ""}
-                      onChange={(e) => setEditingProduct({ ...editingProduct, presetLinkUrl: e.target.value })}
-                      placeholder="https://lightroom.adobe.com/shares/YOUR_PRESET_ID"
-                      className={inputCls}
-                    />
-                  </FormField>
+                  <>
+                    <FormField label="🎨 Adobe Lightroom Preset Share Link" hint="Direct Lightroom share link. Customer clicks → Lightroom app opens → preset imports">
+                      <input
+                        type="url"
+                        value={editingProduct.presetLinkUrl || ""}
+                        onChange={(e) => setEditingProduct({ ...editingProduct, presetLinkUrl: e.target.value })}
+                        placeholder="https://lightroom.adobe.com/shares/YOUR_PRESET_ID"
+                        className={inputCls}
+                      />
+                    </FormField>
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField label="Before Image URL (RAW Photo)" hint="For interactive Before/After comparison slider">
+                        <input
+                          type="url"
+                          value={editingProduct.beforeImage || ""}
+                          onChange={(e) => setEditingProduct({ ...editingProduct, beforeImage: e.target.value })}
+                          placeholder="https://images.unsplash.com/... (Raw/Unedited)"
+                          className={inputCls}
+                        />
+                      </FormField>
+                      <FormField label="After Image URL (Color Graded)" hint="For interactive Before/After comparison slider">
+                        <input
+                          type="url"
+                          value={editingProduct.afterImage || ""}
+                          onChange={(e) => setEditingProduct({ ...editingProduct, afterImage: e.target.value })}
+                          placeholder="https://images.unsplash.com/... (Graded)"
+                          className={inputCls}
+                        />
+                      </FormField>
+                    </div>
+                  </>
+                )}
+
+                {(editingProduct.category === "editing-apps" || editingProduct.productType === "app-license") && (
+                  <>
+                    <FormField label="📱 APK Direct Download URL" hint="Direct link to APK file for instant download after purchase">
+                      <input
+                        type="url"
+                        value={editingProduct.appApkUrl || ""}
+                        onChange={(e) => setEditingProduct({ ...editingProduct, appApkUrl: e.target.value })}
+                        placeholder="https://drive.google.com/file/d/FILE_ID/view"
+                        className={inputCls}
+                      />
+                    </FormField>
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField label="APK Version" hint="e.g. v12.2.0 Pro VIP">
+                        <input
+                          type="text"
+                          value={editingProduct.apkVersion || ""}
+                          onChange={(e) => setEditingProduct({ ...editingProduct, apkVersion: e.target.value })}
+                          placeholder="v12.2.0 VIP Unlocked"
+                          className={inputCls}
+                        />
+                      </FormField>
+                      <FormField label="Architecture / OS" hint="e.g. Android 8.0+ / ARM64">
+                        <input
+                          type="text"
+                          value={editingProduct.apkArchitecture || ""}
+                          onChange={(e) => setEditingProduct({ ...editingProduct, apkArchitecture: e.target.value })}
+                          placeholder="Android 9.0+ / ARM64"
+                          className={inputCls}
+                        />
+                      </FormField>
+                    </div>
+                  </>
                 )}
 
                 {(editingProduct.category === "editing-bundles" || editingProduct.productType === "editing-bundle" || editingProduct.productType === "video-preset") && (
-                  <FormField label="🎬 Template / Overlay App Link (CapCut / Premiere)" hint="Template link. Customer clicks → app opens with template loaded">
+                  <>
+                    <FormField label="🎬 Template / Overlay App Link (CapCut / Premiere)" hint="Template link. Customer clicks → app opens with template loaded">
+                      <input
+                        type="url"
+                        value={editingProduct.overlayLinkUrl || ""}
+                        onChange={(e) => setEditingProduct({ ...editingProduct, overlayLinkUrl: e.target.value })}
+                        placeholder="https://www.capcut.com/template/TEMPLATE_ID"
+                        className={inputCls}
+                      />
+                    </FormField>
+                    <FormField label="🔊 Audio Preview URL (for sound effects visualizer)" hint="Direct MP3/OGG URL to let creators hear the SFX">
+                      <input
+                        type="url"
+                        value={editingProduct.audioPreviewUrl || ""}
+                        onChange={(e) => setEditingProduct({ ...editingProduct, audioPreviewUrl: e.target.value })}
+                        placeholder="https://actions.google.com/sounds/v1/...ogg"
+                        className={inputCls}
+                      />
+                    </FormField>
+                  </>
+                )}
+
+                {(editingProduct.category === "bundles" || editingProduct.productType === "bundle") && (
+                  <FormField label="📦 Total Assets Count" hint="e.g. 700+ Production Assets, 500+ SFX">
                     <input
-                      type="url"
-                      value={editingProduct.overlayLinkUrl || ""}
-                      onChange={(e) => setEditingProduct({ ...editingProduct, overlayLinkUrl: e.target.value })}
-                      placeholder="https://www.capcut.com/template/TEMPLATE_ID"
+                      type="text"
+                      value={editingProduct.totalAssetsCount || ""}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, totalAssetsCount: e.target.value })}
+                      placeholder="700+ Production Assets"
                       className={inputCls}
                     />
                   </FormField>

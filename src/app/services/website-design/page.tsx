@@ -35,11 +35,8 @@ export default function WebsiteDesignPage() {
           <Globe className="h-3.5 w-3.5" />
           Next.js Web Engineering Studio
         </span>
-        <h1 className="mt-4 font-heading text-4xl font-black tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Website Design &amp;{" "}
-          <span className="bg-gradient-to-r from-accent via-purple-400 to-indigo-500 bg-clip-text text-transparent">
-            Custom Next.js Development
-          </span>
+        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+          Website Design &amp; <span className="text-accent">Custom Next.js Development</span>
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
           We develop high-performance, responsive websites tailored to your exact business requirements with transparent flexible rates. Sub-second page loads, complete Google SEO optimization, and direct personal WhatsApp collaboration with BADARSH founders.
