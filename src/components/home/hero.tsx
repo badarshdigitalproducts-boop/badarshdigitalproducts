@@ -23,8 +23,8 @@ export function Hero() {
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             className="inline-flex items-center gap-2"
           >
-            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#86868B]">
-              BADARSH Digital Studio
+            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#86868B]">
+              BADARSH 2026 &bull; PRO CREATIVE ECOSYSTEM
             </span>
           </motion.div>
 
@@ -33,10 +33,10 @@ export function Hero() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-4 apple-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold text-[#F5F5F7] tracking-[-0.035em] leading-[1.04]"
+            className="mt-4 apple-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold text-[#F5F5F7] tracking-[-0.035em] leading-[1.03]"
           >
-            Everything Creators Need. <br className="hidden sm:inline" />
-            <span className="text-foreground">In One Place.</span>
+            Pro tools. <br className="hidden sm:inline" />
+            <span className="text-[#F5F5F7]">Pure impact.</span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -46,7 +46,7 @@ export function Hero() {
             transition={{ duration: 0.55, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
             className="mt-5 apple-subhead text-base sm:text-xl leading-relaxed text-[#86868B] max-w-2xl mx-auto font-normal"
           >
-            Production video editing vaults, uncompressed SFX, 1-click Lightroom presets, verified APK tools, and custom Next.js web applications.
+            Master video editing vaults, cinematic SFX, 1-click Lightroom presets, verified creator APKs, and custom web engineering. Zero fluff. Pure production quality.
           </motion.p>
 
           {/* Apple-Exact Button Duo: Solid White Pill + Retinal Blue Chevron Link */}
@@ -89,7 +89,7 @@ export function Hero() {
             </div>
             <div className="flex items-center gap-1.5">
               <ShieldCheck className="h-3.5 w-3.5 text-accent" />
-              <span>WhatsApp Priority Line</span>
+              <span>WhatsApp Founder Desk</span>
             </div>
           </motion.div>
         </div>

@@ -161,11 +161,11 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
             {/* Footer — CTA + social */}
             <div className="border-t border-border/40 px-5 py-5 space-y-3">
               <Link
-                href="/templates"
+                href="/bundles"
                 onClick={onClose}
                 className="block cursor-pointer rounded-full bg-accent py-3 text-center text-[15px] font-semibold text-white shadow-sm transition-[transform,background-color] duration-150 hover:opacity-90 active:scale-[0.97]"
               >
-                Shop All Products
+                Explore Creator Store
               </Link>
               <div className="flex items-center justify-center gap-6 pt-1">
                 <a
