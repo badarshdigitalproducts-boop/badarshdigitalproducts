@@ -8,13 +8,11 @@ import {
   X,
   Send,
   RotateCcw,
-  Sparkles,
   ArrowRight,
-  MessageSquare,
   ChevronDown,
   ExternalLink,
 } from "lucide-react";
-import { cn, getWhatsAppUrl } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 interface ChatMessage {
   id: string;
@@ -24,19 +22,19 @@ interface ChatMessage {
 }
 
 const INITIAL_SUGGESTIONS = [
-  "🎬 Tell me about the 2026 Video Mega Bundle",
-  "📱 How does the CapCut Pro APK work?",
-  "💻 What are your website development prices?",
-  "🎨 How do 1-click Lightroom Presets work?",
-  "🛡️ What are the commercial licensing rights?",
+  "🎬 2026 Video Mega Bundle details",
+  "📱 CapCut Pro APK features & safety",
+  "💻 Website development pricing (₹3k–₹15k)",
+  "🎨 1-Click Lightroom Presets guide",
+  "🛡️ Commercial client licensing rights",
 ];
 
-// Helper: Parse markdown-like text with links, bolding, and bullet points safely
+// Helper: Parse markdown-like text with links, bolding, and bullet points cleanly
 function RenderMessageContent({ text }: { text: string }) {
   const lines = text.split("\n");
 
   return (
-    <div className="space-y-2 text-[13px] leading-relaxed break-words">
+    <div className="space-y-1.5 text-[13px] leading-relaxed break-words">
       {lines.map((line, lineIdx) => {
         const trimmed = line.trim();
 
@@ -49,15 +47,18 @@ function RenderMessageContent({ text }: { text: string }) {
           return (
             <h4
               key={lineIdx}
-              className="font-heading text-[14px] font-bold text-foreground mt-2 mb-1"
+              className="font-heading text-[13px] font-bold text-foreground mt-1.5 mb-0.5"
             >
               {trimmed.replace(/^###\s+/, "")}
             </h4>
           );
         }
 
-        // Bullet points: - or *
-        const isBullet = trimmed.startsWith("- ") || trimmed.startsWith("* ");
+        // Bullet points: - or * or •
+        const isBullet =
+          trimmed.startsWith("- ") ||
+          trimmed.startsWith("* ") ||
+          trimmed.startsWith("• ");
         const contentText = isBullet ? trimmed.slice(2) : trimmed;
 
         // Parse markdown links [text](url) and bold **text**
@@ -144,12 +145,11 @@ export function AiSupportAgent() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(true);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Initialize initial greeting once
+  // Initial welcome message (crisp, simple, non-repetitive)
   useEffect(() => {
     if (messages.length === 0) {
       setMessages([
@@ -157,14 +157,13 @@ export function AiSupportAgent() {
           id: "welcome-msg",
           role: "assistant",
           content:
-            "### Welcome to BADARSH Studio Intelligence\n\nI am your dedicated 24/7 AI Concierge, trained on our complete 2026 creator ecosystem:\n\n- **Digital Assets**: [2026 Video Mega Bundle](/bundles), [CapCut Pro APKs](/editing-apps), [Lightroom Presets](/photo-presets), and [SFX Overlays](/editing-bundles).\n- **Engineering & Production**: [Next.js Websites (₹3k–₹15k)](/services/website-design), [Mobile Apps](/services/app-development), and [Reel Video Editing](/services/video-editing).\n\nHow can I help elevate your project today?",
+            "Hi! I'm the BADARSH Studio Concierge. How can I help you with our creator tools, APKs, or custom web development today?",
           createdAt: Date.now(),
         },
       ]);
     }
   }, [messages.length]);
 
-  // Scroll to bottom when messages update
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
@@ -175,12 +174,6 @@ export function AiSupportAgent() {
       inputRef.current?.focus();
     }
   }, [isOpen, messages, isLoading, scrollToBottom]);
-
-  // Hide badge tooltip after 8s
-  useEffect(() => {
-    const timer = setTimeout(() => setShowTooltip(false), 8000);
-    return () => clearTimeout(timer);
-  }, []);
 
   // Close on Escape key
   useEffect(() => {
@@ -223,14 +216,14 @@ export function AiSupportAgent() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to reach support agent");
+        throw new Error("Failed to reach agent");
       }
 
       const data = await response.json();
       const botMessage: ChatMessage = {
         id: `bot-${Date.now()}`,
         role: "assistant",
-        content: data.reply || "I am here to help! Ask me anything about our bundles or services.",
+        content: data.reply || "I'm here to assist. Ask me anything about our tools or services.",
         createdAt: Date.now(),
       };
 
@@ -242,7 +235,7 @@ export function AiSupportAgent() {
           id: `bot-err-${Date.now()}`,
           role: "assistant",
           content:
-            "I am available to assist you! Explore our [All-in-One Bundles](/bundles) or connect directly with our founders on our [Executive Studio Desk](/about#contact).",
+            "I'm here to assist! Explore our [All-in-One Bundles](/bundles) or submit your requirements on our [Executive Studio Desk](/about#contact).",
           createdAt: Date.now(),
         },
       ]);
@@ -262,7 +255,7 @@ export function AiSupportAgent() {
         id: `welcome-${Date.now()}`,
         role: "assistant",
         content:
-          "Conversation reset. How can I assist you with BADARSH digital products, creator software APKs, or custom web engineering?",
+          "Conversation reset. How can I help you with our creator tools, APKs, or custom web development?",
         createdAt: Date.now(),
       },
     ]);
@@ -271,51 +264,25 @@ export function AiSupportAgent() {
 
   return (
     <>
-      {/* ─── Floating Trigger Button (Bottom Right) ─── */}
-      <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
-        {/* Subtle Tooltip preview on initial load */}
-        <AnimatePresence>
-          {showTooltip && !isOpen && (
-            <motion.div
-              initial={{ opacity: 0, x: 10, scale: 0.95 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 10, scale: 0.95 }}
-              transition={{ duration: 0.3 }}
-              className="hidden sm:flex items-center gap-2 rounded-full border border-border/70 bg-card/95 px-3.5 py-1.5 shadow-xl backdrop-blur-xl"
-            >
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[12px] font-semibold text-foreground tracking-tight">
-                BADARSH AI
-              </span>
-              <span className="text-[11px] text-muted">&bull; 24/7 Studio Concierge</span>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Circular Luxury Badge Button */}
+      {/* ─── Floating Trigger Button (Clean, No Annoying Notification) ─── */}
+      <div className="fixed bottom-6 right-6 z-50">
         <motion.button
-          onClick={() => {
-            setIsOpen((prev) => !prev);
-            setShowTooltip(false);
-          }}
+          onClick={() => setIsOpen((prev) => !prev)}
           className={cn(
-            "group relative flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border transition-all duration-300 shadow-2xl active:scale-95",
+            "group relative flex h-13 w-13 sm:h-14 sm:w-14 cursor-pointer items-center justify-center rounded-full border transition-all duration-300 shadow-xl active:scale-95",
             isOpen
               ? "border-accent bg-accent text-white shadow-accent/25"
-              : "border-white/20 bg-[#141416]/95 text-foreground hover:border-white/40 hover:scale-105 backdrop-blur-2xl"
+              : "border-white/15 bg-[#141416]/95 text-foreground hover:border-white/30 hover:scale-105 backdrop-blur-2xl"
           )}
           whileTap={{ scale: 0.92 }}
-          aria-label={isOpen ? "Close BADARSH AI Concierge" : "Open BADARSH AI Concierge"}
+          aria-label={isOpen ? "Close AI Concierge" : "Open AI Concierge"}
         >
-          {/* Ambient Glow */}
-          <span className="absolute -inset-1 rounded-full bg-accent/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
-
           {isOpen ? (
-            <ChevronDown className="h-6 w-6 transition-transform duration-200" />
+            <ChevronDown className="h-5 w-5 sm:h-6 sm:w-6 transition-transform duration-200" />
           ) : (
             <div className="relative flex items-center justify-center">
               {/* Luxury BADARSH Brand Emblem */}
-              <div className="relative h-8 w-8 overflow-hidden rounded-lg">
+              <div className="relative h-7 w-7 sm:h-8 sm:w-8 overflow-hidden rounded-lg">
                 <Image
                   src="/logo-icon-light-v3.png"
                   alt="BADARSH Emblem"
@@ -326,51 +293,49 @@ export function AiSupportAgent() {
                 />
               </div>
 
-              {/* Online indicator dot */}
-              <span className="absolute -bottom-1 -right-1 flex h-3.5 w-3.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-3.5 w-3.5 rounded-full border-2 border-[#141416] bg-emerald-500" />
+              {/* Minimalist Live Status Dot */}
+              <span className="absolute -bottom-1 -right-1 flex h-3 w-3">
+                <span className="relative inline-flex h-3 w-3 rounded-full border-2 border-[#141416] bg-emerald-500" />
               </span>
             </div>
           )}
         </motion.button>
       </div>
 
-      {/* ─── Floating Apple-Grade Chat Island Modal ─── */}
+      {/* ─── Floating Clean Chat Modal ─── */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, y: 16, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 16, scale: 0.96 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed bottom-24 right-4 sm:right-6 z-50 flex w-[calc(100vw-2rem)] sm:w-[410px] h-[80vh] sm:h-[580px] max-h-[640px] flex-col overflow-hidden rounded-3xl border border-border/80 bg-background/95 shadow-2xl backdrop-blur-3xl"
+            exit={{ opacity: 0, y: 12, scale: 0.96 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed bottom-22 right-4 sm:right-6 z-50 flex w-[calc(100vw-2rem)] sm:w-[390px] h-[75vh] sm:h-[540px] max-h-[600px] flex-col overflow-hidden rounded-3xl border border-border/80 bg-background/95 shadow-2xl backdrop-blur-3xl"
             style={{ WebkitBackdropFilter: "blur(28px) saturate(180%)" }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-border/60 bg-card/60 px-5 py-3.5 backdrop-blur-md">
-              <div className="flex items-center gap-3">
-                <div className="relative h-9 w-9 overflow-hidden rounded-xl border border-white/10 bg-accent/15 p-1">
+            <div className="flex items-center justify-between border-b border-border/60 bg-card/60 px-4 py-3 backdrop-blur-md">
+              <div className="flex items-center gap-2.5">
+                <div className="relative h-8 w-8 overflow-hidden rounded-xl border border-white/10 bg-accent/15 p-1">
                   <Image
                     src="/logo-icon-light-v3.png"
                     alt="BADARSH Emblem"
-                    width={48}
-                    height={48}
+                    width={40}
+                    height={40}
                     className="h-full w-full object-contain"
                   />
                 </div>
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <h3 className="font-heading text-sm font-bold text-foreground">
+                    <h3 className="font-heading text-[13px] font-bold text-foreground">
                       BADARSH AI
                     </h3>
-                    <span className="flex items-center gap-1 rounded-full bg-emerald-500/15 px-2 py-0.2 text-[10px] font-semibold text-emerald-500">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                      Live
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-1.5 py-0.2 text-[9px] font-semibold text-emerald-500">
+                      Online
                     </span>
                   </div>
-                  <p className="text-[11px] text-muted leading-tight">
-                    Trained on 2026 Products &amp; Services
+                  <p className="text-[10px] text-muted leading-tight">
+                    Studio Concierge
                   </p>
                 </div>
               </div>
@@ -383,7 +348,7 @@ export function AiSupportAgent() {
                   title="Reset conversation"
                   aria-label="Reset conversation"
                 >
-                  <RotateCcw className="h-4 w-4" />
+                  <RotateCcw className="h-3.5 w-3.5" />
                 </button>
                 <button
                   onClick={() => setIsOpen(false)}
@@ -391,21 +356,21 @@ export function AiSupportAgent() {
                   title="Close AI Concierge"
                   aria-label="Close AI Concierge"
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-3.5 w-3.5" />
                 </button>
               </div>
             </div>
 
             {/* Chat Body */}
-            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+            <div className="flex-1 overflow-y-auto px-3.5 py-3.5 space-y-3">
               {messages.map((message) => {
                 const isUser = message.role === "user";
                 return (
                   <motion.div
                     key={message.id}
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ duration: 0.18 }}
                     className={cn(
                       "flex flex-col",
                       isUser ? "items-end" : "items-start"
@@ -413,10 +378,10 @@ export function AiSupportAgent() {
                   >
                     <div
                       className={cn(
-                        "rounded-2xl px-4 py-3 shadow-xs",
+                        "rounded-2xl px-3.5 py-2.5 shadow-xs",
                         isUser
                           ? "max-w-[85%] rounded-br-xs bg-accent text-white"
-                          : "max-w-[92%] rounded-bl-xs border border-border/60 bg-card/80 text-foreground"
+                          : "max-w-[92%] rounded-bl-xs border border-border/60 bg-card/85 text-foreground"
                       )}
                     >
                       {isUser ? (
@@ -431,30 +396,24 @@ export function AiSupportAgent() {
                 );
               })}
 
-              {/* Thinking / Streaming Indicator */}
+              {/* Minimal Clean Loading Dots (No flashy "BADARSH thinking" text) */}
               {isLoading && (
                 <motion.div
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center gap-2 rounded-2xl border border-border/60 bg-card/80 px-4 py-3 w-max"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex items-center gap-1.5 rounded-2xl border border-border/50 bg-card/70 px-3.5 py-2.5 w-max"
                 >
-                  <Sparkles className="h-3.5 w-3.5 text-accent animate-spin" />
-                  <span className="text-[12px] text-muted">
-                    BADARSH AI is thinking...
-                  </span>
-                  <div className="flex gap-1 ml-1">
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce" />
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce [animation-delay:0.15s]" />
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent animate-bounce [animation-delay:0.3s]" />
-                  </div>
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent/80 animate-bounce [animation-delay:0s]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent/80 animate-bounce [animation-delay:0.15s]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent/80 animate-bounce [animation-delay:0.3s]" />
                 </motion.div>
               )}
 
-              {/* Quick Starter Suggestions */}
+              {/* Initial Quick Suggestion Chips */}
               {!hasInteracted && messages.length <= 1 && (
                 <div className="pt-2 space-y-1.5">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-muted px-1">
-                    Suggested Inquiries
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-muted px-1">
+                    Quick questions:
                   </p>
                   <div className="flex flex-col gap-1.5">
                     {INITIAL_SUGGESTIONS.map((suggestion, idx) => (
@@ -473,40 +432,39 @@ export function AiSupportAgent() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Bar */}
-            <div className="border-t border-border/60 bg-card/40 p-3 backdrop-blur-md">
+            {/* Input Bar — Clean & No WhatsApp */}
+            <div className="border-t border-border/60 bg-card/40 p-2.5 backdrop-blur-md">
               <form onSubmit={handleFormSubmit} className="relative flex items-center">
                 <input
                   ref={inputRef}
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask about bundles, APKs, website prices..."
+                  placeholder="Ask a question..."
                   disabled={isLoading}
-                  className="w-full rounded-full border border-border/70 bg-background/90 px-4 py-2.5 pr-11 text-[13px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all"
+                  className="w-full rounded-full border border-border/70 bg-background/90 px-3.5 py-2 pr-10 text-[12.5px] text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all"
                 />
                 <button
                   type="submit"
                   disabled={!input.trim() || isLoading}
-                  className="absolute right-1.5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-accent text-white shadow-xs hover:bg-accent-hover disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                  className="absolute right-1 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-accent text-white shadow-xs hover:bg-accent-hover disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                   aria-label="Send message"
                 >
-                  <Send className="h-3.5 w-3.5" />
+                  <Send className="h-3 w-3" />
                 </button>
               </form>
 
-              {/* Quick Direct Desk Action */}
-              <div className="mt-2 flex items-center justify-between px-2 text-[11px] text-muted">
-                <span>24/7 Studio Concierge</span>
-                <a
-                  href={getWhatsAppUrl("Hi BADARSH! I'd like to chat with the founders.")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-medium text-emerald-500 hover:underline"
+              {/* Micro Studio Desk Link (No WhatsApp) */}
+              <div className="mt-1.5 flex items-center justify-between px-2 text-[10.5px] text-muted">
+                <span>BADARSH Studio Intelligence</span>
+                <Link
+                  href="/about#contact"
+                  onClick={() => setIsOpen(false)}
+                  className="inline-flex items-center gap-0.5 font-medium text-accent hover:underline"
                 >
-                  <MessageSquare className="h-3 w-3" />
-                  <span>Direct WhatsApp Desk</span>
-                </a>
+                  <span>Submit Studio Brief</span>
+                  <ArrowRight className="h-2.5 w-2.5" />
+                </Link>
               </div>
             </div>
           </motion.div>

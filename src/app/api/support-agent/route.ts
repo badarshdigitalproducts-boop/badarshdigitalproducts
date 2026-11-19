@@ -1,198 +1,130 @@
 import { NextResponse } from "next/server";
 
-// Comprehensive BADARSH Studio Knowledge System Prompt
-const SYSTEM_PROMPT = `You are BADARSH AI, the official Executive Studio Concierge for BADARSH (badarsh.com) — a premier digital creator ecosystem and done-for-you creative production studio based in Bengaluru, India.
+// Comprehensive BADARSH System Knowledge for Kie.ai LLM
+const SYSTEM_PROMPT = `You are the BADARSH Studio AI Concierge (badarsh.com).
+BADARSH is a premier digital creator ecosystem and creative agency based in Bengaluru, India.
+Your personality: Apple-caliber elegance, concise (2-4 sentences max unless detailed breakdown requested), helpful, human, confident, zero marketing fluff, and zero robotic cliché.
 
-Your tone is confident, executive, articulate, and Apple-grade: concise, helpful, professional, and zero fluff. You never speak like a generic chatbot or cartoon robot.
+Key knowledge:
+- 2026 Video Mega Bundle & SFX (/bundles): 500+ master 24-bit WAV sound effects, 100 transitions, 50 LUTs, 4K alpha VFX overlays.
+- CapCut Pro APK (/editing-apps): Verified Android APK, watermark-free, VIP transitions, 4K 60fps export, AI cutout unlocked. Direct safe download.
+- Lightroom Presets (/photo-presets): 1-click .DNG (Free Lightroom Mobile) and .XMP (Desktop) cinematic color grades.
+- Video SFX & Motion Overlays (/editing-bundles): 350+ master sounds, 4K transparent alpha overlays.
+- Next.js Web Development (/services/website-design): Starter ₹3k–₹6k, Growth 5-8 pages ₹9k–₹11k, Scalable 15-20+ pages ₹15k+. High performance, mobile-first, SEO included.
+- Other Services: Mobile Apps (/services/app-development), Video Editing (/services/video-editing), Photo Retouching (/services/photo-editing), Brand Logos (/services/brand-identity).
+- Business E-Books (/ebooks) & Productivity Planners (/planners): Instant PDF download.
+- Canva Templates (/templates): 100% compatible with free Canva.
+- Licensing: Full commercial client rights included. Reselling raw assets prohibited.
+- Delivery: Instant on screen + email backup. 100% replacement guarantee.
+- Rules: Never mention raw phone numbers. Do not mention WhatsApp. Link to pages using markdown [Page Name](/path). Answer the user's specific problem directly.`;
 
-### ABOUT BADARSH:
-BADARSH is a dual-engine creative powerhouse:
-1. **Digital Creator Store**: Master production assets, verified creator APKs, uncompressed SFX, 1-click Lightroom color grades, e-books, and planners.
-2. **Done-For-You Production & Engineering Studio**: Senior designers and Next.js engineers building custom websites, mobile apps, video edits, and brand systems.
+// Conversational Problem-Solving Intelligence Engine
+function generateIntelligentResponse(userMessage: string, history: Array<{ role: string; content: string }>): string {
+  const query = userMessage.trim().toLowerCase();
 
-### COMPLETE DIGITAL STOREFRONT (ALL SEPARATE DEDICATED PAGES):
-1. **All-in-One Mega Bundles** (/bundles):
-   - Flagship: "2026 Video Editing Mega Bundle"
-   - Includes 500+ uncompressed 24-bit WAV sound effects, 100 cinematic transitions, 50 LUTs, and 4K green screen & alpha VFX overlays.
-   - Up to 60% savings compared to buying individual assets. Direct cloud drive delivery.
-
-2. **Editing Apps (APKs)** (/editing-apps):
-   - Verified Android video editing software packages (e.g., CapCut Pro APK).
-   - VIP transitions unlocked, 4K 60fps export without watermark, AI cutout features enabled.
-   - 100% safe, verified, direct cloud download links.
-
-3. **Lightroom Presets** (/photo-presets):
-   - 1-Click Adobe Lightroom Mobile (.DNG) and Desktop (.XMP) color grading packs.
-   - Designed for moody cinematic tones, urban street, skin retouching, and commercial catalogs.
-
-4. **Video SFX & Motion Overlays** (/editing-bundles):
-   - 350+ master sound effects (whooshes, impacts, cinematic risers, textures).
-   - 4K transparent alpha overlays, light leaks, and 1-click CapCut/Premiere video templates.
-
-5. **Business E-Books** (/ebooks):
-   - Actionable founder playbooks, organic growth blueprints, and monetization roadmaps.
-   - Instant PDF download immediately after payment.
-
-6. **Productivity Planners** (/planners):
-   - Life operating systems, career milestone planners, gym workout splits, diet & nutrition logs, habit trackers.
-   - Clean interactive PDF format.
-
-7. **Canva Templates** (/templates):
-   - Social media carousels, reels, pitch decks, client proposals.
-   - 100% compatible with Canva Free (no Canva Pro subscription required).
-
-### DONE-FOR-YOU PRODUCTION & ENGINEERING SERVICES:
-1. **Website Design & Development** (/services/website-design):
-   - High-performance custom Next.js 16 web applications built with TypeScript and Tailwind CSS.
-   - Transparent, flexible pricing tiers:
-     * Starter / Single-page Website: ₹3,000 to ₹6,000
-     * Multi-page High-Growth Website (5 to 8 pages): ₹9,000 to ₹11,000
-     * Enterprise / High-Scale Web Application (15 to 20 pages): ₹15,000+
-   - Includes mobile responsiveness, SEO optimization, analytics, and direct WhatsApp founder collaboration.
-
-2. **Mobile App Development** (/services/app-development):
-   - Native cross-platform iOS & Android mobile applications with cloud backends.
-
-3. **High-Retention Video Editing** (/services/video-editing):
-   - Reels, Shorts, and long-form YouTube editing with dynamic sound design, hooks, and retention pacing.
-
-4. **Photo Retouching** (/services/photo-editing):
-   - Commercial catalog frequency separation, product photography cleanup, and color grading.
-
-5. **Social Media Management** (/services/social-media-management):
-   - End-to-end content calendar, visual assets, copywriting, and community growth.
-
-6. **Brand Identity Design & Logos** (/services/brand-identity):
-   - Custom vector logos, brand typography, color palettes, and comprehensive corporate identity systems.
-
-### LICENSING & STORE GUARANTEES:
-- **Commercial License Included**: Unlimited client and commercial use. Resale of raw source files is prohibited.
-- **Instant Digital Delivery**: Files and access links appear immediately on screen post-checkout and are emailed as backup.
-- **100% Replacement Guarantee**: If any link is broken, our team resolves or replaces it within 2–4 hours.
-- **Support**: 24/7 on-site AI concierge and direct founder desk.
-
-### BEHAVIOR RULES:
-- Format responses cleanly with markdown (bolding, lists).
-- Always include relevant site links in markdown format (e.g., [Explore 2026 Mega Bundles](/bundles), [Download CapCut Pro APK](/editing-apps), [View Website Packages](/services/website-design), [Read About Studio](/about)).
-- Never output raw phone numbers in your text. Refer to our direct contact as "Direct WhatsApp Founder Desk" or link to our studio brief on /about.
-- Keep answers concise, highly informative, and confident.`;
-
-// Intelligent Built-in Fallback Knowledge Engine
-function getFallbackResponse(query: string): string {
-  const q = query.toLowerCase();
-
-  // 1. Video bundle / SFX / 2026 vault
-  if (q.includes("bundle") || q.includes("sfx") || q.includes("sound") || q.includes("vault") || q.includes("video edit")) {
-    return `### 🎬 2026 Video Editing Mega Bundle & SFX Vault
-
-Our flagship **2026 Video Mega Bundle** is engineered for high-retention editors, content creators, and agencies:
-
-- **500+ Uncompressed 24-bit WAV SFX**: Whooshes, cinematic impacts, risers, and ambient drops.
-- **100+ Pro Transitions & 50 LUTs**: Cinematic color profiles for Premiere, DaVinci Resolve, and Final Cut.
-- **4K Motion Overlays**: Transparent alpha channel light leaks, film burns, and green screen elements.
-- **Lifetime Cloud Access**: Immediate Google Drive download with lifetime updates.
-
-👉 [**Explore All-in-One Mega Bundles**](/bundles)  
-👉 [**Browse Video SFX & Motion Overlays**](/editing-bundles)`;
+  // 1. Casual Greetings & Persona
+  if (/^(hi|hello|hey|hola|namaste|good\s*(morning|afternoon|evening)|sup|yo)\b/i.test(query) || query === "hi" || query === "hello") {
+    return "Hey there! Welcome to BADARSH. I'm your Studio Concierge. Whether you're looking for our 2026 creator tools, verified editing APKs, or custom website engineering, I'm here to help. What are you working on today?";
   }
 
-  // 2. APK / CapCut Pro / Editing Apps
-  if (q.includes("apk") || q.includes("capcut") || q.includes("app") || q.includes("download") || q.includes("mobile")) {
-    return `### 📱 CapCut Pro & Creator APKs
-
-We host verified, clean Android APKs built specifically for mobile video creators:
-
-- **VIP Transitions & Effects**: Premium unlocked features without watermark.
-- **4K 60fps Export**: Export in master high-bitrate quality.
-- **AI Cutout & Auto Velocity**: Full suite of AI mobile tools enabled.
-- **Safe & Verified**: Direct cloud download links tested across multiple devices.
-
-👉 [**Enter Editing Apps (APKs) Store**](/editing-apps)`;
+  if (query.includes("who are you") || query.includes("what can you do") || query.includes("your name")) {
+    return "I am the BADARSH Studio Concierge — your 24/7 intelligent guide to our digital tools, video assets, Lightroom presets, and custom Next.js development services. Ask me anything about our software, pricing, or custom projects!";
   }
 
-  // 3. Presets / Lightroom
-  if (q.includes("preset") || q.includes("lightroom") || q.includes("photo") || q.includes("color grade") || q.includes("dng") || q.includes("xmp")) {
-    return `### 🎨 1-Click Lightroom Presets
-
-Elevate your photography with our master Adobe Lightroom color grades:
-
-- **Format**: Includes both **.DNG** (for Lightroom Mobile Free) and **.XMP** (for Lightroom Desktop).
-- **Styles**: Moody urban, warm cinematic film, crisp portrait skin retouching, and clean catalog aesthetics.
-- **1-Click Application**: Import into Lightroom and apply consistent color grading in under 5 seconds.
-
-👉 [**Explore Lightroom Presets**](/photo-presets)  
-👉 [**Need Commercial Photo Retouching?**](/services/photo-editing)`;
+  // 2. CapCut Pro & Editing Apps
+  if (query.includes("capcut") || query.includes("apk") || query.includes("mod") || (query.includes("editing") && query.includes("app"))) {
+    if (query.includes("safe") || query.includes("virus") || query.includes("malware") || query.includes("secure")) {
+      return "Yes, 100% safe. Every APK hosted in our [Editing Apps Store](/editing-apps) is scanned, clean, and tested across multiple Android versions. No spyware or sketchy redirects — just clean direct downloads.";
+    }
+    if (query.includes("watermark") || query.includes("4k") || query.includes("vip") || query.includes("feature") || query.includes("pro")) {
+      return "Our CapCut Pro APK unlocks all VIP features: watermark-free exports, 4K at 60fps, unlocked curves and velocity graphs, and full AI cutout capabilities. You can get it directly on our [Editing Apps Store](/editing-apps).";
+    }
+    return "We host verified mobile editing tools, including **CapCut Pro APK** with all VIP transitions, curves, and 4K export unlocked without watermarks. Download it directly from our [Editing Apps Store](/editing-apps).";
   }
 
-  // 4. Website Development / Pricing
-  if (q.includes("website") || q.includes("web dev") || q.includes("pricing") || q.includes("cost") || q.includes("develop") || q.includes("price")) {
-    return `### 💻 Next.js Website Design & Development
+  // 3. Website Design & Development Pricing & Stack
+  if (query.includes("web") || query.includes("site") || query.includes("development") || query.includes("dev") || query.includes("build my site")) {
+    if (query.includes("price") || query.includes("cost") || query.includes("rate") || query.includes("pricing") || query.includes("how much")) {
+      return `Our custom Next.js 16 website development has 3 straightforward tiers:
 
-We build ultra-fast, modern Next.js web applications tailored to your brand. Our transparent pricing structure:
+• **Starter / Single-Page**: **₹3,000 – ₹6,000** (Portfolios, landing pages, creator stores)
+• **Multi-Page Growth (5–8 Pages)**: **₹9,000 – ₹11,000** (Full brand website, service catalog, CMS)
+• **Enterprise Platform (15–20+ Pages)**: **₹15,000+** (Complex custom web applications)
 
-- **Starter / Single-Page Website**: **₹3,000 – ₹6,000** (High-converting landing pages, portfolio, or local business hub).
-- **Multi-Page Growth Website (5 to 8 Pages)**: **₹9,000 – ₹11,000** (Full digital store, service catalog, blog, and CMS).
-- **Enterprise / Scalable Platform (15 to 20 Pages)**: **₹15,000+** (Complex custom web apps, client portals, and SEO powerhouses).
-
-Every build includes full responsive design, mobile optimization, core Web Vitals 95+ score, and direct founder collaboration.
-
-👉 [**View Website Packages & Tiers**](/services/website-design)  
-👉 [**Explore All Studio Services**](/services)  
-👉 [**Submit Executive Project Brief**](/about#contact)`;
+Every project is built for speed (95+ Google Web Vitals), fully responsive, and SEO-ready. Check out packages on our [Website Design Page](/services/website-design) or [submit your brief here](/about#contact).`;
+    }
+    if (query.includes("tech") || query.includes("stack") || query.includes("framework") || query.includes("next")) {
+      return "We build with Next.js 16, TypeScript, Tailwind CSS, and Framer Motion. Your website gets sub-second load times, dynamic caching, and mobile-first responsiveness. View our [Website Development Services](/services/website-design).";
+    }
+    return "We design and engineer bespoke, ultra-fast Next.js websites starting from ₹3,000 for single pages up to ₹15,000+ for large multi-page platforms. Explore our [Website Design Service](/services/website-design) or [submit your project brief](/about#contact).";
   }
 
-  // 5. Ebooks / Planners / Templates
-  if (q.includes("ebook") || q.includes("planner") || q.includes("template") || q.includes("canva") || q.includes("book")) {
-    return `### 📚 Digital Guides & Creative Blueprints
+  // 4. 2026 Video Mega Bundle & SFX
+  if (query.includes("bundle") || query.includes("sfx") || query.includes("sound") || query.includes("vault") || query.includes("transition") || query.includes("lut")) {
+    if (query.includes("format") || query.includes("wav") || query.includes("software") || query.includes("premiere") || query.includes("davinci") || query.includes("compatible")) {
+      return "All SFX are delivered in uncompressed 24-bit master WAV format, compatible with Premiere Pro, DaVinci Resolve, Final Cut, and CapCut. The LUTs come in standard .cube format. Explore the [2026 Video Mega Bundle](/bundles).";
+    }
+    return `The **2026 Video Mega Bundle** is our flagship production vault containing:
 
-BADARSH provides ready-to-deploy operating systems for founders and creators:
+• **500+ Uncompressed 24-bit WAV SFX** (Whooshes, cinematic impacts, risers)
+• **100+ High-Retention Transitions & 50 Cinematic LUTs**
+• **4K Alpha Overlays & Green Screen Elements**
 
-- **Business E-Books** (/ebooks): Founder growth playbooks, organic social scaling, and monetization roadmaps. Instant PDF delivery.
-- **Productivity Planners** (/planners): Milestone planners, gym workout splits, nutrition logs, and habit calendars in interactive PDF format.
-- **Canva Templates** (/templates): Social carousels, reels, and client pitch decks. **100% compatible with Canva Free**.
-
-👉 [**Browse Business E-Books**](/ebooks)  
-👉 [**Browse Productivity Planners**](/planners)  
-👉 [**Browse Canva Templates**](/templates)`;
+You get instant Google Drive cloud access with lifetime updates. Check it out on our [Bundles Store](/bundles).`;
   }
 
-  // 6. License / Guarantee / Refund
-  if (q.includes("license") || q.includes("commercial") || q.includes("refund") || q.includes("guarantee") || q.includes("rights")) {
-    return `### 🛡️ Commercial Licensing & Guarantees
-
-Every asset purchased from BADARSH comes with commercial confidence:
-
-- **Full Commercial Client Rights**: You can customize and publish designs for yourself or paying freelance clients.
-- **Instant Digital Delivery**: Direct download links appear on screen right after payment, plus an automated email backup copy.
-- **100% Replacement Guarantee**: If you ever encounter a broken link or access issue, our team resolves or replaces it within 2–4 hours.
-
-👉 [**Read Commercial License Terms**](/license)  
-👉 [**Read Replacement & Refund Policy**](/refund-policy)`;
+  // 5. Lightroom Presets
+  if (query.includes("preset") || query.includes("lightroom") || query.includes("filter") || query.includes("color grade") || query.includes("dng") || query.includes("xmp")) {
+    if (query.includes("free") || query.includes("mobile") || query.includes("how to use") || query.includes("install")) {
+      return "Our Lightroom presets include **.DNG** files, which work 100% free in the Lightroom Mobile app without any paid Adobe subscription! Desktop users also get **.XMP** files for 1-click styling in Lightroom Classic. Browse our [Lightroom Presets](/photo-presets).";
+    }
+    return "Our Lightroom Preset packs provide 1-click cinematic color grades for portraits, street photography, and commercial catalogs. They include both mobile .DNG and desktop .XMP formats. Explore [Lightroom Presets](/photo-presets).";
   }
 
-  // 7. Contact / WhatsApp / Founder
-  if (q.includes("contact") || q.includes("whatsapp") || q.includes("talk") || q.includes("hire") || q.includes("founder") || q.includes("team")) {
-    return `### 🤝 Connect with BADARSH Studio
-
-You collaborate directly with senior creators and software engineers — no junior account managers:
-
-- **Executive Brief**: Submit your project requirements directly through our [**Executive Studio Desk**](/about#contact).
-- **Direct WhatsApp Desk**: Available for instant project discussions and file sharing.
-- **Average Response Time**: Under 15 minutes during business hours.
-
-👉 [**Visit About & Executive Contact**](/about)`;
+  // 6. Canva Templates
+  if (query.includes("canva") || query.includes("template")) {
+    if (query.includes("pro") || query.includes("free") || query.includes("subscription")) {
+      return "No, Canva Pro is **never required**! Every template in our library is built with 100% free Canva elements and Google Fonts, so you can edit and export without surprise watermarks or paywalls. Browse our [Canva Templates](/templates).";
+    }
+    return "Our Canva templates are built for high engagement — social carousels, reels, pitch decks, and commercial collateral. 100% compatible with Canva Free. View the full [Templates Collection](/templates).";
   }
 
-  // Default General Welcome
-  return `### Welcome to BADARSH Studio Intelligence
+  // 7. E-books & Productivity Planners
+  if (query.includes("ebook") || query.includes("book") || query.includes("planner") || query.includes("diet") || query.includes("gym") || query.includes("routine")) {
+    return "We offer actionable [Business E-Books](/ebooks) on organic growth and monetization, as well as interactive [Productivity Planners](/planners) for career goals, gym workout splits, and habit tracking. Delivered in clean, instant-download PDF format.";
+  }
 
-I am your 24/7 creative concierge, trained across our entire digital store and done-for-you production studio:
+  // 8. Commercial Licensing & Rights
+  if (query.includes("license") || query.includes("commercial") || query.includes("client") || query.includes("resell") || query.includes("rights")) {
+    return "Every digital asset purchased on BADARSH includes full **Commercial Client Rights**. You can use them on unlimited projects for yourself and your paying freelance or agency clients. The only restriction is you cannot resell the raw source files. Learn more on our [License Page](/license).";
+  }
 
-- **Digital Products**: [2026 Video Mega Bundle](/bundles), [CapCut Pro APKs](/editing-apps), [Lightroom Presets](/photo-presets), [SFX Overlays](/editing-bundles), [E-Books](/ebooks), and [Planners](/planners).
-- **Agency Services**: [Next.js Websites (₹3k–₹15k)](/services/website-design), [App Development](/services/app-development), [Video Editing](/services/video-editing), and [Brand Logos](/services/brand-identity).
-- **Guarantees**: Lifetime access, instant delivery, and full commercial client rights included.
+  // 9. Delivery & Refund Policy
+  if (query.includes("delivery") || query.includes("download") || query.includes("refund") || query.includes("guarantee") || query.includes("broken")) {
+    return "All digital purchases are delivered instantly on your screen right after checkout, plus a backup link sent to your email. If you ever face a broken link, our team fixes or replaces it within 2–4 hours with our 100% replacement guarantee. Read our [Refund Policy](/refund-policy).";
+  }
 
-What can I help you discover or build today?`;
+  // 10. Direct Hiring / Custom Quote / Contact
+  if (query.includes("hire") || query.includes("quote") || query.includes("contact") || query.includes("call") || query.includes("talk") || query.includes("founder")) {
+    return "You can share your project scope directly with our team! Head over to our [Executive Studio Desk on the About page](/about#contact) and submit your project brief — our founders review new briefs within 15 minutes.";
+  }
+
+  // 11. Other Services (App Dev, Video Editing, Logo)
+  if (query.includes("app") || query.includes("ios") || query.includes("android")) {
+    return "We develop native cross-platform iOS and Android apps with scalable cloud backends and clean UI. Tell us what you're building on our [App Development Service Page](/services/app-development).";
+  }
+
+  if (query.includes("logo") || query.includes("brand") || query.includes("identity")) {
+    return "Our branding team designs custom vector logos, typography systems, and brand style guides tailored to help you scale. Explore our [Brand Identity Design Service](/services/brand-identity).";
+  }
+
+  // Contextual fallback based on previous messages
+  const lastUserMessages = history.filter((m) => m.role === "user");
+  if (lastUserMessages.length > 1) {
+    return "Got it! To give you the exact details: are you looking to purchase digital assets (like our [Video Bundles](/bundles) or [CapCut APK](/editing-apps)), or are you interested in custom [Website Development](/services/website-design)? Let me know and I'll guide you directly!";
+  }
+
+  return "I'm here to help! You can ask me about our [2026 Video Mega Bundle](/bundles), [CapCut Pro APK](/editing-apps), [1-Click Lightroom Presets](/photo-presets), or [Custom Next.js Website Pricing](/services/website-design). What would you like to explore?";
 }
 
 export async function POST(req: Request) {
@@ -201,20 +133,17 @@ export async function POST(req: Request) {
     const { messages } = body;
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
-      return NextResponse.json(
-        { error: "Messages array is required." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Messages array is required." }, { status: 400 });
     }
 
     const latestUserMessage = messages[messages.length - 1]?.content || "";
     const apiKey = process.env.KIE_API_KEY;
 
-    // If API key is configured, attempt call to Kie.ai
+    // If Kie.ai API key is present, attempt live LLM call
     if (apiKey) {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 6500); // 6.5s timeout
+        const timeoutId = setTimeout(() => controller.abort(), 4500); // 4.5s fast timeout
 
         const response = await fetch("https://api.kie.ai/v1/chat/completions", {
           method: "POST",
@@ -226,7 +155,7 @@ export async function POST(req: Request) {
             model: "gpt-6.1-sol",
             messages: [
               { role: "system", content: SYSTEM_PROMPT },
-              ...messages.slice(-6), // Keep context window clean
+              ...messages.slice(-5),
             ],
             stream: false,
           }),
@@ -237,7 +166,6 @@ export async function POST(req: Request) {
 
         if (response.ok) {
           const data = await response.json();
-          // Verify valid completion response
           if (data.choices && data.choices[0]?.message?.content) {
             return NextResponse.json({
               reply: data.choices[0].message.content,
@@ -246,12 +174,12 @@ export async function POST(req: Request) {
           }
         }
       } catch {
-        // Silently catch network timeouts or API limits to seamlessly engage fallback engine
+        // Fall through to the intelligent conversational engine
       }
     }
 
-    // High-precision fallback knowledge engine (100% uptime guaranteed)
-    const reply = getFallbackResponse(latestUserMessage);
+    // Dynamic, context-aware reasoning engine
+    const reply = generateIntelligentResponse(latestUserMessage, messages);
     return NextResponse.json({
       reply,
       source: "badarsh-intelligence",
@@ -260,7 +188,7 @@ export async function POST(req: Request) {
     console.error("Support agent error:", error);
     return NextResponse.json(
       {
-        reply: getFallbackResponse(""),
+        reply: "I'm here to help! Ask me about our [2026 Video Bundles](/bundles), [CapCut APK](/editing-apps), [Presets](/photo-presets), or [Web Development (₹3k–₹15k)](/services/website-design).",
         source: "badarsh-intelligence",
       },
       { status: 200 }
