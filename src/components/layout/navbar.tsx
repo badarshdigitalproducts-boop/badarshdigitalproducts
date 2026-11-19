@@ -283,35 +283,7 @@ export function Navbar() {
               </AnimatePresence>
             </div>
 
-            {/* 2. Direct Link: Editing Apps (APKs) */}
-            <Link
-              href="/editing-apps"
-              onClick={closeDropdown}
-              className={cn(
-                "cursor-pointer select-none rounded-full px-3 py-1.5 text-[12px] font-normal tracking-[-0.01em] transition-all duration-150 hover:bg-muted/30 active:scale-[0.97]",
-                pathname === "/editing-apps"
-                  ? "text-foreground font-semibold"
-                  : "text-foreground/75 hover:text-foreground"
-              )}
-            >
-              Editing Apps
-            </Link>
-
-            {/* 3. Direct Link: Lightroom Presets */}
-            <Link
-              href="/photo-presets"
-              onClick={closeDropdown}
-              className={cn(
-                "cursor-pointer select-none rounded-full px-3 py-1.5 text-[12px] font-normal tracking-[-0.01em] transition-all duration-150 hover:bg-muted/30 active:scale-[0.97]",
-                pathname === "/photo-presets"
-                  ? "text-foreground font-semibold"
-                  : "text-foreground/75 hover:text-foreground"
-              )}
-            >
-              Presets
-            </Link>
-
-            {/* 4. Services Flyout */}
+            {/* 2. Services Flyout */}
             <div className="relative">
               <button
                 type="button"
@@ -353,7 +325,7 @@ export function Navbar() {
               </AnimatePresence>
             </div>
 
-            {/* 5. Direct Link: About */}
+            {/* 3. Direct Link: About */}
             <Link
               href="/about"
               onClick={closeDropdown}
@@ -367,7 +339,7 @@ export function Navbar() {
               About
             </Link>
 
-            {/* 6. Direct Link: Blog */}
+            {/* 4. Direct Link: Blog */}
             <Link
               href="/blog"
               onClick={closeDropdown}
