@@ -44,11 +44,11 @@ export function Newsletter() {
             </div>
 
             <h2 className="mt-6 font-heading text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl">
-              Download 10 Free Viral Canva Templates
+              Get The BADARSH Creator Starter Pack
             </h2>
 
             <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
-              Join thousands of creators and ambitious founders receiving weekly Canva design drops, conversion copy frameworks, and growth tactics.
+              Join 15,000+ creators receiving free uncompressed SFX samples, mobile editing workflows, Lightroom color grading tips, and conversion frameworks every week.
             </p>
 
             {submitted ? (

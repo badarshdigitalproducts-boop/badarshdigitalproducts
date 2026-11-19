@@ -52,31 +52,31 @@ export function FaqSection() {
         {/* Purchase Confidence Cues Banner */}
         <div className="mb-12 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <div className="flex items-center gap-2.5 rounded-2xl border border-card-border bg-card p-3.5 shadow-xs">
-            <CheckCircle2 className="h-5 w-5 text-emerald-500 shrink-0" />
+            <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0" />
             <div>
-              <span className="font-heading text-xs font-bold text-foreground block">Canva Free</span>
-              <span className="text-[10px] text-muted block">No Pro required</span>
+              <span className="font-heading text-xs font-bold text-foreground block">Verified Assets</span>
+              <span className="text-[10px] text-muted block">4K &bull; WAV &bull; APKs</span>
             </div>
           </div>
 
           <div className="flex items-center gap-2.5 rounded-2xl border border-card-border bg-card p-3.5 shadow-xs">
-            <Zap className="h-5 w-5 text-accent shrink-0" />
+            <Zap className="h-5 w-5 text-amber-400 shrink-0" />
             <div>
               <span className="font-heading text-xs font-bold text-foreground block">Instant Delivery</span>
-              <span className="text-[10px] text-muted block">Direct on-screen access</span>
+              <span className="text-[10px] text-muted block">Cloud Drive Direct</span>
             </div>
           </div>
 
           <div className="flex items-center gap-2.5 rounded-2xl border border-card-border bg-card p-3.5 shadow-xs">
-            <ShieldCheck className="h-5 w-5 text-blue-500 shrink-0" />
+            <ShieldCheck className="h-5 w-5 text-blue-400 shrink-0" />
             <div>
               <span className="font-heading text-xs font-bold text-foreground block">Commercial License</span>
-              <span className="text-[10px] text-muted block">Client work approved</span>
+              <span className="text-[10px] text-muted block">Monetize client work</span>
             </div>
           </div>
 
           <div className="flex items-center gap-2.5 rounded-2xl border border-card-border bg-card p-3.5 shadow-xs">
-            <Lock className="h-5 w-5 text-purple-500 shrink-0" />
+            <Lock className="h-5 w-5 text-purple-400 shrink-0" />
             <div>
               <span className="font-heading text-xs font-bold text-foreground block">Secure Checkout</span>
               <span className="text-[10px] text-muted block">UPI, Cards &amp; NetBanking</span>

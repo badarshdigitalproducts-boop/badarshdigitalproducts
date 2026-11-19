@@ -15,7 +15,7 @@ export function Testimonials() {
           subtitle="Genuine feedback from business owners, consultants, and independent creators who build their digital presence with BADARSH."
         />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-none px-4 -mx-4 pb-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:px-0 md:mx-0">
           {testimonials.map((item: VerifiedTestimonial, index) => (
             <motion.div
               key={item.id}
@@ -24,7 +24,7 @@ export function Testimonials() {
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
               whileHover={{ y: -4 }}
-              className="flex flex-col justify-between rounded-3xl border border-card-border bg-card p-7 shadow-sm transition-all duration-300 hover:border-accent/30 hover:shadow-xl hover:shadow-accent/5"
+              className="flex w-[85vw] shrink-0 snap-center sm:w-[340px] md:w-auto flex-col justify-between rounded-3xl border border-card-border bg-card p-7 shadow-sm transition-all duration-300 hover:border-foreground/20 hover:shadow-xl"
             >
               <div>
                 <div className="flex items-center justify-between">

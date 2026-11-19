@@ -45,7 +45,7 @@ export function BlogPreview() {
           </Link>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none px-4 -mx-4 pb-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:px-0 md:mx-0">
           {posts.map((post, index) => (
             <motion.article
               key={post.slug}
@@ -54,7 +54,7 @@ export function BlogPreview() {
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ y: -6 }}
-              className="group flex flex-col overflow-hidden rounded-3xl border border-card-border bg-card shadow-sm transition-all duration-300 hover:border-accent/40 hover:shadow-xl hover:shadow-accent/5"
+              className="group flex w-[85vw] shrink-0 snap-center sm:w-[340px] md:w-auto flex-col overflow-hidden rounded-3xl border border-card-border bg-card shadow-sm transition-all duration-300 hover:border-foreground/20 hover:shadow-xl"
             >
               {/* Thumbnail banner */}
               <Link

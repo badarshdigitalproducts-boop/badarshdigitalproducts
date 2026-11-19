@@ -120,7 +120,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
             style={{ WebkitBackdropFilter: "blur(32px)" }}
           >
             {/* Header */}
-            <div className="flex h-[44px] items-center justify-between border-b border-border/40 px-5">
+            <div className="flex h-12 items-center justify-between border-b border-border/40 px-5">
               <div onClick={onClose} className="cursor-pointer">
                 <BrandLogo />
               </div>

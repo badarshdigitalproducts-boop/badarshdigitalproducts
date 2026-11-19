@@ -336,8 +336,8 @@ export function Navbar() {
         )}
         style={{ WebkitBackdropFilter: "blur(24px) saturate(180%)" }}
       >
-        {/* Apple 44px compact bar */}
-        <div className="mx-auto flex h-[44px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        {/* Apple 48px compact bar */}
+        <div className="mx-auto flex h-12 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Logo */}
           <div className="flex shrink-0 items-center">
             <BrandLogo />

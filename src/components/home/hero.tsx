@@ -2,74 +2,73 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle2, ShieldCheck, Zap, Layers, Sparkles, Smartphone, Video, Code, MessageCircle } from "lucide-react";
+import { ChevronRight, CheckCircle2, ShieldCheck, Zap, Smartphone, Video, Code2, ArrowRight } from "lucide-react";
 import { STATS } from "@/lib/constants";
 import { AnimatedCounter } from "@/components/shared/animated-counter";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-32">
-      {/* Background Ambience — strictly centered, zero horizontal overflow */}
+    <section className="relative overflow-hidden pt-12 pb-16 md:pt-20 md:pb-28">
+      {/* Background Ambience — Subtle Apple Keynote Specular Radial Glow */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[800px] max-w-[90vw] rounded-full bg-accent/6 blur-[140px]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[420px] w-[900px] max-w-[95vw] rounded-full bg-gradient-to-b from-white/[0.07] via-white/[0.02] to-transparent blur-[120px]" />
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          {/* Eyebrow Label — Apple-grade minimalist micro-typography */}
+          {/* Eyebrow Label — Apple micro-typography */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-2 rounded-full border border-card-border bg-card/80 px-4 py-1.5 text-xs font-medium text-muted shadow-xs backdrop-blur-md"
+            className="inline-flex items-center gap-2"
           >
-            <span className="flex h-2 w-2 rounded-full bg-accent" />
-            <span className="font-semibold text-foreground">BADARSH Digital Studio</span>
-            <span className="text-muted/50">&bull;</span>
-            <span>Digital Products &amp; Production Agency</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#86868B]">
+              BADARSH Digital Studio
+            </span>
           </motion.div>
 
-          {/* Main Headline — Apple optical typography */}
+          {/* Main Headline — Apple Display Typography */}
           <motion.h1
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-6 apple-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem] font-extrabold text-foreground tracking-[-0.035em] leading-[1.04]"
+            className="mt-4 apple-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold text-[#F5F5F7] tracking-[-0.035em] leading-[1.04]"
           >
             Everything Creators Need. <br className="hidden sm:inline" />
-            Engineered To Convert.
+            <span className="text-foreground">In One Place.</span>
           </motion.h1>
 
           {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-6 text-lg sm:text-xl leading-relaxed text-muted max-w-2xl mx-auto font-normal apple-subhead"
+            className="mt-5 apple-subhead text-base sm:text-xl leading-relaxed text-[#86868B] max-w-2xl mx-auto font-normal"
           >
-            Production-grade video editing bundles, Lightroom presets, verified mobile creator apps, and high-conversion done-for-you digital services.
+            Production video editing vaults, uncompressed SFX, 1-click Lightroom presets, verified APK tools, and custom Next.js web applications.
           </motion.p>
 
-          {/* Apple-Grade Action Buttons */}
+          {/* Apple-Exact Button Duo: Solid White Pill + Retinal Blue Chevron Link */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5"
+            className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Link
               href="/bundles"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-foreground text-background px-8 py-3.5 text-sm font-semibold shadow-xs transition-all duration-150 hover:opacity-90 active:scale-[0.97]"
+              className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-[#f5f5f7] text-[#1d1d1f] hover:bg-white px-7 py-2.5 text-sm font-semibold tracking-tight shadow-sm active:scale-[0.97] transition-all"
             >
-              <span>Explore Products</span>
-              <ArrowRight className="h-4 w-4" />
+              <span>Explore Shop</span>
             </Link>
 
             <Link
               href="/services"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-card-border bg-card/80 backdrop-blur-md px-8 py-3.5 text-sm font-semibold text-foreground shadow-xs transition-all duration-150 hover:bg-card hover:border-foreground/20 active:scale-[0.97]"
+              className="inline-flex items-center gap-1.5 text-sm font-normal text-[#2997FF] hover:underline px-4 py-2 group transition-colors"
             >
-              <span>Done-For-You Services</span>
+              <span>Our Done-For-You Services</span>
+              <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </motion.div>
 
@@ -78,111 +77,111 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.32 }}
-            className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-muted"
+            className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-[#86868B]"
           >
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-              <span>4K Master Quality Assets</span>
+              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+              <span>4K Master Assets</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Zap className="h-4 w-4 text-amber-500" />
-              <span>Direct Cloud Drive Delivery</span>
+              <Zap className="h-3.5 w-3.5 text-amber-400" />
+              <span>Direct Cloud Access</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <ShieldCheck className="h-4 w-4 text-accent" />
-              <span>Direct WhatsApp Support</span>
+              <ShieldCheck className="h-3.5 w-3.5 text-accent" />
+              <span>WhatsApp Priority Line</span>
             </div>
           </motion.div>
         </div>
 
-        {/* Product Showcase Bento Dock (The 3 Real Ecosystem Pillars) */}
+        {/* Product Showcase Bento Dock (Mobile Inertial Snap Carousel / Desktop Grid) */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="mt-14 max-w-5xl mx-auto"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {/* Showcase 1: Editing Apps (APKs) */}
+          <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-none px-4 -mx-4 pb-4 md:grid md:grid-cols-3 md:px-0 md:mx-0">
+            {/* Card 1: Editing Apps (APKs) */}
             <Link
               href="/editing-apps"
-              className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-card-border bg-card p-6 shadow-xs transition-all duration-300 hover:border-foreground/20 hover:shadow-xl hover:shadow-black/5 active:scale-[0.985]"
+              className="group relative flex w-[85vw] shrink-0 snap-center sm:w-[340px] md:w-auto flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.08] bg-[#161617] p-6 shadow-xs transition-all duration-300 hover:border-white/20 hover:bg-[#1c1c1e] active:scale-[0.985]"
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
-                    <Smartphone className="h-3 w-3" /> Editing Apps
+                  <span className="flex items-center gap-1 rounded-md bg-white/[0.08] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                    <Smartphone className="h-3 w-3 text-emerald-400" /> APK
                   </span>
-                  <span className="text-[11px] text-muted">Android APK</span>
+                  <span className="text-[11px] text-[#86868B]">Android Pro</span>
                 </div>
-                <h3 className="mt-4 font-heading text-lg font-bold text-foreground transition-colors group-hover:text-accent">
-                  CapCut Pro &amp; Mobile Creator Suite
+                <h3 className="mt-4 font-heading text-lg font-bold text-[#F5F5F7] transition-colors group-hover:text-accent">
+                  CapCut Pro &amp; Creator APKs
                 </h3>
-                <p className="mt-2 text-xs leading-relaxed text-muted">
-                  Direct verified APK packages with VIP transitions, 4K 60fps export, and AI cutout features unlocked.
+                <p className="mt-2 text-xs leading-relaxed text-[#86868B]">
+                  Verified mobile tools with VIP transitions, 4K 60fps export, and AI cutout features unlocked.
                 </p>
               </div>
-              <div className="mt-6 flex items-center justify-between border-t border-card-border/60 pt-4 text-xs">
-                <span className="font-semibold text-foreground">Verified Clean &bull; Instant Install</span>
-                <span className="flex items-center gap-1 font-bold text-accent">
-                  Download <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+              <div className="mt-6 flex items-center justify-between border-t border-white/[0.08] pt-4 text-xs">
+                <span className="font-medium text-[#86868B]">Direct Download</span>
+                <span className="flex items-center gap-1 font-semibold text-[#2997FF] group-hover:underline">
+                  Get App <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
                 </span>
               </div>
             </Link>
 
-            {/* Showcase 2: Elevated Center: 2026 Video Mega Bundle & SFX */}
+            {/* Card 2: Elevated Center Flagship Vault */}
             <Link
               href="/bundles"
-              className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border-2 border-accent/40 bg-card p-6 shadow-md transition-all duration-300 hover:border-accent hover:shadow-2xl hover:shadow-accent/10 active:scale-[0.985] md:-translate-y-2"
+              className="group relative flex w-[85vw] shrink-0 snap-center sm:w-[340px] md:w-auto flex-col justify-between overflow-hidden rounded-2xl border border-accent/40 bg-[#161617] p-6 shadow-md transition-all duration-300 hover:border-accent hover:shadow-2xl hover:shadow-accent/10 active:scale-[0.985] md:-translate-y-2"
             >
               <div className="absolute top-0 right-0 rounded-bl-xl bg-accent px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
-                Flagship Vault
+                Flagship
               </div>
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="flex items-center gap-1 rounded-full bg-accent/10 px-2.5 py-1 text-[11px] font-bold text-accent">
-                    <Video className="h-3 w-3" /> Mega Bundle
+                  <span className="flex items-center gap-1 rounded-md bg-accent/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-accent">
+                    <Video className="h-3 w-3" /> Master Pack
                   </span>
-                  <span className="text-[11px] text-muted">700+ Assets</span>
+                  <span className="text-[11px] text-[#86868B]">700+ Assets</span>
                 </div>
-                <h3 className="mt-4 font-heading text-lg font-bold text-foreground transition-colors group-hover:text-accent">
-                  2026 Video Editing &amp; SFX Vault
+                <h3 className="mt-4 font-heading text-lg font-bold text-[#F5F5F7] transition-colors group-hover:text-accent">
+                  2026 Video Editing Vault
                 </h3>
-                <p className="mt-2 text-xs leading-relaxed text-muted">
-                  500+ uncompressed WAV sound effects, 100 transitions, 50 LUTs, and 4K green screen VFX from BADARSH cloud drive.
+                <p className="mt-2 text-xs leading-relaxed text-[#86868B]">
+                  500+ uncompressed WAV sound effects, 100 transitions, 50 LUTs, and 4K green screen VFX elements.
                 </p>
               </div>
-              <div className="mt-6 flex items-center justify-between border-t border-card-border/60 pt-4 text-xs">
-                <span className="font-semibold text-foreground">Lifetime Cloud Access</span>
-                <span className="flex items-center gap-1 font-bold text-accent">
-                  Unlock Vault <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+              <div className="mt-6 flex items-center justify-between border-t border-white/[0.08] pt-4 text-xs">
+                <span className="font-medium text-[#86868B]">Cloud Drive Access</span>
+                <span className="flex items-center gap-1 font-semibold text-accent">
+                  Unlock Vault <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
                 </span>
               </div>
             </Link>
 
-            {/* Showcase 3: Done-For-You Production & Web Services */}
+            {/* Card 3: Agency Production & Web */}
             <Link
               href="/services"
-              className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-card-border bg-card p-6 shadow-xs transition-all duration-300 hover:border-foreground/20 hover:shadow-xl hover:shadow-black/5 active:scale-[0.985]"
+              className="group relative flex w-[85vw] shrink-0 snap-center sm:w-[340px] md:w-auto flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.08] bg-[#161617] p-6 shadow-xs transition-all duration-300 hover:border-white/20 hover:bg-[#1c1c1e] active:scale-[0.985]"
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="flex items-center gap-1 rounded-full bg-blue-500/10 px-2.5 py-1 text-[11px] font-bold text-blue-600 dark:text-blue-400">
-                    <Code className="h-3 w-3" /> Client Services
+                  <span className="flex items-center gap-1 rounded-md bg-white/[0.08] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                    <Code2 className="h-3 w-3 text-blue-400" /> Agency
                   </span>
-                  <span className="text-[11px] text-muted">Web &bull; Video</span>
+                  <span className="text-[11px] text-[#86868B]">₹3k – ₹15k</span>
                 </div>
-                <h3 className="mt-4 font-heading text-lg font-bold text-foreground transition-colors group-hover:text-accent">
-                  Website Dev &amp; Video Production
+                <h3 className="mt-4 font-heading text-lg font-bold text-[#F5F5F7] transition-colors group-hover:text-accent">
+                  Website Dev &amp; Video Editing
                 </h3>
-                <p className="mt-2 text-xs leading-relaxed text-muted">
-                  High-converting Next.js websites (₹3k–₹15k), cinematic reel edits, and full brand identity systems with WhatsApp delivery.
+                <p className="mt-2 text-xs leading-relaxed text-[#86868B]">
+                  High-speed Next.js websites, cinematic reel edits, and full brand identities with WhatsApp delivery.
                 </p>
               </div>
-              <div className="mt-6 flex items-center justify-between border-t border-card-border/60 pt-4 text-xs">
-                <span className="font-semibold text-foreground">Direct WhatsApp Consultation</span>
-                <span className="flex items-center gap-1 font-bold text-accent">
-                  View Tiers <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+              <div className="mt-6 flex items-center justify-between border-t border-white/[0.08] pt-4 text-xs">
+                <span className="font-medium text-[#86868B]">Direct Consultation</span>
+                <span className="flex items-center gap-1 font-semibold text-[#2997FF] group-hover:underline">
+                  View Tiers <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
                 </span>
               </div>
             </Link>
@@ -191,10 +190,10 @@ export function Hero() {
 
         {/* Stats Strip — Apple-grade minimalist dock */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-14 max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4 rounded-2xl border border-card-border bg-card/60 p-6 backdrop-blur-xl shadow-xs"
+          className="mt-14 max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4 rounded-2xl border border-white/[0.08] bg-[#161617]/70 p-6 backdrop-blur-xl shadow-xs"
         >
           {STATS.map((stat) => (
             <AnimatedCounter

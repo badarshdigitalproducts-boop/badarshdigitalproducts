@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronRight } from "lucide-react";
 import { SectionHeader } from "@/components/shared/section-header";
 import { ProductCard } from "@/components/products/product-card";
 import { products as initialProducts } from "@/content/products";
@@ -38,19 +38,26 @@ export function FeaturedProducts() {
           subtitle="Directly from the BADARSH master vault: uncompressed SFX, 4K motion overlays, verified creator APKs, and 1-click Lightroom color grades."
         />
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {/* Apple Horizontal Inertial Snap Carousel on Mobile / Clean Grid on Desktop */}
+        <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none px-4 -mx-4 pb-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:px-0 md:mx-0">
           {featured.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <div key={product.id} className="w-[86vw] shrink-0 snap-center sm:w-[360px] md:w-auto">
+              <ProductCard product={product} />
+            </div>
           ))}
         </div>
 
-        <div className="mt-14 text-center">
+        <p className="text-center text-[11px] text-[#86868B] mt-2 md:hidden">
+          Swipe sideways to explore assets &rarr;
+        </p>
+
+        <div className="mt-12 text-center">
           <Link
             href="/bundles"
-            className="inline-flex items-center gap-2 rounded-full border border-card-border bg-card px-8 py-3.5 font-heading text-sm font-bold text-foreground shadow-xs transition-all duration-200 hover:border-foreground/20 hover:shadow-md active:scale-95"
+            className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.06] hover:bg-white/[0.12] px-6 py-2.5 text-xs sm:text-sm font-medium text-foreground backdrop-blur-md shadow-xs transition-all active:scale-95"
           >
             <span>Explore All Master Bundles</span>
-            <ArrowRight className="h-4 w-4" />
+            <ChevronRight className="h-4 w-4" />
           </Link>
         </div>
       </div>

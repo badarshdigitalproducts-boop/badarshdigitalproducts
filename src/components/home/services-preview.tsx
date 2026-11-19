@@ -41,7 +41,7 @@ export function ServicesPreview() {
           subtitle="Don't have time to design? Our in-house team handles high-impact video editing, custom websites, and growth management."
         />
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none px-4 -mx-4 pb-4 lg:grid lg:grid-cols-3 lg:px-0 lg:mx-0">
           {serviceList.slice(0, 3).map((service, index) => {
             const Icon = getIcon(service.title);
             const starterPlan = service.packages[0];
@@ -54,7 +54,7 @@ export function ServicesPreview() {
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -6 }}
-                className="group relative flex flex-col justify-between rounded-3xl border border-card-border bg-card p-8 shadow-sm transition-all duration-300 hover:border-accent/40 hover:shadow-2xl hover:shadow-accent/5"
+                className="group relative flex w-[86vw] shrink-0 snap-center sm:w-[360px] lg:w-auto flex-col justify-between rounded-3xl border border-card-border bg-card p-8 shadow-sm transition-all duration-300 hover:border-foreground/20 hover:shadow-2xl active:scale-[0.985]"
               >
                 <div>
                   <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/10 border border-accent/20 text-accent transition-transform duration-300 group-hover:scale-110">
@@ -120,6 +120,10 @@ export function ServicesPreview() {
             );
           })}
         </div>
+
+        <p className="text-center text-[11px] text-[#86868B] mt-2 lg:hidden">
+          Swipe sideways to view agency packages &rarr;
+        </p>
 
         <div className="mt-14 rounded-3xl border border-accent/20 bg-gradient-to-r from-accent/5 via-purple-500/10 to-amber-500/5 p-8 text-center backdrop-blur-md">
           <h4 className="font-heading text-xl font-bold text-foreground md:text-2xl">

@@ -9,8 +9,7 @@ import {
   Smartphone,
   Video,
   Sliders,
-  Layout,
-  ArrowRight,
+  ChevronRight,
 } from "lucide-react";
 import { SectionHeader } from "@/components/shared/section-header";
 import { products } from "@/content/products";
@@ -76,7 +75,8 @@ export function Categories() {
           subtitle="Explore purpose-built creative assets, mobile software packages, and high-performance digital blueprints."
         />
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Apple Horizontal Inertial Snap Carousel on Mobile / Clean Grid on Desktop */}
+        <div className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-none px-4 -mx-4 pb-4 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:px-0 sm:mx-0">
           {shopCategories.map((cat) => {
             const Icon = cat.icon;
             const count = products.filter((p) => p.category === cat.slug).length;
@@ -86,6 +86,7 @@ export function Categories() {
                 key={cat.slug}
                 whileHover={{ y: -5 }}
                 transition={{ type: "spring", duration: 0.35, bounce: 0.1 }}
+                className="w-[85vw] shrink-0 snap-center sm:w-auto"
               >
                 <Link
                   href={cat.href}
@@ -111,13 +112,17 @@ export function Categories() {
 
                   <div className="mt-6 flex items-center justify-between border-t border-card-border/60 pt-4 text-xs font-semibold text-foreground group-hover:text-accent transition-colors">
                     <span>Enter Dedicated Shop</span>
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                    <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                   </div>
                 </Link>
               </motion.div>
             );
           })}
         </div>
+
+        <p className="text-center text-[11px] text-[#86868B] mt-2 sm:hidden">
+          Swipe sideways to view collections &rarr;
+        </p>
       </div>
     </section>
   );
