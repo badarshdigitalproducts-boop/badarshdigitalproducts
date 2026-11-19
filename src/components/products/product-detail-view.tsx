@@ -60,7 +60,7 @@ export function ProductDetailView({
     },
     {
       q: "How will I receive the files immediately after payment?",
-      a: "Instant delivery! The moment your payment is verified, you are shown your direct download links (ZIP, PDF, presets) and Canva/project links on screen, along with a verified commercial license key and an instant WhatsApp confirmation copy.",
+      a: "Instant delivery! The moment your payment is verified, you are shown your direct download links (ZIP, PDF, presets) and direct template project links on screen, along with a verified commercial license key.",
     },
     {
       q: "Can I use these assets for client projects and commercial videos?",
@@ -68,11 +68,11 @@ export function ProductDetailView({
     },
     {
       q: "What software do I need to use this product?",
-      a: `Compatible with ${product.softwareRequired || "Canva Free & Pro, VN Editor, CapCut, Premiere Pro, and DaVinci Resolve"}. All templates and guides are tested with free apps so you never need expensive subscriptions.`,
+      a: `Compatible with ${product.softwareRequired || "VN Editor, CapCut, Premiere Pro, DaVinci Resolve, or any modern web browser"}. All templates and guides are tested with free apps so you never need expensive subscriptions.`,
     },
     {
       q: "What if I need help downloading or editing?",
-      a: "We offer direct 24/7 founder support via our on-site AI Studio Concierge and direct WhatsApp desk. Message us anytime for quick walkthroughs, asset help, or formatting assistance.",
+      a: "We offer direct 24/7 founder support via our on-site AI Studio Concierge. Message us anytime for quick walkthroughs, asset help, or formatting assistance.",
     },
   ];
 
@@ -83,7 +83,7 @@ export function ProductDetailView({
       date: "2 days ago",
       rating: 5,
       content:
-        "These templates completely elevated our social media aesthetics. Our reel view counts doubled in the first week. Drag and drop in Canva makes it so easy!",
+        "These templates completely elevated our social media aesthetics. Our reel view counts doubled in the first week. Drag and drop customization makes it so easy!",
     },
     {
       author: "Kunal M.",
@@ -99,7 +99,7 @@ export function ProductDetailView({
       date: "2 weeks ago",
       rating: 5,
       content:
-        "Got the link on WhatsApp in 30 seconds after payment. Everything was editable in Canva Free without any issues. Amazing quality!",
+        "Got the link immediately after payment. Everything was editable right away without any subscription issues. Amazing quality!",
     },
   ];
 
@@ -488,7 +488,7 @@ export function ProductDetailView({
                 ))}
               </div>
               <p className="mt-4 text-xs text-muted">
-                Format: <strong>{product.format}</strong> &bull; Size: <strong>{product.fileSize || "Instant Canva Cloud"}</strong> &bull; Delivery: <strong>Instant Web &amp; WhatsApp</strong>
+                Format: <strong>{product.format}</strong> &bull; Size: <strong>{product.fileSize || "Instant Cloud Delivery"}</strong> &bull; Delivery: <strong>Instant Web Access</strong>
               </p>
             </div>
           )}

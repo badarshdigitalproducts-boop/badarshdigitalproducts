@@ -9,6 +9,7 @@ import {
   Smartphone,
   Video,
   Sliders,
+  LayoutGrid,
   ChevronRight,
 } from "lucide-react";
 import { SectionHeader } from "@/components/shared/section-header";
@@ -16,20 +17,20 @@ import { products } from "@/content/products";
 
 const shopCategories = [
   {
+    slug: "bundles",
+    name: "Bundles",
+    desc: "Complete 2026 video editing vaults: 500+ sound effects, 100 transitions, 50 LUTs, and green screens.",
+    icon: Package,
+    href: "/bundles",
+    tag: "Studio Vault",
+  },
+  {
     slug: "editing-apps",
-    name: "Editing Apps & APKs",
+    name: "Apps",
     desc: "Verified CapCut Pro & creator tools with VIP features unlocked and direct APK downloads.",
     icon: Smartphone,
     href: "/editing-apps",
     tag: "Direct APK",
-  },
-  {
-    slug: "bundles",
-    name: "All-in-One Mega Bundles",
-    desc: "Complete 2026 video editing vaults: 500+ SFX, 100 transitions, 50 LUTs, and green screens.",
-    icon: Package,
-    href: "/bundles",
-    tag: "Studio Vault",
   },
   {
     slug: "photo-presets",
@@ -41,15 +42,15 @@ const shopCategories = [
   },
   {
     slug: "editing-bundles",
-    name: "Video SFX & Motion Overlays",
-    desc: "Master 24-bit WAV sound effects and 4K ProRes transparent alpha overlays for high retention.",
+    name: "Sound Effects & BG Music",
+    desc: "Master 24-bit WAV sound effects, background music, and 4K transparent motion overlays.",
     icon: Video,
     href: "/editing-bundles",
-    tag: "4K Master",
+    tag: "Master Audio",
   },
   {
     slug: "ebooks",
-    name: "Business E-Books",
+    name: "E-Books",
     desc: "Battle-tested founder playbooks, organic growth blueprints, and monetization roadmaps.",
     icon: BookOpen,
     href: "/ebooks",
@@ -57,11 +58,19 @@ const shopCategories = [
   },
   {
     slug: "planners",
-    name: "Productivity Planners",
+    name: "Planners",
     desc: "Life operating systems: career milestones, gym workout splits, nutrition logs, and habit trackers.",
     icon: CalendarCheck,
     href: "/planners",
     tag: "Interactive PDF",
+  },
+  {
+    slug: "templates",
+    name: "Templates",
+    desc: "Studio design templates: Instagram Reels, carousels, pitch decks, and brand identity kits.",
+    icon: LayoutGrid,
+    href: "/templates",
+    tag: "Studio Design",
   },
 ];
 

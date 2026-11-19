@@ -722,7 +722,7 @@ export default function AdminOrdersPage() {
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. Delivered Canva link and license key via WhatsApp"
+                  placeholder="e.g. Delivered template access link and license key via email"
                   value={editingOrder.deliveryNotes || ""}
                   onChange={(e) =>
                     setEditingOrder((prev) => ({ ...prev, deliveryNotes: e.target.value }))

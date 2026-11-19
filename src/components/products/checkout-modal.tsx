@@ -338,7 +338,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                     </a>
                   )}
 
-                {/* 7. Canva Link if applicable */}
+                {/* 7. Template Link if applicable */}
                 {orderConfirmed.canvaUrl && !orderConfirmed.canvaUrl.includes("gumroad") && (
                   <a
                     href={orderConfirmed.canvaUrl}
@@ -347,7 +347,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                     className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-card-border bg-card py-3 font-heading text-xs font-bold text-foreground shadow-sm transition-all hover:border-accent hover:text-accent active:scale-95"
                   >
                     <Sparkles className="h-4 w-4 text-accent" />
-                    <span>Open Editable Project in Canva</span>
+                    <span>Open Ready-to-Edit Project</span>
                     <ExternalLink className="h-3.5 w-3.5" />
                   </a>
                 )}

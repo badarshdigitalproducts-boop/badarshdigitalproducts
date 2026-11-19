@@ -35,7 +35,7 @@ export function FeaturedProducts() {
         <SectionHeader
           badge="Production Ready"
           title="Flagship Studio Assets"
-          subtitle="Directly from the BADARSH master vault: uncompressed SFX, 4K motion overlays, verified creator APKs, and 1-click Lightroom color grades."
+          subtitle="Directly from the BADARSH master vault: sound effects & BG music, 4K motion overlays, verified creator apps, and 1-click Lightroom color grades."
         />
 
         {/* Apple Horizontal Inertial Snap Carousel on Mobile / Clean Grid on Desktop */}

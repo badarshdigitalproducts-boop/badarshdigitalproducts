@@ -87,11 +87,13 @@ function WhatsAppIcon({ className }: { className?: string }) {
 }
 
 const productLinks = [
-  { label: "Social Media Templates", href: "/templates?category=social-media" },
-  { label: "Presentation Decks", href: "/templates?category=presentations" },
-  { label: "Branding Kits", href: "/templates?category=branding" },
-  { label: "E-Books & Playbooks", href: "/ebooks" },
-  { label: "Digital Planners", href: "/planners" },
+  { label: "Bundles", href: "/bundles" },
+  { label: "Apps", href: "/editing-apps" },
+  { label: "Lightroom Presets", href: "/photo-presets" },
+  { label: "Sound Effects & BG Music", href: "/editing-bundles" },
+  { label: "E-Books", href: "/ebooks" },
+  { label: "Planners", href: "/planners" },
+  { label: "Templates", href: "/templates" },
 ];
 
 const serviceLinks = [
@@ -133,7 +135,7 @@ export function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <BrandLogo />
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              Premium Canva templates, digital planners, and done-for-you creative services engineered to elevate your business online.
+              Premium design templates, digital planners, and done-for-you creative services engineered to elevate your business online.
             </p>
 
             {/* Social icons with accessible aria-labels */}
@@ -274,13 +276,13 @@ export function Footer() {
               Join the BADARSH Creator Community
             </h3>
             <p className="mt-1 text-xs text-muted">
-              Subscribe for weekly Canva design drops &amp; get 10 free starter templates.
+              Subscribe for weekly studio design drops &amp; get 10 free starter templates.
             </p>
           </div>
           {submitted ? (
             <div className="flex items-center gap-2 text-xs font-semibold text-emerald-500">
               <CheckCircle2 className="h-4 w-4" />
-              <span>Subscribed! Check your inbox for your 10 free Canva templates.</span>
+              <span>Subscribed! Check your inbox for your 10 free templates.</span>
             </div>
           ) : (
             <div className="flex flex-col gap-1.5 w-full max-w-md sm:w-auto">
@@ -323,7 +325,7 @@ export function Footer() {
           <div>
             <p>&copy; {currentYear} {BUSINESS_LEGAL_NAME}. All rights reserved.</p>
             <p className="text-[11px] text-muted/80 mt-0.5">
-              {BUSINESS_LOCATION} &bull; WhatsApp: {WHATSAPP_DISPLAY} &bull; {SUPPORT_EMAIL}
+              {BUSINESS_LOCATION} &bull; Client Support: {SUPPORT_EMAIL}
             </p>
           </div>
 

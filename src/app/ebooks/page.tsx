@@ -59,7 +59,7 @@ export default function EbooksPage() {
         selectedTag === "all" ||
         (selectedTag === "growth" && (p.tags?.includes("growth") || p.tags?.includes("marketing"))) ||
         (selectedTag === "founder" && (p.tags?.includes("founder") || p.title.toLowerCase().includes("founder"))) ||
-        (selectedTag === "design" && (p.tags?.includes("design") || p.tags?.includes("canva")));
+        (selectedTag === "design" && (p.tags?.includes("design") || p.tags?.includes("templates")));
 
       return isEbook && matchesSearch && matchesTag;
     });

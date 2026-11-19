@@ -8,16 +8,16 @@ import { WHATSAPP_DISPLAY } from "@/lib/constants";
 
 const faqs = [
   {
-    q: "Do I need a paid Canva Pro subscription, or does this work in Canva Free?",
-    a: "100% compatible with Canva Free. Every template in the BADARSH library is strictly built using free Canva elements, grids, shapes, and open Google Fonts. You will never encounter watermarks, paywalls, or surprise upgrade prompts when opening, customizing, or exporting your designs.",
+    q: "Do I need any paid software subscription to customize the design templates?",
+    a: "Zero paid subscriptions required. Every design template in the BADARSH library is 100% ready to edit and export right in your browser or desktop using free tools and open Google Fonts. You will never encounter watermarks, paywalls, or surprise upgrade prompts.",
   },
   {
     q: "What can I do with the included Commercial License?",
-    a: "You can customize and publish unlimited designs for both your personal brand and paying freelance or agency clients. You can use the assets in sponsored ads, client presentations, video overlays, and physical print collateral. The only restriction is that you cannot resell or redistribute the raw editable Canva template links.",
+    a: "You can customize and publish unlimited designs for both your personal brand and paying freelance or agency clients. You can use the assets in sponsored ads, client presentations, video overlays, and physical print collateral. The only restriction is that you cannot resell or redistribute the raw editable template files.",
   },
   {
     q: "How does instant digital delivery work after payment?",
-    a: "The moment your payment is confirmed, an instant access window appears on your screen with direct 'Use Template in Canva' buttons and download links. A permanent backup copy is also dispatched immediately to your email address for lifetime access.",
+    a: "The moment your payment is confirmed, an instant access window appears on your screen with direct 'Access Design Template' buttons and cloud download links. A permanent backup copy is also dispatched immediately to your email address for lifetime access.",
   },
   {
     q: "What if I face an issue with a link or need technical help?",
@@ -25,7 +25,7 @@ const faqs = [
   },
   {
     q: "Can I customize the templates with my own brand colors and fonts?",
-    a: "Yes! In Canva, you can select any template element, pick your brand hex color, and tap 'Change All'. Your entire 50-post pack or 25-slide deck updates in under 60 seconds with cohesive brand identity.",
+    a: "Yes! You can select any template element, pick your brand hex color, and tap 'Change All'. Your entire 50-post pack or 25-slide deck updates in under 60 seconds with cohesive brand identity.",
   },
   {
     q: "How do your done-for-you creative services (Video & Websites) work?",
@@ -46,7 +46,7 @@ export function FaqSection() {
         <SectionHeader
           badge="Got Questions?"
           title="Frequently Asked Questions"
-          subtitle="Everything you need to know about our Canva compatibility, commercial licensing, and instant delivery guarantee."
+          subtitle="Everything you need to know about our design templates, commercial licensing, and instant delivery guarantee."
         />
 
         {/* Purchase Confidence Cues Banner */}

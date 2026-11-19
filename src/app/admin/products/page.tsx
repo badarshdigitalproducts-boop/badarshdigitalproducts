@@ -75,7 +75,7 @@ const DEFAULT_PRODUCT: Partial<AdminProduct> = {
   externalUrl: "",
   googleDriveUrl: "",
   fileSize: "48 MB",
-  softwareRequired: "Canva Free / CapCut / Premiere Pro",
+  softwareRequired: "Universal Web / CapCut / Premiere Pro",
   isFeatured: false,
   isBestseller: false,
   isNew: true,
@@ -230,7 +230,7 @@ export default function AdminProductsPage() {
             </h1>
           </div>
           <p className="mt-1 text-xs text-zinc-400">
-            Manage all digital products — Canva templates, e-books, apps, presets, bundles & more. Everything published here is live on the store.
+            Manage all digital products — design templates, e-books, apps, presets, bundles & more. Everything published here is live on the store.
           </p>
         </div>
         <button
@@ -391,7 +391,7 @@ export default function AdminProductsPage() {
                               className="inline-flex items-center gap-1 text-[11px] font-medium text-blue-400 hover:underline"
                             >
                               <LinkIcon className="h-3 w-3" />
-                              {p.deliveryType === "canva-link" ? "Canva" :
+                              {p.deliveryType === "canva-link" ? "Template" :
                                p.deliveryType === "google-drive" ? "Drive" :
                                p.deliveryType === "download-url" ? "Download" : "Link"}
                             </a>
@@ -502,7 +502,7 @@ export default function AdminProductsPage() {
                     value={editingProduct.title || ""}
                     onChange={(e) => setEditingProduct({ ...editingProduct, title: e.target.value })}
                     required
-                    placeholder="e.g. Instagram Reels Canva Template Pack 2026"
+                    placeholder="e.g. Instagram Reels Template Pack 2026"
                     className={inputCls}
                   />
                 </FormField>
@@ -640,7 +640,7 @@ export default function AdminProductsPage() {
                     <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
                       <span className="text-zinc-500 font-medium">Quick Presets:</span>
                       {[
-                        { label: "Canva Studio Pack", url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80" },
+                        { label: "Studio Design Pack", url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80" },
                         { label: "Video Motion SFX", url: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80" },
                         { label: "Creator Apps & Code", url: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80" },
                         { label: "Cinematic Lightroom", url: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1200&q=80" },
@@ -881,12 +881,12 @@ export default function AdminProductsPage() {
                 </FormField>
 
                 {(editingProduct.deliveryType === "canva-link" || !editingProduct.deliveryType) && (
-                  <FormField label="Canva Template Share Link" hint="The direct 'Use Template' link from Canva">
+                  <FormField label="Template Project Share Link" hint="The direct share link to access or edit the template">
                     <input
                       type="url"
                       value={editingProduct.canvaUrl || ""}
                       onChange={(e) => setEditingProduct({ ...editingProduct, canvaUrl: e.target.value })}
-                      placeholder="https://www.canva.com/design/..."
+                      placeholder="https://..."
                       className={inputCls}
                     />
                   </FormField>
@@ -1072,12 +1072,12 @@ export default function AdminProductsPage() {
                       className={inputCls}
                     />
                   </FormField>
-                  <FormField label="Software Required" hint="e.g. Canva Free, Lightroom, Premiere Pro">
+                  <FormField label="Software Required" hint="e.g. Free Browser, Lightroom, Premiere Pro">
                     <input
                       type="text"
                       value={editingProduct.softwareRequired || ""}
                       onChange={(e) => setEditingProduct({ ...editingProduct, softwareRequired: e.target.value })}
-                      placeholder="e.g. Canva Free, Adobe Lightroom"
+                      placeholder="e.g. Free Browser, Adobe Lightroom"
                       className={inputCls}
                     />
                   </FormField>

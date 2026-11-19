@@ -26,10 +26,10 @@ function ShopDropdown({ onClose }: { onClose: () => void }) {
           </p>
           <ul className="space-y-0.5">
             {[
-              { label: "All-in-One Bundles", href: "/bundles" },
-              { label: "Editing Apps (APKs)", href: "/editing-apps" },
+              { label: "Bundles", href: "/bundles" },
+              { label: "Apps", href: "/editing-apps" },
               { label: "Lightroom Presets", href: "/photo-presets" },
-              { label: "SFX & Overlays", href: "/editing-bundles" },
+              { label: "Sound Effects & BG Music", href: "/editing-bundles" },
             ].map((item) => (
               <li key={item.href}>
                 <Link
@@ -51,9 +51,9 @@ function ShopDropdown({ onClose }: { onClose: () => void }) {
           </p>
           <ul className="space-y-0.5">
             {[
-              { label: "Business E-Books", href: "/ebooks" },
-              { label: "Productivity Planners", href: "/planners" },
-              { label: "Canva Templates", href: "/templates" },
+              { label: "E-Books", href: "/ebooks" },
+              { label: "Planners", href: "/planners" },
+              { label: "Templates", href: "/templates" },
             ].map((item) => (
               <li key={item.href}>
                 <Link

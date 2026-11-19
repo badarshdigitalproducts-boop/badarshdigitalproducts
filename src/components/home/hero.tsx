@@ -46,7 +46,7 @@ export function Hero() {
             transition={{ duration: 0.55, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
             className="mt-5 apple-subhead text-base sm:text-xl leading-relaxed text-muted max-w-2xl mx-auto font-normal"
           >
-            Master video editing vaults, cinematic SFX, 1-click Lightroom presets, verified creator APKs, and custom web engineering. Zero fluff. Pure production quality.
+            Master video editing vaults, sound effects &amp; BG music, 1-click Lightroom presets, verified creator apps, and custom web engineering. Zero fluff. Pure production quality.
           </motion.p>
 
           {/* Apple-Exact Button Duo: Solid Pill + Retinal Blue Chevron Link */}

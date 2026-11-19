@@ -33,7 +33,7 @@ export default function RefundPolicyPage() {
             All templates, design systems, digital planners, and marketing e-books offered by{" "}
             <strong>{BUSINESS_LEGAL_NAME}</strong> ("BADARSH") are non-tangible, digital goods. 
             Upon successful payment, access is granted immediately via an on-screen confirmation link 
-            and an automated fulfillment email containing your direct Canva template URLs or downloadable PDF/ZIP assets.
+            and an automated fulfillment email containing your direct template project URLs or downloadable PDF/ZIP assets.
           </p>
         </div>
 
@@ -46,7 +46,7 @@ export default function RefundPolicyPage() {
             <div className="rounded-2xl border border-card-border bg-secondary/30 p-4">
               <span className="font-bold text-foreground block">Zero Wait Time</span>
               <p className="text-xs text-muted mt-1">
-                Your direct Canva access link and download attachments appear on screen immediately upon transaction success.
+                Your direct digital template links and download attachments appear on screen immediately upon transaction success.
               </p>
             </div>
             <div className="rounded-2xl border border-card-border bg-secondary/30 p-4">
@@ -58,7 +58,7 @@ export default function RefundPolicyPage() {
           </div>
           <p className="mt-4 text-xs text-muted">
             If you do not see the confirmation email within 5 minutes, please check your spam/promotions folder 
-            or reach out to our WhatsApp support desk at <strong>{WHATSAPP_DISPLAY}</strong> for immediate re-dispatch.
+            or reach out to our support team at <strong>{SUPPORT_EMAIL}</strong> for immediate re-dispatch.
           </p>
         </div>
 
@@ -75,7 +75,7 @@ export default function RefundPolicyPage() {
             <li className="flex items-start gap-2.5">
               <ShieldCheck className="h-4 w-4 text-emerald-500 shrink-0 mt-1" />
               <span>
-                <strong>Defective / Corrupted Links:</strong> If a Canva link is broken, missing pages, or inaccessible, 
+                <strong>Defective / Corrupted Links:</strong> If a template file or download link is broken, missing assets, or inaccessible, 
                 and our support team is unable to provide a functional replacement within 24 hours, 
                 you are entitled to a <strong>100% full refund</strong>.
               </span>
@@ -90,8 +90,8 @@ export default function RefundPolicyPage() {
             <li className="flex items-start gap-2.5">
               <ShieldCheck className="h-4 w-4 text-emerald-500 shrink-0 mt-1" />
               <span>
-                <strong>Canva Free Compatibility Guarantee:</strong> All BADARSH templates are built to work 100% in Canva Free. 
-                If you encounter any template element that requires a Canva Pro payment to export, notify us and we will replace it immediately.
+                <strong>Zero Subscription Compatibility Guarantee:</strong> All BADARSH templates are built to work with standard, free tools. 
+                If you encounter any template element that asks for third-party paid subscriptions to export, notify us and we will replace it immediately.
               </span>
             </li>
           </ul>
@@ -130,7 +130,6 @@ export default function RefundPolicyPage() {
             <p><strong>Entity Name:</strong> {BUSINESS_LEGAL_NAME}</p>
             <p><strong>Location:</strong> {BUSINESS_LOCATION}</p>
             <p><strong>Official Email:</strong> {SUPPORT_EMAIL}</p>
-            <p><strong>Priority WhatsApp Desk:</strong> {WHATSAPP_DISPLAY}</p>
             <p><strong>Response SLA:</strong> Acknowledgment within 24 hours, resolution within 48 business hours.</p>
           </div>
         </div>

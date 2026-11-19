@@ -1,12 +1,12 @@
 import { constructMetadata } from "@/lib/metadata";
 import { SectionHeader } from "@/components/shared/section-header";
-import { Check, X, ShieldCheck, FileCheck, HelpCircle } from "lucide-react";
-import { BUSINESS_LEGAL_NAME, SUPPORT_EMAIL, WHATSAPP_DISPLAY } from "@/lib/constants";
+import { Check, X } from "lucide-react";
+import { SUPPORT_EMAIL } from "@/lib/constants";
 
 export const metadata = constructMetadata({
   title: "Commercial License Agreement",
   description:
-    "Review BADARSH's Standard Commercial License terms for Canva templates, client work permissions, and digital usage guidelines.",
+    "Review BADARSH's Standard Commercial License terms for digital design templates, client work permissions, and digital usage guidelines.",
 });
 
 export default function LicensePage() {
@@ -71,13 +71,13 @@ export default function LicensePage() {
               <li className="flex items-start gap-2.5">
                 <X className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />
                 <span>
-                  <strong>No Reselling:</strong> You cannot resell, redistribute, sub-license, or share the raw editable Canva template links.
+                  <strong>No Reselling:</strong> You cannot resell, redistribute, sub-license, or share the raw editable project files or master links.
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
                 <X className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />
                 <span>
-                  <strong>No Template Repackaging:</strong> You cannot make minor changes and sell the designs as your own Canva templates on Etsy, Gumroad, or your website.
+                  <strong>No Template Repackaging:</strong> You cannot make minor changes and sell the designs as your own digital templates on Etsy, Gumroad, or your website.
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
@@ -100,13 +100,10 @@ export default function LicensePage() {
         <div className="rounded-3xl border border-card-border bg-card p-8 md:p-12 shadow-sm space-y-8 text-sm leading-relaxed text-muted">
           <div>
             <h3 className="font-heading text-xl font-bold text-foreground">
-              Canva Free Assets &amp; Third-Party Rights
+              Zero Subscription Lock-in &amp; Proprietary In-House Designs
             </h3>
             <p className="mt-2 text-xs leading-relaxed">
-              All BADARSH templates are handcrafted using fonts, shapes, grids, and elements available in 
-              <strong> Canva's Free Tier</strong> or standard Google Fonts. We do not incorporate Canva Pro-only 
-              assets without explicit disclosure. You will never be asked to pay unexpected licensing or 
-              export fees to Canva when using our templates.
+              All BADARSH templates are handcrafted in-house using open-standard typography, accessible vector elements, and universal web layouts. You will never encounter hidden paywalls or unexpected export fees. You have full creative freedom to edit, export, and publish without paid software subscriptions.
             </p>
           </div>
 
@@ -121,8 +118,8 @@ export default function LicensePage() {
                 </strong>
                 <p className="mt-1 text-muted">
                   Yes! You can use one purchase to design and export finished graphics for multiple clients. 
-                  However, you must deliver the finished exports (PNG/JPG/PDF). If your client wants the raw 
-                  editable Canva template link for themselves, they should purchase their own license.
+                  However, you must deliver the finished exports (PNG/JPG/PDF/MP4). If your client wants the master 
+                  editable template file for themselves, they should purchase their own license.
                 </p>
               </div>
 
@@ -149,11 +146,10 @@ export default function LicensePage() {
 
           <div className="border-t border-card-border/60 pt-6 text-xs">
             <p>
-              Have specific enterprise or agency licensing questions? Contact our legal desk at{" "}
+              Have specific enterprise or agency licensing questions? Contact our team directly at{" "}
               <a href={`mailto:${SUPPORT_EMAIL}`} className="text-accent underline font-semibold">
                 {SUPPORT_EMAIL}
-              </a>{" "}
-              or message us on WhatsApp at <strong>{WHATSAPP_DISPLAY}</strong>.
+              </a>.
             </p>
           </div>
         </div>

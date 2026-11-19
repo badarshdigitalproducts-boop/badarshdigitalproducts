@@ -140,7 +140,7 @@ export async function POST(request: Request) {
         licenseKey: order.licenseKey,
         items: order.items,
         downloadUrl: downloadUrl || `/downloads/${order.id}.zip`,
-        canvaUrl: canvaUrl || `https://www.canva.com/design/templates`,
+        canvaUrl: canvaUrl || null,
         createdAt: order.createdAt,
       },
     });

@@ -748,7 +748,7 @@ export const services: Service[] = [
           "Everything in Full Brand System",
           "Matching 5-page responsive Next.js website build",
           "Custom Figma UI design system & components",
-          "Pitch deck & presentation template in Canva",
+          "Pitch deck & presentation template suite",
           "Delivery in 20 business days",
           "6 months dedicated design support",
         ],

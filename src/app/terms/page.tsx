@@ -41,7 +41,7 @@ export default function TermsPage() {
           </h2>
           <ul className="mt-3 list-disc pl-5 space-y-2 text-xs">
             <li>Upon successful checkout, you are granted a non-exclusive, non-transferable Commercial License subject to the terms set forth in our License Agreement.</li>
-            <li>Templates are provided via direct Canva template links and downloadable digital files. You are responsible for maintaining a Canva account (Free or Pro) to access and edit the designs.</li>
+            <li>Templates are provided via direct digital project links and downloadable assets. All templates are designed to be accessible and editable without requiring paid third-party software subscriptions.</li>
             <li>Reselling, sublicensing, or redistributing the raw editable template links is strictly prohibited and constitutes copyright infringement.</li>
           </ul>
         </div>
@@ -83,7 +83,6 @@ export default function TermsPage() {
             <p><strong>Entity:</strong> {BUSINESS_LEGAL_NAME}</p>
             <p><strong>Address:</strong> {BUSINESS_LOCATION}</p>
             <p><strong>Email:</strong> {SUPPORT_EMAIL}</p>
-            <p><strong>WhatsApp:</strong> {WHATSAPP_DISPLAY}</p>
           </div>
         </div>
       </div>

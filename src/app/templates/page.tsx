@@ -68,8 +68,8 @@ function TemplatesContent() {
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
       <SectionHeader
         badge="Marketplace"
-        title="Canva Templates &amp; Digital Creative Suites"
-        subtitle="Download professionally designed social media packs, video editing assets, apps, pitch decks, and digital tools."
+        title="Design Templates &amp; Digital Creative Suites"
+        subtitle="Download professionally designed social media packs, pitch decks, creator carousels, and digital tools. Designed in-house by BADARSH."
       />
 
       <div className="mt-8 mb-8">
@@ -93,7 +93,7 @@ function TemplatesContent() {
                 🎬 1-Click Video Editing Workflow
               </span>
               <h2 className="mt-2 font-heading text-2xl font-black text-foreground">
-                Video SFX, Light Leaks &amp; Motion Overlays
+                Sound Effects &amp; BG Music, Light Leaks &amp; Overlays
               </h2>
               <p className="mt-1 text-sm text-muted max-w-2xl">
                 Our team crafts the visual effects and provides direct template links. You click the link, it opens right inside CapCut or Premiere, you drop your own clip or photo in, and your edit is done!
@@ -134,10 +134,10 @@ function TemplatesContent() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
               <span className="rounded-full bg-accent/20 px-3 py-1 text-xs font-bold text-accent">
-                📱 Creator App Downloads &amp; APKs
+                📱 Apps &amp; Workflows
               </span>
               <h2 className="mt-2 font-heading text-2xl font-black text-foreground">
-                Verified Video Editing Apps &amp; Workflows
+                Verified Apps &amp; Mobile Tools
               </h2>
               <p className="mt-1 text-sm text-muted max-w-2xl">
                 Download verified Android APKs directly from BADARSH cloud servers. All premium transitions, AI tools, and 4K exports unlocked without third-party redirects.
@@ -156,7 +156,7 @@ function TemplatesContent() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
               <span className="rounded-full bg-accent/20 px-3 py-1 text-xs font-bold text-accent">
-                🔥 All-in-One Mega Bundles
+                🔥 Bundles &amp; Production Vaults
               </span>
               <h2 className="mt-2 font-heading text-2xl font-black text-foreground">
                 2026 Video &amp; Graphics Master Vaults

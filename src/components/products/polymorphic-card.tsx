@@ -33,7 +33,7 @@ export function PolymorphicProductCard({ product, priority = false }: Polymorphi
       return <BundleCard product={product} priority={priority} />;
 
     default:
-      // Canva Templates, presentations, social media, branding
+      // Design Templates, presentations, social media, branding
       return <StandardTemplateCard product={product} priority={priority} />;
   }
 }

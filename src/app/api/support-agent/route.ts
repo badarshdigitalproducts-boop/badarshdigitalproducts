@@ -13,7 +13,7 @@ Key knowledge:
 - Next.js Web Development (/services/website-design): Starter ₹3k–₹6k, Growth 5-8 pages ₹9k–₹11k, Scalable 15-20+ pages ₹15k+. High performance, mobile-first, SEO included.
 - Other Services: Mobile Apps (/services/app-development), Video Editing (/services/video-editing), Photo Retouching (/services/photo-editing), Brand Logos (/services/brand-identity).
 - Business E-Books (/ebooks) & Productivity Planners (/planners): Instant PDF download.
-- Canva Templates (/templates): 100% compatible with free Canva.
+- Design Templates (/templates): In-house proprietary ready-to-edit templates for social media, carousels, and pitch decks. We design everything in-house. Never mention Canva.
 - Licensing: Full commercial client rights included. Reselling raw assets prohibited.
 - Delivery: Instant on screen + email backup. 100% replacement guarantee.
 - Rules: Never mention raw phone numbers. Do not mention WhatsApp. Link to pages using markdown [Page Name](/path). Answer the user's specific problem directly.`;
@@ -81,12 +81,9 @@ You get instant Google Drive cloud access with lifetime updates. Check it out on
     return "Our Lightroom Preset packs provide 1-click cinematic color grades for portraits, street photography, and commercial catalogs. They include both mobile .DNG and desktop .XMP formats. Explore [Lightroom Presets](/photo-presets).";
   }
 
-  // 6. Canva Templates
-  if (query.includes("canva") || query.includes("template")) {
-    if (query.includes("pro") || query.includes("free") || query.includes("subscription")) {
-      return "No, Canva Pro is **never required**! Every template in our library is built with 100% free Canva elements and Google Fonts, so you can edit and export without surprise watermarks or paywalls. Browse our [Canva Templates](/templates).";
-    }
-    return "Our Canva templates are built for high engagement — social carousels, reels, pitch decks, and commercial collateral. 100% compatible with Canva Free. View the full [Templates Collection](/templates).";
+  // 6. Design Templates
+  if (query.includes("template") || query.includes("carousel") || query.includes("deck") || query.includes("presentation") || query.includes("canva")) {
+    return "All our [Design Templates](/templates) are designed in-house by BADARSH for high engagement — including social carousels, reels, client pitch decks, and commercial brand collateral. They are 100% ready to edit and customize with zero expensive software or subscriptions needed. View the full [Templates Collection](/templates).";
   }
 
   // 7. E-books & Productivity Planners

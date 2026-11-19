@@ -24,7 +24,7 @@ export function constructMetadata({
     description,
     keywords: [
       "digital templates",
-      "canva templates",
+      "design templates",
       "social media templates",
       "presentation templates",
       "branding kits",

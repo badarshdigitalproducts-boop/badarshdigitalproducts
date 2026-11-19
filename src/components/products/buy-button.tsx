@@ -45,7 +45,7 @@ export function BuyButton({
     isFeatured: true,
     isNew: false,
     isBestseller: true,
-    format: "Canva Template",
+    format: "Design Template",
     gumroadUrl,
     createdAt: "2026-01-01",
   };

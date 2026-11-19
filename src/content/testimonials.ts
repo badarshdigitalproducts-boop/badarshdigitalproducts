@@ -14,9 +14,9 @@ export const testimonials: VerifiedTestimonial[] = [
     company: "Studio Vastra, Jaipur",
     niche: "Fashion & Retail",
     verifiedPurchase: true,
-    platformBadge: "Canva Template Pack",
+    platformBadge: "Studio Template Pack",
     content:
-      "As a solo boutique owner, I don't have hours to learn Photoshop. BADARSH's Instagram Reels and Carousel templates are clean, elegant, and took me less than 10 minutes to customize with my brand colors in Canva Free. Zero watermarks, zero fuss.",
+      "As a solo boutique owner, I don't have hours to learn complex tools. BADARSH's Instagram Reels and Carousel templates are clean, elegant, and took me less than 10 minutes to customize with my brand colors in my browser. Zero watermarks, zero fuss.",
     rating: 5,
     avatar: "/images/testimonials/avatar-1.png",
   },
@@ -42,7 +42,7 @@ export const testimonials: VerifiedTestimonial[] = [
     verifiedPurchase: true,
     platformBadge: "Instagram Growth Suite",
     content:
-      "What I appreciate most is that every single font and graphic works in Canva Free without needing a Pro subscription. The carousel layouts have saved me 4-5 hours every weekend. My Instagram feed finally looks consistent and intentional.",
+      "What I appreciate most is that every single font and graphic works out of the box without needing any paid subscriptions. The carousel layouts have saved me 4-5 hours every weekend. My Instagram feed finally looks consistent and intentional.",
     rating: 5,
     avatar: "/images/testimonials/avatar-3.png",
   },

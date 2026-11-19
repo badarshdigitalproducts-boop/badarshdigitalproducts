@@ -43,13 +43,13 @@ export default function PrivacyPolicyPage() {
           </p>
           <ul className="mt-3 list-disc pl-5 space-y-2 text-xs">
             <li>
-              <strong>Order &amp; Fulfillment Information:</strong> Name, email address, and transaction details required to deliver your Canva template links and generate digital invoices.
+              <strong>Order &amp; Fulfillment Information:</strong> Name, email address, and transaction details required to deliver your digital template links and generate digital invoices.
             </li>
             <li>
-              <strong>Agency Inquiry Details:</strong> Name, business email, WhatsApp number, project budget, and requirements submitted through our contact and service request forms.
+              <strong>Agency Inquiry Details:</strong> Name, business email, contact details, project budget, and requirements submitted through our contact and service request forms.
             </li>
             <li>
-              <strong>Newsletter Subscription:</strong> Email address provided for receiving weekly free Canva drops and marketing tactics.
+              <strong>Newsletter Subscription:</strong> Email address provided for receiving weekly free design drops and marketing tactics.
             </li>
           </ul>
           <p className="mt-3 text-xs">
@@ -62,8 +62,8 @@ export default function PrivacyPolicyPage() {
             3. How We Use Your Data
           </h2>
           <ul className="mt-3 list-disc pl-5 space-y-2 text-xs">
-            <li>To dispatch direct Canva access links and product download files.</li>
-            <li>To respond to service inquiries and provide customer support via WhatsApp or email.</li>
+            <li>To dispatch direct digital access links and product download files.</li>
+            <li>To respond to service inquiries and provide customer support via email.</li>
             <li>To send opt-in newsletters (you may unsubscribe at any time with a single click).</li>
             <li>To maintain system security, detect fraud, and comply with statutory legal requirements.</li>
           </ul>
@@ -104,7 +104,6 @@ export default function PrivacyPolicyPage() {
             <p><strong>Nodal Grievance Officer:</strong> {BUSINESS_LEGAL_NAME}</p>
             <p><strong>Address:</strong> {BUSINESS_LOCATION}</p>
             <p><strong>Email:</strong> {SUPPORT_EMAIL}</p>
-            <p><strong>WhatsApp Support:</strong> {WHATSAPP_DISPLAY}</p>
           </div>
         </div>
       </div>

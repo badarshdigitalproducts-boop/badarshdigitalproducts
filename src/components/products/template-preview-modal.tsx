@@ -132,7 +132,7 @@ export function TemplatePreviewModal({
                 </div>
 
                 <div className="flex items-center justify-between border-t border-white/10 pt-4 text-xs text-muted">
-                  <span>{product.format} &bull; Canva Free &amp; Pro</span>
+                  <span>{product.format} &bull; Universal Web &amp; Mobile</span>
                   <span className="flex items-center gap-1 text-emerald-400">
                     <CheckCircle2 className="h-3.5 w-3.5" /> 100% Fully Editable
                   </span>

@@ -31,7 +31,7 @@ export function BlogPreview() {
           <SectionHeader
             badge="Insights &amp; Guides"
             title="Latest from the BADARSH Blog"
-            subtitle="Actionable tactics on Canva design, high-converting social media, and digital marketing."
+            subtitle="Actionable tactics on creative design, high-converting social media, and digital marketing."
             align="left"
             className="mb-0 md:mb-0"
           />

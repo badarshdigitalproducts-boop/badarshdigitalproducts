@@ -62,7 +62,7 @@ export function Newsletter() {
                   You're in! Check your inbox.
                 </h3>
                 <p className="mt-1 text-xs text-muted">
-                  Your 10 Free Canva Templates link is on its way. In the meantime, join our WhatsApp broadcast for flash discounts!
+                  Your 10 Free Studio Templates link is on its way. In the meantime, join our priority broadcast for flash discounts!
                 </p>
                 <a
                   href={getWhatsAppUrl(

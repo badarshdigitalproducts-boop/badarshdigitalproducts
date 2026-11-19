@@ -3,7 +3,7 @@ import { SiteConfig } from "@/types";
 export const siteConfig: SiteConfig = {
   name: "BADARSH",
   description:
-    "High-impact Canva templates, marketing playbooks & done-for-you creative services. Built for ambitious founders and creators to scale their brand online.",
+    "High-impact design templates, creator software tools, video vaults & done-for-you creative services. Built for ambitious founders and creators to scale their brand online.",
   url: "https://badarsh.com",
   ogImage: "/images/og/og-default.png",
   links: {
@@ -33,45 +33,45 @@ export const NAV_LINKS = [
 
 export const SHOP_MENU = [
   {
-    label: "Canva Templates",
+    label: "Templates",
     href: "/templates",
-    desc: "Canva & design templates for every platform",
+    desc: "Social & presentation design templates for every platform",
     icon: "",
   },
   {
-    label: "Business E-Books",
+    label: "E-Books",
     href: "/ebooks",
-    desc: "Business guides, marketing playbooks & more",
+    desc: "Growth playbooks, marketing blueprints & founder guides",
     icon: "",
   },
   {
-    label: "Productivity Planners",
+    label: "Planners",
     href: "/planners",
     desc: "Life, gym, diet & career planning PDF systems",
     icon: "",
   },
   {
-    label: "All-in-One Bundles",
+    label: "Bundles",
     href: "/bundles",
     desc: "Save big with curated 2026 mega bundles",
     icon: "",
   },
   {
-    label: "Editing Apps",
+    label: "Apps",
     href: "/editing-apps",
-    desc: "Verified video editing APKs & software tools",
+    desc: "Verified video editing software & creator tools",
     icon: "",
   },
   {
-    label: "Video SFX & Overlays",
+    label: "Sound Effects & BG Music",
     href: "/editing-bundles",
-    desc: "1-click CapCut/Premiere templates & 350+ SFX",
+    desc: "Master audio tracks, sound design & 4K motion overlays",
     icon: "",
   },
   {
-    label: "Photo Presets",
+    label: "Lightroom Presets",
     href: "/photo-presets",
-    desc: "1-click Lightroom mobile & desktop presets",
+    desc: "1-click Lightroom mobile & desktop photo presets",
     icon: "",
   },
 ] as const;
@@ -124,21 +124,21 @@ export const CATEGORIES = [
   { value: "ebooks", label: "E-Books" },
   { value: "planners", label: "Planners" },
   { value: "bundles", label: "Bundles" },
-  { value: "editing-apps", label: "Editing Apps" },
-  { value: "editing-bundles", label: "Editing Bundles" },
-  { value: "photo-presets", label: "Photo Presets" },
+  { value: "editing-apps", label: "Apps" },
+  { value: "editing-bundles", label: "Sound Effects & BG Music" },
+  { value: "photo-presets", label: "Lightroom Presets" },
 ] as const;
 
 // All product delivery types supported by BADARSH admin
 export const PRODUCT_TYPES = [
-  { value: "canva-template", label: "Canva Template" },
+  { value: "canva-template", label: "Studio Design Template" },
   { value: "ebook", label: "E-Book (PDF)" },
   { value: "planner", label: "Planner / Tracker" },
   { value: "app-license", label: "App / Software License" },
   { value: "video-preset", label: "Video Preset / LUT" },
   { value: "photo-preset", label: "Photo Preset / Lightroom" },
   { value: "bundle", label: "Bundle Pack" },
-  { value: "editing-bundle", label: "Editing Bundle" },
+  { value: "editing-bundle", label: "Sound Effects & BG Music" },
   { value: "website-template", label: "Website Template" },
   { value: "audio", label: "Audio / Music Pack" },
   { value: "font-pack", label: "Font Pack" },
@@ -146,7 +146,7 @@ export const PRODUCT_TYPES = [
 ] as const;
 
 export const DELIVERY_TYPES = [
-  { value: "canva-link", label: "Canva Template Link" },
+  { value: "canva-link", label: "Design Template Link" },
   { value: "download-url", label: "Direct Download URL" },
   { value: "google-drive", label: "Google Drive Link" },
   { value: "external-url", label: "External Link (App / Preset / Template)" },
@@ -157,7 +157,7 @@ export const STATS = [
   { value: 500, label: "Designer Templates", suffix: "+" },
   { value: 1200, label: "Digital Downloads", suffix: "+" },
   { value: 98, label: "Satisfaction Rate", suffix: "%" },
-  { value: 24, label: "Support on WhatsApp", suffix: "h" },
+  { value: 24, label: "Digital Studio Support", suffix: "h" },
 ] as const;
 
 

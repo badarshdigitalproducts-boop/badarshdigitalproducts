@@ -46,7 +46,7 @@ const DEFAULT_POST: Partial<AdminBlogPost> = {
     year: "numeric",
   }),
   readTime: "5 min read",
-  coverImage: "/images/blog/canva-hacks.png",
+  coverImage: "/images/blog/design-hacks.png",
   tags: ["Design", "Growth"],
   status: "published",
   views: 0,
@@ -536,7 +536,7 @@ export default function AdminBlogPage() {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. 10 Canva Hacks Every Modern Creator Must Know in 2026"
+                  placeholder="e.g. 10 Creative Hacks Every Modern Creator Must Know in 2026"
                   value={editingPost.title || ""}
                   onChange={(e) => handleTitleChange(e.target.value)}
                   className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white placeholder:text-zinc-600 focus:border-[#FF5A36] focus:outline-none"
@@ -629,7 +629,7 @@ export default function AdminBlogPage() {
                   </label>
                   <input
                     type="text"
-                    placeholder="/images/blog/canva-hacks.png"
+                    placeholder="/images/blog/design-hacks.png"
                     value={editingPost.coverImage || ""}
                     onChange={(e) =>
                       setEditingPost((prev) => ({ ...prev, coverImage: e.target.value }))
@@ -644,7 +644,7 @@ export default function AdminBlogPage() {
                   </label>
                   <input
                     type="text"
-                    placeholder="Canva, Design, Social Growth"
+                    placeholder="Design, Branding, Social Growth"
                     value={tagsInput}
                     onChange={(e) => setTagsInput(e.target.value)}
                     className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
