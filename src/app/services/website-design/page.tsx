@@ -53,7 +53,7 @@ export default function WebsiteDesignPage() {
             className="inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 font-heading text-xs font-bold text-white shadow-lg shadow-accent/25 hover:bg-accent-hover hover:scale-105 transition-all"
           >
             <MessageSquare className="h-4 w-4" />
-            <span>Discuss Your Website on WhatsApp (+91 72042 50115)</span>
+            <span>Discuss Your Website on WhatsApp</span>
             <ArrowRight className="h-4 w-4" />
           </a>
         </div>

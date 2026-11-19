@@ -133,7 +133,7 @@ export default function ServicesPage() {
                     className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-heading text-xs font-bold text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent-hover hover:scale-105"
                   >
                     <MessageSquare className="h-4 w-4" />
-                    <span>WhatsApp (+91 72042 50115)</span>
+                    <span>Direct WhatsApp Desk</span>
                   </a>
                 </div>
               </div>
@@ -493,7 +493,7 @@ export default function ServicesPage() {
           className="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 font-heading text-sm font-bold text-white shadow-lg shadow-accent/25 hover:bg-accent-hover hover:scale-105 transition-all"
         >
           <MessageSquare className="h-4 w-4" />
-          <span>Chat Directly With BADARSH Founders (+91 72042 50115)</span>
+          <span>Chat Directly With BADARSH Founders</span>
           <ArrowRight className="h-4 w-4" />
         </a>
       </div>

@@ -4,7 +4,7 @@ import { fontHeading, fontBody } from "@/lib/fonts";
 import { constructMetadata } from "@/lib/metadata";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { WhatsappButton } from "@/components/shared/whatsapp-button";
+import { AiSupportAgent } from "@/components/shared/ai-support-agent";
 import { SocialProofToast } from "@/components/shared/social-proof-toast";
 import { FirebaseAnalytics } from "@/components/shared/firebase-analytics";
 import { CurrencyProvider } from "@/context/currency-context";
@@ -81,7 +81,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </Suspense>
             <main className="flex-1">{children}</main>
             <Footer />
-            <WhatsappButton />
+            <AiSupportAgent />
             <SocialProofToast />
             <FirebaseAnalytics />
           </CurrencyProvider>

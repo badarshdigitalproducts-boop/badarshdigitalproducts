@@ -16,7 +16,7 @@ export const siteConfig: SiteConfig = {
 };
 
 export const WHATSAPP_NUMBER = "917204250115";
-export const WHATSAPP_DISPLAY = "+91 72042 50115";
+export const WHATSAPP_DISPLAY = "BADARSH Founder Desk";
 export const SUPPORT_EMAIL = "hello@badarsh.com";
 export const BUSINESS_LEGAL_NAME = "BADARSH Digital Products";
 export const BUSINESS_LOCATION = "Bengaluru, Karnataka, India";

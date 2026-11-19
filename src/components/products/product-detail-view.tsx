@@ -72,7 +72,7 @@ export function ProductDetailView({
     },
     {
       q: "What if I need help downloading or editing?",
-      a: "We offer direct founder support on WhatsApp at +91 72042 50115. Message us anytime for quick walkthroughs, asset help, or formatting assistance.",
+      a: "We offer direct 24/7 founder support via our on-site AI Studio Concierge and direct WhatsApp desk. Message us anytime for quick walkthroughs, asset help, or formatting assistance.",
     },
   ];
 

@@ -358,7 +358,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                   className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 py-3.5 font-heading text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 active:scale-95 transition-all"
                 >
                   <MessageCircle className="h-4 w-4" />
-                  <span>Receive Instant Copy on WhatsApp (+91 72042 50115)</span>
+                  <span>Receive Instant Copy on WhatsApp</span>
                 </button>
               </div>
             </div>
