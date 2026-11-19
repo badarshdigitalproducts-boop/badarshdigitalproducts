@@ -397,7 +397,6 @@ export function Navbar() {
             {[
               { label: "Blog", href: "/blog" },
               { label: "About", href: "/about" },
-              { label: "Contact", href: "/contact" },
             ].map((link) => {
               const isActive = pathname === link.href;
               return (

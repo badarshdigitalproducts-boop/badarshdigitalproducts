@@ -255,10 +255,10 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/contact"
+                  href="/about#contact"
                   className="cursor-pointer text-sm text-muted transition-colors duration-200 hover:text-accent"
                 >
-                  Contact &amp; Grievances
+                  Studio &amp; Inquiries
                 </Link>
               </li>
             </ul>

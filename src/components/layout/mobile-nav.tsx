@@ -144,7 +144,6 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                 {[
                   { label: "Blog", href: "/blog" },
                   { label: "About", href: "/about" },
-                  { label: "Contact", href: "/contact" },
                 ].map((link) => (
                   <Link
                     key={link.href}
