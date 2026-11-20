@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
 import { GoogleIcon } from "@/components/auth/google-icon";
+import { GoogleAuthModal } from "@/components/auth/google-auth-modal";
 import { BrandLogo } from "@/components/layout/brand-logo";
 
 function SignupForm() {
@@ -20,7 +21,13 @@ function SignupForm() {
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect") || "/bundles";
 
-  const { signInWithGoogle, signUpWithEmail, error, clearError } = useAuth();
+  const {
+    signInWithGoogle,
+    signInWithGoogleEmail,
+    signUpWithEmail,
+    error,
+    clearError,
+  } = useAuth();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -29,6 +36,7 @@ function SignupForm() {
   const [agreeTerms, setAgreeTerms] = useState(true);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [googleModalOpen, setGoogleModalOpen] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
 
   // Clean, subtle password strength
@@ -94,6 +102,12 @@ function SignupForm() {
 
     if (res.success) {
       router.push(redirectUrl);
+    } else if (
+      res.code?.includes("permission-denied") ||
+      res.code === "auth/unauthorized-domain" ||
+      res.error?.includes("Identity Toolkit")
+    ) {
+      setGoogleModalOpen(true);
     }
   };
 
@@ -305,6 +319,13 @@ function SignupForm() {
           Protected by BADARSH Studio Vault &bull; 256-bit SSL
         </p>
       </motion.div>
+
+      <GoogleAuthModal
+        isOpen={googleModalOpen}
+        onClose={() => setGoogleModalOpen(false)}
+        onSubmit={signInWithGoogleEmail}
+        onSuccess={() => router.push(redirectUrl)}
+      />
     </div>
   );
 }

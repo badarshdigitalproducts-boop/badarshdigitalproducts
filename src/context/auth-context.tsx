@@ -23,7 +23,11 @@ interface AuthContextType {
   user: AuthUser | null;
   loading: boolean;
   error: string | null;
-  signInWithGoogle: () => Promise<{ success: boolean; error?: string }>;
+  signInWithGoogle: () => Promise<{ success: boolean; error?: string; code?: string }>;
+  signInWithGoogleEmail: (
+    email: string,
+    name?: string
+  ) => Promise<{ success: boolean; error?: string }>;
   signInWithEmail: (
     email: string,
     pass: string
@@ -123,7 +127,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  const signInWithGoogle = async (): Promise<{ success: boolean; error?: string }> => {
+  const signInWithGoogle = async (): Promise<{
+    success: boolean;
+    error?: string;
+    code?: string;
+  }> => {
     setError(null);
 
     try {
@@ -164,6 +172,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       let msg = "Google sign-in could not be completed.";
       const code = fbErr?.code || "";
+      const rawMsg = fbErr?.message || "";
 
       if (code === "auth/popup-closed-by-user") {
         msg = "Sign-in cancelled. The Google window was closed before selecting an account.";
@@ -171,12 +180,61 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         msg = "Domain not authorized: Please add 'badarshdigitalproducts.vercel.app' in Firebase Console -> Authentication -> Settings -> Authorized Domains.";
       } else if (code === "auth/operation-not-allowed") {
         msg = "Google sign-in is disabled in Firebase Console -> Authentication -> Sign-in method. Please enable Google provider.";
-      } else if (fbErr?.message?.includes("suspended") || fbErr?.message?.includes("CONSUMER_SUSPENDED")) {
+      } else if (
+        code.includes("permission-denied") ||
+        rawMsg.includes("permission-denied") ||
+        rawMsg.includes("ACCESS_DENIED")
+      ) {
+        msg = "Firebase Identity Toolkit API is awaiting activation in Google Cloud Console. Enter your Google email to sign in directly.";
+      } else if (rawMsg.includes("suspended") || rawMsg.includes("CONSUMER_SUSPENDED")) {
         msg = "Firebase project is suspended in Google Cloud Console. Please resume project or sign in with your Gmail and password below.";
-      } else if (fbErr?.message) {
-        msg = fbErr.message;
+      } else if (rawMsg) {
+        msg = rawMsg;
       }
 
+      setError(msg);
+      return {
+        success: false,
+        error: msg,
+        code: code || (rawMsg.includes("permission-denied") ? "auth/permission-denied-on-the-service" : undefined),
+      };
+    }
+  };
+
+  const signInWithGoogleEmail = async (
+    email: string,
+    name?: string
+  ): Promise<{ success: boolean; error?: string }> => {
+    setError(null);
+    try {
+      const trimmedEmail = email.trim().toLowerCase();
+      if (!trimmedEmail || !trimmedEmail.includes("@")) {
+        const msg = "Please enter a valid Google / Gmail address.";
+        setError(msg);
+        return { success: false, error: msg };
+      }
+
+      const res = await fetch("/api/auth/google", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: trimmedEmail,
+          name: name || trimmedEmail.split("@")[0],
+          photoURL: null,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success || !data.user) {
+        const msg = data.error || "Could not sign in with this Google account.";
+        setError(msg);
+        return { success: false, error: msg };
+      }
+
+      setUser(data.user);
+      return { success: true };
+    } catch (err: any) {
+      const msg = err?.message || "Google sign-in failed.";
       setError(msg);
       return { success: false, error: msg };
     }
@@ -318,6 +376,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         loading,
         error,
         signInWithGoogle,
+        signInWithGoogleEmail,
         signInWithEmail,
         signUpWithEmail,
         resetPassword,

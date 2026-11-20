@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
 import { GoogleIcon } from "@/components/auth/google-icon";
+import { GoogleAuthModal } from "@/components/auth/google-auth-modal";
 import { ForgotPasswordModal } from "@/components/auth/forgot-password-modal";
 import { BrandLogo } from "@/components/layout/brand-logo";
 
@@ -24,7 +25,13 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect") || "/bundles";
 
-  const { signInWithGoogle, signInWithEmail, error, clearError } = useAuth();
+  const {
+    signInWithGoogle,
+    signInWithGoogleEmail,
+    signInWithEmail,
+    error,
+    clearError,
+  } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,6 +39,7 @@ function LoginForm() {
   const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [googleModalOpen, setGoogleModalOpen] = useState(false);
   const [forgotModalOpen, setForgotModalOpen] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
 
@@ -63,6 +71,12 @@ function LoginForm() {
 
     if (res.success) {
       router.push(redirectUrl);
+    } else if (
+      res.code?.includes("permission-denied") ||
+      res.code === "auth/unauthorized-domain" ||
+      res.error?.includes("Identity Toolkit")
+    ) {
+      setGoogleModalOpen(true);
     }
   };
 
@@ -242,6 +256,13 @@ function LoginForm() {
         isOpen={forgotModalOpen}
         onClose={() => setForgotModalOpen(false)}
         initialEmail={email}
+      />
+
+      <GoogleAuthModal
+        isOpen={googleModalOpen}
+        onClose={() => setGoogleModalOpen(false)}
+        onSubmit={signInWithGoogleEmail}
+        onSuccess={() => router.push(redirectUrl)}
       />
     </>
   );
