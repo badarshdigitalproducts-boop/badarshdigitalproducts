@@ -911,17 +911,17 @@
     {
       "id": "prod-020",
       "slug": "capcut-pro-unlocked-editor",
-      "title": "CapCut Pro — Full Feature APK & Creator Setup",
-      "description": "Direct APK download with all premium features unlocked: no watermarks, 4K 60fps export, all VIP transitions and AI cutout tools.",
-      "longDescription": "Get direct access to our verified CapCut Pro mobile package. Download the APK directly from BADARSH without third-party popups or redirects. Comes with installation guide for Android, unlocking all premium transition packs, auto-captions, voice synthesis, AI background cutout, and crystal-clear 4K 60fps export.",
+      "title": "CapCut Pro — Full Feature Mobile App & Creator Setup",
+      "description": "Direct high-speed app download with all premium features unlocked: no watermarks, 4K 60fps export, all VIP transitions and AI cutout tools.",
+      "longDescription": "Get direct access to our verified CapCut Pro mobile package. Download the app directly from BADARSH without third-party popups or redirects. Comes with full setup guide, unlocking all premium transition packs, auto-captions, voice synthesis, AI background cutout, and crystal-clear 4K 60fps export.",
       "price": 199,
       "originalPrice": 499,
       "currency": "INR",
       "category": "editing-apps",
       "tags": [
         "capcut",
-        "apk",
-        "editing app",
+        "editing apps",
+        "mobile creator",
         "android",
         "pro",
         "video editing"
@@ -931,17 +931,17 @@
         "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80"
       ],
       "features": [
-        "Direct high-speed APK download from BADARSH server",
+        "Direct high-speed app download from BADARSH drive",
         "All VIP transitions, filters & sound effects unlocked",
         "No export watermark on 1080p and 4K 60fps reels",
         "AI auto-captions & background cutout enabled",
-        "Full step-by-step Android installation guide included",
+        "Full step-by-step mobile installation guide included",
         "100% virus scanned and tested by BADARSH technical team"
       ],
       "specs": {
-        "count": "1 Verified APK File + Install PDF",
+        "count": "1 Verified Mobile App + Install PDF",
         "dimensions": "Android 8.0 or higher required",
-        "compatibility": "All Android Smartphones & Tablets"
+        "compatibility": "All Mobile Smartphones & Tablets"
       },
       "rating": 4.8,
       "reviewCount": 345,
@@ -949,12 +949,12 @@
       "isFeatured": true,
       "isNew": true,
       "isBestseller": true,
-      "format": "APK (Android Package)",
+      "format": "Mobile App Installer",
       "fileSize": "185 MB",
-      "apkVersion": "v12.2.0 VIP Unlocked",
-      "apkArchitecture": "Android 8.0+ / ARM64",
-      "appApkUrl": "https://drive.google.com/file/d/BADARSH_CAPCUT_PRO_APK/view",
-      "downloadUrl": "https://drive.google.com/file/d/BADARSH_CAPCUT_PRO_APK/view",
+      "appVersion": "v12.2.0 VIP Unlocked",
+      "appPlatform": "Android 8.0+ / Mobile",
+      "appDownloadUrl": "https://drive.google.com/file/d/BADARSH_CAPCUT_PRO_APP/view",
+      "downloadUrl": "https://drive.google.com/file/d/BADARSH_CAPCUT_PRO_APP/view",
       "deliveryType": "download-url",
       "createdAt": "2026-10-20",
       "canvaUrl": "https://www.canva.com/design/templates/capcut-pro-unlocked-editor",
@@ -1048,61 +1048,61 @@
       ],
       "packages": [
         {
-          "name": "Basic Reels / Shorts",
-          "price": 1499,
+          "name": "Normal Reel / Shorts Cut",
+          "price": 250,
           "currency": "INR",
           "period": "per video",
-          "description": "Perfect for short-form content (Reels, TikTok & YouTube Shorts up to 60s).",
+          "description": "Crisp pacing cuts, smooth transitions, background audio balance, and clean 1080p export.",
           "features": [
             "Up to 60 seconds duration",
-            "Dynamic cuts, zooms & pacing",
-            "Sound effects & background music",
-            "Animated word-by-word captions",
-            "1 revision round",
-            "Delivery in 2 business days"
+            "Clean pacing cuts & trim",
+            "Smooth transitions",
+            "Royalty-free background music",
+            "Audio level normalization",
+            "Delivery in 24 to 48 hours",
+            "1 revision included"
           ],
           "isPopular": false,
-          "ctaText": "Get Started",
-          "whatsappMessage": "Hi BADARSH! I'm interested in the Basic Reels/Shorts Video Editing package (₹1,499/video). Can we discuss my project?"
+          "ctaText": "Book ₹250 Edit",
+          "whatsappMessage": "Hi BADARSH! I want to book a Normal Reel Cut (₹250). Can I send my raw footage?"
         },
         {
-          "name": "Standard YouTube & Ads",
-          "price": 3999,
+          "name": "Viral Retention / Crazy Level",
+          "price": 400,
           "currency": "INR",
           "period": "per video",
-          "description": "Ideal for YouTube long-form videos, high-converting product ads, and brand explainers.",
+          "description": "High-retention dynamic cuts, Hormozi-style animated captions, zoom punches, and impact sound effects.",
           "features": [
-            "Up to 10 minutes duration",
-            "Advanced motion graphics & lower thirds",
-            "Cinematic color grading",
-            "Full sound design & audio clean-up",
-            "Subtitles & custom graphics",
-            "High-CTR thumbnail design included",
-            "2 revision rounds",
-            "Delivery in 3 to 4 business days"
+            "Up to 90 seconds duration",
+            "Dynamic jump cuts & zoom punches",
+            "Animated kinetic captions & emojis",
+            "Impact sound design (whooshes, risers, hits)",
+            "B-roll & overlay integration",
+            "Fast 24-hour delivery",
+            "2 revision rounds"
           ],
           "isPopular": true,
-          "ctaText": "Most Popular",
-          "whatsappMessage": "Hi BADARSH! I'm interested in the Standard YouTube & Ads Video Editing package (₹3,999/video). Can we discuss my footage?"
+          "ctaText": "Most Popular (₹400)",
+          "whatsappMessage": "Hi BADARSH! I want to book a Viral Retention Video Edit (₹400). Here is my footage concept."
         },
         {
-          "name": "Monthly Creator Retainer",
-          "price": 14999,
+          "name": "Mind-Blowing Cinematic Master",
+          "price": 799,
           "currency": "INR",
-          "period": "per month",
-          "description": "Dedicated editor for creators & businesses needing 15 to 20 polished videos monthly.",
+          "period": "per video",
+          "description": "Hollywood-level color grading, multi-layered sound design, motion graphics, and 4K ProRes master export.",
           "features": [
-            "15 to 20 Reels/Shorts per month OR 4 long-form YouTube edits",
-            "Dedicated senior editor assigned to your brand",
-            "Custom animated intro/outro & brand assets",
-            "Raw footage cloud repository management",
-            "Unlimited revisions on all deliverables",
-            "Priority 24-hour turnaround on urgent drops",
-            "Monthly content strategy & trend review"
+            "Up to 3 minutes duration (or full long-form clip)",
+            "Bespoke film emulation color grading",
+            "Complex sound design & spatial audio FX",
+            "Custom 3D titles & animated lower thirds",
+            "4K 60FPS ProRes & H.265 master files",
+            "Click-worthy thumbnail concept included",
+            "Unlimited revisions until 100% thrilled"
           ],
           "isPopular": false,
-          "ctaText": "Book Retainer",
-          "whatsappMessage": "Hi BADARSH! I'm interested in the Monthly Creator Retainer (₹14,999/month). Let's set up a monthly editing workflow!"
+          "ctaText": "Book Cinematic (₹799)",
+          "whatsappMessage": "Hi BADARSH! I'm interested in the Mind-Blowing Cinematic Master video edit (₹799). Let's discuss my project!"
         }
       ],
       "updatedAt": "2026-11-19T15:52:16.710Z"
@@ -1313,7 +1313,7 @@
           "currency": "INR",
           "description": "Quick-launch prototype to validate your mobile app idea with early users and angel investors.",
           "features": [
-            "Single platform (Android APK or iOS TestFlight)",
+            "Single platform (Android Build or iOS TestFlight)",
             "Up to 5 functional responsive screens",
             "Firebase backend & secure authentication",
             "Clean modern UI following Apple/Google design",
@@ -1392,55 +1392,57 @@
       ],
       "packages": [
         {
-          "name": "E-Commerce Batch (20 Photos)",
-          "price": 1999,
+          "name": "Basic Retouch & Color Clean",
+          "price": 150,
           "currency": "INR",
-          "description": "Clean product cutouts, color correction, and natural drop shadows for Amazon, Flipkart, or Shopify listings.",
+          "period": "per photo",
+          "description": "Color balancing, brightness correction, light skin blemish removal, and crisp crop.",
           "features": [
-            "Up to 20 product photos",
-            "Pure white background / PNG cutout",
-            "Natural drop shadow creation",
-            "Color correction & cropping",
-            "Delivery in 48 hours",
-            "2 revision rounds"
+            "Color grade & exposure correction",
+            "Basic blemish & stray hair cleanup",
+            "High-res web & social media export",
+            "Delivery in 24 hours",
+            "1 revision round included"
           ],
           "isPopular": false,
-          "ctaText": "Order Batch",
-          "whatsappMessage": "Hi BADARSH! I'm interested in the E-Commerce Batch Photo Editing (₹1,999). Can I send sample photos?"
+          "ctaText": "Order ₹150 Edit",
+          "whatsappMessage": "Hi BADARSH! I want to order a Basic Photo Retouch (₹150). Can I send my image?"
         },
         {
-          "name": "High-End Commercial Retouching",
-          "price": 4999,
+          "name": "Editorial Grade & Skin Retouch",
+          "price": 350,
           "currency": "INR",
-          "description": "Editorial & luxury retouching for hero brand banners, fashion portraits, and social media campaigns.",
+          "period": "per photo",
+          "description": "Studio-grade frequency separation, natural skin texture preservation, and cinematic mood grading.",
           "features": [
-            "Up to 15 high-detail photos",
-            "Frequency separation & texture preservation",
-            "Lighting enhancements & dodge/burn",
-            "Clothing crease removal & shape refinement",
-            "Delivery in 3 business days",
+            "Advanced frequency separation skin retouching",
+            "Natural skin texture (zero plastic look)",
+            "Background cleanup & distraction removal",
+            "Custom film color grading (Kodak/Portra tone)",
+            "Delivery in 24 to 48 hours",
             "Unlimited revisions"
           ],
           "isPopular": true,
-          "ctaText": "Most Popular",
-          "whatsappMessage": "Hi BADARSH! I'm interested in the High-End Commercial Photo Editing package (₹4,999). Can we discuss my photoshoot?"
+          "ctaText": "Most Popular (₹350)",
+          "whatsappMessage": "Hi BADARSH! I want to book the Editorial Photo Retouching (₹350). Here is my image."
         },
         {
-          "name": "Brand Campaign Suite (40 Photos)",
-          "price": 9999,
+          "name": "High-End Commercial & Composite",
+          "price": 799,
           "currency": "INR",
-          "description": "Complete photo post-production for seasonal campaigns, lookbooks, and multi-channel creative.",
+          "period": "per photo",
+          "description": "Magazine & billboard caliber retouching for luxury fashion, jewelry, and commercial advertising.",
           "features": [
-            "Up to 40 retouched editorial images",
-            "Custom artistic color grading / LUT application",
-            "Format variations for Billboard, Print & Web",
-            "Dedicated senior retoucher",
-            "Delivery in 5 business days",
-            "VIP priority support"
+            "Magazine-grade frequency separation & dodge/burn",
+            "Clothing crease removal & shape refinement",
+            "Jewelry, reflection & metal surface cleanup",
+            "300 DPI CMYK print-ready master TIFF/PNG",
+            "Delivery in 2 to 3 business days",
+            "VIP revisions until 100% satisfied"
           ],
           "isPopular": false,
-          "ctaText": "Book Suite",
-          "whatsappMessage": "Hi BADARSH! I'm interested in the Brand Campaign Suite Photo Editing package (₹9,999). Let's chat!"
+          "ctaText": "Order Commercial (₹799)",
+          "whatsappMessage": "Hi BADARSH! I'm interested in High-End Commercial Retouching (₹799). Let's discuss my brief!"
         }
       ],
       "updatedAt": "2026-11-19T15:52:16.711Z"
@@ -1473,58 +1475,60 @@
       ],
       "packages": [
         {
-          "name": "Founder Logo Kit",
-          "price": 4999,
+          "name": "Minimalist Vector Logo",
+          "price": 500,
           "currency": "INR",
-          "description": "Essential logo suite for new startups, consultants, and creators launching their brand.",
+          "period": "one-time",
+          "description": "Essential clean vector logo concept for startups, creators, and new businesses.",
           "features": [
-            "2 distinct custom logo concept directions",
-            "Primary logo + monochrome & transparent versions",
-            "Curated font pairing & hex color palette",
-            "Social media avatar & banner templates",
-            "Vector files (SVG, EPS, PDF, high-res PNG)",
-            "Delivery in 5 business days",
+            "1 custom modern vector logo concept",
+            "High-res PNG (transparent background) & JPEG",
+            "Vector SVG source file included",
+            "Black & white monochrome variants",
+            "Delivery in 48 hours",
+            "1 revision included"
+          ],
+          "isPopular": false,
+          "ctaText": "Order ₹500 Logo",
+          "whatsappMessage": "Hi BADARSH! I'm interested in the Minimalist Vector Logo (₹500). Can we discuss my brand name?"
+        },
+        {
+          "name": "Brand Logo & Typography Suite",
+          "price": 1199,
+          "currency": "INR",
+          "period": "one-time",
+          "description": "Complete primary and secondary logo suite with typography pairing and color system.",
+          "features": [
+            "2 bespoke logo design directions",
+            "Primary logo + horizontal + icon submark",
+            "Typography pairing & hex color palette",
+            "Social media avatar & watermark kit",
+            "Full vector source files (SVG, EPS, PDF, PNG)",
+            "Delivery in 3 to 4 business days",
             "2 revision rounds"
           ],
-          "isPopular": false,
-          "ctaText": "Order Logo Kit",
-          "whatsappMessage": "Hi BADARSH! I'm interested in the Founder Logo Kit (₹4,999). Can we discuss my brand name and style?"
+          "isPopular": true,
+          "ctaText": "Most Popular (₹1,199)",
+          "whatsappMessage": "Hi BADARSH! I'm interested in the Brand Logo & Typography Suite (₹1,199). Here is my brand concept."
         },
         {
-          "name": "Full Brand System",
-          "price": 9999,
+          "name": "Full Signature Identity Pack",
+          "price": 1999,
           "currency": "INR",
-          "description": "Complete end-to-end corporate identity system for ambitious companies and scaling businesses.",
+          "period": "one-time",
+          "description": "Billion-dollar caliber brand identity package with stationery, 3D mockups, and commercial rights.",
           "features": [
             "3 premium custom logo directions",
-            "Full logo suite (horizontal, stacked, icon badge, submark)",
-            "Detailed 25-page Brand Style Guidebook",
-            "Stationery pack (Business card, letterhead, email signature)",
-            "Packaging or merchandise mockup set",
-            "Vector & high-res PNG/SVG exports",
-            "Delivery in 10 to 12 business days",
-            "Unlimited revisions until satisfied"
-          ],
-          "isPopular": true,
-          "ctaText": "Most Popular",
-          "whatsappMessage": "Hi BADARSH! I'm interested in the Full Brand System package (₹9,999). Can we schedule a brand discovery call?"
-        },
-        {
-          "name": "Complete Brand & Website Suite",
-          "price": 19999,
-          "currency": "INR",
-          "description": "Comprehensive rebrand paired with a custom high-converting Next.js website design.",
-          "features": [
-            "Everything in Full Brand System",
-            "Matching 5-page responsive Next.js website build",
-            "Custom Figma UI design system & components",
-            "Pitch deck & presentation template suite",
-            "Delivery in 20 business days",
-            "6 months dedicated design support"
+            "Complete logo suite (primary, stacked, emblem, favicon)",
+            "Brand guidelines booklet (colors, fonts, dos & don'ts)",
+            "Realistic 3D mockup set (cards, apparel, signage)",
+            "Print-ready stationery & business card design",
+            "Full commercial copyright transfer",
+            "Unlimited revisions until 100% satisfied"
           ],
           "isPopular": false,
-          "ctaText": "Get Complete Suite",
-          "whatsappMessage": "Hi BADARSH! I'm interested in the Complete Brand & Website Suite (₹19,999). Let's collaborate!"
+          "ctaText": "Order Identity (₹1,999)",
+          "whatsappMessage": "Hi BADARSH! I want to order the Full Signature Identity Pack (₹1,999). Let's schedule a brand brief!"
         }
       ],
       "updatedAt": "2026-11-19T15:52:16.711Z"

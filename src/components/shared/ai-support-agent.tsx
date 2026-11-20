@@ -22,11 +22,11 @@ interface ChatMessage {
 }
 
 const INITIAL_SUGGESTIONS = [
-  "🎬 2026 Video Mega Bundle details",
-  "📱 CapCut Pro APK features & safety",
-  "💻 Website development pricing (₹3k–₹15k)",
-  "🎨 1-Click Lightroom Presets guide",
-  "🛡️ Commercial client licensing rights",
+  "2026 Video Mega Bundle details",
+  "CapCut Pro mobile app features",
+  "Website development pricing (₹3k–₹15k)",
+  "1-Click Lightroom Presets guide",
+  "Commercial client licensing rights",
 ];
 
 // Helper: Parse markdown-like text with links, bolding, and bullet points cleanly
@@ -157,7 +157,7 @@ export function AiSupportAgent() {
           id: "welcome-msg",
           role: "assistant",
           content:
-            "Hi! I'm the BADARSH Studio Concierge. How can I help you with our creator tools, APKs, or custom web development today?",
+            "Hi! I'm the BADARSH Studio Concierge. How can I help you with our creator tools, editing apps, or custom web development today?",
           createdAt: Date.now(),
         },
       ]);
@@ -255,7 +255,7 @@ export function AiSupportAgent() {
         id: `welcome-${Date.now()}`,
         role: "assistant",
         content:
-          "Conversation reset. How can I help you with our creator tools, APKs, or custom web development?",
+          "Conversation reset. How can I help you with our creator tools, editing apps, or custom web development?",
         createdAt: Date.now(),
       },
     ]);

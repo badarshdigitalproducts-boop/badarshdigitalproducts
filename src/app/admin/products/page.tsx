@@ -67,8 +67,19 @@ const DEFAULT_PRODUCT: Partial<AdminProduct> = {
   coverImageUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80",
   videoUrl: "",
   previewPdfUrl: "",
-  appApkUrl: "",
+  pdfUrl: "",
+  appDownloadUrl: "",
+  appVersion: "",
+  appPlatform: "",
   presetLinkUrl: "",
+  beforeImage: "",
+  afterImage: "",
+  audioPreviewUrl: "",
+  audioDuration: "",
+  audioCategory: "",
+  pageCount: 0,
+  authorName: "",
+  plannerCategory: "",
   overlayLinkUrl: "",
   canvaUrl: "",
   downloadUrl: "",
@@ -947,21 +958,56 @@ export default function AdminProductsPage() {
                   </FormField>
                 )}
 
-                {(editingProduct.category === "editing-apps" || editingProduct.productType === "app-license") && (
-                  <FormField label="📱 APK Direct Download URL" hint="Direct link to APK file for instant download after purchase">
-                    <input
-                      type="url"
-                      value={editingProduct.appApkUrl || ""}
-                      onChange={(e) => setEditingProduct({ ...editingProduct, appApkUrl: e.target.value })}
-                      placeholder="https://drive.google.com/file/d/FILE_ID/view"
-                      className={inputCls}
-                    />
-                  </FormField>
+                {(editingProduct.category === "ebooks" || editingProduct.category === "planners" || editingProduct.productType === "ebook" || editingProduct.productType === "planner") && (
+                  <>
+                    <FormField label="PDF View / In-Browser Reader URL" hint="Direct PDF link or Google Drive preview link for in-browser reader">
+                      <input
+                        type="url"
+                        value={editingProduct.previewPdfUrl || ""}
+                        onChange={(e) => setEditingProduct({ ...editingProduct, previewPdfUrl: e.target.value })}
+                        placeholder="https://drive.google.com/file/d/FILE_ID/preview or https://...pdf"
+                        className={inputCls}
+                      />
+                    </FormField>
+                    <FormField label="Full PDF Download Link" hint="Download link for buyers (Google Drive or direct CDN link)">
+                      <input
+                        type="url"
+                        value={editingProduct.pdfUrl || ""}
+                        onChange={(e) => setEditingProduct({ ...editingProduct, pdfUrl: e.target.value })}
+                        placeholder="https://drive.google.com/uc?export=download&id=FILE_ID"
+                        className={inputCls}
+                      />
+                    </FormField>
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField label="Page Count" hint="Total pages (e.g. 142)">
+                        <input
+                          type="number"
+                          value={editingProduct.pageCount || ""}
+                          onChange={(e) => setEditingProduct({ ...editingProduct, pageCount: parseInt(e.target.value) || 0 })}
+                          placeholder="120"
+                          className={inputCls}
+                        />
+                      </FormField>
+                      <FormField label={editingProduct.category === "ebooks" ? "Author Name" : "Planner Sub-Category"} hint="e.g. BADARSH Research or Fitness / Finance / Daily">
+                        <input
+                          type="text"
+                          value={editingProduct.authorName || editingProduct.plannerCategory || ""}
+                          onChange={(e) => setEditingProduct({
+                            ...editingProduct,
+                            authorName: e.target.value,
+                            plannerCategory: e.target.value,
+                          })}
+                          placeholder="BADARSH Studio"
+                          className={inputCls}
+                        />
+                      </FormField>
+                    </div>
+                  </>
                 )}
 
                 {(editingProduct.category === "photo-presets" || editingProduct.productType === "photo-preset") && (
                   <>
-                    <FormField label="🎨 Adobe Lightroom Preset Share Link" hint="Direct Lightroom share link. Customer clicks → Lightroom app opens → preset imports">
+                    <FormField label="Adobe Lightroom Preset Link / DNG URL" hint="Direct Lightroom share link or DNG download link">
                       <input
                         type="url"
                         value={editingProduct.presetLinkUrl || ""}
@@ -976,7 +1022,7 @@ export default function AdminProductsPage() {
                           type="url"
                           value={editingProduct.beforeImage || ""}
                           onChange={(e) => setEditingProduct({ ...editingProduct, beforeImage: e.target.value })}
-                          placeholder="https://images.unsplash.com/... (Raw/Unedited)"
+                          placeholder="https://images.unsplash.com/... (Raw unedited)"
                           className={inputCls}
                         />
                       </FormField>
@@ -995,31 +1041,31 @@ export default function AdminProductsPage() {
 
                 {(editingProduct.category === "editing-apps" || editingProduct.productType === "app-license") && (
                   <>
-                    <FormField label="📱 APK Direct Download URL" hint="Direct link to APK file for instant download after purchase">
+                    <FormField label="App Download URL" hint="Direct link to mobile app installer on Google Drive or direct cloud link">
                       <input
                         type="url"
-                        value={editingProduct.appApkUrl || ""}
-                        onChange={(e) => setEditingProduct({ ...editingProduct, appApkUrl: e.target.value })}
+                        value={editingProduct.appDownloadUrl || (editingProduct as any).appApkUrl || ""}
+                        onChange={(e) => setEditingProduct({ ...editingProduct, appDownloadUrl: e.target.value })}
                         placeholder="https://drive.google.com/file/d/FILE_ID/view"
                         className={inputCls}
                       />
                     </FormField>
                     <div className="grid grid-cols-2 gap-4">
-                      <FormField label="APK Version" hint="e.g. v12.2.0 Pro VIP">
+                      <FormField label="App Version" hint="e.g. v12.2 Pro Unlocked">
                         <input
                           type="text"
-                          value={editingProduct.apkVersion || ""}
-                          onChange={(e) => setEditingProduct({ ...editingProduct, apkVersion: e.target.value })}
-                          placeholder="v12.2.0 VIP Unlocked"
+                          value={editingProduct.appVersion || (editingProduct as any).apkVersion || ""}
+                          onChange={(e) => setEditingProduct({ ...editingProduct, appVersion: e.target.value })}
+                          placeholder="v12.2 Pro Unlocked"
                           className={inputCls}
                         />
                       </FormField>
-                      <FormField label="Architecture / OS" hint="e.g. Android 8.0+ / ARM64">
+                      <FormField label="Platform / Compatibility" hint="e.g. Android 9.0+ / Mobile">
                         <input
                           type="text"
-                          value={editingProduct.apkArchitecture || ""}
-                          onChange={(e) => setEditingProduct({ ...editingProduct, apkArchitecture: e.target.value })}
-                          placeholder="Android 9.0+ / ARM64"
+                          value={editingProduct.appPlatform || (editingProduct as any).apkArchitecture || ""}
+                          onChange={(e) => setEditingProduct({ ...editingProduct, appPlatform: e.target.value })}
+                          placeholder="Android 9.0+ / Mobile"
                           className={inputCls}
                         />
                       </FormField>
@@ -1027,23 +1073,34 @@ export default function AdminProductsPage() {
                   </>
                 )}
 
-                {(editingProduct.category === "editing-bundles" || editingProduct.productType === "editing-bundle" || editingProduct.productType === "video-preset") && (
+                {(editingProduct.category === "editing-bundles" || editingProduct.productType === "editing-bundle" || editingProduct.productType === "video-preset" || editingProduct.productType === "audio") && (
                   <>
-                    <FormField label="🎬 Template / Overlay App Link (CapCut / Premiere)" hint="Template link. Customer clicks → app opens with template loaded">
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField label="Audio Preview Stream URL" hint="Direct MP3/WAV/OGG link for Spotify-style audio player">
+                        <input
+                          type="url"
+                          value={editingProduct.audioPreviewUrl || ""}
+                          onChange={(e) => setEditingProduct({ ...editingProduct, audioPreviewUrl: e.target.value })}
+                          placeholder="https://actions.google.com/sounds/v1/...ogg"
+                          className={inputCls}
+                        />
+                      </FormField>
+                      <FormField label="Audio Duration" hint="e.g. 0:45, 2:15, 3:20">
+                        <input
+                          type="text"
+                          value={editingProduct.audioDuration || ""}
+                          onChange={(e) => setEditingProduct({ ...editingProduct, audioDuration: e.target.value })}
+                          placeholder="1:30"
+                          className={inputCls}
+                        />
+                      </FormField>
+                    </div>
+                    <FormField label="Sound Effect / Music Category" hint="e.g. Reels BGM, Cinematic, Ambient, Transitions, Horror, Lo-Fi">
                       <input
-                        type="url"
-                        value={editingProduct.overlayLinkUrl || ""}
-                        onChange={(e) => setEditingProduct({ ...editingProduct, overlayLinkUrl: e.target.value })}
-                        placeholder="https://www.capcut.com/template/TEMPLATE_ID"
-                        className={inputCls}
-                      />
-                    </FormField>
-                    <FormField label="🔊 Audio Preview URL (for sound effects visualizer)" hint="Direct MP3/OGG URL to let creators hear the SFX">
-                      <input
-                        type="url"
-                        value={editingProduct.audioPreviewUrl || ""}
-                        onChange={(e) => setEditingProduct({ ...editingProduct, audioPreviewUrl: e.target.value })}
-                        placeholder="https://actions.google.com/sounds/v1/...ogg"
+                        type="text"
+                        value={editingProduct.audioCategory || ""}
+                        onChange={(e) => setEditingProduct({ ...editingProduct, audioCategory: e.target.value })}
+                        placeholder="Reels BGM"
                         className={inputCls}
                       />
                     </FormField>
@@ -1051,7 +1108,7 @@ export default function AdminProductsPage() {
                 )}
 
                 {(editingProduct.category === "bundles" || editingProduct.productType === "bundle") && (
-                  <FormField label="📦 Total Assets Count" hint="e.g. 700+ Production Assets, 500+ SFX">
+                  <FormField label="Total Assets Count" hint="e.g. 700+ Production Assets, 500+ SFX, 4K Footage">
                     <input
                       type="text"
                       value={editingProduct.totalAssetsCount || ""}

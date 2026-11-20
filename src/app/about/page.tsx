@@ -38,9 +38,9 @@ const ecosystemPillars = [
   },
   {
     title: "Verified Creator Software",
-    desc: "Direct, high-speed mobile APK packages (CapCut Pro, mobile creator tools) with VIP transitions and 4K 60fps export unlocked. 100% virus-scanned.",
+    desc: "Direct, high-speed mobile apps (CapCut Pro, mobile creator tools) with VIP transitions and 4K 60fps export unlocked. 100% virus-scanned.",
     icon: Smartphone,
-    tag: "Clean APKs",
+    tag: "Verified Apps",
     link: "/editing-apps",
   },
   {
@@ -152,7 +152,7 @@ export default function AboutPage() {
           transition={{ duration: 0.55, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
           className="mt-6 apple-subhead text-lg sm:text-xl leading-relaxed text-muted max-w-2xl mx-auto font-normal"
         >
-          We are a creator tools powerhouse and full-stack digital production agency. From uncompressed SFX vaults and verified mobile creator APKs to bespoke Next.js web applications, BADARSH bridges the gap between raw ambition and world-class digital execution.
+          We are a creator tools powerhouse and full-stack digital production agency. From uncompressed SFX vaults and verified mobile creator apps to bespoke Next.js web applications, BADARSH bridges the gap between raw ambition and world-class digital execution.
         </motion.p>
       </div>
 

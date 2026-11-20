@@ -44,12 +44,32 @@ export interface AdminProduct extends Omit<Product, "tags" | "isFeatured" | "isN
   seoDescription?: string;
   coverImageUrl?: string;
   previewPdfUrl?: string;
-  appApkUrl?: string;
+  pdfUrl?: string;
+  appDownloadUrl?: string;
+  appVersion?: string;
+  appPlatform?: string;
   presetLinkUrl?: string;
+  beforeImage?: string;
+  afterImage?: string;
+  audioPreviewUrl?: string;
+  audioDuration?: string;
+  audioCategory?: string;
+  pageCount?: number;
+  authorName?: string;
+  plannerCategory?: string;
+  totalAssetsCount?: string;
   overlayLinkUrl?: string;
   videoUrl?: string;
   portfolioImages?: string[];
   portfolioVideos?: string[];
+  editableTemplateData?: {
+    headline: string;
+    subheadline: string;
+    brandText: string;
+    accentColor: string;
+    backgroundColor: string;
+    templateType: string;
+  };
 }
 
 export interface AdminServicePackage {

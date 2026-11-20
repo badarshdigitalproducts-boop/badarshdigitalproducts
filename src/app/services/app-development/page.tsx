@@ -59,6 +59,84 @@ export default function AppDevelopmentPage() {
         </div>
       </div>
 
+      {/* APP PORTFOLIO SHOWCASE */}
+      <div className="mt-16 rounded-3xl border border-card-border bg-card/60 p-6 md:p-10 shadow-sm">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+          <div>
+            <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent">
+              Mobile App Portfolio
+            </span>
+            <h2 className="mt-2 font-heading text-2xl font-black text-foreground">
+              Mobile Apps Engineered by BADARSH
+            </h2>
+            <p className="text-xs text-muted">
+              Explore cross-platform mobile apps built with React Native and Flutter with 60 FPS fluid motion.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 rounded-full border border-card-border bg-background px-4 py-2 text-xs font-semibold text-accent shrink-0">
+            <Smartphone className="h-4 w-4" />
+            <span>iOS &bull; Android &bull; Cloud Backend</span>
+          </div>
+        </div>
+
+        {/* App Showcase Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              title: "Zenith Creator Suite",
+              type: "Video & Editing Tool",
+              desc: "Mobile editing companion with timeline scrubbing, cloud preset syncing, and 4K export presets.",
+              image: "https://images.unsplash.com/photo-1616469829941-c7200edec809?w=800&q=80",
+              platform: "iOS & Android",
+            },
+            {
+              title: "Aura Habits & Fitness",
+              type: "Productivity & Health OS",
+              desc: "Gamified routine tracking, biometric data sync, streak reminders, and offline SQLite cache.",
+              image: "https://images.unsplash.com/photo-1510519138195-068d828884bb?w=800&q=80",
+              platform: "React Native / Firebase",
+            },
+            {
+              title: "Krypton Booking App",
+              type: "Service Marketplace",
+              desc: "Instant booking scheduler, push notification triggers, in-app messaging, and Razorpay/Stripe checkout.",
+              image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&q=80",
+              platform: "Flutter / Supabase",
+            },
+          ].map((app, idx) => (
+            <div
+              key={idx}
+              className="group rounded-2xl border border-card-border bg-card p-5 shadow-sm hover:border-accent/40 hover:shadow-xl transition-all flex flex-col"
+            >
+              <div className="relative aspect-[9/16] w-full max-h-[340px] overflow-hidden rounded-xl bg-neutral-900 mb-4 mx-auto shadow-md">
+                <img
+                  src={app.image}
+                  alt={app.title}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-accent bg-black/60 px-2.5 py-0.5 rounded-md backdrop-blur-md">
+                    {app.type}
+                  </span>
+                </div>
+              </div>
+
+              <h3 className="font-heading text-base font-bold text-foreground group-hover:text-accent transition-colors">
+                {app.title}
+              </h3>
+              <p className="mt-1 text-xs text-muted leading-relaxed line-clamp-2">
+                {app.desc}
+              </p>
+
+              <div className="mt-auto pt-4 flex items-center justify-between border-t border-card-border/60">
+                <span className="text-[10px] font-mono text-muted">{app.platform}</span>
+                <span className="text-xs font-semibold text-emerald-500">60 FPS Native</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* TIERED APP DEVELOPMENT RATES */}
       <div className="mt-16 rounded-3xl border border-accent/30 bg-gradient-to-r from-accent/15 via-blue-900/10 to-card p-6 md:p-10 shadow-sm">
         <div className="text-center max-w-xl mx-auto mb-8">
@@ -86,7 +164,7 @@ export default function AppDevelopmentPage() {
               ₹12,999
             </div>
             <p className="mt-2 text-xs text-muted">
-              Fast validation build for Android APK or iOS TestFlight. Up to 5 screens with Firebase backend.
+              Fast validation build for Android or iOS TestFlight. Up to 5 screens with Firebase backend.
             </p>
 
             <ul className="mt-6 space-y-2 border-t border-card-border/60 pt-4 text-xs text-foreground/90">

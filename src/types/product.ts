@@ -32,18 +32,32 @@ export interface Product {
   deliveryType?: DeliveryType;
   softwareRequired?: string;
   previewPdfUrl?: string;        // ebook/planner PDF preview URL
+  pdfUrl?: string;               // full PDF download URL
   portfolioImages?: string[];    // service portfolio showcase
   portfolioVideos?: string[];    // service video portfolio
-  appApkUrl?: string;            // direct APK download
-  presetLinkUrl?: string;        // Lightroom preset link
+  appDownloadUrl?: string;       // direct app installer / file download link
+  presetLinkUrl?: string;        // Lightroom preset link / DNG download
   overlayLinkUrl?: string;       // SFX/overlay template link
   beforeImage?: string;          // RAW unedited photo for preset comparison
   afterImage?: string;           // Graded / edited photo for preset comparison
-  apkVersion?: string;           // e.g. "v11.4.0 Pro"
-  apkArchitecture?: string;      // e.g. "Android 10+ / ARM64"
-  audioPreviewUrl?: string;      // Audio preview for SFX
+  appVersion?: string;           // e.g. "v12.2 Pro Unlocked"
+  appPlatform?: string;          // e.g. "Android & iOS" or "Mobile App"
+  audioPreviewUrl?: string;      // Audio stream / preview for SFX & BG music
+  audioDuration?: string;        // e.g. "0:45", "2:14"
+  audioCategory?: string;        // e.g. "Cinematic", "Reels BGM", "Transitions", "Lo-Fi"
   samplePages?: string[];        // Preview page images for ebooks/planners
+  pageCount?: number;            // Total page count for ebooks/planners
+  authorName?: string;           // Author name for ebooks
+  plannerCategory?: string;      // Category for planners (Habit, Finance, Fitness, etc.)
   totalAssetsCount?: string;     // e.g. "700+ Assets"
+  editableTemplateData?: {       // In-browser customizable template config
+    headline: string;
+    subheadline: string;
+    brandText: string;
+    accentColor: string;
+    backgroundColor: string;
+    templateType: string;
+  };
   features: string[];
   specs?: ProductSpecs;
   rating: number;

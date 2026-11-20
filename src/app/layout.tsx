@@ -8,6 +8,8 @@ import { AiSupportAgent } from "@/components/shared/ai-support-agent";
 import { SocialProofToast } from "@/components/shared/social-proof-toast";
 import { FirebaseAnalytics } from "@/components/shared/firebase-analytics";
 import { CurrencyProvider } from "@/context/currency-context";
+import { AudioPlayerProvider } from "@/context/audio-player-context";
+import { FloatingAudioPlayer } from "@/components/audio/floating-audio-player";
 import {
   siteConfig,
   WHATSAPP_NUMBER,
@@ -76,14 +78,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           disableTransitionOnChange
         >
           <CurrencyProvider>
-            <Suspense fallback={<div className="h-16 w-full bg-background" />}>
-              <Navbar />
-            </Suspense>
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <AiSupportAgent />
-            <SocialProofToast />
-            <FirebaseAnalytics />
+            <AudioPlayerProvider>
+              <Suspense fallback={<div className="h-16 w-full bg-background" />}>
+                <Navbar />
+              </Suspense>
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <FloatingAudioPlayer />
+              <AiSupportAgent />
+              <SocialProofToast />
+              <FirebaseAnalytics />
+            </AudioPlayerProvider>
           </CurrencyProvider>
         </ThemeProvider>
       </body>

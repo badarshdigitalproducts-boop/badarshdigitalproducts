@@ -102,7 +102,7 @@ export function Hero() {
           className="mt-14 max-w-5xl mx-auto"
         >
           <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-none px-4 -mx-4 pb-4 md:grid md:grid-cols-3 md:px-0 md:mx-0">
-            {/* Card 1: Editing Apps (APKs) */}
+            {/* Card 1: Editing Apps */}
             <Link
               href="/editing-apps"
               className="group relative flex w-[85vw] shrink-0 snap-center sm:w-[340px] md:w-auto flex-col justify-between overflow-hidden rounded-2xl border border-border/60 bg-card p-6 shadow-xs transition-all duration-300 hover:border-foreground/25 hover:shadow-xl active:scale-[0.985]"
@@ -110,12 +110,12 @@ export function Hero() {
               <div>
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-1 rounded-md bg-secondary px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-foreground">
-                    <Smartphone className="h-3 w-3 text-emerald-500" /> APK
+                    <Smartphone className="h-3 w-3 text-emerald-500" /> Mobile Apps
                   </span>
-                  <span className="text-[11px] text-muted">Android Pro</span>
+                  <span className="text-[11px] text-muted">Creator Pro</span>
                 </div>
                 <h3 className="mt-4 font-heading text-lg font-bold text-foreground transition-colors group-hover:text-accent">
-                  CapCut Pro &amp; Creator APKs
+                  CapCut Pro &amp; Creator Apps
                 </h3>
                 <p className="mt-2 text-xs leading-relaxed text-muted">
                   Verified mobile tools with VIP transitions, 4K 60fps export, and AI cutout features unlocked.

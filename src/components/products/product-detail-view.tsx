@@ -356,25 +356,25 @@ export function ProductDetailView({
 
             {product.category === "editing-bundles" && (
               <div className="mt-6 rounded-2xl border border-accent/20 bg-accent/5 p-4 text-xs">
-                <span className="font-bold text-accent">🎬 1-Click CapCut / Premiere Template Flow:</span>
+                <span className="font-bold text-accent">1-Click Motion & Sound Vault:</span>
                 <p className="mt-1 text-muted">
-                  We designed this template so you don&apos;t have to edit from scratch. Click the link, open the template in CapCut/Premiere, swap your video clip, and export!
+                  Curated sound effects &amp; motion templates ready to drag and drop into your timeline. Master uncompressed audio and 4K assets.
                 </p>
               </div>
             )}
 
             {product.category === "editing-apps" && (
               <div className="mt-6 rounded-2xl border border-blue-500/20 bg-blue-500/5 p-4 text-xs">
-                <span className="font-bold text-blue-400">📱 Direct APK Download:</span>
+                <span className="font-bold text-blue-400">Direct Mobile App Download:</span>
                 <p className="mt-1 text-muted">
-                  Hosted on high-speed BADARSH cloud drive. Android compatible, no subscription required, all premium effects &amp; 4K exports unlocked.
+                  Hosted on high-speed BADARSH cloud drive. Mobile compatible, no recurring subscription, premium tools &amp; 4K exports unlocked.
                 </p>
               </div>
             )}
 
             {(product.category === "ebooks" || product.category === "planners") && (
               <div className="mt-6 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-xs">
-                <span className="font-bold text-emerald-500">📖 Authentic BADARSH Content:</span>
+                <span className="font-bold text-emerald-500">Authentic BADARSH Content:</span>
                 <p className="mt-1 text-muted">
                   100% original frameworks written and designed by our team. Zero copy-paste filler. Delivered instantly as a high-resolution PDF download.
                 </p>

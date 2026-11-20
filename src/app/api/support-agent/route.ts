@@ -7,7 +7,7 @@ Your personality: Apple-caliber elegance, concise (2-4 sentences max unless deta
 
 Key knowledge:
 - 2026 Video Mega Bundle & SFX (/bundles): 500+ master 24-bit WAV sound effects, 100 transitions, 50 LUTs, 4K alpha VFX overlays.
-- CapCut Pro APK (/editing-apps): Verified Android APK, watermark-free, VIP transitions, 4K 60fps export, AI cutout unlocked. Direct safe download.
+- CapCut Pro Mobile (/editing-apps): Verified creator mobile app, watermark-free, VIP transitions, 4K 60fps export, AI cutout unlocked. Direct safe download.
 - Lightroom Presets (/photo-presets): 1-click .DNG (Free Lightroom Mobile) and .XMP (Desktop) cinematic color grades.
 - Video SFX & Motion Overlays (/editing-bundles): 350+ master sounds, 4K transparent alpha overlays.
 - Next.js Web Development (/services/website-design): Starter ₹3k–₹6k, Growth 5-8 pages ₹9k–₹11k, Scalable 15-20+ pages ₹15k+. High performance, mobile-first, SEO included.
@@ -24,7 +24,7 @@ function generateIntelligentResponse(userMessage: string, history: Array<{ role:
 
   // 1. Casual Greetings & Persona
   if (/^(hi|hello|hey|hola|namaste|good\s*(morning|afternoon|evening)|sup|yo)\b/i.test(query) || query === "hi" || query === "hello") {
-    return "Hey there! Welcome to BADARSH. I'm your Studio Concierge. Whether you're looking for our 2026 creator tools, verified editing APKs, or custom website engineering, I'm here to help. What are you working on today?";
+    return "Hey there! Welcome to BADARSH. I'm your Studio Concierge. Whether you're looking for our 2026 creator tools, verified editing apps, or custom website engineering, I'm here to help. What are you working on today?";
   }
 
   if (query.includes("who are you") || query.includes("what can you do") || query.includes("your name")) {
@@ -32,14 +32,14 @@ function generateIntelligentResponse(userMessage: string, history: Array<{ role:
   }
 
   // 2. CapCut Pro & Editing Apps
-  if (query.includes("capcut") || query.includes("apk") || query.includes("mod") || (query.includes("editing") && query.includes("app"))) {
+  if (query.includes("capcut") || query.includes("editing app") || (query.includes("editing") && query.includes("app"))) {
     if (query.includes("safe") || query.includes("virus") || query.includes("malware") || query.includes("secure")) {
-      return "Yes, 100% safe. Every APK hosted in our [Editing Apps Store](/editing-apps) is scanned, clean, and tested across multiple Android versions. No spyware or sketchy redirects — just clean direct downloads.";
+      return "Yes, 100% safe. Every mobile app hosted in our [Editing Apps Store](/editing-apps) is scanned, clean, and tested across multiple device versions. No spyware or sketchy redirects — just clean direct downloads.";
     }
     if (query.includes("watermark") || query.includes("4k") || query.includes("vip") || query.includes("feature") || query.includes("pro")) {
-      return "Our CapCut Pro APK unlocks all VIP features: watermark-free exports, 4K at 60fps, unlocked curves and velocity graphs, and full AI cutout capabilities. You can get it directly on our [Editing Apps Store](/editing-apps).";
+      return "Our CapCut Pro Mobile app unlocks all VIP features: watermark-free exports, 4K at 60fps, unlocked curves and velocity graphs, and full AI cutout capabilities. You can get it directly on our [Editing Apps Store](/editing-apps).";
     }
-    return "We host verified mobile editing tools, including **CapCut Pro APK** with all VIP transitions, curves, and 4K export unlocked without watermarks. Download it directly from our [Editing Apps Store](/editing-apps).";
+    return "We host verified mobile editing tools, including **CapCut Pro Mobile** with all VIP transitions, curves, and 4K export unlocked without watermarks. Download it directly from our [Editing Apps Store](/editing-apps).";
   }
 
   // 3. Website Design & Development Pricing & Stack
@@ -118,10 +118,10 @@ You get instant Google Drive cloud access with lifetime updates. Check it out on
   // Contextual fallback based on previous messages
   const lastUserMessages = history.filter((m) => m.role === "user");
   if (lastUserMessages.length > 1) {
-    return "Got it! To give you the exact details: are you looking to purchase digital assets (like our [Video Bundles](/bundles) or [CapCut APK](/editing-apps)), or are you interested in custom [Website Development](/services/website-design)? Let me know and I'll guide you directly!";
+    return "Got it! To give you the exact details: are you looking to purchase digital assets (like our [Video Bundles](/bundles) or [CapCut Pro Mobile](/editing-apps)), or are you interested in custom [Website Development](/services/website-design)? Let me know and I'll guide you directly!";
   }
 
-  return "I'm here to help! You can ask me about our [2026 Video Mega Bundle](/bundles), [CapCut Pro APK](/editing-apps), [1-Click Lightroom Presets](/photo-presets), or [Custom Next.js Website Pricing](/services/website-design). What would you like to explore?";
+  return "I'm here to help! You can ask me about our [2026 Video Mega Bundle](/bundles), [CapCut Pro Mobile](/editing-apps), [1-Click Lightroom Presets](/photo-presets), or [Custom Next.js Website Pricing](/services/website-design). What would you like to explore?";
 }
 
 export async function POST(req: Request) {
@@ -185,7 +185,7 @@ export async function POST(req: Request) {
     console.error("Support agent error:", error);
     return NextResponse.json(
       {
-        reply: "I'm here to help! Ask me about our [2026 Video Bundles](/bundles), [CapCut APK](/editing-apps), [Presets](/photo-presets), or [Web Development (₹3k–₹15k)](/services/website-design).",
+        reply: "I'm here to help! Ask me about our [2026 Video Bundles](/bundles), [CapCut Pro Mobile](/editing-apps), [Presets](/photo-presets), or [Web Development (₹3k–₹15k)](/services/website-design).",
         source: "badarsh-intelligence",
       },
       { status: 200 }

@@ -9,14 +9,14 @@ const steps = [
     step: "01",
     title: "Select Asset or Service",
     description:
-      "Explore verified mobile editing APKs, master SFX packs, Lightroom presets, digital planners, or done-for-you production services.",
+      "Explore verified mobile creator apps, master SFX packs, Lightroom presets, digital planners, or done-for-you production services.",
     icon: Search,
   },
   {
     step: "02",
     title: "Instant Cloud Delivery",
     description:
-      "Receive direct APK packages, 1-click Adobe Lightroom share links, Google Drive master asset folders, or immediate WhatsApp agency onboarding.",
+      "Receive direct app downloads, 1-click Adobe Lightroom presets, Google Drive master asset folders, and immediate client onboarding.",
     icon: Zap,
   },
   {

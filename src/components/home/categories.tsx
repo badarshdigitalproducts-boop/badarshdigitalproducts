@@ -27,10 +27,10 @@ const shopCategories = [
   {
     slug: "editing-apps",
     name: "Apps",
-    desc: "Verified CapCut Pro & creator tools with VIP features unlocked and direct APK downloads.",
+    desc: "Verified CapCut Pro & creator tools with VIP features unlocked and direct high-speed downloads.",
     icon: Smartphone,
     href: "/editing-apps",
-    tag: "Direct APK",
+    tag: "Mobile Apps",
   },
   {
     slug: "photo-presets",

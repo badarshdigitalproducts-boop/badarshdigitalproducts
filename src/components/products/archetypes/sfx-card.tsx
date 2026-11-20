@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Play, Pause, Volume2, Video, Star, Download, ExternalLink, Sparkles } from "lucide-react";
+import { Play, Pause, Volume2, Video, Star, Download, ExternalLink, Sparkles, Disc3 } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
+import { useAudioPlayer } from "@/context/audio-player-context";
 
 interface SfxCardProps {
   product: Product;
@@ -16,28 +16,26 @@ interface SfxCardProps {
 export function SfxCard({ product }: SfxCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { currentTrack, isPlaying, playTrack, togglePlay } = useAudioPlayer();
 
-  // Sample royalty-free creator SFX sound bite or custom audio
+  const isThisPlaying = currentTrack?.id === product.id && isPlaying;
+
   const audioSrc =
     product.audioPreviewUrl ||
     "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg";
 
-  const togglePlay = (e: React.MouseEvent) => {
+  const handlePlayToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!audioRef.current) return;
-
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch((err) => {
-        console.warn("Audio play blocked:", err);
-      });
-    }
+    playTrack({
+      id: product.id,
+      title: product.title,
+      category: product.audioCategory || "Sound Effects",
+      audioUrl: audioSrc,
+      duration: product.audioDuration || "0:45",
+      price: product.price,
+      isFree: product.price === 0,
+      slug: product.slug,
+    });
   };
 
   return (
@@ -48,14 +46,6 @@ export function SfxCard({ product }: SfxCardProps) {
       onClick={() => router.push(`/templates/${product.slug}`)}
       className="group relative flex flex-col rounded-2xl border border-card-border bg-card p-5 shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-foreground/20 hover:shadow-xl hover:shadow-black/5 cursor-pointer"
     >
-      {/* Hidden Audio Element */}
-      <audio
-        ref={audioRef}
-        src={audioSrc}
-        onEnded={() => setIsPlaying(false)}
-        preload="none"
-      />
-
       {/* Video & Motion Visual Stage (16:9 Studio Ratio) */}
       <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-neutral-950">
         <img
@@ -68,20 +58,20 @@ export function SfxCard({ product }: SfxCardProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
         {/* Format Pill */}
-        <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 rounded-full bg-black/70 px-2.5 py-0.5 text-[10px] font-bold text-white backdrop-blur-md">
-          <Video className="h-3 w-3 text-accent" />
-          <span>4K ProRes &bull; SFX</span>
+        <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 rounded-full bg-black/70 px-2.5 py-0.5 text-[10px] font-bold text-white backdrop-blur-md border border-white/10">
+          <Disc3 className={`h-3 w-3 ${isThisPlaying ? "animate-spin text-accent" : "text-accent"}`} />
+          <span>24-Bit WAV &bull; {product.audioCategory || "SFX"}</span>
         </div>
 
-        {/* Interactive Audio Waveform Scrub Bar on bottom of video */}
+        {/* Interactive Audio Waveform Scrub Bar on bottom of card */}
         <div className="absolute inset-x-3 bottom-3 z-10 flex items-center justify-between rounded-lg bg-black/80 px-3 py-2 backdrop-blur-md border border-white/10">
           <button
-            onClick={togglePlay}
+            onClick={handlePlayToggle}
             aria-label="Preview sound effect"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-white transition-transform hover:scale-105 active:scale-95"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-white transition-transform hover:scale-105 active:scale-95 shadow-md"
           >
-            {isPlaying ? (
-              <Pause className="h-4 w-4" />
+            {isThisPlaying ? (
+              <Pause className="h-4 w-4 fill-white" />
             ) : (
               <Play className="h-4 w-4 fill-white ml-0.5" />
             )}
@@ -93,17 +83,17 @@ export function SfxCard({ product }: SfxCardProps) {
               <span
                 key={i}
                 className={`w-0.5 rounded-full transition-all duration-150 ${
-                  isPlaying ? "bg-accent animate-pulse" : "bg-white/40"
+                  isThisPlaying ? "bg-accent animate-pulse" : "bg-white/40"
                 }`}
                 style={{
-                  height: isPlaying ? `${Math.max(8, (height * (i % 2 === 0 ? 0.9 : 1.2)) % 22)}px` : `${height * 0.2}px`,
+                  height: isThisPlaying ? `${Math.max(8, (height * (i % 2 === 0 ? 0.9 : 1.2)) % 22)}px` : `${height * 0.2}px`,
                 }}
               />
             ))}
           </div>
 
           <span className="text-[10px] font-mono font-medium text-white/80">
-            {isPlaying ? "Playing..." : "Preview Audio"}
+            {isThisPlaying ? "Playing..." : product.audioDuration || "Preview"}
           </span>
         </div>
       </div>
@@ -112,7 +102,7 @@ export function SfxCard({ product }: SfxCardProps) {
       <div className="mt-4 flex flex-1 flex-col">
         <div className="flex items-center justify-between text-xs text-muted">
           <span className="font-semibold text-accent">
-            CapCut &bull; Premiere &bull; DaVinci
+            {product.audioCategory || "SFX & Music"}
           </span>
           <div className="flex items-center gap-1">
             <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
@@ -132,10 +122,10 @@ export function SfxCard({ product }: SfxCardProps) {
         {/* Spec Row */}
         <div className="mt-3 flex items-center gap-2 text-[10px] text-muted">
           <span className="rounded bg-secondary px-2 py-0.5 font-medium text-foreground">
-            24-Bit 48kHz WAV
+            Master WAV
           </span>
           <span className="rounded bg-secondary px-2 py-0.5 font-medium text-foreground">
-            Alpha Channel
+            Royalty-Free Commercial
           </span>
         </div>
 
@@ -144,7 +134,7 @@ export function SfxCard({ product }: SfxCardProps) {
           <div>
             <div className="flex items-baseline gap-2">
               <span className="font-heading text-lg font-bold text-foreground">
-                {formatCurr(product.price)}
+                {product.price === 0 ? "Free" : formatCurr(product.price)}
               </span>
               {product.originalPrice && product.originalPrice > product.price && (
                 <span className="text-xs text-muted line-through">
@@ -152,7 +142,7 @@ export function SfxCard({ product }: SfxCardProps) {
                 </span>
               )}
             </div>
-            <span className="text-[10px] text-muted">Instant Template Link</span>
+            <span className="text-[10px] text-muted">Instant Cloud Vault</span>
           </div>
 
           <button
@@ -162,7 +152,7 @@ export function SfxCard({ product }: SfxCardProps) {
             }}
             className="flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-xs transition-opacity hover:opacity-90 active:scale-95"
           >
-            <span>Get Asset</span>
+            <span>{product.price === 0 ? "Get Free" : "Get Asset"}</span>
             <ExternalLink className="h-3 w-3" />
           </button>
         </div>

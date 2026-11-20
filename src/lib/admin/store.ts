@@ -397,8 +397,60 @@ export async function getDatabase(): Promise<AdminDatabase> {
             existing.previewPdfUrl = sp.previewPdfUrl;
             modified = true;
           }
-          if (sp.appApkUrl && !existing.appApkUrl) {
-            existing.appApkUrl = sp.appApkUrl;
+          if (sp.pdfUrl && !existing.pdfUrl) {
+            existing.pdfUrl = sp.pdfUrl;
+            modified = true;
+          }
+          if (sp.appDownloadUrl && !existing.appDownloadUrl) {
+            existing.appDownloadUrl = sp.appDownloadUrl;
+            modified = true;
+          }
+          if (sp.appVersion && !existing.appVersion) {
+            existing.appVersion = sp.appVersion;
+            modified = true;
+          }
+          if (sp.appPlatform && !existing.appPlatform) {
+            existing.appPlatform = sp.appPlatform;
+            modified = true;
+          }
+          if (sp.beforeImage && !existing.beforeImage) {
+            existing.beforeImage = sp.beforeImage;
+            modified = true;
+          }
+          if (sp.afterImage && !existing.afterImage) {
+            existing.afterImage = sp.afterImage;
+            modified = true;
+          }
+          if (sp.audioPreviewUrl && !existing.audioPreviewUrl) {
+            existing.audioPreviewUrl = sp.audioPreviewUrl;
+            modified = true;
+          }
+          if (sp.audioDuration && !existing.audioDuration) {
+            existing.audioDuration = sp.audioDuration;
+            modified = true;
+          }
+          if (sp.audioCategory && !existing.audioCategory) {
+            existing.audioCategory = sp.audioCategory;
+            modified = true;
+          }
+          if (sp.pageCount && !existing.pageCount) {
+            existing.pageCount = sp.pageCount;
+            modified = true;
+          }
+          if (sp.authorName && !existing.authorName) {
+            existing.authorName = sp.authorName;
+            modified = true;
+          }
+          if (sp.plannerCategory && !existing.plannerCategory) {
+            existing.plannerCategory = sp.plannerCategory;
+            modified = true;
+          }
+          if (sp.totalAssetsCount && !existing.totalAssetsCount) {
+            existing.totalAssetsCount = sp.totalAssetsCount;
+            modified = true;
+          }
+          if (sp.editableTemplateData && !existing.editableTemplateData) {
+            existing.editableTemplateData = sp.editableTemplateData;
             modified = true;
           }
           if (sp.presetLinkUrl && !existing.presetLinkUrl) {

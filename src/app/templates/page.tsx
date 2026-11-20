@@ -90,7 +90,7 @@ function TemplatesContent() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
               <span className="rounded-full bg-accent/20 px-3 py-1 text-xs font-bold text-accent">
-                🎬 1-Click Video Editing Workflow
+                1-Click Video Editing Workflow
               </span>
               <h2 className="mt-2 font-heading text-2xl font-black text-foreground">
                 Sound Effects &amp; BG Music, Light Leaks &amp; Overlays
@@ -112,7 +112,7 @@ function TemplatesContent() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
               <span className="rounded-full bg-accent/20 px-3 py-1 text-xs font-bold text-accent">
-                🎨 1-Click Lightroom Mobile Presets
+                1-Click Lightroom Mobile Presets
               </span>
               <h2 className="mt-2 font-heading text-2xl font-black text-foreground">
                 Cinematic Mood &amp; Warm Editorial Presets
@@ -134,13 +134,13 @@ function TemplatesContent() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
               <span className="rounded-full bg-accent/20 px-3 py-1 text-xs font-bold text-accent">
-                📱 Apps &amp; Workflows
+                Apps &amp; Workflows
               </span>
               <h2 className="mt-2 font-heading text-2xl font-black text-foreground">
                 Verified Apps &amp; Mobile Tools
               </h2>
               <p className="mt-1 text-sm text-muted max-w-2xl">
-                Download verified Android APKs directly from BADARSH cloud servers. All premium transitions, AI tools, and 4K exports unlocked without third-party redirects.
+                Download verified creator mobile apps directly from BADARSH cloud servers. All premium transitions, AI tools, and 4K exports unlocked without third-party redirects.
               </p>
             </div>
             <div className="flex items-center gap-2 rounded-2xl bg-card/80 border border-card-border px-4 py-3 text-xs font-medium text-foreground/90 shrink-0">
@@ -156,7 +156,7 @@ function TemplatesContent() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
               <span className="rounded-full bg-accent/20 px-3 py-1 text-xs font-bold text-accent">
-                🔥 Bundles &amp; Production Vaults
+                Bundles &amp; Production Vaults
               </span>
               <h2 className="mt-2 font-heading text-2xl font-black text-foreground">
                 2026 Video &amp; Graphics Master Vaults

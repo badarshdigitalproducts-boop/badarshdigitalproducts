@@ -4,10 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Star, Download, Eye, Play, ArrowUpRight } from "lucide-react";
+import { Star, Download, Eye, Play, ArrowUpRight, Sparkles } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { TemplatePreviewModal } from "../template-preview-modal";
+import { TemplateEditorModal } from "@/components/templates/template-editor-modal";
 
 interface StandardTemplateCardProps {
   product: Product;
@@ -18,6 +19,7 @@ export function StandardTemplateCard({ product }: StandardTemplateCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [editorOpen, setEditorOpen] = useState(false);
   const [imageError, setImageError] = useState(false);
 
   const discountPercent =
@@ -67,17 +69,27 @@ export function StandardTemplateCard({ product }: StandardTemplateCardProps) {
             </div>
           )}
 
-          {/* Quick Preview Hover Trigger */}
-          <div className="absolute bottom-3 right-3 opacity-0 transition-opacity duration-200 group-hover:opacity-100 z-10">
+          {/* Quick Preview & Customize Triggers on hover */}
+          <div className="absolute bottom-3 right-3 opacity-0 transition-opacity duration-200 group-hover:opacity-100 z-10 flex items-center gap-1.5">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setEditorOpen(true);
+              }}
+              className="flex items-center gap-1 rounded-full bg-accent px-3 py-1.5 text-xs font-bold text-white shadow-md backdrop-blur-md transition-transform hover:scale-105 active:scale-95"
+            >
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>Customize</span>
+            </button>
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 setPreviewOpen(true);
               }}
-              className="flex items-center gap-1.5 rounded-full bg-white/90 dark:bg-black/90 px-3 py-1.5 text-xs font-bold text-foreground shadow-sm backdrop-blur-md transition-transform hover:scale-105 active:scale-95"
+              className="flex items-center gap-1 rounded-full bg-white/90 dark:bg-black/90 px-3 py-1.5 text-xs font-bold text-foreground shadow-sm backdrop-blur-md transition-transform hover:scale-105 active:scale-95"
             >
               <Eye className="h-3.5 w-3.5" />
-              <span>Quick Preview</span>
+              <span>Preview</span>
             </button>
           </div>
 
@@ -167,6 +179,17 @@ export function StandardTemplateCard({ product }: StandardTemplateCardProps) {
         product={product}
         isOpen={previewOpen}
         onClose={() => setPreviewOpen(false)}
+      />
+
+      {/* In-Browser Template Customizer Studio */}
+      <TemplateEditorModal
+        isOpen={editorOpen}
+        onClose={() => setEditorOpen(false)}
+        templateTitle={product.title}
+        defaultHeadline={product.editableTemplateData?.headline || product.title}
+        defaultSubheadline={product.editableTemplateData?.subheadline || product.description}
+        defaultBrandName={product.editableTemplateData?.brandText || "BADARSH STUDIO"}
+        backgroundImage={coverImg}
       />
     </>
   );

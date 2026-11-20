@@ -11,8 +11,10 @@ import {
   Sparkles,
   Check,
   Eye,
+  Sliders,
 } from "lucide-react";
 import { PricingTable } from "@/components/services/pricing-table";
+import { BeforeAfterSlider } from "@/components/shared/before-after-slider";
 import { services } from "@/content/services";
 import { getWhatsAppUrl } from "@/lib/utils";
 
@@ -27,22 +29,22 @@ export default function PhotoEditingPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
       {/* Hero */}
-      <div className="text-center">
+      <div className="text-center max-w-3xl mx-auto">
         <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5 text-xs font-bold text-accent">
           <Camera className="h-3.5 w-3.5" />
           BADARSH Retouching Studio
         </span>
         <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          High-End Commercial <span className="text-accent">Photo Editing &amp; Retouching</span>
+          High-End Commercial <span className="text-accent">Photo Retouching</span>
         </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-          Studio-grade frequency separation skin retouching, reflection cleanup, e-commerce pure-white cutouts, and color grading that meets the exacting standards of luxury brands and top marketplaces.
+        <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
+          Studio-grade frequency separation skin retouching, reflection cleanup, e-commerce pure-white cutouts, and editorial color grading that meets the exacting standards of luxury brands and top marketplaces.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <a
             href={getWhatsAppUrl(
-              "Hi BADARSH! I have photos that need retouching. Can I send 1-2 samples to test your quality?",
+              "Hi BADARSH! I have photos that need retouching. Can I send 1-2 sample photos to test your quality?",
               "Photo Retouching Inquiry"
             )}
             target="_blank"
@@ -56,69 +58,103 @@ export default function PhotoEditingPage() {
         </div>
       </div>
 
-      {/* PORTFOLIO RETOUCHING GALLERY */}
-      {service.portfolioImages && service.portfolioImages.length > 0 && (
-        <div className="mt-16 rounded-3xl border border-card-border bg-card/60 p-6 md:p-10 shadow-sm">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-8">
-            <div>
-              <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent">
-                📸 Retouching &amp; Color Grading Portfolio
-              </span>
-              <h2 className="mt-2 font-heading text-2xl font-black text-foreground">
-                Our Retouched Commercial Work
-              </h2>
-              <p className="text-xs text-muted">
-                Inspect skin texture preservation, hair cleanup, metal reflection polishing, and natural shadows.
-              </p>
-            </div>
-            <span className="text-xs text-emerald-500 font-bold flex items-center gap-1 shrink-0">
-              <Check className="h-4 w-4" /> Studio-Grade Standard
+      {/* INTERACTIVE BEFORE & AFTER SLIDER SHOWCASE */}
+      <div className="mt-16 rounded-3xl border border-card-border bg-card/60 p-6 md:p-10 shadow-sm">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-8">
+          <div>
+            <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent">
+              Interactive Quality Inspection
             </span>
+            <h2 className="mt-2 font-heading text-2xl font-black text-foreground">
+              Drag Slider to Inspect Retouching Quality
+            </h2>
+            <p className="text-xs text-muted">
+              Slide back and forth to see skin texture preservation, frequency separation, lighting refinement, and color grading.
+            </p>
+          </div>
+          <span className="text-xs text-emerald-500 font-bold flex items-center gap-1 shrink-0">
+            <Check className="h-4 w-4" /> Studio-Grade Standard
+          </span>
+        </div>
+
+        {/* 2 Interactive Comparison Sliders */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <BeforeAfterSlider
+              beforeImage="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1200&q=70&auto=format&fit=crop"
+              afterImage="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=1200&q=80&auto=format&fit=crop"
+              beforeLabel="Raw Camera Shot"
+              afterLabel="BADARSH Retouched"
+              aspectRatio="aspect-[4/3]"
+            />
+            <div className="mt-2.5 text-center text-xs text-muted font-medium">
+              Editorial Portrait &bull; Frequency Separation &amp; Skin Texture
+            </div>
           </div>
 
-          {/* Photo Grid */}
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {service.portfolioImages.map((imgSrc, pIdx) => (
-              <div
-                key={pIdx}
-                className="group relative aspect-square overflow-hidden rounded-2xl border border-card-border bg-card shadow-sm"
-              >
-                <img
-                  src={imgSrc}
-                  alt={`Retouched Work ${pIdx + 1}`}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                  <span className="text-[11px] font-bold text-white">
-                    BADARSH High-End Edit
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-card-border/60 pt-4 text-xs text-muted">
-            <span>Need batch e-commerce processing? We deliver 20-50 photo batches in 48 hours.</span>
-            <a
-              href={getWhatsAppUrl(
-                "Hi BADARSH! I need a batch of commercial photos edited.",
-                "Photo Batch Order"
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-bold text-accent hover:underline flex items-center gap-1"
-            >
-              <span>Get Batch Quote On WhatsApp</span>
-              <ArrowRight className="h-3.5 w-3.5" />
-            </a>
+          <div>
+            <BeforeAfterSlider
+              beforeImage="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?w=1200&q=70&auto=format&fit=crop"
+              afterImage="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&q=80&auto=format&fit=crop"
+              beforeLabel="Unedited Raw"
+              afterLabel="Commercial Grade"
+              aspectRatio="aspect-[4/3]"
+            />
+            <div className="mt-2.5 text-center text-xs text-muted font-medium">
+              Fashion Campaign &bull; Blemish Clean &amp; Contrast Polish
+            </div>
           </div>
         </div>
-      )}
+
+        {/* Thumbnail Gallery */}
+        {service.portfolioImages && service.portfolioImages.length > 0 && (
+          <div className="mt-10 pt-8 border-t border-card-border/60">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-muted mb-4">
+              More Work Samples
+            </h4>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {service.portfolioImages.map((imgSrc, pIdx) => (
+                <div
+                  key={pIdx}
+                  className="group relative aspect-square overflow-hidden rounded-2xl border border-card-border bg-card shadow-sm"
+                >
+                  <img
+                    src={imgSrc}
+                    alt={`Retouched Work ${pIdx + 1}`}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                    <span className="text-[11px] font-bold text-white">
+                      BADARSH Commercial Retouch
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-card-border/60 pt-4 text-xs text-muted">
+          <span>Need 1 photo retouched or 500 catalog images? We deliver in 24 to 48 hours.</span>
+          <a
+            href={getWhatsAppUrl(
+              "Hi BADARSH! I saw your before/after retouching samples and want to send my photos.",
+              "Photo Editing Booking"
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-bold text-accent hover:underline flex items-center gap-1"
+          >
+            <span>Message on WhatsApp</span>
+            <ArrowRight className="h-3.5 w-3.5" />
+          </a>
+        </div>
+      </div>
 
       {/* Deliverables Checklist */}
       <div className="mt-16 rounded-3xl border border-card-border bg-card/40 p-6 md:p-8">
         <h3 className="font-heading text-base font-bold uppercase tracking-wider text-foreground">
-          What&apos;s Included In Every Retouching Project:
+          What&apos;s Included In Every Retouch:
         </h3>
         <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {service.features.map((feat, i) => (
@@ -130,17 +166,17 @@ export default function PhotoEditingPage() {
         </div>
       </div>
 
-      {/* Pricing Packages */}
+      {/* Pricing Packages (₹150 to ₹799) */}
       <div className="mt-16">
         <div className="text-center max-w-xl mx-auto mb-10">
           <span className="text-xs font-bold uppercase tracking-widest text-accent">
-            Fixed Package Rates
+            Transparent Pricing
           </span>
           <h2 className="mt-2 font-heading text-3xl font-extrabold text-foreground">
-            E-Commerce &amp; Commercial Retouching Packages
+            Per-Photo &amp; Catalog Retouching Rates
           </h2>
           <p className="mt-2 text-xs text-muted">
-            High-resolution print export, 300 DPI CMYK, and pure white web PNGs included.
+            Simple rates starting at ₹150. Free sample edit available for bulk projects.
           </p>
         </div>
 

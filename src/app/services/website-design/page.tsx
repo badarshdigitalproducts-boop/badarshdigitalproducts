@@ -59,6 +59,110 @@ export default function WebsiteDesignPage() {
         </div>
       </div>
 
+      {/* LIVE WEBSITES PORTFOLIO SHOWCASE */}
+      <div className="mt-16 rounded-3xl border border-card-border bg-card/60 p-6 md:p-10 shadow-sm">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+          <div>
+            <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent">
+              Live Client Work
+            </span>
+            <h2 className="mt-2 font-heading text-2xl font-black text-foreground">
+              Websites Engineered by BADARSH
+            </h2>
+            <p className="text-xs text-muted">
+              Inspect responsive design, micro-interactions, dark/light themes, and sub-second load times live in production.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 rounded-full border border-card-border bg-background px-4 py-2 text-xs font-semibold text-emerald-500 shrink-0">
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>98+ Google Lighthouse Score</span>
+          </div>
+        </div>
+
+        {/* Live Project Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            {
+              title: "BADARSH Creator Engine",
+              type: "E-Commerce & Digital Store",
+              desc: "Full Next.js 16 e-commerce suite with dynamic cart, real-time currency conversion, and sub-second page transitions.",
+              image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80",
+              link: "https://badarsh.vercel.app",
+              tags: ["Next.js 16", "Tailwind", "Framer Motion"],
+            },
+            {
+              title: "Luxe Minimalist Portfolio",
+              type: "High-End Agency Platform",
+              desc: "Apple-level typography hierarchy, fluid physics animations, dynamic lead engine, and dark/light mode toggle.",
+              image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80",
+              link: "https://badarsh.vercel.app/about",
+              tags: ["TypeScript", "Bespoke CSS", "SEO Dominance"],
+            },
+            {
+              title: "Interactive Audio Player Vault",
+              type: "Media Streaming App",
+              desc: "Spotify-style background audio engine with real-time waveform bars and one-click cloud asset delivery.",
+              image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&q=80",
+              link: "https://badarsh.vercel.app/editing-bundles",
+              tags: ["Web Audio API", "Instant Streaming", "Cloudflare"],
+            },
+          ].map((project, idx) => (
+            <div
+              key={idx}
+              className="group rounded-2xl border border-card-border bg-card p-4 shadow-sm hover:border-accent/40 hover:shadow-xl transition-all flex flex-col"
+            >
+              <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-neutral-900 mb-4">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent flex items-end p-3">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-accent bg-black/60 px-2 py-0.5 rounded-md backdrop-blur-md">
+                    {project.type}
+                  </span>
+                </div>
+              </div>
+
+              <h3 className="font-heading text-base font-bold text-foreground group-hover:text-accent transition-colors">
+                {project.title}
+              </h3>
+              <p className="mt-1 text-xs text-muted leading-relaxed line-clamp-2">
+                {project.desc}
+              </p>
+
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {project.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded bg-secondary/80 px-2 py-0.5 text-[10px] font-medium text-foreground/80"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <div className="mt-auto pt-4 flex items-center justify-between border-t border-card-border/60">
+                <span className="text-[11px] text-emerald-500 font-semibold flex items-center gap-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  Live Production
+                </span>
+
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-xs font-bold text-accent hover:underline"
+                >
+                  <span>Visit Site</span>
+                  <ArrowRight className="h-3 w-3" />
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* TRANSPARENT TIERED RATE CARDS */}
       <div className="mt-16 rounded-3xl border border-accent/30 bg-gradient-to-r from-accent/15 via-purple-900/10 to-card p-6 md:p-10 shadow-sm">
         <div className="text-center max-w-xl mx-auto mb-8">

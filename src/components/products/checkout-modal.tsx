@@ -254,16 +254,16 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
 
               {/* Smart Context-Aware Delivery Buttons */}
               <div className="space-y-3">
-                {/* 1. Direct APK Download (for Editing Apps) */}
-                {(product.appApkUrl || product.category === "editing-apps") && (
+                {/* 1. Direct App Download (for Editing Apps) */}
+                {(product.appDownloadUrl || (product as any).appApkUrl || product.category === "editing-apps") && (
                   <a
-                    href={product.appApkUrl || orderConfirmed.downloadUrl || "#"}
+                    href={product.appDownloadUrl || (product as any).appApkUrl || orderConfirmed.downloadUrl || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-emerald-600 py-3.5 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-emerald-700 active:scale-95"
                   >
                     <Download className="h-4 w-4" />
-                    <span>Download APK Directly ({product.fileSize || "Android Package"})</span>
+                    <span>Download App Directly ({product.fileSize || "Mobile App"})</span>
                   </a>
                 )}
 
@@ -294,7 +294,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                 )}
 
                 {/* 4. Google Drive Mega Bundle Access */}
-                {(product.googleDriveUrl || (product.category === "bundles" && !product.appApkUrl)) && (
+                {(product.googleDriveUrl || product.category === "bundles") && (
                   <a
                     href={product.googleDriveUrl || orderConfirmed.downloadUrl || "#"}
                     target="_blank"
