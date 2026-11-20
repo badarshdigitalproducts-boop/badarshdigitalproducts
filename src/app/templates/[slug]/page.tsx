@@ -1,26 +1,67 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { products } from "@/content/products";
+import { products as staticProducts } from "@/content/products";
+import { getAdminProducts } from "@/lib/admin/store";
 import { constructMetadata } from "@/lib/metadata";
 import { siteConfig, BUSINESS_LEGAL_NAME } from "@/lib/constants";
 import { ProductDetailView } from "@/components/products/product-detail-view";
+import type { Product } from "@/types";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return products.map((product) => ({
+  try {
+    const adminProducts = await getAdminProducts();
+    if (adminProducts && adminProducts.length > 0) {
+      return adminProducts.map((product) => ({
+        slug: product.slug,
+      }));
+    }
+  } catch {
+    // fallback to static
+  }
+
+  return staticProducts.map((product) => ({
     slug: product.slug,
   }));
+}
+
+async function getProductBySlug(slug: string): Promise<Product | null> {
+  const decodedSlug = decodeURIComponent(slug).toLowerCase();
+
+  try {
+    const adminProducts = await getAdminProducts();
+    const foundAdmin = adminProducts.find(
+      (p) =>
+        p.slug?.toLowerCase() === decodedSlug ||
+        p.id === slug ||
+        p.slug?.toLowerCase() === slug.toLowerCase()
+    );
+    if (foundAdmin) {
+      return foundAdmin as unknown as Product;
+    }
+  } catch (err) {
+    console.warn("Failed to query dynamic admin products:", err);
+  }
+
+  const foundStatic = staticProducts.find(
+    (p) =>
+      p.slug?.toLowerCase() === decodedSlug ||
+      p.id === slug ||
+      p.slug?.toLowerCase() === slug.toLowerCase()
+  );
+
+  return foundStatic || null;
 }
 
 export async function generateMetadata({
   params,
 }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     return constructMetadata({
@@ -32,33 +73,43 @@ export async function generateMetadata({
   return constructMetadata({
     title: product.title,
     description: product.description,
-    image: product.images[0] || "/images/og/og-default.png",
+    image: product.images?.[0] || "/images/og/og-default.png",
   });
 }
 
 async function ProductDetailContent({ params }: ProductPageProps) {
   const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();
   }
 
-  const relatedProducts = products
+  let allProducts: Product[] = staticProducts;
+  try {
+    const adminList = await getAdminProducts();
+    if (adminList && adminList.length > 0) {
+      allProducts = adminList as unknown as Product[];
+    }
+  } catch {
+    // Keep static fallback
+  }
+
+  const relatedProducts = allProducts
     .filter((p) => p.id !== product.id && p.category === product.category)
     .slice(0, 3);
 
   const fallbackRelated =
     relatedProducts.length > 0
       ? relatedProducts
-      : products.filter((p) => p.id !== product.id).slice(0, 3);
+      : allProducts.filter((p) => p.id !== product.id).slice(0, 3);
 
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.title,
     description: product.description,
-    image: product.images.map((img) =>
+    image: (product.images || []).map((img) =>
       img.startsWith("http") ? img : `${siteConfig.url}${img}`
     ),
     brand: {
@@ -78,8 +129,8 @@ async function ProductDetailContent({ params }: ProductPageProps) {
     },
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: product.rating,
-      reviewCount: product.reviewCount,
+      ratingValue: product.rating || 5,
+      reviewCount: product.reviewCount || 1,
     },
   };
 

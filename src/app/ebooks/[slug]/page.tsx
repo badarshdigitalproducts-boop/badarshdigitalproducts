@@ -6,6 +6,5 @@ interface EbookSlugPageProps {
 
 export default async function EbookSlugPage({ params }: EbookSlugPageProps) {
   const { slug } = await params;
-  redirect(`/templates/${slug}`);
+  redirect(`/templates/${encodeURIComponent(slug)}`);
 }
-

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { verifySessionToken, ADMIN_COOKIE_NAME } from "@/lib/admin/auth";
 import { getAdminServices, saveAdminService, deleteAdminService } from "@/lib/admin/store";
 
@@ -6,6 +7,23 @@ function isAuthorized(request: Request): boolean {
   const cookieHeader = request.headers.get("cookie") || "";
   const match = cookieHeader.match(new RegExp(`${ADMIN_COOKIE_NAME}=([^;]+)`));
   return verifySessionToken(match ? match[1] : undefined);
+}
+
+function revalidateServices(slug?: string) {
+  try {
+    revalidatePath("/services");
+    revalidatePath("/services/video-editing");
+    revalidatePath("/services/photo-editing");
+    revalidatePath("/services/website-design");
+    revalidatePath("/services/app-development");
+    revalidatePath("/services/brand-identity");
+    revalidatePath("/services/social-media-management");
+    if (slug) {
+      revalidatePath(`/services/${slug}`);
+    }
+  } catch (err) {
+    // Non-blocking
+  }
 }
 
 export async function GET(request: Request) {
@@ -29,6 +47,8 @@ export async function POST(request: Request) {
     }
 
     const saved = await saveAdminService(data);
+    revalidateServices(saved.slug);
+
     return NextResponse.json({ success: true, service: saved });
   } catch (error) {
     console.error("Save Service error:", error);
@@ -49,6 +69,8 @@ export async function DELETE(request: Request) {
     }
 
     const success = await deleteAdminService(id);
+    revalidateServices();
+
     return NextResponse.json({ success });
   } catch (error) {
     console.error("Delete Service error:", error);

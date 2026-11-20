@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation";
-import { services } from "@/content/services";
+import { services as staticServices } from "@/content/services";
+import { getAdminServices } from "@/lib/admin/store";
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
@@ -8,27 +9,42 @@ interface ServicePageProps {
 export async function generateStaticParams() {
   return [
     { slug: "website-building" },
-    ...services.map((s) => ({ slug: s.slug })),
+    ...staticServices.map((s) => ({ slug: s.slug })),
   ];
 }
 
 export default async function ServiceSlugPage({ params }: ServicePageProps) {
   const { slug } = await params;
+  const decodedSlug = decodeURIComponent(slug).toLowerCase();
 
   // Canonical redirects to dedicated service pages
-  if (slug === "video-editing") redirect("/services/video-editing");
-  if (slug === "photo-editing") redirect("/services/photo-editing");
-  if (slug === "social-media-management") redirect("/services/social-media-management");
-  if (slug === "website-design" || slug === "website-building") redirect("/services/website-design");
-  if (slug === "app-development") redirect("/services/app-development");
-  if (slug === "brand-identity") redirect("/services/brand-identity");
+  if (decodedSlug === "video-editing") redirect("/services/video-editing");
+  if (decodedSlug === "photo-editing") redirect("/services/photo-editing");
+  if (decodedSlug === "social-media-management") redirect("/services/social-media-management");
+  if (decodedSlug === "website-design" || decodedSlug === "website-building") redirect("/services/website-design");
+  if (decodedSlug === "app-development") redirect("/services/app-development");
+  if (decodedSlug === "brand-identity" || decodedSlug === "logo-design") redirect("/services/brand-identity");
 
-  // Fallback for custom admin-created services
-  const service = services.find((s) => s.slug === slug);
-  if (!service) {
-    notFound();
+  // Check dynamic services from admin store
+  try {
+    const adminServices = await getAdminServices();
+    const dynamicService = adminServices.find(
+      (s) => s.slug?.toLowerCase() === decodedSlug || s.id === slug
+    );
+    if (dynamicService) {
+      redirect(`/services?service=${encodeURIComponent(dynamicService.slug)}`);
+    }
+  } catch (err) {
+    console.warn("Service dynamic lookup error:", err);
   }
 
-  // Redirect to services root if not matched
+  // Fallback for custom static services
+  const service = staticServices.find(
+    (s) => s.slug?.toLowerCase() === decodedSlug || s.id === slug
+  );
+  if (service) {
+    redirect("/services");
+  }
+
   redirect("/services");
 }

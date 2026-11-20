@@ -46,6 +46,8 @@ import type {
 
 const DATA_DIR = path.join(process.cwd(), "src", "data");
 const STORE_PATH = path.join(DATA_DIR, "admin-store.json");
+const TMP_DIR = "/tmp";
+const TMP_STORE_PATH = path.join(TMP_DIR, "admin-store.json");
 
 // In-memory cache for ultra-fast response & edge fallback
 let cachedDb: AdminDatabase | null = null;
@@ -344,7 +346,13 @@ export async function getDatabase(): Promise<AdminDatabase> {
   let localDb: AdminDatabase;
 
   try {
-    const raw = await fs.readFile(STORE_PATH, "utf8");
+    let raw: string | null = null;
+    try {
+      raw = await fs.readFile(TMP_STORE_PATH, "utf8");
+    } catch {
+      raw = await fs.readFile(STORE_PATH, "utf8");
+    }
+
     const parsed = JSON.parse(raw);
 
     // Auto-backfill new collections if reading legacy JSON
@@ -533,14 +541,51 @@ export async function getDatabase(): Promise<AdminDatabase> {
         fsGetSettings().catch(() => null),
       ]);
 
-    if (fsProds && fsProds.length > 0) localDb.products = fsProds;
-    if (fsServices && fsServices.length > 0) localDb.services = fsServices;
-    if (fsPosts && fsPosts.length > 0) localDb.blogPosts = fsPosts;
-    if (fsOrders && fsOrders.length > 0) localDb.orders = fsOrders;
-    if (fsCoupons && fsCoupons.length > 0) localDb.coupons = fsCoupons;
-    if (fsLeads && fsLeads.length > 0) localDb.leads = fsLeads;
-    if (fsSubs && fsSubs.length > 0) localDb.subscribers = fsSubs;
-    if (fsSettings) localDb.settings = fsSettings;
+    if (fsProds && fsProds.length > 0) {
+      const prodMap = new Map<string, AdminProduct>();
+      localDb.products.forEach((p) => prodMap.set(p.id, p));
+      fsProds.forEach((p) => prodMap.set(p.id, p));
+      localDb.products = Array.from(prodMap.values());
+    }
+    if (fsServices && fsServices.length > 0) {
+      const svcMap = new Map<string, AdminService>();
+      localDb.services.forEach((s) => svcMap.set(s.id, s));
+      fsServices.forEach((s) => svcMap.set(s.id, s));
+      localDb.services = Array.from(svcMap.values());
+    }
+    if (fsPosts && fsPosts.length > 0) {
+      const postMap = new Map<string, AdminBlogPost>();
+      localDb.blogPosts.forEach((b) => postMap.set(b.slug, b));
+      fsPosts.forEach((b) => postMap.set(b.slug, b));
+      localDb.blogPosts = Array.from(postMap.values());
+    }
+    if (fsOrders && fsOrders.length > 0) {
+      const ordMap = new Map<string, OrderRecord>();
+      localDb.orders.forEach((o) => ordMap.set(o.id, o));
+      fsOrders.forEach((o) => ordMap.set(o.id, o));
+      localDb.orders = Array.from(ordMap.values());
+    }
+    if (fsCoupons && fsCoupons.length > 0) {
+      const cpnMap = new Map<string, AdminCoupon>();
+      localDb.coupons.forEach((c) => cpnMap.set(c.id, c));
+      fsCoupons.forEach((c) => cpnMap.set(c.id, c));
+      localDb.coupons = Array.from(cpnMap.values());
+    }
+    if (fsLeads && fsLeads.length > 0) {
+      const leadMap = new Map<string, LeadInquiry>();
+      localDb.leads.forEach((l) => leadMap.set(l.id, l));
+      fsLeads.forEach((l) => leadMap.set(l.id, l));
+      localDb.leads = Array.from(leadMap.values());
+    }
+    if (fsSubs && fsSubs.length > 0) {
+      const subMap = new Map<string, Subscriber>();
+      localDb.subscribers.forEach((s) => subMap.set(s.id, s));
+      fsSubs.forEach((s) => subMap.set(s.id, s));
+      localDb.subscribers = Array.from(subMap.values());
+    }
+    if (fsSettings) {
+      localDb.settings = { ...localDb.settings, ...fsSettings };
+    }
   } catch {
     // Keep localDb without throwing
   }
@@ -551,11 +596,20 @@ export async function getDatabase(): Promise<AdminDatabase> {
 
 export async function saveDatabase(db: AdminDatabase): Promise<void> {
   cachedDb = db;
+
+  // 1. Persist to /tmp (guaranteed writable on Vercel lambda)
+  try {
+    await fs.writeFile(TMP_STORE_PATH, JSON.stringify(db, null, 2), "utf8");
+  } catch {
+    // Non-blocking in environments without /tmp
+  }
+
+  // 2. Persist to project root store (local dev & persistent environments)
   try {
     await fs.mkdir(DATA_DIR, { recursive: true });
     await fs.writeFile(STORE_PATH, JSON.stringify(db, null, 2), "utf8");
-  } catch (error) {
-    console.warn("Failed to persist database to filesystem (serverless environment fallback):", error);
+  } catch {
+    // Non-blocking in serverless read-only filesystem
   }
 }
 

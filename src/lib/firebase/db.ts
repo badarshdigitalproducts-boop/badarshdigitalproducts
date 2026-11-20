@@ -36,6 +36,16 @@ export const COLLECTIONS = {
 } as const;
 
 /**
+ * Helper to ensure Firestore calls never hang serverless lambdas or throw unhandled exceptions
+ */
+function withTimeout<T>(promise: Promise<T>, ms = 3500, fallback: T): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((resolve) => setTimeout(() => resolve(fallback), ms)),
+  ]);
+}
+
+/**
  * Health check & latency test for Firebase Firestore
  */
 export async function checkFirebaseConnection(): Promise<{
@@ -47,16 +57,22 @@ export async function checkFirebaseConnection(): Promise<{
   try {
     const db = getFirestoreDb();
     const settingsDoc = doc(db, COLLECTIONS.SETTINGS, "system");
-    await getDoc(settingsDoc);
+    await withTimeout(getDoc(settingsDoc), 4000, null);
     return {
       connected: true,
       latencyMs: Date.now() - start,
     };
   } catch (err: any) {
+    let errorMsg = err?.message || "Failed to reach Firebase Firestore";
+    if (errorMsg.includes("suspended") || errorMsg.includes("CONSUMER_SUSPENDED")) {
+      errorMsg = "Firebase project is suspended in Google Cloud. Resume it at https://console.firebase.google.com/project/badarshdigiitalproducts";
+    } else if (errorMsg.includes("permission-denied") || errorMsg.includes("PERMISSION_DENIED")) {
+      errorMsg = "Firestore Rules locked. Enable Read/Write in Firebase Console -> Firestore Database -> Rules.";
+    }
     return {
       connected: false,
       latencyMs: Date.now() - start,
-      error: err?.message || "Failed to reach Firebase Firestore",
+      error: errorMsg,
     };
   }
 }
@@ -64,214 +80,345 @@ export async function checkFirebaseConnection(): Promise<{
 /* ---------------- Products ---------------- */
 
 export async function fsGetProducts(): Promise<AdminProduct[]> {
-  const db = getFirestoreDb();
-  const colRef = collection(db, COLLECTIONS.PRODUCTS);
-  const snapshot = await getDocs(colRef);
-  const products: AdminProduct[] = [];
-  snapshot.forEach((doc) => {
-    products.push(doc.data() as AdminProduct);
-  });
-  return products;
+  try {
+    const db = getFirestoreDb();
+    const colRef = collection(db, COLLECTIONS.PRODUCTS);
+    const fetchAction = async () => {
+      const snapshot = await getDocs(colRef);
+      const products: AdminProduct[] = [];
+      snapshot.forEach((d) => {
+        products.push(d.data() as AdminProduct);
+      });
+      return products;
+    };
+    return await withTimeout(fetchAction(), 3500, []);
+  } catch (err) {
+    console.warn("fsGetProducts warning:", err);
+    return [];
+  }
 }
 
 export async function fsSaveProduct(product: AdminProduct): Promise<void> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.PRODUCTS, product.id);
-  await setDoc(docRef, product, { merge: true });
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.PRODUCTS, product.id);
+    await withTimeout(setDoc(docRef, product, { merge: true }), 4000, undefined);
+  } catch (err) {
+    console.warn("fsSaveProduct warning:", err);
+  }
 }
 
 export async function fsDeleteProduct(id: string): Promise<void> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.PRODUCTS, id);
-  await deleteDoc(docRef);
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.PRODUCTS, id);
+    await withTimeout(deleteDoc(docRef), 4000, undefined);
+  } catch (err) {
+    console.warn("fsDeleteProduct warning:", err);
+  }
 }
 
 /* ---------------- Services ---------------- */
 
 export async function fsGetServices(): Promise<AdminService[]> {
-  const db = getFirestoreDb();
-  const colRef = collection(db, COLLECTIONS.SERVICES);
-  const snapshot = await getDocs(colRef);
-  const services: AdminService[] = [];
-  snapshot.forEach((doc) => {
-    services.push(doc.data() as AdminService);
-  });
-  return services;
+  try {
+    const db = getFirestoreDb();
+    const colRef = collection(db, COLLECTIONS.SERVICES);
+    const fetchAction = async () => {
+      const snapshot = await getDocs(colRef);
+      const services: AdminService[] = [];
+      snapshot.forEach((d) => {
+        services.push(d.data() as AdminService);
+      });
+      return services;
+    };
+    return await withTimeout(fetchAction(), 3500, []);
+  } catch (err) {
+    console.warn("fsGetServices warning:", err);
+    return [];
+  }
 }
 
 export async function fsSaveService(service: AdminService): Promise<void> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.SERVICES, service.id);
-  await setDoc(docRef, service, { merge: true });
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.SERVICES, service.id);
+    await withTimeout(setDoc(docRef, service, { merge: true }), 4000, undefined);
+  } catch (err) {
+    console.warn("fsSaveService warning:", err);
+  }
 }
 
 export async function fsDeleteService(id: string): Promise<void> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.SERVICES, id);
-  await deleteDoc(docRef);
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.SERVICES, id);
+    await withTimeout(deleteDoc(docRef), 4000, undefined);
+  } catch (err) {
+    console.warn("fsDeleteService warning:", err);
+  }
 }
 
 /* ---------------- Blog Posts ---------------- */
 
 export async function fsGetBlogPosts(): Promise<AdminBlogPost[]> {
-  const db = getFirestoreDb();
-  const colRef = collection(db, COLLECTIONS.BLOG);
-  const snapshot = await getDocs(colRef);
-  const posts: AdminBlogPost[] = [];
-  snapshot.forEach((doc) => {
-    posts.push(doc.data() as AdminBlogPost);
-  });
-  return posts;
+  try {
+    const db = getFirestoreDb();
+    const colRef = collection(db, COLLECTIONS.BLOG);
+    const fetchAction = async () => {
+      const snapshot = await getDocs(colRef);
+      const posts: AdminBlogPost[] = [];
+      snapshot.forEach((d) => {
+        posts.push(d.data() as AdminBlogPost);
+      });
+      return posts;
+    };
+    return await withTimeout(fetchAction(), 3500, []);
+  } catch (err) {
+    console.warn("fsGetBlogPosts warning:", err);
+    return [];
+  }
 }
 
 export async function fsSaveBlogPost(post: AdminBlogPost): Promise<void> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.BLOG, post.slug);
-  await setDoc(docRef, post, { merge: true });
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.BLOG, post.slug);
+    await withTimeout(setDoc(docRef, post, { merge: true }), 4000, undefined);
+  } catch (err) {
+    console.warn("fsSaveBlogPost warning:", err);
+  }
 }
 
 export async function fsDeleteBlogPost(slug: string): Promise<void> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.BLOG, slug);
-  await deleteDoc(docRef);
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.BLOG, slug);
+    await withTimeout(deleteDoc(docRef), 4000, undefined);
+  } catch (err) {
+    console.warn("fsDeleteBlogPost warning:", err);
+  }
 }
 
 /* ---------------- Orders ---------------- */
 
 export async function fsGetOrders(): Promise<OrderRecord[]> {
-  const db = getFirestoreDb();
-  const colRef = collection(db, COLLECTIONS.ORDERS);
-  const snapshot = await getDocs(colRef);
-  const orders: OrderRecord[] = [];
-  snapshot.forEach((doc) => {
-    orders.push(doc.data() as OrderRecord);
-  });
-  return orders;
+  try {
+    const db = getFirestoreDb();
+    const colRef = collection(db, COLLECTIONS.ORDERS);
+    const fetchAction = async () => {
+      const snapshot = await getDocs(colRef);
+      const orders: OrderRecord[] = [];
+      snapshot.forEach((d) => {
+        orders.push(d.data() as OrderRecord);
+      });
+      return orders;
+    };
+    return await withTimeout(fetchAction(), 3500, []);
+  } catch (err) {
+    console.warn("fsGetOrders warning:", err);
+    return [];
+  }
 }
 
 export async function fsSaveOrder(order: OrderRecord): Promise<void> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.ORDERS, order.id);
-  await setDoc(docRef, order, { merge: true });
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.ORDERS, order.id);
+    await withTimeout(setDoc(docRef, order, { merge: true }), 4000, undefined);
+  } catch (err) {
+    console.warn("fsSaveOrder warning:", err);
+  }
 }
 
 export async function fsDeleteOrder(id: string): Promise<void> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.ORDERS, id);
-  await deleteDoc(docRef);
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.ORDERS, id);
+    await withTimeout(deleteDoc(docRef), 4000, undefined);
+  } catch (err) {
+    console.warn("fsDeleteOrder warning:", err);
+  }
 }
 
 /* ---------------- Coupons ---------------- */
 
 export async function fsGetCoupons(): Promise<AdminCoupon[]> {
-  const db = getFirestoreDb();
-  const colRef = collection(db, COLLECTIONS.COUPONS);
-  const snapshot = await getDocs(colRef);
-  const coupons: AdminCoupon[] = [];
-  snapshot.forEach((doc) => {
-    coupons.push(doc.data() as AdminCoupon);
-  });
-  return coupons;
+  try {
+    const db = getFirestoreDb();
+    const colRef = collection(db, COLLECTIONS.COUPONS);
+    const fetchAction = async () => {
+      const snapshot = await getDocs(colRef);
+      const coupons: AdminCoupon[] = [];
+      snapshot.forEach((d) => {
+        coupons.push(d.data() as AdminCoupon);
+      });
+      return coupons;
+    };
+    return await withTimeout(fetchAction(), 3500, []);
+  } catch (err) {
+    console.warn("fsGetCoupons warning:", err);
+    return [];
+  }
 }
 
 export async function fsSaveCoupon(coupon: AdminCoupon): Promise<void> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.COUPONS, coupon.id);
-  await setDoc(docRef, coupon, { merge: true });
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.COUPONS, coupon.id);
+    await withTimeout(setDoc(docRef, coupon, { merge: true }), 4000, undefined);
+  } catch (err) {
+    console.warn("fsSaveCoupon warning:", err);
+  }
 }
 
 export async function fsDeleteCoupon(id: string): Promise<void> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.COUPONS, id);
-  await deleteDoc(docRef);
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.COUPONS, id);
+    await withTimeout(deleteDoc(docRef), 4000, undefined);
+  } catch (err) {
+    console.warn("fsDeleteCoupon warning:", err);
+  }
 }
 
 /* ---------------- Leads ---------------- */
 
 export async function fsGetLeads(): Promise<LeadInquiry[]> {
-  const db = getFirestoreDb();
-  const colRef = collection(db, COLLECTIONS.LEADS);
-  const snapshot = await getDocs(colRef);
-  const leads: LeadInquiry[] = [];
-  snapshot.forEach((doc) => {
-    leads.push(doc.data() as LeadInquiry);
-  });
-  return leads;
+  try {
+    const db = getFirestoreDb();
+    const colRef = collection(db, COLLECTIONS.LEADS);
+    const fetchAction = async () => {
+      const snapshot = await getDocs(colRef);
+      const leads: LeadInquiry[] = [];
+      snapshot.forEach((d) => {
+        leads.push(d.data() as LeadInquiry);
+      });
+      return leads;
+    };
+    return await withTimeout(fetchAction(), 3500, []);
+  } catch (err) {
+    console.warn("fsGetLeads warning:", err);
+    return [];
+  }
 }
 
 export async function fsSaveLead(lead: LeadInquiry): Promise<void> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.LEADS, lead.id);
-  await setDoc(docRef, lead, { merge: true });
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.LEADS, lead.id);
+    await withTimeout(setDoc(docRef, lead, { merge: true }), 4000, undefined);
+  } catch (err) {
+    console.warn("fsSaveLead warning:", err);
+  }
 }
 
 export async function fsDeleteLead(id: string): Promise<void> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.LEADS, id);
-  await deleteDoc(docRef);
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.LEADS, id);
+    await withTimeout(deleteDoc(docRef), 4000, undefined);
+  } catch (err) {
+    console.warn("fsDeleteLead warning:", err);
+  }
 }
 
 /* ---------------- Subscribers ---------------- */
 
 export async function fsGetSubscribers(): Promise<Subscriber[]> {
-  const db = getFirestoreDb();
-  const colRef = collection(db, COLLECTIONS.SUBSCRIBERS);
-  const snapshot = await getDocs(colRef);
-  const subscribers: Subscriber[] = [];
-  snapshot.forEach((doc) => {
-    subscribers.push(doc.data() as Subscriber);
-  });
-  return subscribers;
+  try {
+    const db = getFirestoreDb();
+    const colRef = collection(db, COLLECTIONS.SUBSCRIBERS);
+    const fetchAction = async () => {
+      const snapshot = await getDocs(colRef);
+      const subscribers: Subscriber[] = [];
+      snapshot.forEach((d) => {
+        subscribers.push(d.data() as Subscriber);
+      });
+      return subscribers;
+    };
+    return await withTimeout(fetchAction(), 3500, []);
+  } catch (err) {
+    console.warn("fsGetSubscribers warning:", err);
+    return [];
+  }
 }
 
 export async function fsSaveSubscriber(sub: Subscriber): Promise<void> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.SUBSCRIBERS, sub.id);
-  await setDoc(docRef, sub, { merge: true });
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.SUBSCRIBERS, sub.id);
+    await withTimeout(setDoc(docRef, sub, { merge: true }), 4000, undefined);
+  } catch (err) {
+    console.warn("fsSaveSubscriber warning:", err);
+  }
 }
 
 export async function fsDeleteSubscriber(id: string): Promise<void> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.SUBSCRIBERS, id);
-  await deleteDoc(docRef);
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.SUBSCRIBERS, id);
+    await withTimeout(deleteDoc(docRef), 4000, undefined);
+  } catch (err) {
+    console.warn("fsDeleteSubscriber warning:", err);
+  }
 }
 
 /* ---------------- Settings ---------------- */
 
 export async function fsGetSettings(): Promise<SystemSettings | null> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.SETTINGS, "system");
-  const snapshot = await getDoc(docRef);
-  if (snapshot.exists()) {
-    return snapshot.data() as SystemSettings;
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.SETTINGS, "system");
+    const snapshot = await withTimeout(getDoc(docRef), 3500, null);
+    if (snapshot && snapshot.exists()) {
+      return snapshot.data() as SystemSettings;
+    }
+    return null;
+  } catch (err) {
+    console.warn("fsGetSettings warning:", err);
+    return null;
   }
-  return null;
 }
 
 export async function fsSaveSettings(settings: SystemSettings): Promise<void> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.SETTINGS, "system");
-  await setDoc(docRef, settings, { merge: true });
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.SETTINGS, "system");
+    await withTimeout(setDoc(docRef, settings, { merge: true }), 4000, undefined);
+  } catch (err) {
+    console.warn("fsSaveSettings warning:", err);
+  }
 }
 
 /* ---------------- Audit Logs ---------------- */
 
 export async function fsAddAuditLog(log: AuditLog): Promise<void> {
-  const db = getFirestoreDb();
-  const docRef = doc(db, COLLECTIONS.AUDIT_LOGS, log.id);
-  await setDoc(docRef, log);
+  try {
+    const db = getFirestoreDb();
+    const docRef = doc(db, COLLECTIONS.AUDIT_LOGS, log.id);
+    await withTimeout(setDoc(docRef, log), 3000, undefined);
+  } catch (err) {
+    console.warn("fsAddAuditLog warning:", err);
+  }
 }
 
 export async function fsGetAuditLogs(max = 50): Promise<AuditLog[]> {
-  const db = getFirestoreDb();
-  const colRef = collection(db, COLLECTIONS.AUDIT_LOGS);
-  const q = query(colRef, orderBy("timestamp", "desc"), limit(max));
-  const snapshot = await getDocs(q);
-  const logs: AuditLog[] = [];
-  snapshot.forEach((doc) => {
-    logs.push(doc.data() as AuditLog);
-  });
-  return logs;
+  try {
+    const db = getFirestoreDb();
+    const colRef = collection(db, COLLECTIONS.AUDIT_LOGS);
+    const q = query(colRef, orderBy("timestamp", "desc"), limit(max));
+    const snapshot = await withTimeout(getDocs(q), 3500, null);
+    if (!snapshot) return [];
+    const logs: AuditLog[] = [];
+    snapshot.forEach((d) => {
+      logs.push(d.data() as AuditLog);
+    });
+    return logs;
+  } catch (err) {
+    console.warn("fsGetAuditLogs warning:", err);
+    return [];
+  }
 }
 
 /**

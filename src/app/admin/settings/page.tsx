@@ -532,6 +532,34 @@ export default function AdminSettingsPage() {
             <p className="text-[10px] text-zinc-500">Google Analytics for Firebase live</p>
           </div>
         </div>
+
+        {/* Cloud Notice / Instructions */}
+        {firebaseStatus?.error && (
+          <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3.5 text-xs text-amber-200">
+            <div className="flex items-center gap-2 font-semibold text-amber-300">
+              <AlertCircle className="h-4 w-4 shrink-0 text-amber-400" />
+              <span>Firebase Cloud Notice</span>
+            </div>
+            <p className="mt-1 text-[11px] leading-relaxed text-amber-200/90">
+              {firebaseStatus.error}
+            </p>
+            <div className="mt-2 text-[10px] text-amber-300/80">
+              To activate Cloud Firestore persistence: Visit{" "}
+              <a
+                href="https://console.firebase.google.com/project/badarshdigiitalproducts/firestore"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline font-bold text-amber-200 hover:text-white"
+              >
+                Firebase Console &rarr; Firestore Database &rarr; Rules
+              </a>{" "}
+              and set rule to:{" "}
+              <code className="bg-black/50 px-1.5 py-0.5 rounded text-white font-mono">
+                allow read, write: if true;
+              </code>
+            </div>
+          </div>
+        )}
       </div>
 
       <form onSubmit={handleSave} className="space-y-6">
