@@ -20,7 +20,7 @@ function SignupForm() {
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect") || "/bundles";
 
-  const { signInWithGoogle, signUpWithEmail, demoLogin, error, clearError } = useAuth();
+  const { signInWithGoogle, signUpWithEmail, error, clearError } = useAuth();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

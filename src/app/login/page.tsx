@@ -24,7 +24,7 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect") || "/bundles";
 
-  const { signInWithGoogle, signInWithEmail, demoLogin, error, clearError } = useAuth();
+  const { signInWithGoogle, signInWithEmail, error, clearError } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -64,11 +64,6 @@ function LoginForm() {
     if (res.success) {
       router.push(redirectUrl);
     }
-  };
-
-  const handleDemoSignIn = () => {
-    demoLogin("Alex Rivera", "alex.rivera@badarsh.com");
-    router.push(redirectUrl);
   };
 
   const activeError = localError || error;
@@ -224,17 +219,6 @@ function LoginForm() {
                 )}
               </button>
             </form>
-
-            {/* Subtle Demo Quick Sign In */}
-            <div className="mt-5 pt-4 border-t border-border/50 text-center">
-              <button
-                type="button"
-                onClick={handleDemoSignIn}
-                className="text-[11px] font-medium text-muted hover:text-foreground transition-colors cursor-pointer"
-              >
-                Quick Preview &bull; Sign in with Demo Creator
-              </button>
-            </div>
           </div>
 
           {/* Under-Card Switch Link */}

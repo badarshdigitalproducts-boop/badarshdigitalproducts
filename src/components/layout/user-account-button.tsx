@@ -113,13 +113,6 @@ export function UserAccountButton() {
                   <p className="text-[10px] text-muted truncate">{user.email}</p>
                 </div>
               </div>
-
-              {user.isDemo && (
-                <div className="mt-2 inline-flex items-center gap-1 rounded-full bg-amber-500/15 px-2 py-0.5 text-[9px] font-bold text-amber-400">
-                  <Sparkles className="h-2.5 w-2.5" />
-                  <span>DEMO CREATOR MODE</span>
-                </div>
-              )}
             </div>
 
             {/* Menu Links */}

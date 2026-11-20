@@ -17,7 +17,6 @@ export interface AuthUser {
   email: string | null;
   displayName: string | null;
   photoURL: string | null;
-  isDemo?: boolean;
 }
 
 interface AuthContextType {
@@ -36,13 +35,10 @@ interface AuthContextType {
   ) => Promise<{ success: boolean; error?: string }>;
   resetPassword: (email: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
-  demoLogin: (name?: string, email?: string) => void;
   clearError: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-const DEMO_USER_STORAGE_KEY = "badarsh_creator_demo_user";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -51,6 +47,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     let mounted = true;
+
+    // Purge any legacy demo artifacts from browser storage
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.removeItem("badarsh_creator_demo_user");
+      } catch {
+        // Safe
+      }
+    }
 
     async function initAuth() {
       // 1. Check local session from API cookie first
@@ -66,34 +71,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // Fallback
       }
 
-      // 2. Check demo user stored in localStorage
-      if (typeof window !== "undefined") {
-        try {
-          const stored = localStorage.getItem(DEMO_USER_STORAGE_KEY);
-          if (stored && mounted) {
-            setUser(JSON.parse(stored));
-            setLoading(false);
-            return;
-          }
-        } catch {
-          // Fallback
-        }
-      }
-
-      // 3. Listen to live Firebase Auth state if available
+      // 2. Listen to live Firebase Auth state
       try {
         const auth = getFirebaseAuth();
         const unsubscribe = onAuthStateChanged(
           auth,
           async (fbUser: FirebaseUser | null) => {
             if (!mounted) return;
-            if (fbUser) {
+            if (fbUser && fbUser.email) {
               const authUser: AuthUser = {
                 uid: fbUser.uid,
                 email: fbUser.email,
-                displayName: fbUser.displayName || fbUser.email?.split("@")[0] || "Creator",
-                photoURL: fbUser.photoURL,
-                isDemo: false,
+                displayName: fbUser.displayName || fbUser.email.split("@")[0],
+                photoURL: fbUser.photoURL || null,
               };
               setUser(authUser);
               // Sync with server cookie session
@@ -110,6 +100,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               } catch {
                 // Non-blocking
               }
+            } else {
+              setUser(null);
             }
             setLoading(false);
           },
@@ -134,22 +126,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signInWithGoogle = async (): Promise<{ success: boolean; error?: string }> => {
     setError(null);
 
-    // 1. Attempt Firebase popup flow
     try {
       const auth = getFirebaseAuth();
       const provider = getGoogleAuthProvider();
+      // Ensure Google forces account selection so user picks their real Gmail
+      provider.setCustomParameters({ prompt: "select_account" });
+
       const result = await signInWithPopup(auth, provider);
       const fbUser = result.user;
+
+      if (!fbUser || !fbUser.email) {
+        throw new Error("No Google account was returned. Please try again.");
+      }
 
       const authUser: AuthUser = {
         uid: fbUser.uid,
         email: fbUser.email,
-        displayName: fbUser.displayName || "Creator",
-        photoURL: fbUser.photoURL,
-        isDemo: false,
+        displayName: fbUser.displayName || fbUser.email.split("@")[0],
+        photoURL: fbUser.photoURL || null,
       };
 
-      // Persist session to server cookie
+      // Persist real Google user session to server cookie and database
       await fetch("/api/auth/google", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -160,42 +157,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }),
       });
 
-      if (typeof window !== "undefined") {
-        localStorage.removeItem(DEMO_USER_STORAGE_KEY);
-      }
-
       setUser(authUser);
       return { success: true };
     } catch (fbErr: any) {
-      console.warn("Firebase popup sign-in note:", fbErr?.code || fbErr?.message);
+      console.error("Firebase Google sign-in error:", fbErr);
 
-      // If domain is not authorized in Firebase Console or Google Cloud project is suspended:
-      // Provide clean 1-click Google Creator session
-      try {
-        const guestEmail = `creator.${Date.now().toString(36)}@badarsh.com`;
-        const res = await fetch("/api/auth/google", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: guestEmail,
-            name: "Studio Creator",
-            photoURL: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80",
-          }),
-        });
+      let msg = "Google sign-in could not be completed.";
+      const code = fbErr?.code || "";
 
-        const data = await res.json();
-        if (data.user) {
-          if (typeof window !== "undefined") {
-            localStorage.removeItem(DEMO_USER_STORAGE_KEY);
-          }
-          setUser(data.user);
-          return { success: true };
-        }
-      } catch (err: any) {
-        console.error("Google sign-in fallback error:", err);
+      if (code === "auth/popup-closed-by-user") {
+        msg = "Sign-in cancelled. The Google window was closed before selecting an account.";
+      } else if (code === "auth/unauthorized-domain") {
+        msg = "Domain not authorized: Please add 'badarshdigitalproducts.vercel.app' in Firebase Console -> Authentication -> Settings -> Authorized Domains.";
+      } else if (code === "auth/operation-not-allowed") {
+        msg = "Google sign-in is disabled in Firebase Console -> Authentication -> Sign-in method. Please enable Google provider.";
+      } else if (fbErr?.message?.includes("suspended") || fbErr?.message?.includes("CONSUMER_SUSPENDED")) {
+        msg = "Firebase project is suspended in Google Cloud Console. Please resume project or sign in with your Gmail and password below.";
+      } else if (fbErr?.message) {
+        msg = fbErr.message;
       }
 
-      const msg = "Google sign-in encountered an issue. You can sign in with your email or demo account below.";
       setError(msg);
       return { success: false, error: msg };
     }
@@ -220,13 +201,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         try {
           const auth = getFirebaseAuth();
           const fbRes = await signInWithEmailAndPassword(auth, email.trim(), pass);
-          if (fbRes.user) {
+          if (fbRes.user && fbRes.user.email) {
             const authUser: AuthUser = {
               uid: fbRes.user.uid,
               email: fbRes.user.email,
               displayName: fbRes.user.displayName || email.split("@")[0],
               photoURL: fbRes.user.photoURL,
-              isDemo: false,
             };
             setUser(authUser);
             return { success: true };
@@ -238,10 +218,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const msg = data.error || "Incorrect email or password.";
         setError(msg);
         return { success: false, error: msg };
-      }
-
-      if (typeof window !== "undefined") {
-        localStorage.removeItem(DEMO_USER_STORAGE_KEY);
       }
 
       setUser(data.user);
@@ -287,10 +263,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return { success: false, error: msg };
       }
 
-      if (typeof window !== "undefined") {
-        localStorage.removeItem(DEMO_USER_STORAGE_KEY);
-      }
-
       setUser(data.user);
 
       // Background sync to Firebase if reachable
@@ -318,15 +290,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await sendPasswordResetEmail(auth, email.trim());
       return { success: true };
     } catch {
-      // In case Firebase email dispatch is unconfigured, return success so user gets instruction
       return { success: true };
     }
   };
 
   const logout = async (): Promise<void> => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem(DEMO_USER_STORAGE_KEY);
-    }
     try {
       await fetch("/api/auth/logout", { method: "POST" });
     } catch {
@@ -339,21 +307,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Safe
     }
     setUser(null);
-  };
-
-  const demoLogin = (name = "Alex Rivera", email = "creator@badarsh.com") => {
-    const demoUser: AuthUser = {
-      uid: "demo-creator-88",
-      email,
-      displayName: name,
-      photoURL: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80",
-      isDemo: true,
-    };
-    if (typeof window !== "undefined") {
-      localStorage.setItem(DEMO_USER_STORAGE_KEY, JSON.stringify(demoUser));
-    }
-    setUser(demoUser);
-    setError(null);
   };
 
   const clearError = () => setError(null);
@@ -369,7 +322,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signUpWithEmail,
         resetPassword,
         logout,
-        demoLogin,
         clearError,
       }}
     >
