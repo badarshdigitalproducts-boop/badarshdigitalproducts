@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
-import { X, ChevronRight, ChevronDown } from "lucide-react";
+import { X, ChevronRight, ChevronDown, User, LogOut } from "lucide-react";
 import Link from "next/link";
 import { SHOP_MENU, SERVICES_MENU, siteConfig } from "@/lib/constants";
 import { BrandLogo } from "./brand-logo";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/context/auth-context";
 
 interface MobileNavProps {
   isOpen: boolean;
@@ -88,6 +89,7 @@ function MobileGroup({
 }
 
 export function MobileNav({ isOpen, onClose }: MobileNavProps) {
+  const { user, logout } = useAuth();
   return (
     <AnimatePresence>
       {isOpen && (
@@ -156,6 +158,42 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                   </Link>
                 ))}
               </div>
+
+              {/* Creator Account Mobile Row */}
+              {user ? (
+                <div className="border-t border-border/40 px-6 py-4 flex items-center justify-between bg-muted/15">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-white font-bold text-xs">
+                      {user.displayName?.charAt(0).toUpperCase() || "C"}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold text-foreground truncate">{user.displayName || "Creator"}</p>
+                      <p className="text-[10px] text-muted truncate">{user.email}</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      logout();
+                      onClose();
+                    }}
+                    className="flex items-center gap-1 text-xs font-semibold text-rose-400 hover:text-rose-300 transition-colors shrink-0 ml-2"
+                  >
+                    <LogOut className="h-3.5 w-3.5" />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="border-t border-border/40 px-6 py-3.5 bg-muted/10">
+                  <Link
+                    href="/login"
+                    onClick={onClose}
+                    className="flex items-center justify-between text-xs font-bold text-accent hover:underline"
+                  >
+                    <span>Sign In to Creator Vault</span>
+                    <ChevronRight className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
+              )}
             </nav>
 
             {/* Footer — CTA + social */}

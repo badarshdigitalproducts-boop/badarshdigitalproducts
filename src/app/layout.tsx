@@ -5,6 +5,7 @@ import { constructMetadata } from "@/lib/metadata";
 import { StorefrontNav, StorefrontFooter } from "@/components/layout/storefront-shell";
 import { CurrencyProvider } from "@/context/currency-context";
 import { AudioPlayerProvider } from "@/context/audio-player-context";
+import { AuthProvider } from "@/context/auth-context";
 import {
   siteConfig,
   WHATSAPP_NUMBER,
@@ -72,13 +73,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           enableSystem={false}
           disableTransitionOnChange
         >
-          <CurrencyProvider>
-            <AudioPlayerProvider>
-              <StorefrontNav />
-              <main className="flex-1">{children}</main>
-              <StorefrontFooter />
-            </AudioPlayerProvider>
-          </CurrencyProvider>
+          <AuthProvider>
+            <CurrencyProvider>
+              <AudioPlayerProvider>
+                <StorefrontNav />
+                <main className="flex-1">{children}</main>
+                <StorefrontFooter />
+              </AudioPlayerProvider>
+            </CurrencyProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

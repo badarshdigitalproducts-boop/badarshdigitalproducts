@@ -9,6 +9,7 @@ import { cn, getWhatsAppUrl } from "@/lib/utils";
 import { useScroll } from "@/hooks/use-scroll";
 import { ThemeToggle } from "./theme-toggle";
 import { CurrencyToggle } from "./currency-toggle";
+import { UserAccountButton } from "./user-account-button";
 import { MobileNav } from "./mobile-nav";
 import { BrandLogo } from "./brand-logo";
 
@@ -358,6 +359,7 @@ export function Navbar() {
           <div className="flex items-center gap-1.5 sm:gap-2">
             <CurrencyToggle />
             <ThemeToggle />
+            <UserAccountButton />
 
             {/* Apple Solid CTA Pill */}
             <Link
