@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
-  Package,
   Users2,
   Mail,
   Settings,
@@ -14,31 +13,59 @@ import {
   Menu,
   X,
   ShieldCheck,
-  BarChart3,
   ShoppingCart,
   FileText,
   Tag,
-  MessageSquare,
   Layers,
+  Archive,
+  Smartphone,
+  Camera,
+  Music,
+  BookOpen,
+  Calendar,
+  Video,
+  Globe,
+  Sparkles,
+  ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { label: "Overview", href: "/admin", icon: LayoutDashboard, group: null as null | string },
-  { label: "Products & Assets", href: "/admin/products", icon: Package, group: "Catalog" },
-  { label: "Agency Services", href: "/admin/services", icon: Layers, group: "Catalog" },
-  { label: "Blog & Editorial", href: "/admin/blog", icon: FileText, group: "Content" },
+
+  // DIGITAL SHOP (Separated individually)
+  { label: "Bundles", href: "/admin/shop/bundles", icon: Archive, group: "Digital Shop" },
+  { label: "Apps", href: "/admin/shop/apps", icon: Smartphone, group: "Digital Shop" },
+  { label: "Lightroom Presets", href: "/admin/shop/presets", icon: Camera, group: "Digital Shop" },
+  { label: "Sound Effects & BGM", href: "/admin/shop/sound-effects", icon: Music, group: "Digital Shop" },
+  { label: "E-Books", href: "/admin/shop/ebooks", icon: BookOpen, group: "Digital Shop" },
+  { label: "Planners", href: "/admin/shop/planners", icon: Calendar, group: "Digital Shop" },
+  { label: "Templates", href: "/admin/shop/templates", icon: Layers, group: "Digital Shop" },
+
+  // CREATIVE AGENCY SERVICES (Separated individually)
+  { label: "Video Editing", href: "/admin/services/video-editing", icon: Video, group: "Creative Services" },
+  { label: "Photo Editing", href: "/admin/services/photo-editing", icon: Camera, group: "Creative Services" },
+  { label: "Website Design", href: "/admin/services/website-design", icon: Globe, group: "Creative Services" },
+  { label: "App Development", href: "/admin/services/app-development", icon: Smartphone, group: "Creative Services" },
+  { label: "Logo Design", href: "/admin/services/logo-design", icon: Sparkles, group: "Creative Services" },
+
+  // COMMERCE
   { label: "Orders & Delivery", href: "/admin/orders", icon: ShoppingCart, group: "Commerce" },
   { label: "Discount Coupons", href: "/admin/coupons", icon: Tag, group: "Commerce" },
+
+  // AUDIENCE & CONTENT
   { label: "Inbound Leads CRM", href: "/admin/leads", icon: Users2, group: "Audience" },
   { label: "Newsletter Audience", href: "/admin/subscribers", icon: Mail, group: "Audience" },
-  { label: "System Settings", href: "/admin/settings", icon: Settings, group: "System" },
+  { label: "Blog & Editorial", href: "/admin/blog", icon: FileText, group: "Audience" },
+
+  // SYSTEM
+  { label: "CashFree & Settings", href: "/admin/settings", icon: Settings, group: "System" },
 ];
 
 const NAV_GROUPS = [
   { title: null as null | string, items: NAV_ITEMS.filter((i) => i.group === null) },
-  { title: "Catalog", items: NAV_ITEMS.filter((i) => i.group === "Catalog") },
-  { title: "Content", items: NAV_ITEMS.filter((i) => i.group === "Content") },
+  { title: "Digital Shop", items: NAV_ITEMS.filter((i) => i.group === "Digital Shop") },
+  { title: "Creative Services", items: NAV_ITEMS.filter((i) => i.group === "Creative Services") },
   { title: "Commerce", items: NAV_ITEMS.filter((i) => i.group === "Commerce") },
   { title: "Audience", items: NAV_ITEMS.filter((i) => i.group === "Audience") },
   { title: "System", items: NAV_ITEMS.filter((i) => i.group === "System") },
@@ -75,7 +102,7 @@ export default function AdminLayout({
   return (
     <div className="flex min-h-screen bg-[#09090B] text-zinc-100 selection:bg-[#FF5A36] selection:text-white">
       {/* Desktop Sidebar */}
-      <aside className="hidden w-64 shrink-0 flex-col justify-between border-r border-zinc-800/80 bg-zinc-950/80 p-5 backdrop-blur-xl md:flex">
+      <aside className="hidden w-64 shrink-0 flex-col justify-between border-r border-zinc-800/80 bg-zinc-950/80 p-5 backdrop-blur-xl md:flex overflow-y-auto max-h-screen sticky top-0">
         <div>
           {/* Logo & Founder Badge */}
           <div className="flex items-center gap-3 px-2">
@@ -106,7 +133,7 @@ export default function AdminLayout({
                   key={item.label}
                   href={item.href}
                   className={cn(
-                    "flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-all duration-150 active:scale-[0.98]",
+                    "flex items-center gap-3 rounded-xl px-3.5 py-2 text-xs font-semibold transition-all duration-150 active:scale-[0.98]",
                     isActive ? "bg-[#FF5A36] text-white shadow-xs" : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
                   )}
                 >
@@ -117,12 +144,12 @@ export default function AdminLayout({
             })}
 
             {/* Grouped sections */}
-            {["Catalog", "Content", "Commerce", "Audience", "System"].map((group) => {
+            {["Digital Shop", "Creative Services", "Commerce", "Audience", "System"].map((group) => {
               const groupItems = NAV_ITEMS.filter((i) => i.group === group);
               if (!groupItems.length) return null;
               return (
                 <div key={group}>
-                  <p className="mb-1.5 px-3.5 text-[10px] font-bold uppercase tracking-widest text-zinc-600">
+                  <p className="mb-1.5 px-3.5 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
                     {group}
                   </p>
                   <div className="space-y-0.5">
@@ -131,18 +158,23 @@ export default function AdminLayout({
                       const isActive =
                         item.href === "/admin"
                           ? pathname === "/admin"
-                          : pathname.startsWith(item.href) && item.href !== "/admin";
+                          : pathname === item.href;
                       return (
                         <Link
                           key={item.label}
                           href={item.href}
                           className={cn(
-                            "flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-all duration-150 active:scale-[0.98]",
-                            isActive ? "bg-[#FF5A36] text-white shadow-xs" : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                            "flex items-center justify-between rounded-xl px-3.5 py-2 text-xs font-medium transition-all duration-150 active:scale-[0.98]",
+                            isActive
+                              ? "bg-[#FF5A36] text-white font-semibold shadow-xs"
+                              : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
                           )}
                         >
-                          <Icon className="h-4 w-4 shrink-0" />
-                          <span>{item.label}</span>
+                          <div className="flex items-center gap-2.5">
+                            <Icon className="h-4 w-4 shrink-0" />
+                            <span>{item.label}</span>
+                          </div>
+                          {isActive && <ChevronRight className="h-3 w-3 text-white/70" />}
                         </Link>
                       );
                     })}
@@ -154,17 +186,15 @@ export default function AdminLayout({
         </div>
 
         {/* Sidebar Footer */}
-        <div className="space-y-3 border-t border-zinc-800/80 pt-4">
-          {/* System status pill */}
+        <div className="space-y-3 border-t border-zinc-800/80 pt-4 mt-4">
           <div className="flex items-center justify-between rounded-lg bg-zinc-900/60 px-3 py-2 text-[11px] text-zinc-400">
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Production Live</span>
             </div>
-            <span className="font-mono text-[10px] text-zinc-500">v2.4</span>
+            <span className="font-mono text-[10px] text-zinc-500">Zero-Trust</span>
           </div>
 
-          {/* Links */}
           <div className="flex flex-col gap-1 text-xs">
             <Link
               href="/"
@@ -188,7 +218,28 @@ export default function AdminLayout({
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex flex-1 flex-col overflow-x-hidden">
+      <div className="flex flex-1 flex-col overflow-x-hidden min-w-0">
+        {/* Desktop Top Header Bar */}
+        <header className="hidden md:flex h-14 items-center justify-between border-b border-zinc-800/80 bg-zinc-950/40 px-8 backdrop-blur-md sticky top-0 z-30">
+          <div className="flex items-center gap-2 text-xs text-zinc-400">
+            <span className="h-2 w-2 rounded-full bg-emerald-400" />
+            <span className="font-semibold text-zinc-200">BADARSH Operating System</span>
+            <span>&bull;</span>
+            <span className="text-zinc-500">Autonomous Founder Console</span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              target="_blank"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors"
+            >
+              <span>Open Storefront</span>
+              <ExternalLink className="h-3 w-3" />
+            </Link>
+          </div>
+        </header>
+
         {/* Mobile Header */}
         <header className="flex h-16 items-center justify-between border-b border-zinc-800 bg-zinc-950 px-4 md:hidden">
           <div className="flex items-center gap-2.5">
@@ -210,14 +261,11 @@ export default function AdminLayout({
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="border-b border-zinc-800 bg-zinc-950 p-4 md:hidden">
+          <div className="border-b border-zinc-800 bg-zinc-950 p-4 md:hidden max-h-[80vh] overflow-y-auto">
             <nav className="space-y-1">
               {NAV_ITEMS.map((item) => {
                 const Icon = item.icon;
-                const isActive =
-                  item.href === "/admin"
-                    ? pathname === "/admin"
-                    : pathname.startsWith(item.href);
+                const isActive = pathname === item.href;
 
                 return (
                   <Link
@@ -255,4 +303,3 @@ export default function AdminLayout({
     </div>
   );
 }
-

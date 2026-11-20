@@ -2,14 +2,9 @@ import { Suspense, type ReactNode } from "react";
 import { ThemeProvider } from "next-themes";
 import { fontHeading, fontBody } from "@/lib/fonts";
 import { constructMetadata } from "@/lib/metadata";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { AiSupportAgent } from "@/components/shared/ai-support-agent";
-import { SocialProofToast } from "@/components/shared/social-proof-toast";
-import { FirebaseAnalytics } from "@/components/shared/firebase-analytics";
+import { StorefrontNav, StorefrontFooter } from "@/components/layout/storefront-shell";
 import { CurrencyProvider } from "@/context/currency-context";
 import { AudioPlayerProvider } from "@/context/audio-player-context";
-import { FloatingAudioPlayer } from "@/components/audio/floating-audio-player";
 import {
   siteConfig,
   WHATSAPP_NUMBER,
@@ -79,15 +74,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         >
           <CurrencyProvider>
             <AudioPlayerProvider>
-              <Suspense fallback={<div className="h-16 w-full bg-background" />}>
-                <Navbar />
-              </Suspense>
+              <StorefrontNav />
               <main className="flex-1">{children}</main>
-              <Footer />
-              <FloatingAudioPlayer />
-              <AiSupportAgent />
-              <SocialProofToast />
-              <FirebaseAnalytics />
+              <StorefrontFooter />
             </AudioPlayerProvider>
           </CurrencyProvider>
         </ThemeProvider>
