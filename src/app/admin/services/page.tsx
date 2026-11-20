@@ -24,9 +24,21 @@ import {
   Check,
   ChevronDown,
   ChevronUp,
+  Play,
+  Image as ImageIcon,
+  Sliders,
+  Eye,
+  SlidersHorizontal,
 } from "lucide-react";
-import type { AdminService, AdminServicePackage } from "@/lib/admin/types";
+import type {
+  AdminService,
+  AdminServicePackage,
+  PortfolioBeforeAfterItem,
+  PortfolioWebsiteItem,
+  PortfolioLogoItem,
+} from "@/lib/admin/types";
 import { getWhatsAppUrl } from "@/lib/utils";
+import { BeforeAfterSlider } from "@/components/shared/before-after-slider";
 
 const ICON_OPTIONS = [
   { value: "Video", label: "Video Production" },
@@ -42,9 +54,31 @@ export default function AdminServicesPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [editingService, setEditingService] = useState<Partial<AdminService> | null>(null);
+  const [activeTab, setActiveTab] = useState<"general" | "packages" | "portfolio">("general");
   const [saving, setSaving] = useState(false);
   const [newFeature, setNewFeature] = useState("");
   const [expandedServiceId, setExpandedServiceId] = useState<string | null>(null);
+
+  // Temporary inputs for portfolio items
+  const [newVideoUrl, setNewVideoUrl] = useState("");
+  const [newImageUrl, setNewImageUrl] = useState("");
+
+  // Before/After temp input
+  const [baBefore, setBaBefore] = useState("");
+  const [baAfter, setBaAfter] = useState("");
+  const [baTitle, setBaTitle] = useState("");
+
+  // Live website temp input
+  const [webName, setWebName] = useState("");
+  const [webUrl, setWebUrl] = useState("");
+  const [webImage, setWebImage] = useState("");
+  const [webTags, setWebTags] = useState("");
+
+  // Logo temp input
+  const [logoName, setLogoName] = useState("");
+  const [logoDark, setLogoDark] = useState("");
+  const [logoLight, setLogoLight] = useState("");
+  const [logoCategory, setLogoCategory] = useState("");
 
   useEffect(() => {
     fetchServices();
@@ -134,6 +168,27 @@ export default function AdminServicesPage() {
     });
   };
 
+  const updatePackage = (idx: number, updates: Partial<AdminServicePackage>) => {
+    if (!editingService?.packages) return;
+    const pkgs = [...editingService.packages];
+    pkgs[idx] = { ...pkgs[idx], ...updates };
+    setEditingService({ ...editingService, packages: pkgs });
+  };
+
+  const addPackageFeature = (pkgIdx: number, featureText: string) => {
+    if (!featureText.trim() || !editingService?.packages) return;
+    const pkgs = [...editingService.packages];
+    pkgs[pkgIdx].features = [...(pkgs[pkgIdx].features || []), featureText.trim()];
+    setEditingService({ ...editingService, packages: pkgs });
+  };
+
+  const removePackageFeature = (pkgIdx: number, fIdx: number) => {
+    if (!editingService?.packages) return;
+    const pkgs = [...editingService.packages];
+    pkgs[pkgIdx].features = (pkgs[pkgIdx].features || []).filter((_, i) => i !== fIdx);
+    setEditingService({ ...editingService, packages: pkgs });
+  };
+
   const filteredServices = services.filter((s) => {
     return (
       search === "" ||
@@ -154,114 +209,78 @@ export default function AdminServicesPage() {
             </h1>
           </div>
           <p className="text-xs text-zinc-400 mt-1">
-            Manage your service offerings, tier packages, turnarounds, pricing & WhatsApp inquiry flows.
+            Manage Video Editing (₹250/₹400/₹799), Photo Retouching (₹150/₹350/₹799), Logo Design (₹500/₹1199/₹1999), Web Design &amp; App Development.
           </p>
         </div>
 
         <button
-          onClick={() =>
+          onClick={() => {
             setEditingService({
               title: "",
-              slug: "",
               description: "",
               longDescription: "",
-              icon: "Video",
               category: "Agency Creative",
-              status: "active",
               turnaround: "48-72 Hours",
+              status: "active",
+              icon: "Video",
               features: [
-                "Dedicated Senior Creator",
-                "Unlimited Revision Rounds",
-                "WhatsApp Direct Collaboration",
+                "Dedicated Lead Creative",
+                "High-Converting Pacing & Retention",
+                "Full Commercial Rights",
+                "48-Hour Standard Delivery",
               ],
               packages: [
                 {
-                  name: "Starter",
-                  price: 4999,
+                  name: "Basic",
+                  price: 250,
                   currency: "INR",
-                  period: "one-time",
-                  description: "Essential package for creators & emerging businesses.",
-                  features: ["Core deliverables included", "Delivery in 3 business days"],
-                  ctaText: "Get Started",
+                  period: "video",
+                  description: "Essential polish for short-form content",
+                  features: ["1080p Full HD", "Subtitles & Captions", "Sound Balancing", "1 Free Revision"],
+                  isPopular: false,
                 },
                 {
-                  name: "Growth Retainer",
-                  price: 14999,
+                  name: "Viral Retention",
+                  price: 400,
                   currency: "INR",
-                  period: "per month",
-                  description: "Full production engine for scaling businesses.",
-                  features: ["Priority turnarounds", "Dedicated account manager", "Weekly strategy sync"],
+                  period: "video",
+                  description: "High-engagement edits engineered for maximum watch-time",
+                  features: ["Motion Graphics & Overlays", "B-Roll & Sound Effects", "Dynamic Hooks", "2 Revisions"],
                   isPopular: true,
-                  ctaText: "Most Popular",
+                },
+                {
+                  name: "Cinematic Master",
+                  price: 799,
+                  currency: "INR",
+                  period: "video",
+                  description: "Mind-blowing cinematic production with color grading & bespoke SFX",
+                  features: ["4K Cinema Grade Output", "Custom Sound Design", "Thumbnail Strategy", "Unlimited Revisions"],
+                  isPopular: false,
                 },
               ],
-            })
-          }
-          className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-[#FF5A36] px-4 py-2 text-xs font-semibold text-white shadow-md hover:bg-[#ff4620] active:scale-[0.98] transition-all"
+              portfolioVideos: [],
+              portfolioImages: [],
+            });
+            setActiveTab("general");
+          }}
+          className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-[#FF5A36] px-4 py-2.5 text-xs font-semibold text-white shadow-md hover:bg-[#ff4620] active:scale-[0.98] transition-all"
         >
           <Plus className="h-4 w-4" />
-          <span>New Service Offering</span>
+          <span>Add New Service</span>
         </button>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <div className="rounded-xl border border-zinc-800/80 bg-zinc-950/60 p-4 backdrop-blur-md">
-          <p className="text-xs text-zinc-500">Total Services</p>
-          <p className="mt-1 font-heading text-2xl font-bold text-white">{services.length}</p>
-        </div>
-        <div className="rounded-xl border border-zinc-800/80 bg-zinc-950/60 p-4 backdrop-blur-md">
-          <p className="text-xs text-zinc-500">Active Offerings</p>
-          <p className="mt-1 font-heading text-2xl font-bold text-emerald-400">
-            {services.filter((s) => s.status === "active").length}
-          </p>
-        </div>
-        <div className="rounded-xl border border-zinc-800/80 bg-zinc-950/60 p-4 backdrop-blur-md">
-          <p className="text-xs text-zinc-500">Total Packages</p>
-          <p className="mt-1 font-heading text-2xl font-bold text-amber-400">
-            {services.reduce((acc, s) => acc + (s.packages?.length || 0), 0)}
-          </p>
-        </div>
-        <div className="rounded-xl border border-zinc-800/80 bg-zinc-950/60 p-4 backdrop-blur-md">
-          <p className="text-xs text-zinc-500">Standard Turnaround</p>
-          <p className="mt-1 font-heading text-xl font-bold text-blue-400">48-72h</p>
-        </div>
-      </div>
-
-      {/* Search & Actions Bar */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-zinc-800/80 pb-4">
-        <div className="relative w-full sm:w-72">
-          <Search className="pointer-events-none absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2 text-zinc-500" />
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search agency services..."
-            className="w-full rounded-xl border border-zinc-800 bg-zinc-950 py-2 pr-4 pl-9 text-xs text-white placeholder:text-zinc-600 focus:border-[#FF5A36] focus:outline-none"
-          />
-        </div>
-
-        <a
-          href="/services"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
-        >
-          <span>Preview Public Services Page</span>
-          <ExternalLink className="h-3.5 w-3.5" />
-        </a>
-      </div>
-
-      {/* Services List Table / Cards */}
+      {/* Services List */}
       <div className="space-y-4">
         {loading ? (
-          <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-12 text-center text-zinc-500">
-            <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-[#FF5A36] border-t-transparent" />
-            <p className="mt-2 text-xs">Loading agency services...</p>
+          <div className="flex min-h-[300px] items-center justify-center rounded-2xl border border-zinc-800/80 bg-zinc-950/40">
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#FF5A36] border-t-transparent" />
           </div>
         ) : filteredServices.length === 0 ? (
-          <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-12 text-center text-zinc-500 text-xs">
-            No services found. Add your first service above.
+          <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/40 p-12 text-center">
+            <Layers className="mx-auto h-8 w-8 text-zinc-600" />
+            <h3 className="mt-2 text-sm font-semibold text-zinc-400">No Services Found</h3>
+            <p className="mt-1 text-xs text-zinc-600">Create your first creative service package above.</p>
           </div>
         ) : (
           filteredServices.map((service, index) => {
@@ -269,13 +288,19 @@ export default function AdminServicesPage() {
             return (
               <div
                 key={service.id}
-                className="overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-950/60 backdrop-blur-md transition-all"
+                className="overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-950/60 backdrop-blur-md transition-all hover:border-zinc-700"
               >
                 <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex items-start gap-3.5">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800 text-[#FF5A36]">
-                      <Sparkles className="h-5 w-5" />
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-900 text-[#FF5A36]">
+                      {service.icon === "Video" && <Video className="h-5 w-5" />}
+                      {service.icon === "Camera" && <Camera className="h-5 w-5" />}
+                      {service.icon === "Globe" && <Globe className="h-5 w-5" />}
+                      {service.icon === "Smartphone" && <Smartphone className="h-5 w-5" />}
+                      {service.icon === "Sparkles" && <Sparkles className="h-5 w-5" />}
+                      {(!service.icon || service.icon === "Megaphone") && <Layers className="h-5 w-5" />}
                     </div>
+
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-heading text-sm font-bold text-white">
@@ -305,7 +330,24 @@ export default function AdminServicesPage() {
                         <span>•</span>
                         <span>{service.packages?.length || 0} Pricing Packages</span>
                         <span>•</span>
-                        <span>{service.features?.length || 0} Core Features</span>
+                        <span>
+                          From ₹
+                          {service.packages && service.packages.length > 0
+                            ? Math.min(...service.packages.map((p) => p.price))
+                            : 0}
+                        </span>
+                        {service.portfolioVideos && service.portfolioVideos.length > 0 && (
+                          <>
+                            <span>•</span>
+                            <span className="text-[#FF5A36]">{service.portfolioVideos.length} Videos</span>
+                          </>
+                        )}
+                        {service.portfolioImages && service.portfolioImages.length > 0 && (
+                          <>
+                            <span>•</span>
+                            <span className="text-emerald-400">{service.portfolioImages.length} Portfolio Assets</span>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -314,14 +356,14 @@ export default function AdminServicesPage() {
                   <div className="flex items-center gap-2 self-end sm:self-center">
                     <button
                       onClick={() => setExpandedServiceId(isExpanded ? null : service.id)}
-                      className="inline-flex items-center gap-1 rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-zinc-300 hover:text-white transition-colors"
+                      className="inline-flex cursor-pointer items-center gap-1 rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-zinc-300 hover:text-white transition-colors"
                     >
                       <span>{isExpanded ? "Hide Packages" : "View Packages"}</span>
                       {isExpanded ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
                     </button>
 
                     <a
-                      href={getWhatsAppUrl(`Hi! I'm inquiring about ${service.title} from your agency.`)}
+                      href={getWhatsAppUrl(`Hi! I'm inquiring about ${service.title} from BADARSH Studio.`)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-2 text-emerald-400 hover:bg-emerald-500/20 transition-colors"
@@ -332,7 +374,7 @@ export default function AdminServicesPage() {
 
                     <button
                       onClick={() => handleToggleStatus(service)}
-                      className="rounded-xl border border-zinc-800 bg-zinc-900 p-2 text-zinc-400 hover:text-white transition-colors"
+                      className="cursor-pointer rounded-xl border border-zinc-800 bg-zinc-900 p-2 text-zinc-400 hover:text-white transition-colors"
                       title={service.status === "active" ? "Deactivate Service" : "Activate Service"}
                     >
                       {service.status === "active" ? (
@@ -343,16 +385,19 @@ export default function AdminServicesPage() {
                     </button>
 
                     <button
-                      onClick={() => setEditingService(service)}
-                      className="rounded-xl border border-zinc-800 bg-zinc-900 p-2 text-zinc-400 hover:text-white transition-colors"
-                      title="Edit Service"
+                      onClick={() => {
+                        setEditingService(service);
+                        setActiveTab("general");
+                      }}
+                      className="cursor-pointer rounded-xl border border-zinc-800 bg-zinc-900 p-2 text-zinc-400 hover:text-white transition-colors"
+                      title="Edit Service, Packages & Portfolio"
                     >
                       <Edit2 className="h-4 w-4" />
                     </button>
 
                     <button
                       onClick={() => handleDeleteService(service.id)}
-                      className="rounded-xl border border-zinc-800 bg-zinc-900 p-2 text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                      className="cursor-pointer rounded-xl border border-zinc-800 bg-zinc-900 p-2 text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
                       title="Delete Service"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -398,7 +443,7 @@ export default function AdminServicesPage() {
                             {pkg.description}
                           </p>
                           <ul className="mt-3 space-y-1 text-[10px] text-zinc-400 border-t border-zinc-800/60 pt-2">
-                            {pkg.features?.slice(0, 4).map((f, fIdx) => (
+                            {pkg.features?.slice(0, 5).map((f, fIdx) => (
                               <li key={fIdx} className="flex items-center gap-1.5">
                                 <Check className="h-3 w-3 text-emerald-400 shrink-0" />
                                 <span>{f}</span>
@@ -416,217 +461,562 @@ export default function AdminServicesPage() {
         )}
       </div>
 
-      {/* Service Editor Modal */}
+      {/* Service Editor Modal with Tabs (General, Packages, Portfolio) */}
       {editingService && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 p-4 backdrop-blur-sm">
-          <div className="my-8 w-full max-w-3xl rounded-2xl border border-zinc-800 bg-zinc-950 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-zinc-800 px-6 py-4">
-              <h2 className="font-heading text-lg font-bold text-white">
-                {editingService.id ? "Edit Agency Service" : "Create New Agency Service"}
-              </h2>
-              <button
-                onClick={() => setEditingService(null)}
-                className="text-xs text-zinc-500 hover:text-white"
-              >
-                ✕ Cancel
-              </button>
+        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/85 p-4 backdrop-blur-sm">
+          <div className="my-8 w-full max-w-4xl rounded-2xl border border-zinc-800 bg-zinc-950 shadow-2xl">
+            {/* Modal Header & Navigation Tabs */}
+            <div className="border-b border-zinc-800 px-6 py-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="font-heading text-lg font-bold text-white">
+                    {editingService.id ? `Edit: ${editingService.title}` : "Create Agency Service"}
+                  </h2>
+                  <p className="text-xs text-zinc-400 mt-0.5">
+                    Configure service pitch, live tier pricing (₹ INR), deliverables, and trust-building portfolio showcases.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setEditingService(null)}
+                  className="rounded-full p-1.5 text-zinc-500 hover:bg-zinc-900 hover:text-white"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              {/* Tabs */}
+              <div className="mt-4 flex gap-2 border-t border-zinc-800/80 pt-3">
+                {[
+                  { id: "general", label: "1. Service Details", icon: Layers },
+                  { id: "packages", label: `2. Pricing Packages (${editingService.packages?.length || 0})`, icon: IndianRupee },
+                  { id: "portfolio", label: "3. Portfolio Showcase", icon: Sparkles },
+                ].map((tab) => {
+                  const Icon = tab.icon;
+                  const isActive = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => setActiveTab(tab.id as any)}
+                      className={`flex cursor-pointer items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-all ${
+                        isActive
+                          ? "bg-[#FF5A36] text-white shadow-xs"
+                          : "border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white"
+                      }`}
+                    >
+                      <Icon className="h-3.5 w-3.5" />
+                      <span>{tab.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
-            <form onSubmit={handleSaveService} className="p-6 space-y-5">
-              <div>
-                <label className="block text-xs font-semibold text-zinc-300">
-                  Service Title
-                </label>
-                <input
-                  type="text"
-                  value={editingService.title || ""}
-                  onChange={(e) => setEditingService({ ...editingService, title: e.target.value })}
-                  required
-                  placeholder="e.g. YouTube & Reel Video Editing"
-                  className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
-                />
-              </div>
+            <form onSubmit={handleSaveService}>
+              {/* TAB 1: General Details */}
+              {activeTab === "general" && (
+                <div className="p-6 space-y-5">
+                  <div>
+                    <label className="block text-xs font-semibold text-zinc-300">
+                      Service Title <span className="text-[#FF5A36]">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={editingService.title || ""}
+                      onChange={(e) => setEditingService({ ...editingService, title: e.target.value })}
+                      required
+                      placeholder="e.g. YouTube & Reel Video Editing"
+                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                    />
+                  </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-zinc-300">
-                    Category Tag
-                  </label>
-                  <input
-                    type="text"
-                    value={editingService.category || "Agency Creative"}
-                    onChange={(e) => setEditingService({ ...editingService, category: e.target.value })}
-                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
-                  />
-                </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-zinc-300">
+                        Category Tag
+                      </label>
+                      <input
+                        type="text"
+                        value={editingService.category || "Agency Creative"}
+                        onChange={(e) => setEditingService({ ...editingService, category: e.target.value })}
+                        className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                      />
+                    </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-zinc-300">
-                    Turnaround Time
-                  </label>
-                  <input
-                    type="text"
-                    value={editingService.turnaround || "48-72 Hours"}
-                    onChange={(e) => setEditingService({ ...editingService, turnaround: e.target.value })}
-                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
-                  />
-                </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-zinc-300">
+                        Standard Turnaround
+                      </label>
+                      <input
+                        type="text"
+                        value={editingService.turnaround || "48-72 Hours"}
+                        onChange={(e) => setEditingService({ ...editingService, turnaround: e.target.value })}
+                        className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                      />
+                    </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-zinc-300">
-                    Status
-                  </label>
-                  <select
-                    value={editingService.status || "active"}
-                    onChange={(e) => setEditingService({ ...editingService, status: e.target.value as any })}
-                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
-                  >
-                    <option value="active">Active (Live in Menu & Services Page)</option>
-                    <option value="inactive">Inactive (Hidden)</option>
-                  </select>
-                </div>
-              </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-zinc-300">
+                        Visual Icon
+                      </label>
+                      <select
+                        value={editingService.icon || "Video"}
+                        onChange={(e) => setEditingService({ ...editingService, icon: e.target.value })}
+                        className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                      >
+                        {ICON_OPTIONS.map((opt) => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-zinc-300">
-                  Short Description
-                </label>
-                <textarea
-                  rows={2}
-                  value={editingService.description || ""}
-                  onChange={(e) => setEditingService({ ...editingService, description: e.target.value })}
-                  placeholder="Summary of what your team delivers..."
-                  className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
-                />
-              </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-zinc-300">
+                      Short Pitch Description
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={editingService.description || ""}
+                      onChange={(e) => setEditingService({ ...editingService, description: e.target.value })}
+                      placeholder="High-retention video editing designed for YouTube creators and brands..."
+                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                    />
+                  </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-zinc-300">
-                  Detailed Pitch / Long Description
-                </label>
-                <textarea
-                  rows={3}
-                  value={editingService.longDescription || ""}
-                  onChange={(e) => setEditingService({ ...editingService, longDescription: e.target.value })}
-                  placeholder="Comprehensive explanation of the methodology, quality standards, and guarantee..."
-                  className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
-                />
-              </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-zinc-300">
+                      Comprehensive Long Pitch (Methodology, Stack &amp; Standards)
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={editingService.longDescription || ""}
+                      onChange={(e) => setEditingService({ ...editingService, longDescription: e.target.value })}
+                      placeholder="Detailed explanation of our editing workflow, color grading, pacing, and 100% guarantee..."
+                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                    />
+                  </div>
 
-              {/* Core Features List */}
-              <div>
-                <label className="block text-xs font-semibold text-zinc-300 mb-1">
-                  Deliverables &amp; Guarantees ({editingService.features?.length || 0})
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={newFeature}
-                    onChange={(e) => setNewFeature(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        addFeature();
-                      }
-                    }}
-                    placeholder="e.g. 48-hour rush delivery available"
-                    className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
-                  />
-                  <button
-                    type="button"
-                    onClick={addFeature}
-                    className="rounded-xl bg-zinc-800 px-4 py-2 text-xs font-semibold text-zinc-200 hover:text-white"
-                  >
-                    Add
-                  </button>
-                </div>
-
-                <div className="mt-2.5 flex flex-wrap gap-2">
-                  {editingService.features?.map((f, i) => (
-                    <span
-                      key={i}
-                      className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-800 bg-zinc-900/80 px-2.5 py-1 text-xs text-zinc-300"
-                    >
-                      <span>{f}</span>
+                  {/* Core Features / Guarantees List */}
+                  <div>
+                    <label className="block text-xs font-semibold text-zinc-300 mb-1">
+                      Deliverables &amp; Guarantees ({editingService.features?.length || 0})
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newFeature}
+                        onChange={(e) => setNewFeature(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            addFeature();
+                          }
+                        }}
+                        placeholder="e.g. 48-Hour Rush Delivery Available"
+                        className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                      />
                       <button
                         type="button"
-                        onClick={() => removeFeature(i)}
-                        className="text-zinc-500 hover:text-red-400"
+                        onClick={addFeature}
+                        className="cursor-pointer rounded-xl bg-zinc-800 px-4 py-2 text-xs font-semibold text-zinc-200 hover:text-white"
                       >
-                        ✕
+                        + Add
                       </button>
-                    </span>
-                  ))}
+                    </div>
+
+                    <div className="mt-2.5 flex flex-wrap gap-2">
+                      {editingService.features?.map((f, i) => (
+                        <span
+                          key={i}
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-800 bg-zinc-900/80 px-2.5 py-1 text-xs text-zinc-300"
+                        >
+                          <span>{f}</span>
+                          <button
+                            type="button"
+                            onClick={() => removeFeature(i)}
+                            className="cursor-pointer text-zinc-500 hover:text-red-400"
+                          >
+                            ✕
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {/* Portfolio Videos (For Video Editing) */}
-              <div>
-                <label className="block text-xs font-semibold text-zinc-300">
-                  Portfolio Video URLs (One URL per line — MP4 or YouTube)
-                </label>
-                <textarea
-                  rows={2}
-                  value={(editingService.portfolioVideos || []).join("\n")}
-                  onChange={(e) =>
-                    setEditingService({
-                      ...editingService,
-                      portfolioVideos: e.target.value
-                        .split("\n")
-                        .map((s) => s.trim())
-                        .filter(Boolean),
-                    })
-                  }
-                  placeholder="https://commondatastorage.googleapis.com/... or https://cdn.../sample.mp4"
-                  className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
-                />
-                <p className="mt-1 text-[11px] text-zinc-500">
-                  Videos displayed directly on the public service page for client trust.
-                </p>
-              </div>
+              {/* TAB 2: Pricing Packages */}
+              {activeTab === "packages" && (
+                <div className="p-6 space-y-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wider text-[#FF5A36]">
+                        Tiered Packages &amp; Pricing (INR)
+                      </p>
+                      <p className="text-[11px] text-zinc-400 mt-0.5">
+                        Configure exact pricing, deliverables, and features for each client tier.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const pkgs = [...(editingService.packages || [])];
+                        pkgs.push({
+                          name: `Package ${pkgs.length + 1}`,
+                          price: 499,
+                          currency: "INR",
+                          period: "project",
+                          description: "Custom tailored creative service package",
+                          features: ["Full Commercial License", "Fast Delivery", "2 Free Revisions"],
+                          isPopular: false,
+                        });
+                        setEditingService({ ...editingService, packages: pkgs });
+                      }}
+                      className="cursor-pointer inline-flex items-center gap-1 rounded-xl bg-zinc-800 px-3 py-1.5 text-xs font-semibold text-white hover:bg-zinc-700"
+                    >
+                      <Plus className="h-3.5 w-3.5" />
+                      <span>Add Package Tier</span>
+                    </button>
+                  </div>
 
-              {/* Portfolio Images (For Photo Editing, Websites, Logos) */}
-              <div>
-                <label className="block text-xs font-semibold text-zinc-300">
-                  Portfolio Image URLs (One image URL per line)
-                </label>
-                <textarea
-                  rows={3}
-                  value={(editingService.portfolioImages || []).join("\n")}
-                  onChange={(e) =>
-                    setEditingService({
-                      ...editingService,
-                      portfolioImages: e.target.value
-                        .split("\n")
-                        .map((s) => s.trim())
-                        .filter(Boolean),
-                    })
-                  }
-                  placeholder="https://images.unsplash.com/photo-..."
-                  className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
-                />
-                <p className="mt-1 text-[11px] text-zinc-500">
-                  High-res image gallery shown on public service page (before/after edits, logo marks, or website previews).
-                </p>
-              </div>
+                  <div className="space-y-4">
+                    {(editingService.packages || []).map((pkg, pIdx) => (
+                      <div
+                        key={pIdx}
+                        className={`rounded-xl border p-4 transition-all ${
+                          pkg.isPopular
+                            ? "border-[#FF5A36]/50 bg-[#FF5A36]/5"
+                            : "border-zinc-800 bg-zinc-900/40"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between border-b border-zinc-800/80 pb-3">
+                          <div className="flex items-center gap-3">
+                            <span className="rounded bg-zinc-800 px-2 py-0.5 text-xs font-bold text-zinc-300">
+                              Tier {pIdx + 1}
+                            </span>
+                            <span className="font-heading text-sm font-bold text-white">
+                              {pkg.name || "Untitled Package"}
+                            </span>
+                            {pkg.isPopular && (
+                              <span className="rounded-full bg-[#FF5A36]/20 px-2 py-0.5 text-[9px] font-bold uppercase text-[#FF5A36]">
+                                Popular Choice
+                              </span>
+                            )}
+                          </div>
 
-              {/* Footer Save Button */}
-              <div className="flex justify-end gap-3 pt-4 border-t border-zinc-800">
-                <button
-                  type="button"
-                  onClick={() => setEditingService(null)}
-                  className="rounded-xl border border-zinc-800 px-4 py-2 text-xs font-semibold text-zinc-400 hover:text-white"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#FF5A36] px-5 py-2 text-xs font-semibold text-white shadow-md hover:bg-[#ff4620] disabled:opacity-50"
-                >
-                  <Save className="h-3.5 w-3.5" />
-                  <span>{saving ? "Saving..." : "Save Agency Service"}</span>
-                </button>
+                          <div className="flex items-center gap-2">
+                            <label className="flex items-center gap-1.5 text-xs text-zinc-400 cursor-pointer">
+                              <input
+                                type="checkbox"
+                                checked={pkg.isPopular || false}
+                                onChange={(e) => updatePackage(pIdx, { isPopular: e.target.checked })}
+                                className="rounded border-zinc-700 text-[#FF5A36] focus:ring-[#FF5A36]"
+                              />
+                              <span>Mark as Popular</span>
+                            </label>
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const pkgs = (editingService.packages || []).filter((_, i) => i !== pIdx);
+                                setEditingService({ ...editingService, packages: pkgs });
+                              }}
+                              className="cursor-pointer rounded-lg p-1 text-zinc-500 hover:text-red-400 hover:bg-red-500/10"
+                              title="Delete this package"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                          <div>
+                            <label className="block text-[11px] font-semibold text-zinc-300">
+                              Package Name
+                            </label>
+                            <input
+                              type="text"
+                              value={pkg.name || ""}
+                              onChange={(e) => updatePackage(pIdx, { name: e.target.value })}
+                              placeholder="e.g. Basic Reel, Viral Retention, Cinematic Master"
+                              className="mt-1 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-1.5 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[11px] font-semibold text-zinc-300">
+                              Price (₹ INR)
+                            </label>
+                            <div className="relative mt-1">
+                              <IndianRupee className="pointer-events-none absolute top-1/2 left-2.5 h-3.5 w-3.5 -translate-y-1/2 text-zinc-500" />
+                              <input
+                                type="number"
+                                value={pkg.price ?? 250}
+                                onChange={(e) => updatePackage(pIdx, { price: Number(e.target.value) })}
+                                className="w-full rounded-xl border border-zinc-800 bg-zinc-900 pr-3 pl-8 py-1.5 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                              />
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="block text-[11px] font-semibold text-zinc-300">
+                              Billing Unit / Period
+                            </label>
+                            <input
+                              type="text"
+                              value={pkg.period || "video"}
+                              onChange={(e) => updatePackage(pIdx, { period: e.target.value })}
+                              placeholder="e.g. video, photo, project"
+                              className="mt-1 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-1.5 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="mt-3">
+                          <label className="block text-[11px] font-semibold text-zinc-300">
+                            Package Summary
+                          </label>
+                          <input
+                            type="text"
+                            value={pkg.description || ""}
+                            onChange={(e) => updatePackage(pIdx, { description: e.target.value })}
+                            placeholder="Briefly describe what this tier covers..."
+                            className="mt-1 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-1.5 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                          />
+                        </div>
+
+                        {/* Package Features list */}
+                        <div className="mt-3">
+                          <label className="block text-[11px] font-semibold text-zinc-300 mb-1">
+                            Included Features ({pkg.features?.length || 0})
+                          </label>
+                          <div className="flex flex-wrap gap-1.5 mb-2">
+                            {(pkg.features || []).map((feat, fIdx) => (
+                              <span
+                                key={fIdx}
+                                className="inline-flex items-center gap-1 rounded-md bg-zinc-800 px-2 py-0.5 text-[11px] text-zinc-300"
+                              >
+                                <span>{feat}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => removePackageFeature(pIdx, fIdx)}
+                                  className="cursor-pointer text-zinc-500 hover:text-red-400"
+                                >
+                                  ✕
+                                </button>
+                              </span>
+                            ))}
+                          </div>
+
+                          <div className="flex gap-2">
+                            <input
+                              type="text"
+                              id={`new-feat-${pIdx}`}
+                              placeholder="Type a feature and click '+ Add'"
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                  e.preventDefault();
+                                  const input = e.currentTarget;
+                                  if (input.value.trim()) {
+                                    addPackageFeature(pIdx, input.value);
+                                    input.value = "";
+                                  }
+                                }
+                              }}
+                              className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-1 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const input = document.getElementById(`new-feat-${pIdx}`) as HTMLInputElement;
+                                if (input && input.value.trim()) {
+                                  addPackageFeature(pIdx, input.value);
+                                  input.value = "";
+                                }
+                              }}
+                              className="cursor-pointer rounded-xl bg-zinc-800 px-3 py-1 text-xs font-semibold text-zinc-200 hover:text-white"
+                            >
+                              + Add Feature
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 3: Portfolio Showcase */}
+              {activeTab === "portfolio" && (
+                <div className="p-6 space-y-6">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wider text-[#FF5A36]">
+                      Public Portfolio &amp; Trust Showcase
+                    </p>
+                    <p className="text-[11px] text-zinc-400 mt-0.5">
+                      Add sample videos, before/after photos, or live project links displayed directly on the service page.
+                    </p>
+                  </div>
+
+                  {/* Section A: Video URLs (for Video Editing) */}
+                  <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 space-y-3">
+                    <div className="flex items-center gap-2 text-xs font-bold text-white">
+                      <Video className="h-4 w-4 text-[#FF5A36]" />
+                      <span>Portfolio Videos (YouTube or MP4 Direct Links)</span>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <input
+                        type="url"
+                        value={newVideoUrl}
+                        onChange={(e) => setNewVideoUrl(e.target.value)}
+                        placeholder="Paste YouTube or MP4 link (e.g. https://www.youtube.com/watch?v=...)"
+                        className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            if (newVideoUrl.trim()) {
+                              const vids = [...(editingService.portfolioVideos || [])];
+                              vids.push(newVideoUrl.trim());
+                              setEditingService({ ...editingService, portfolioVideos: vids });
+                              setNewVideoUrl("");
+                            }
+                          }
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (newVideoUrl.trim()) {
+                            const vids = [...(editingService.portfolioVideos || [])];
+                            vids.push(newVideoUrl.trim());
+                            setEditingService({ ...editingService, portfolioVideos: vids });
+                            setNewVideoUrl("");
+                          }
+                        }}
+                        className="cursor-pointer rounded-xl bg-zinc-800 px-4 py-2 text-xs font-semibold text-white hover:bg-zinc-700"
+                      >
+                        + Add Video
+                      </button>
+                    </div>
+
+                    {/* Videos list */}
+                    <div className="space-y-2">
+                      {(editingService.portfolioVideos || []).map((vid, vIdx) => (
+                        <div
+                          key={vIdx}
+                          className="flex items-center justify-between rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-xs text-zinc-300"
+                        >
+                          <div className="flex items-center gap-2 truncate">
+                            <Play className="h-3.5 w-3.5 text-[#FF5A36] shrink-0" />
+                            <span className="truncate font-mono text-[11px]">{vid}</span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const vids = (editingService.portfolioVideos || []).filter((_, i) => i !== vIdx);
+                              setEditingService({ ...editingService, portfolioVideos: vids });
+                            }}
+                            className="cursor-pointer text-zinc-500 hover:text-red-400 p-1"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Section B: Portfolio Images */}
+                  <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 space-y-3">
+                    <div className="flex items-center gap-2 text-xs font-bold text-white">
+                      <ImageIcon className="h-4 w-4 text-emerald-400" />
+                      <span>Portfolio Images &amp; Project Screenshots</span>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <input
+                        type="url"
+                        value={newImageUrl}
+                        onChange={(e) => setNewImageUrl(e.target.value)}
+                        placeholder="Paste image URL (Unsplash, CDN, or Cloud link)..."
+                        className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            if (newImageUrl.trim()) {
+                              const imgs = [...(editingService.portfolioImages || [])];
+                              imgs.push(newImageUrl.trim());
+                              setEditingService({ ...editingService, portfolioImages: imgs });
+                              setNewImageUrl("");
+                            }
+                          }
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (newImageUrl.trim()) {
+                            const imgs = [...(editingService.portfolioImages || [])];
+                            imgs.push(newImageUrl.trim());
+                            setEditingService({ ...editingService, portfolioImages: imgs });
+                            setNewImageUrl("");
+                          }
+                        }}
+                        className="cursor-pointer rounded-xl bg-zinc-800 px-4 py-2 text-xs font-semibold text-white hover:bg-zinc-700"
+                      >
+                        + Add Image
+                      </button>
+                    </div>
+
+                    {/* Images gallery list */}
+                    <div className="flex flex-wrap gap-2.5">
+                      {(editingService.portfolioImages || []).map((img, iIdx) => (
+                        <div
+                          key={iIdx}
+                          className="group relative h-16 w-24 overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900"
+                        >
+                          <img src={img} alt={`Asset ${iIdx}`} className="h-full w-full object-cover" />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const imgs = (editingService.portfolioImages || []).filter((_, i) => i !== iIdx);
+                              setEditingService({ ...editingService, portfolioImages: imgs });
+                            }}
+                            className="cursor-pointer absolute top-1 right-1 rounded-full bg-black/70 p-1 text-white opacity-0 group-hover:opacity-100 hover:bg-red-600"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Modal Footer */}
+              <div className="flex items-center justify-between border-t border-zinc-800 px-6 py-4">
+                <span className="text-[11px] text-zinc-500">
+                  {editingService.id ? "Updates reflect instantly on live website." : "New service will be saved to store."}
+                </span>
+
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setEditingService(null)}
+                    className="cursor-pointer rounded-xl border border-zinc-800 px-4 py-2 text-xs font-semibold text-zinc-400 hover:text-white"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={saving}
+                    className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl bg-[#FF5A36] px-5 py-2 text-xs font-semibold text-white shadow-md hover:bg-[#ff4620] active:scale-[0.98] disabled:opacity-50"
+                  >
+                    <Save className="h-3.5 w-3.5" />
+                    <span>{saving ? "Saving Changes..." : "Save Agency Service"}</span>
+                  </button>
+                </div>
               </div>
             </form>
           </div>

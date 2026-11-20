@@ -16,14 +16,31 @@ import {
   Database,
   Lock,
   ExternalLink,
+  CreditCard,
+  Eye,
+  EyeOff,
+  Check,
+  Zap,
+  KeyRound,
+  ShieldAlert,
 } from "lucide-react";
-import type { SystemSettings } from "@/lib/admin/types";
+import type { SystemSettings, CashfreeConfig } from "@/lib/admin/types";
 
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState<SystemSettings | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [savedSuccess, setSavedSuccess] = useState(false);
+
+  // Cashfree state
+  const [showSecretKey, setShowSecretKey] = useState(false);
+  const [testingCashfree, setTestingCashfree] = useState(false);
+  const [cashfreeTestResult, setCashfreeTestResult] = useState<{
+    success?: boolean;
+    message?: string;
+    error?: string;
+    latencyMs?: number;
+  } | null>(null);
 
   // Firebase Cloud State
   const [firebaseStatus, setFirebaseStatus] = useState<{
@@ -44,7 +61,19 @@ export default function AdminSettingsPage() {
     try {
       const res = await fetch("/api/admin/settings");
       const data = await res.json();
-      setSettings(data.settings || null);
+      if (data.settings) {
+        // Ensure cashfree object is initialized
+        const s: SystemSettings = {
+          ...data.settings,
+          cashfree: data.settings.cashfree || {
+            enabled: false,
+            env: "TEST",
+            appId: "",
+            secretKey: "",
+          },
+        };
+        setSettings(s);
+      }
     } catch (err) {
       console.error("Failed to fetch settings:", err);
     } finally {
@@ -60,7 +89,7 @@ export default function AdminSettingsPage() {
       if (data.status) {
         setFirebaseStatus(data.status);
       }
-    } catch (err) {
+    } catch {
       setFirebaseStatus({ connected: false, error: "Network check failed" });
     } finally {
       setTestingFirebase(false);
@@ -86,6 +115,39 @@ export default function AdminSettingsPage() {
       alert("Error triggering cloud synchronization");
     } finally {
       setSyncingFirebase(false);
+    }
+  };
+
+  const handleTestCashfree = async () => {
+    if (!settings?.cashfree?.appId || !settings?.cashfree?.secretKey) {
+      setCashfreeTestResult({
+        success: false,
+        error: "Please enter both Cashfree App ID and Secret Key before testing.",
+      });
+      return;
+    }
+
+    try {
+      setTestingCashfree(true);
+      setCashfreeTestResult(null);
+      const res = await fetch("/api/admin/cashfree", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          appId: settings.cashfree.appId,
+          secretKey: settings.cashfree.secretKey,
+          env: settings.cashfree.env || "TEST",
+        }),
+      });
+      const data = await res.json();
+      setCashfreeTestResult(data);
+    } catch (err: any) {
+      setCashfreeTestResult({
+        success: false,
+        error: err.message || "Failed to communicate with Cashfree test endpoint.",
+      });
+    } finally {
+      setTestingCashfree(false);
     }
   };
 
@@ -130,11 +192,11 @@ export default function AdminSettingsPage() {
           <div className="flex items-center gap-2">
             <Settings className="h-4 w-4 text-[#FF5A36]" />
             <h1 className="font-heading text-2xl font-bold tracking-tight text-white">
-              Global System Settings
+              System &amp; Gateway Settings
             </h1>
           </div>
-          <p className="text-xs text-zinc-400">
-            Configure Firebase cloud database, announcement bar, currency exchange, and WhatsApp support.
+          <p className="text-xs text-zinc-400 mt-0.5">
+            Manage Cashfree payment gateway, announcement banner, secret founder access, currency &amp; cloud database.
           </p>
         </div>
 
@@ -144,6 +206,236 @@ export default function AdminSettingsPage() {
             <span>Settings saved successfully!</span>
           </div>
         )}
+      </div>
+
+      {/* Cashfree Payment Gateway Card */}
+      <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-6 backdrop-blur-md space-y-5">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-zinc-800 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FF5A36]/15 text-[#FF5A36]">
+              <CreditCard className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="font-heading text-sm font-bold text-white">
+                  Cashfree Payment Gateway Integration
+                </h2>
+                <span className="rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-bold text-amber-400">
+                  Account In Review • Ready in 2 Days
+                </span>
+              </div>
+              <p className="text-[11px] text-zinc-400">
+                Supports UPI Auto-Collect, Cards, NetBanking, and Instant Refunds for Indian Customers.
+              </p>
+            </div>
+          </div>
+
+          <label className="relative inline-flex cursor-pointer items-center">
+            <input
+              type="checkbox"
+              checked={settings.cashfree?.enabled ?? false}
+              onChange={(e) =>
+                setSettings({
+                  ...settings,
+                  cashfree: {
+                    ...(settings.cashfree || { env: "TEST", appId: "", secretKey: "" }),
+                    enabled: e.target.checked,
+                  },
+                })
+              }
+              className="peer sr-only"
+            />
+            <div className="peer h-6 w-11 rounded-full bg-zinc-800 after:absolute after:top-0.5 after:left-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#FF5A36] peer-checked:after:translate-x-full"></div>
+            <span className="ml-2 text-xs font-semibold text-zinc-300">
+              {settings.cashfree?.enabled ? "Gateway Active" : "Fallback / Manual Mode"}
+            </span>
+          </label>
+        </div>
+
+        {/* Notice for Founder */}
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 text-xs text-zinc-300 space-y-1">
+          <div className="flex items-center gap-2 font-semibold text-white">
+            <Sparkles className="h-4 w-4 text-[#FF5A36]" />
+            <span>Cashfree Account Review Notice</span>
+          </div>
+          <p className="text-zinc-400 text-[11px]">
+            Your Cashfree merchant account is currently in the 2-day verification window. You can input your credentials below now. While under review, the storefront safely uses instant UPI QR &amp; WhatsApp direct verification so you never lose a sale!
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-xs font-semibold text-zinc-300">
+              Environment Mode
+            </label>
+            <select
+              value={settings.cashfree?.env || "TEST"}
+              onChange={(e) =>
+                setSettings({
+                  ...settings,
+                  cashfree: {
+                    ...(settings.cashfree || { enabled: false, appId: "", secretKey: "" }),
+                    env: e.target.value as "TEST" | "PROD",
+                  },
+                })
+              }
+              className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+            >
+              <option value="TEST">TEST (Cashfree Sandbox)</option>
+              <option value="PROD">PROD (Live Production Gateway)</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-zinc-300">
+              Cashfree App ID (Client ID)
+            </label>
+            <input
+              type="text"
+              value={settings.cashfree?.appId || ""}
+              onChange={(e) =>
+                setSettings({
+                  ...settings,
+                  cashfree: {
+                    ...(settings.cashfree || { enabled: false, env: "TEST", secretKey: "" }),
+                    appId: e.target.value,
+                  },
+                })
+              }
+              placeholder="e.g. TEST101... or CF_LIVE_..."
+              className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-zinc-300">
+              Cashfree Secret Key
+            </label>
+            <div className="relative mt-1.5">
+              <input
+                type={showSecretKey ? "text" : "password"}
+                value={settings.cashfree?.secretKey || ""}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    cashfree: {
+                      ...(settings.cashfree || { enabled: false, env: "TEST", appId: "" }),
+                      secretKey: e.target.value,
+                    },
+                  })
+                }
+                placeholder="Enter Cashfree Secret Key..."
+                className="w-full rounded-xl border border-zinc-800 bg-zinc-900 pr-10 pl-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+              />
+              <button
+                type="button"
+                onClick={() => setShowSecretKey(!showSecretKey)}
+                className="absolute inset-y-0 right-0 flex items-center pr-3 text-zinc-500 hover:text-zinc-300"
+              >
+                {showSecretKey ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Test Connection Action */}
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-zinc-800/80 pt-4">
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleTestCashfree}
+              disabled={testingCashfree}
+              className="flex items-center gap-1.5 rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-1.5 text-xs font-semibold text-zinc-200 hover:bg-zinc-800 hover:text-white transition-colors"
+            >
+              <RefreshCw className={`h-3.5 w-3.5 ${testingCashfree ? "animate-spin" : ""}`} />
+              <span>{testingCashfree ? "Testing Connection..." : "Test Cashfree Credentials"}</span>
+            </button>
+
+            {cashfreeTestResult && (
+              <span
+                className={`text-xs font-medium px-2.5 py-1 rounded-lg ${
+                  cashfreeTestResult.success
+                    ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
+                    : "bg-red-500/15 text-red-400 border border-red-500/30"
+                }`}
+              >
+                {cashfreeTestResult.success
+                  ? `Authenticated (${cashfreeTestResult.latencyMs}ms): ${cashfreeTestResult.message}`
+                  : `Error: ${cashfreeTestResult.error}`}
+              </span>
+            )}
+          </div>
+
+          <span className="text-[11px] text-zinc-500">
+            Keys also read from Vercel env: <code className="text-zinc-400">CASHFREE_APP_ID</code> &amp; <code className="text-zinc-400">CASHFREE_SECRET_KEY</code>
+          </span>
+        </div>
+      </div>
+
+      {/* Secret Founder Access & Security Audit Card */}
+      <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-6 backdrop-blur-md space-y-4">
+        <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-400">
+              <ShieldCheck className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="font-heading text-sm font-bold text-white">
+                  Founder Secret Admin Security &amp; Access Gate
+                </h2>
+                <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-bold text-emerald-400">
+                  Zero-Trust Sealed
+                </span>
+              </div>
+              <p className="text-[11px] text-zinc-400">
+                Protected by timing-safe HMAC-SHA256 tokens and isolated from public client bundles.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="rounded-xl border border-zinc-900 bg-zinc-900/40 p-3.5">
+            <div className="flex items-center justify-between text-zinc-400 text-xs">
+              <span>Session Lifespan</span>
+              <Lock className="h-3.5 w-3.5 text-emerald-400" />
+            </div>
+            <div className="mt-1 font-heading text-sm font-bold text-white">
+              12 Hours Auto-Expiry
+            </div>
+            <p className="text-[10px] text-zinc-500">HttpOnly &amp; SameSite strict cookie</p>
+          </div>
+
+          <div className="rounded-xl border border-zinc-900 bg-zinc-900/40 p-3.5">
+            <div className="flex items-center justify-between text-zinc-400 text-xs">
+              <span>Passphrase Security</span>
+              <KeyRound className="h-3.5 w-3.5 text-[#FF5A36]" />
+            </div>
+            <div className="mt-1 font-heading text-sm font-bold text-white">
+              ADMIN_SECRET_KEY
+            </div>
+            <p className="text-[10px] text-zinc-500">Change via Vercel Environment Variables</p>
+          </div>
+
+          <div className="rounded-xl border border-zinc-900 bg-zinc-900/40 p-3.5">
+            <div className="flex items-center justify-between text-zinc-400 text-xs">
+              <span>Brute-Force Guard</span>
+              <ShieldAlert className="h-3.5 w-3.5 text-blue-400" />
+            </div>
+            <div className="mt-1 font-heading text-sm font-bold text-emerald-400">
+              Active &amp; Rate-Limited
+            </div>
+            <p className="text-[10px] text-zinc-500">5 failed attempts trigger cooldown</p>
+          </div>
+        </div>
+
+        <div className="rounded-xl bg-zinc-900/60 p-3.5 text-xs text-zinc-400">
+          <p className="font-semibold text-zinc-300">How to update your Founder Secret Passphrase:</p>
+          <p className="text-[11px] mt-1">
+            To set a custom secret passphrase, add <code className="text-[#FF5A36]">ADMIN_SECRET_KEY=your_secret_phrase</code> in your Vercel Project Settings &gt; Environment Variables. The server will immediately authenticate with your new passphrase without re-deploying code.
+          </p>
+        </div>
       </div>
 
       {/* Firebase Cloud Database & Realtime Sync Card */}
@@ -175,9 +467,7 @@ export default function AdminSettingsPage() {
               disabled={testingFirebase}
               className="flex items-center gap-1.5 rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
             >
-              <RefreshCw
-                className={`h-3.5 w-3.5 ${testingFirebase ? "animate-spin" : ""}`}
-              />
+              <RefreshCw className={`h-3.5 w-3.5 ${testingFirebase ? "animate-spin" : ""}`} />
               <span>{testingFirebase ? "Testing..." : "Test Connection"}</span>
             </button>
 
@@ -275,6 +565,24 @@ export default function AdminSettingsPage() {
             </label>
           </div>
 
+          {/* Live Preview Box */}
+          {settings.announcementBar?.enabled && (
+            <div className="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 p-2.5">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 block mb-1.5">
+                Live Banner Preview:
+              </span>
+              <div className="flex flex-wrap items-center justify-center gap-2 rounded-lg bg-[#FF5A36] px-4 py-2 text-center text-xs font-semibold text-white shadow-sm">
+                <span className="rounded-full bg-black/30 px-2.5 py-0.5 text-[10px] font-bold tracking-wider uppercase text-white">
+                  {settings.announcementBar?.badge || "ANNOUNCEMENT"}
+                </span>
+                <span>{settings.announcementBar?.text || "Special offer available today"}</span>
+                <span className="underline underline-offset-2 opacity-90">
+                  {settings.announcementBar?.linkText || "Shop Now"} &rarr;
+                </span>
+              </div>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-medium text-zinc-300">
@@ -361,14 +669,27 @@ export default function AdminSettingsPage() {
                 className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
               />
               <span className="text-[10px] text-zinc-500">
-                Used for live currency switcher across the website.
+                Used for live currency switcher across the website (e.g. ₹299 = ${(299 / (settings.currencyRateUsdToInr || 86.5)).toFixed(2)}).
               </span>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-zinc-300">
-                Official WhatsApp Business Number
-              </label>
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-medium text-zinc-300">
+                  Official WhatsApp Business Number
+                </label>
+                {settings.whatsappNumber && (
+                  <a
+                    href={`https://wa.me/${settings.whatsappNumber.replace(/\D/g, "")}?text=Hi%20BADARSH%20Studio`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] text-emerald-400 hover:underline flex items-center gap-1"
+                  >
+                    <span>Test Chat</span>
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                )}
+              </div>
               <input
                 type="text"
                 value={settings.whatsappNumber || ""}
@@ -382,7 +703,7 @@ export default function AdminSettingsPage() {
                 className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
               />
               <span className="text-[10px] text-zinc-500">
-                Used for instant 1-click customer WhatsApp discussions.
+                Used for 1-click customer WhatsApp discussions and service inquiries.
               </span>
             </div>
           </div>

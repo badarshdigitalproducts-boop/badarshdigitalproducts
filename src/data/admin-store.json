@@ -47,8 +47,9 @@
       "canvaUrl": "https://badarsh.com/templates/sample-sample-reels",
       "downloadUrl": "https://badarsh.com/downloads/instagram-reels-template-pack.zip",
       "createdAt": "2025-03-15",
+      "templateUrl": "https://badarsh.com/templates/sample-sample-reels",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.709Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-002",
@@ -96,8 +97,9 @@
       "canvaUrl": "https://badarsh.com/templates/sample-sample-linkedin",
       "downloadUrl": "https://badarsh.com/downloads/linkedin-carousel-templates.zip",
       "createdAt": "2025-05-20",
+      "templateUrl": "https://badarsh.com/templates/sample-sample-linkedin",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.709Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-003",
@@ -146,8 +148,9 @@
       "canvaUrl": "https://badarsh.com/templates/sample-social-starter-kit",
       "downloadUrl": "https://badarsh.com/downloads/social-media-starter-kit.zip",
       "createdAt": "2025-01-10",
+      "templateUrl": "https://badarsh.com/templates/sample-social-starter-kit",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.709Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-004",
@@ -195,8 +198,9 @@
       "canvaUrl": "https://badarsh.com/templates/sample-modern-pitch-deck",
       "downloadUrl": "https://badarsh.com/downloads/modern-pitch-deck-template.zip",
       "createdAt": "2025-04-12",
+      "templateUrl": "https://badarsh.com/templates/sample-modern-pitch-deck",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.709Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-005",
@@ -243,8 +247,9 @@
       "canvaUrl": "https://badarsh.com/templates/sample-webinar-slide-deck",
       "downloadUrl": "https://badarsh.com/downloads/webinar-slide-deck.zip",
       "createdAt": "2025-06-01",
+      "templateUrl": "https://badarsh.com/templates/sample-webinar-slide-deck",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.709Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-006",
@@ -291,8 +296,9 @@
       "canvaUrl": "https://badarsh.com/templates/sample-brand-identity-kit",
       "downloadUrl": "https://badarsh.com/downloads/ultimate-brand-identity-kit.zip",
       "createdAt": "2025-02-18",
+      "templateUrl": "https://badarsh.com/templates/sample-brand-identity-kit",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.709Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-007",
@@ -339,8 +345,9 @@
       "canvaUrl": "https://badarsh.com/templates/sample-luxury-business-cards",
       "downloadUrl": "https://badarsh.com/downloads/luxury-business-card-collection.zip",
       "createdAt": "2025-04-05",
+      "templateUrl": "https://badarsh.com/templates/sample-luxury-business-cards",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.709Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-008",
@@ -389,8 +396,9 @@
       "canvaUrl": "https://badarsh.com/templates/sample-business-launch-bundle",
       "downloadUrl": "https://badarsh.com/downloads/business-launch-bundle.zip",
       "createdAt": "2025-01-01",
+      "templateUrl": "https://badarsh.com/templates/sample-business-launch-bundle",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.709Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-009",
@@ -437,9 +445,10 @@
       "downloadUrl": "https://drive.google.com/file/d/1sample-download-growth-playbook/view",
       "deliveryType": "download-url",
       "createdAt": "2025-02-28",
-      "canvaUrl": "https://www.canva.com/design/templates/instagram-growth-playbook",
+      "templateUrl": "/templates/instagram-growth-playbook",
+      "canvaUrl": "/templates/instagram-growth-playbook",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.709Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-010",
@@ -486,9 +495,10 @@
       "downloadUrl": "https://drive.google.com/file/d/1sample-download-design-playbook/view",
       "deliveryType": "download-url",
       "createdAt": "2026-10-15",
-      "canvaUrl": "https://www.canva.com/design/templates/design-mastery-playbook",
+      "templateUrl": "/templates/design-mastery-playbook",
+      "canvaUrl": "/templates/design-mastery-playbook",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.710Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-011",
@@ -535,9 +545,10 @@
       "downloadUrl": "https://drive.google.com/file/d/1sample-download-content-calendar/view",
       "deliveryType": "download-url",
       "createdAt": "2025-11-01",
-      "canvaUrl": "https://www.canva.com/design/templates/content-calendar-planner-2026",
+      "templateUrl": "/templates/content-calendar-planner-2026",
+      "canvaUrl": "/templates/content-calendar-planner-2026",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.710Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-012",
@@ -584,9 +595,10 @@
       "downloadUrl": "https://drive.google.com/file/d/1sample-download-freelance-tracker/view",
       "deliveryType": "download-url",
       "createdAt": "2026-09-20",
-      "canvaUrl": "https://www.canva.com/design/templates/freelance-client-tracker-planner",
+      "templateUrl": "/templates/freelance-client-tracker-planner",
+      "canvaUrl": "/templates/freelance-client-tracker-planner",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.710Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-014",
@@ -634,9 +646,10 @@
       "downloadUrl": "https://drive.google.com/file/d/1sample-editing-apps-vault/view",
       "deliveryType": "download-url",
       "createdAt": "2026-11-01",
-      "canvaUrl": "https://www.canva.com/design/templates/creator-editing-apps-vault",
+      "templateUrl": "/templates/creator-editing-apps-vault",
+      "canvaUrl": "/templates/creator-editing-apps-vault",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.710Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-015",
@@ -686,9 +699,10 @@
       "overlayLinkUrl": "https://www.capcut.com/template/BADARSH_SFX_01",
       "deliveryType": "external-url",
       "createdAt": "2026-11-05",
-      "canvaUrl": "https://www.canva.com/design/templates/viral-sfx-motion-overlay-bundle",
+      "templateUrl": "/templates/viral-sfx-motion-overlay-bundle",
+      "canvaUrl": "/templates/viral-sfx-motion-overlay-bundle",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.710Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-016",
@@ -740,9 +754,10 @@
       "presetLinkUrl": "https://lightroom.adobe.com/shares/BADARSH_PRESET_01",
       "deliveryType": "external-url",
       "createdAt": "2026-11-10",
-      "canvaUrl": "https://www.canva.com/design/templates/cinematic-lightroom-presets",
+      "templateUrl": "/templates/cinematic-lightroom-presets",
+      "canvaUrl": "/templates/cinematic-lightroom-presets",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.710Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-017",
@@ -794,9 +809,10 @@
       "downloadUrl": "https://drive.google.com/file/d/BADARSH_EBOOK_01_FULL/view",
       "deliveryType": "download-url",
       "createdAt": "2026-10-01",
-      "canvaUrl": "https://www.canva.com/design/templates/founders-instagram-growth-playbook",
+      "templateUrl": "/templates/founders-instagram-growth-playbook",
+      "canvaUrl": "/templates/founders-instagram-growth-playbook",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.710Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-018",
@@ -850,9 +866,10 @@
       "downloadUrl": "https://drive.google.com/file/d/BADARSH_PLANNER_01_FULL/view",
       "deliveryType": "download-url",
       "createdAt": "2026-11-01",
-      "canvaUrl": "https://www.canva.com/design/templates/life-career-fitness-planner-2026",
+      "templateUrl": "/templates/life-career-fitness-planner-2026",
+      "canvaUrl": "/templates/life-career-fitness-planner-2026",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.710Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-019",
@@ -904,16 +921,17 @@
       "downloadUrl": "https://drive.google.com/drive/folders/BADARSH_MEGA_BUNDLE_2026",
       "deliveryType": "google-drive",
       "createdAt": "2026-11-10",
-      "canvaUrl": "https://www.canva.com/design/templates/2026-video-editing-mega-bundle",
+      "templateUrl": "/templates/2026-video-editing-mega-bundle",
+      "canvaUrl": "/templates/2026-video-editing-mega-bundle",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.710Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-020",
       "slug": "capcut-pro-unlocked-editor",
       "title": "CapCut Pro — Full Feature Mobile App & Creator Setup",
       "description": "Direct high-speed app download with all premium features unlocked: no watermarks, 4K 60fps export, all VIP transitions and AI cutout tools.",
-      "longDescription": "Get direct access to our verified CapCut Pro mobile package. Download the app directly from BADARSH without third-party popups or redirects. Comes with full setup guide, unlocking all premium transition packs, auto-captions, voice synthesis, AI background cutout, and crystal-clear 4K 60fps export.",
+      "longDescription": "Get direct access to our verified CapCut Pro mobile package. Download the app installer directly from BADARSH without third-party popups or redirects. Comes with full creator setup, unlocking all premium transition packs, auto-captions, voice synthesis, AI background cutout, and crystal-clear 4K 60fps export.",
       "price": 199,
       "originalPrice": 499,
       "currency": "INR",
@@ -922,7 +940,6 @@
         "capcut",
         "editing apps",
         "mobile creator",
-        "android",
         "pro",
         "video editing"
       ],
@@ -939,7 +956,7 @@
         "100% virus scanned and tested by BADARSH technical team"
       ],
       "specs": {
-        "count": "1 Verified Mobile App + Install PDF",
+        "count": "1 Verified Mobile App + Setup PDF",
         "dimensions": "Android 8.0 or higher required",
         "compatibility": "All Mobile Smartphones & Tablets"
       },
@@ -957,9 +974,10 @@
       "downloadUrl": "https://drive.google.com/file/d/BADARSH_CAPCUT_PRO_APP/view",
       "deliveryType": "download-url",
       "createdAt": "2026-10-20",
-      "canvaUrl": "https://www.canva.com/design/templates/capcut-pro-unlocked-editor",
+      "templateUrl": "/templates/capcut-pro-unlocked-editor",
+      "canvaUrl": "/templates/capcut-pro-unlocked-editor",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.710Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "prod-021",
@@ -1009,9 +1027,10 @@
       "downloadUrl": "https://drive.google.com/drive/folders/BADARSH_SFX_OVERLAYS",
       "deliveryType": "google-drive",
       "createdAt": "2026-11-12",
-      "canvaUrl": "https://www.canva.com/design/templates/cinematic-sfx-motion-overlays-vault",
+      "templateUrl": "/templates/cinematic-sfx-motion-overlays-vault",
+      "canvaUrl": "/templates/cinematic-sfx-motion-overlays-vault",
       "status": "published",
-      "updatedAt": "2026-11-19T15:52:16.710Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     }
   ],
   "services": [
@@ -1105,7 +1124,7 @@
           "whatsappMessage": "Hi BADARSH! I'm interested in the Mind-Blowing Cinematic Master video edit (₹799). Let's discuss my project!"
         }
       ],
-      "updatedAt": "2026-11-19T15:52:16.710Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "svc-002",
@@ -1192,7 +1211,7 @@
           "whatsappMessage": "Hi BADARSH! I'm interested in the 15-20 Pages Enterprise Website package (₹15,000+). Let's discuss my custom specifications!"
         }
       ],
-      "updatedAt": "2026-11-19T15:52:16.710Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "svc-003",
@@ -1278,7 +1297,7 @@
           "whatsappMessage": "Hi BADARSH! I'm interested in the Full Brand Scale Social Media package (₹19,999/month). Let's schedule a kickoff call!"
         }
       ],
-      "updatedAt": "2026-11-19T15:52:16.711Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "svc-004",
@@ -1362,7 +1381,7 @@
           "whatsappMessage": "Hi BADARSH! I'm interested in the Full Enterprise Mobile App package (₹49,999+). Let's set up a technical scoping call!"
         }
       ],
-      "updatedAt": "2026-11-19T15:52:16.711Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "svc-005",
@@ -1445,7 +1464,7 @@
           "whatsappMessage": "Hi BADARSH! I'm interested in High-End Commercial Retouching (₹799). Let's discuss my brief!"
         }
       ],
-      "updatedAt": "2026-11-19T15:52:16.711Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "svc-006",
@@ -1531,7 +1550,7 @@
           "whatsappMessage": "Hi BADARSH! I want to order the Full Signature Identity Pack (₹1,999). Let's schedule a brand brief!"
         }
       ],
-      "updatedAt": "2026-11-19T15:52:16.711Z"
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     }
   ],
   "blogPosts": [
@@ -1552,8 +1571,8 @@
         "Creator Economy"
       ],
       "status": "published",
-      "views": 695,
-      "updatedAt": "2026-11-19T15:52:16.711Z"
+      "views": 993,
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "slug": "design-hacks-for-small-business",
@@ -1572,8 +1591,8 @@
         "Small Business"
       ],
       "status": "published",
-      "views": 465,
-      "updatedAt": "2026-11-19T15:52:16.711Z"
+      "views": 934,
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "slug": "instagram-organic-growth-blueprint",
@@ -1592,8 +1611,8 @@
         "Social Selling"
       ],
       "status": "published",
-      "views": 643,
-      "updatedAt": "2026-11-19T15:52:16.711Z"
+      "views": 508,
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "slug": "why-diy-websites-fail",
@@ -1612,8 +1631,8 @@
         "UX"
       ],
       "status": "published",
-      "views": 462,
-      "updatedAt": "2026-11-19T15:52:16.711Z"
+      "views": 347,
+      "updatedAt": "2026-11-20T10:57:39.129Z"
     }
   ],
   "coupons": [
@@ -1626,7 +1645,7 @@
       "usageCount": 18,
       "usageLimit": 1000,
       "status": "active",
-      "createdAt": "2026-11-19T15:52:16.711Z"
+      "createdAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "cpn-001",
@@ -1637,7 +1656,7 @@
       "usageCount": 142,
       "usageLimit": 500,
       "status": "active",
-      "createdAt": "2026-11-19T15:52:16.711Z"
+      "createdAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "cpn-002",
@@ -1647,7 +1666,7 @@
       "minOrderAmount": 0,
       "usageCount": 68,
       "status": "active",
-      "createdAt": "2026-11-19T15:52:16.711Z"
+      "createdAt": "2026-11-20T10:57:39.129Z"
     },
     {
       "id": "cpn-003",
@@ -1657,7 +1676,7 @@
       "minOrderAmount": 499,
       "usageCount": 29,
       "status": "active",
-      "createdAt": "2026-11-19T15:52:16.711Z"
+      "createdAt": "2026-11-20T10:57:39.129Z"
     }
   ],
   "leads": [
@@ -1671,8 +1690,8 @@
       "budget": "₹25,000 / month",
       "status": "new",
       "notes": "Founder of a D2C fitness brand. High-priority lead.",
-      "createdAt": "2026-11-19T13:52:16.711Z",
-      "updatedAt": "2026-11-19T13:52:16.711Z"
+      "createdAt": "2026-11-20T08:57:39.129Z",
+      "updatedAt": "2026-11-20T08:57:39.129Z"
     },
     {
       "id": "lead-002",
@@ -1684,8 +1703,8 @@
       "budget": "₹60,000 one-time",
       "status": "contacted",
       "notes": "Sent preliminary portfolio deck on WhatsApp. Scheduled discovery call for Thursday.",
-      "createdAt": "2026-11-19T01:52:16.711Z",
-      "updatedAt": "2026-11-19T11:52:16.711Z"
+      "createdAt": "2026-11-19T20:57:39.129Z",
+      "updatedAt": "2026-11-20T06:57:39.129Z"
     },
     {
       "id": "lead-003",
@@ -1697,8 +1716,8 @@
       "budget": "₹45,000 / month",
       "status": "proposal",
       "notes": "Proposal draft #2 sent. Awaiting board approval.",
-      "createdAt": "2026-11-18T03:52:16.711Z",
-      "updatedAt": "2026-11-19T05:52:16.711Z"
+      "createdAt": "2026-11-18T22:57:39.129Z",
+      "updatedAt": "2026-11-20T00:57:39.129Z"
     }
   ],
   "subscribers": [
@@ -1707,21 +1726,21 @@
       "email": "rohit.verma@gmail.com",
       "source": "Homepage Hero Lead Magnet",
       "status": "active",
-      "createdAt": "2026-11-19T11:52:16.711Z"
+      "createdAt": "2026-11-20T06:57:39.129Z"
     },
     {
       "id": "sub-002",
       "email": "kavita.deshmukh@yahoo.in",
       "source": "Footer Newsletter",
       "status": "active",
-      "createdAt": "2026-11-18T21:52:16.711Z"
+      "createdAt": "2026-11-19T16:57:39.129Z"
     },
     {
       "id": "sub-003",
       "email": "neha.patel@startupcollective.io",
       "source": "Free Starter Templates Popup",
       "status": "active",
-      "createdAt": "2026-11-17T15:52:16.711Z"
+      "createdAt": "2026-11-18T10:57:39.129Z"
     }
   ],
   "orders": [
@@ -1747,7 +1766,7 @@
       "licenseKey": "BDRSH-LNKD-8821-X9",
       "canvaAccessDelivered": true,
       "deliveryNotes": "Sent direct access link via email.",
-      "createdAt": "2026-11-19T10:52:16.711Z"
+      "createdAt": "2026-11-20T05:57:39.129Z"
     },
     {
       "id": "ORD-94813",
@@ -1778,7 +1797,7 @@
       "licenseKey": "BDRSH-BNDL-4412-M2",
       "canvaAccessDelivered": true,
       "deliveryNotes": "Automated instant checkout delivery completed.",
-      "createdAt": "2026-11-18T17:52:16.711Z"
+      "createdAt": "2026-11-19T12:57:39.129Z"
     },
     {
       "id": "ORD-94814",
@@ -1800,7 +1819,7 @@
       "paymentStatus": "completed",
       "licenseKey": "BDRSH-PRST-9912-K4",
       "canvaAccessDelivered": true,
-      "createdAt": "2026-11-18T07:52:16.711Z"
+      "createdAt": "2026-11-19T02:57:39.129Z"
     }
   ],
   "settings": {
@@ -1816,14 +1835,14 @@
     "whatsappNumber": "917204250115",
     "supportEmail": "hello@badarsh.com",
     "maintenanceMode": false,
-    "lastBackupAt": "2026-11-19T15:52:16.712Z"
+    "lastBackupAt": "2026-11-20T10:57:39.129Z"
   },
   "auditLogs": [
     {
       "id": "log-001",
       "action": "SYSTEM_INITIALIZED",
       "details": "BADARSH Admin Operating System initialized with full digital catalog.",
-      "timestamp": "2026-11-19T15:52:16.711Z"
+      "timestamp": "2026-11-20T10:57:39.129Z"
     }
   ]
 }

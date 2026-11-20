@@ -1,8 +1,10 @@
 /**
  * Cashfree Payment Gateway Integration Helper
  * Supports production and sandbox modes.
- * When account is live in ~2 days, set CASHFREE_APP_ID & CASHFREE_SECRET_KEY in .env.local
+ * Managed directly via /admin/settings or environment variables (.env.local / Vercel).
  */
+
+import { getSystemSettings } from "./admin/store";
 
 export interface CreateCashfreeOrderParams {
   orderId: string;
@@ -14,15 +16,42 @@ export interface CreateCashfreeOrderParams {
   returnUrl?: string;
 }
 
-export async function createCashfreeOrder(params: CreateCashfreeOrderParams) {
-  const appId = process.env.CASHFREE_APP_ID;
-  const secretKey = process.env.CASHFREE_SECRET_KEY;
-  const env = process.env.CASHFREE_ENV || "TEST"; // "TEST" or "PROD"
+export async function getCashfreeCredentials() {
+  const envAppId = process.env.CASHFREE_APP_ID;
+  const envSecretKey = process.env.CASHFREE_SECRET_KEY;
+  const envMode = (process.env.CASHFREE_ENV as "TEST" | "PROD") || undefined;
 
-  if (!appId || !secretKey) {
+  let storeSettings = null;
+  try {
+    storeSettings = await getSystemSettings();
+  } catch {
+    // Fallback if running outside full node store
+  }
+
+  const appId = envAppId || storeSettings?.cashfree?.appId || "";
+  const secretKey = envSecretKey || storeSettings?.cashfree?.secretKey || "";
+  const env = envMode || storeSettings?.cashfree?.env || "TEST";
+  const enabled =
+    storeSettings?.cashfree?.enabled !== undefined
+      ? storeSettings.cashfree.enabled
+      : Boolean(appId && secretKey);
+
+  return {
+    appId,
+    secretKey,
+    env,
+    enabled,
+    isConfigured: Boolean(appId && secretKey),
+  };
+}
+
+export async function createCashfreeOrder(params: CreateCashfreeOrderParams) {
+  const { appId, secretKey, env, isConfigured } = await getCashfreeCredentials();
+
+  if (!isConfigured) {
     return {
       success: false,
-      error: "Cashfree API keys are not configured yet.",
+      error: "Cashfree API keys are under review / not configured yet.",
       fallbackRequired: true,
     };
   }
@@ -52,7 +81,9 @@ export async function createCashfreeOrder(params: CreateCashfreeOrderParams) {
           customer_phone: params.customerPhone || "9999999999",
         },
         order_meta: {
-          return_url: params.returnUrl || `${process.env.NEXT_PUBLIC_SITE_URL || "https://badarsh.vercel.app"}/order-success?order_id={order_id}`,
+          return_url:
+            params.returnUrl ||
+            `${process.env.NEXT_PUBLIC_SITE_URL || "https://badarsh.vercel.app"}/order-success?order_id={order_id}`,
         },
       }),
     });
@@ -76,6 +107,63 @@ export async function createCashfreeOrder(params: CreateCashfreeOrderParams) {
       success: false,
       error: error.message || "Network error communicating with Cashfree.",
       fallbackRequired: true,
+    };
+  }
+}
+
+export async function testCashfreeConnection(appId: string, secretKey: string, env: "TEST" | "PROD") {
+  const endpoint =
+    env === "PROD"
+      ? "https://api.cashfree.com/pg/orders"
+      : "https://sandbox.cashfree.com/pg/orders";
+
+  try {
+    const startTime = Date.now();
+    // Test auth by hitting orders endpoint with a dummy test payload that verifies authentication
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "x-client-id": appId,
+        "x-client-secret": secretKey,
+        "x-api-version": "2023-08-01",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        order_id: `test_ping_${Date.now()}`,
+        order_amount: 1,
+        order_currency: "INR",
+        customer_details: {
+          customer_id: "test_probe",
+          customer_email: "test@badarsh.com",
+          customer_phone: "9999999999",
+        },
+      }),
+    });
+
+    const latencyMs = Date.now() - startTime;
+    const data = await response.json().catch(() => ({}));
+
+    // If 401/403: auth failure. If 200/201 or even order_id created or duplicate: auth succeeded!
+    if (response.status === 401 || response.status === 403) {
+      return {
+        success: false,
+        latencyMs,
+        error: data.message || "Invalid Cashfree Client ID or Secret Key.",
+      };
+    }
+
+    return {
+      success: true,
+      latencyMs,
+      env,
+      message: response.ok
+        ? "Cashfree API credentials authenticated successfully!"
+        : (data.message || "Connected to Cashfree API."),
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message || "Failed to reach Cashfree servers.",
     };
   }
 }

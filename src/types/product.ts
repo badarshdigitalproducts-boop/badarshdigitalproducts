@@ -6,6 +6,7 @@ export interface ProductSpecs {
 }
 
 export type DeliveryType =
+  | "template-link"
   | "canva-link"
   | "download-url"
   | "google-drive"
@@ -27,6 +28,7 @@ export interface Product {
   videoUrl?: string;
   previewVideoUrl?: string;
   downloadUrl?: string;
+  templateUrl?: string;
   canvaUrl?: string;
   googleDriveUrl?: string;
   deliveryType?: DeliveryType;

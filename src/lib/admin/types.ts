@@ -2,6 +2,7 @@ import type { Product, ProductCategory, ProductSpecs } from "@/types/product";
 import type { Service, ServicePackage } from "@/types";
 
 export type ProductType =
+  | "template"
   | "canva-template"
   | "ebook"
   | "planner"
@@ -16,15 +17,17 @@ export type ProductType =
   | "other";
 
 export type DeliveryType =
+  | "template-link"
   | "canva-link"
   | "download-url"
   | "google-drive"
   | "external-url"
   | "whatsapp-delivery";
 
-export interface AdminProduct extends Omit<Product, "tags" | "isFeatured" | "isNew" | "isBestseller"> {
+export interface AdminProduct extends Omit<Product, "tags" | "isFeatured" | "isNew" | "isBestseller" | "deliveryType"> {
   productType?: ProductType;
   deliveryType?: DeliveryType;
+  templateUrl?: string;
   canvaUrl?: string;
   downloadUrl?: string;
   externalUrl?: string;
@@ -84,6 +87,26 @@ export interface AdminServicePackage {
   whatsappMessage?: string;
 }
 
+export interface PortfolioBeforeAfterItem {
+  before: string;
+  after: string;
+  title?: string;
+}
+
+export interface PortfolioWebsiteItem {
+  name: string;
+  url: string;
+  image: string;
+  tags: string[];
+}
+
+export interface PortfolioLogoItem {
+  name: string;
+  darkImage: string;
+  lightImage?: string;
+  category?: string;
+}
+
 export interface AdminService {
   id: string;
   slug: string;
@@ -96,6 +119,9 @@ export interface AdminService {
   turnaround?: string;
   portfolioImages?: string[];
   portfolioVideos?: string[];
+  portfolioBeforeAfter?: PortfolioBeforeAfterItem[];
+  portfolioWebsites?: PortfolioWebsiteItem[];
+  portfolioLogos?: PortfolioLogoItem[];
   features: string[];
   packages: AdminServicePackage[];
   updatedAt?: string;
@@ -188,6 +214,13 @@ export interface AnnouncementBarConfig {
   linkUrl: string;
 }
 
+export interface CashfreeConfig {
+  enabled: boolean;
+  env: "TEST" | "PROD";
+  appId: string;
+  secretKey: string;
+}
+
 export interface SystemSettings {
   siteName: string;
   announcementBar: AnnouncementBarConfig;
@@ -196,6 +229,7 @@ export interface SystemSettings {
   supportEmail: string;
   maintenanceMode: boolean;
   lastBackupAt?: string;
+  cashfree?: CashfreeConfig;
 }
 
 export interface AuditLog {

@@ -72,7 +72,8 @@ function getSeedDatabase(): AdminDatabase {
   const seededProducts: AdminProduct[] = initialStaticProducts.map((p) => ({
     ...p,
     deliveryType: p.deliveryType || "download-url",
-    canvaUrl: p.canvaUrl || p.gumroadUrl || `https://www.canva.com/design/templates/${p.slug}`,
+    templateUrl: (p as any).templateUrl || p.canvaUrl || `/templates/${p.slug}`,
+    canvaUrl: p.canvaUrl || `/templates/${p.slug}`,
     downloadUrl: p.downloadUrl || `/downloads/${p.slug}.zip`,
     status: "published",
     updatedAt: new Date().toISOString(),
