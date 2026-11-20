@@ -248,6 +248,17 @@ export interface AuditLog {
   timestamp: string;
 }
 
+export interface UserAccount {
+  id: string;
+  name: string;
+  email: string;
+  passwordHash?: string;
+  photoURL?: string;
+  provider: "email" | "google";
+  createdAt: string;
+  lastLoginAt: string;
+}
+
 export interface AdminDatabase {
   products: AdminProduct[];
   services: AdminService[];
@@ -258,5 +269,6 @@ export interface AdminDatabase {
   orders: OrderRecord[];
   settings: SystemSettings;
   auditLogs: AuditLog[];
+  users?: UserAccount[];
 }
 

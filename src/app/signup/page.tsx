@@ -5,23 +5,15 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  User,
-  Mail,
-  Lock,
   Eye,
   EyeOff,
   ArrowRight,
-  Sparkles,
-  ShieldCheck,
-  CheckCircle2,
   AlertCircle,
   Loader2,
-  Zap,
-  Film,
-  Award,
 } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
 import { GoogleIcon } from "@/components/auth/google-icon";
+import { BrandLogo } from "@/components/layout/brand-logo";
 
 function SignupForm() {
   const router = useRouter();
@@ -39,9 +31,9 @@ function SignupForm() {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
 
-  // Password strength calculation
+  // Clean, subtle password strength
   const passwordStrength = useMemo(() => {
-    if (!password) return { score: 0, label: "Enter password", color: "bg-muted" };
+    if (!password) return { score: 0, label: "" };
     let score = 0;
     if (password.length >= 8) score += 1;
     if (/[A-Z]/.test(password) && /[a-z]/.test(password)) score += 1;
@@ -54,11 +46,11 @@ function SignupForm() {
       case 2:
         return { score: 2, label: "Fair", color: "bg-amber-500" };
       case 3:
-        return { score: 3, label: "Good", color: "bg-sky-500" };
+        return { score: 3, label: "Good", color: "bg-blue-500" };
       case 4:
-        return { score: 4, label: "Studio Strong", color: "bg-emerald-500" };
+        return { score: 4, label: "Strong", color: "bg-emerald-500" };
       default:
-        return { score: 0, label: "Too short", color: "bg-muted" };
+        return { score: 0, label: "" };
     }
   }, [password]);
 
@@ -105,298 +97,214 @@ function SignupForm() {
     }
   };
 
-  const handleDemoSignIn = () => {
-    demoLogin(name || "New Studio Creator", email || "new.creator@badarsh.com");
-    router.push(redirectUrl);
-  };
-
   const activeError = localError || error;
 
   return (
-    <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Ambient Lighting */}
-      <div className="pointer-events-none absolute -top-40 right-1/4 h-[500px] w-[750px] rounded-full bg-gradient-to-bl from-accent/15 via-orange-500/10 to-indigo-600/10 blur-[120px] -z-10" />
-      <div className="pointer-events-none absolute -bottom-40 left-10 h-[400px] w-[500px] rounded-full bg-accent/10 blur-[130px] -z-10" />
+    <div className="min-h-[calc(100vh-4.5rem)] flex items-center justify-center px-4 py-10 relative overflow-hidden bg-background">
+      {/* Subtle atmospheric glow */}
+      <div className="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[340px] w-[500px] rounded-full bg-gradient-to-b from-accent/10 via-zinc-800/5 to-transparent blur-[100px] -z-10" />
 
-      <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-        {/* Left Column: Creator Identity & Value (5 cols) */}
-        <div className="lg:col-span-5 space-y-6 text-center lg:text-left order-2 lg:order-1">
-          <div className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent/10 px-3.5 py-1 text-xs font-bold text-accent">
-            <Sparkles className="h-3.5 w-3.5" />
-            <span>JOIN THE COLLECTIVE</span>
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.28, ease: "easeOut" }}
+        className="w-full max-w-[420px]"
+      >
+        <div className="rounded-3xl border border-border/80 bg-card/85 p-7 sm:p-9 shadow-2xl backdrop-blur-2xl">
+          {/* Header */}
+          <div className="text-center">
+            <div className="flex justify-center mb-3">
+              <BrandLogo variant="icon" />
+            </div>
+            <h1 className="apple-display text-2xl font-bold tracking-tight text-foreground">
+              Create an account
+            </h1>
+            <p className="mt-1 text-xs text-muted">
+              Get started with master-grade digital assets.
+            </p>
           </div>
 
-          <h1 className="apple-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground leading-[1.12]">
-            Create your account &amp; <span className="text-accent">unlock the studio</span>.
-          </h1>
-
-          <p className="text-sm sm:text-base text-muted leading-relaxed max-w-md mx-auto lg:mx-0">
-            Join 14,000+ editors, filmmakers, and digital agency founders. Get instant cloud access to master bundles, presets, and commercial assets.
-          </p>
-
-          {/* Perks */}
-          <div className="space-y-3 pt-2 max-w-md mx-auto lg:mx-0 text-left">
-            <div className="flex items-center gap-3 rounded-2xl border border-card-border/60 bg-card/60 p-3.5 backdrop-blur-sm">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent">
-                <Zap className="h-4 w-4" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-foreground">Immediate 1-Click Vault Access</h4>
-                <p className="text-[11px] text-muted">No waiting — instant Google Drive &amp; direct download delivery.</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 rounded-2xl border border-card-border/60 bg-card/60 p-3.5 backdrop-blur-sm">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-purple-500/10 text-purple-400">
-                <Film className="h-4 w-4" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-foreground">Royalty-Free Client Licensing</h4>
-                <p className="text-[11px] text-muted">Keep 100% of your earnings on all commercial client work.</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 rounded-2xl border border-card-border/60 bg-card/60 p-3.5 backdrop-blur-sm">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400">
-                <Award className="h-4 w-4" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-foreground">Free Lifetime Version Updates</h4>
-                <p className="text-[11px] text-muted">When we update packs, your cloud library updates automatically.</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Security Notice */}
-          <div className="flex items-center justify-center lg:justify-start gap-2 text-xs text-muted pt-1">
-            <ShieldCheck className="h-4 w-4 text-emerald-500" />
-            <span>256-bit encrypted authentication &bull; Zero spam</span>
-          </div>
-        </div>
-
-        {/* Right Column: Interactive Registration Card (7 cols) */}
-        <div className="lg:col-span-7 order-1 lg:order-2">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35 }}
-            className="relative rounded-3xl border border-card-border/80 bg-card/80 p-6 sm:p-10 shadow-2xl backdrop-blur-2xl"
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between border-b border-card-border/60 pb-5 mb-6">
-              <div>
-                <h2 className="apple-display text-2xl sm:text-3xl font-extrabold text-foreground">
-                  Create Account
-                </h2>
-                <p className="text-xs text-muted mt-1">
-                  Start creating with master-grade digital assets
-                </p>
-              </div>
-              <Link
-                href={`/login?redirect=${encodeURIComponent(redirectUrl)}`}
-                className="rounded-full border border-card-border bg-muted/20 px-3.5 py-1.5 text-xs font-semibold text-foreground hover:bg-muted/40 transition-all active:scale-95"
+          {/* Error Message */}
+          <AnimatePresence>
+            {activeError && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="mt-5 overflow-hidden"
               >
-                Sign In &rarr;
-              </Link>
-            </div>
+                <div className="flex items-start gap-2.5 rounded-xl border border-rose-500/20 bg-rose-500/10 p-3 text-xs text-rose-400">
+                  <AlertCircle className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
+                  <span className="leading-relaxed">{activeError}</span>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-            {/* Error Notice */}
-            <AnimatePresence>
-              {activeError && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="mb-5 overflow-hidden"
-                >
-                  <div className="flex items-start gap-2.5 rounded-2xl border border-rose-500/30 bg-rose-500/10 p-3.5 text-xs text-rose-300">
-                    <AlertCircle className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
-                    <div className="flex-1 leading-relaxed">
-                      <span className="font-semibold text-rose-200 block mb-0.5">Registration Notice</span>
-                      {activeError}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* 1-Click Google Sign Up */}
+          {/* Google OAuth Button */}
+          <div className="mt-6">
             <button
               type="button"
               onClick={handleGoogleSignIn}
               disabled={googleLoading}
-              className="flex w-full items-center justify-center gap-3 rounded-2xl border border-card-border bg-background/80 hover:bg-background px-4 py-3.5 text-xs sm:text-sm font-semibold text-foreground shadow-xs hover:border-foreground/20 hover:shadow-md active:scale-[0.99] transition-all disabled:opacity-60 cursor-pointer"
+              className="w-full flex items-center justify-center gap-2.5 rounded-xl border border-border bg-background/60 hover:bg-background px-4 py-2.5 text-xs font-semibold text-foreground transition-all duration-150 hover:border-foreground/20 active:scale-[0.99] disabled:opacity-60 cursor-pointer shadow-2xs"
             >
               {googleLoading ? (
                 <Loader2 className="h-4 w-4 animate-spin text-accent" />
               ) : (
-                <GoogleIcon className="h-5 w-5" />
+                <GoogleIcon className="h-4 w-4" />
               )}
-              <span>Sign Up with Google</span>
+              <span>Continue with Google</span>
             </button>
+          </div>
 
-            {/* Divider */}
-            <div className="relative my-6 flex items-center justify-center">
-              <div className="w-full border-t border-card-border/60" />
-              <span className="absolute bg-card px-3 text-[10px] font-bold uppercase tracking-wider text-muted">
-                Or register with email
-              </span>
+          {/* Divider */}
+          <div className="relative my-5 flex items-center justify-center">
+            <div className="w-full border-t border-border/60" />
+            <span className="absolute bg-card px-3 text-[10px] font-medium uppercase tracking-wider text-muted">
+              or
+            </span>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleEmailSubmit} className="space-y-3.5">
+            <div>
+              <label className="block text-[11px] font-semibold text-foreground/80 mb-1">
+                Full Name
+              </label>
+              <input
+                type="text"
+                required
+                autoComplete="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Aarav Sharma"
+                className="w-full rounded-xl border border-border bg-background/40 px-3.5 py-2.5 text-xs text-foreground placeholder:text-muted/60 focus:border-foreground/30 focus:outline-hidden focus:ring-1 focus:ring-foreground/20 transition-all"
+              />
             </div>
 
-            {/* Registration Form */}
-            <form onSubmit={handleEmailSubmit} className="space-y-4">
-              {/* Full Name */}
-              <div>
-                <label className="block text-xs font-semibold text-foreground mb-1.5">
-                  Full Name / Studio Name
-                </label>
-                <div className="relative">
-                  <User className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted" />
-                  <input
-                    type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Aarav Sharma"
-                    className="w-full rounded-xl border border-card-border bg-background/50 pl-10 pr-4 py-3 text-xs sm:text-sm text-foreground placeholder:text-muted/60 focus:border-accent focus:outline-hidden focus:ring-2 focus:ring-accent/20 transition-all"
-                  />
-                </div>
+            <div>
+              <label className="block text-[11px] font-semibold text-foreground/80 mb-1">
+                Email
+              </label>
+              <input
+                type="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="name@example.com"
+                className="w-full rounded-xl border border-border bg-background/40 px-3.5 py-2.5 text-xs text-foreground placeholder:text-muted/60 focus:border-foreground/30 focus:outline-hidden focus:ring-1 focus:ring-foreground/20 transition-all"
+              />
+            </div>
+
+            <div>
+              <label className="block text-[11px] font-semibold text-foreground/80 mb-1">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  autoComplete="new-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="At least 6 characters"
+                  className="w-full rounded-xl border border-border bg-background/40 pl-3.5 pr-9 py-2.5 text-xs text-foreground placeholder:text-muted/60 focus:border-foreground/30 focus:outline-hidden focus:ring-1 focus:ring-foreground/20 transition-all"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-foreground transition-colors"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                </button>
               </div>
 
-              {/* Email */}
-              <div>
-                <label className="block text-xs font-semibold text-foreground mb-1.5">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <Mail className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted" />
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="creator@growthagency.in"
-                    className="w-full rounded-xl border border-card-border bg-background/50 pl-10 pr-4 py-3 text-xs sm:text-sm text-foreground placeholder:text-muted/60 focus:border-accent focus:outline-hidden focus:ring-2 focus:ring-accent/20 transition-all"
-                  />
-                </div>
-              </div>
-
-              {/* Password */}
-              <div>
-                <label className="block text-xs font-semibold text-foreground mb-1.5">
-                  Password
-                </label>
-                <div className="relative">
-                  <Lock className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted" />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Create a strong password (min 6 chars)"
-                    className="w-full rounded-xl border border-card-border bg-background/50 pl-10 pr-10 py-3 text-xs sm:text-sm text-foreground placeholder:text-muted/60 focus:border-accent focus:outline-hidden focus:ring-2 focus:ring-accent/20 transition-all"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted hover:text-foreground transition-colors"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
-                  >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </button>
-                </div>
-
-                {/* Password Strength Indicator */}
-                {password.length > 0 && (
-                  <div className="mt-2 space-y-1.5">
-                    <div className="flex items-center justify-between text-[11px]">
-                      <span className="text-muted">Password Strength:</span>
-                      <span className="font-bold text-foreground">{passwordStrength.label}</span>
-                    </div>
-                    <div className="grid grid-cols-4 gap-1.5 h-1.5 w-full bg-muted/30 rounded-full overflow-hidden">
-                      {[1, 2, 3, 4].map((step) => (
-                        <div
-                          key={step}
-                          className={`h-full transition-all duration-300 ${
-                            passwordStrength.score >= step
-                              ? passwordStrength.color
-                              : "bg-transparent"
-                          }`}
-                        />
-                      ))}
-                    </div>
+              {/* Password strength mini track */}
+              {password.length > 0 && (
+                <div className="mt-2 flex items-center gap-2">
+                  <div className="grid grid-cols-4 gap-1 flex-1 h-1 bg-muted/40 rounded-full overflow-hidden">
+                    {[1, 2, 3, 4].map((step) => (
+                      <div
+                        key={step}
+                        className={`h-full transition-all duration-300 ${
+                          passwordStrength.score >= step
+                            ? passwordStrength.color || "bg-accent"
+                            : "bg-transparent"
+                        }`}
+                      />
+                    ))}
                   </div>
-                )}
-              </div>
-
-              {/* Agreement Checkbox */}
-              <div className="pt-1">
-                <label className="flex items-start gap-2.5 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={agreeTerms}
-                    onChange={(e) => setAgreeTerms(e.target.checked)}
-                    className="mt-0.5 h-4 w-4 rounded-md border-card-border accent-accent"
-                  />
-                  <span className="text-xs text-muted leading-relaxed">
-                    I agree to the BADARSH{" "}
-                    <Link href="/terms" className="text-foreground underline underline-offset-2">
-                      Terms of Service
-                    </Link>{" "}
-                    and{" "}
-                    <Link href="/privacy" className="text-foreground underline underline-offset-2">
-                      Privacy Policy
-                    </Link>
-                    .
-                  </span>
-                </label>
-              </div>
-
-              {/* Primary Create Button */}
-              <button
-                type="submit"
-                disabled={loading}
-                className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-accent py-3.5 text-xs sm:text-sm font-bold text-white shadow-lg shadow-accent/20 hover:bg-accent-hover active:scale-[0.98] transition-all disabled:opacity-60 cursor-pointer"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    <span>Creating Creator Account...</span>
-                  </>
-                ) : (
-                  <>
-                    <span>Create Creator Account</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </>
-                )}
-              </button>
-            </form>
-
-            {/* Instant Demo Sandbox Shortcut */}
-            <div className="mt-6 pt-5 border-t border-card-border/60 text-center">
-              <button
-                type="button"
-                onClick={handleDemoSignIn}
-                className="inline-flex items-center gap-2 rounded-full border border-card-border bg-muted/20 px-4 py-2 text-xs font-semibold text-muted hover:text-foreground hover:bg-muted/40 transition-colors"
-              >
-                <Sparkles className="h-3.5 w-3.5 text-accent" />
-                <span>Instant Demo Creator Access (1-Click)</span>
-              </button>
+                  {passwordStrength.label && (
+                    <span className="text-[10px] text-muted font-medium">
+                      {passwordStrength.label}
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
 
-            {/* Card Footer Link */}
-            <p className="mt-5 text-center text-xs text-muted">
-              Already have an account?{" "}
-              <Link
-                href={`/login?redirect=${encodeURIComponent(redirectUrl)}`}
-                className="font-bold text-accent hover:underline"
-              >
-                Sign In here &rarr;
-              </Link>
-            </p>
-          </motion.div>
+            {/* Terms checkbox */}
+            <div className="pt-0.5">
+              <label className="flex items-start gap-2 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={agreeTerms}
+                  onChange={(e) => setAgreeTerms(e.target.checked)}
+                  className="mt-0.5 h-3.5 w-3.5 rounded border-border accent-accent"
+                />
+                <span className="text-[11px] text-muted leading-relaxed">
+                  I accept the{" "}
+                  <Link href="/terms" className="text-foreground underline underline-offset-2 hover:text-accent">
+                    Terms
+                  </Link>{" "}
+                  and{" "}
+                  <Link href="/privacy" className="text-foreground underline underline-offset-2 hover:text-accent">
+                    Privacy Policy
+                  </Link>
+                  .
+                </span>
+              </label>
+            </div>
+
+            {/* Primary Action Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-accent hover:bg-accent-hover text-white font-semibold text-xs py-2.5 transition-all duration-150 active:scale-[0.98] disabled:opacity-60 cursor-pointer shadow-sm"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  <span>Creating account...</span>
+                </>
+              ) : (
+                <>
+                  <span>Create Account</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </>
+              )}
+            </button>
+          </form>
         </div>
-      </div>
+
+        {/* Under-Card Switch Link */}
+        <div className="mt-5 text-center text-xs text-muted">
+          Already have an account?{" "}
+          <Link
+            href={`/login?redirect=${encodeURIComponent(redirectUrl)}`}
+            className="font-semibold text-foreground hover:text-accent transition-colors underline underline-offset-4"
+          >
+            Sign in
+          </Link>
+        </div>
+
+        <p className="mt-4 text-center text-[11px] text-muted/60">
+          Protected by BADARSH Studio Vault &bull; 256-bit SSL
+        </p>
+      </motion.div>
     </div>
   );
 }
