@@ -379,25 +379,20 @@ export default function SoundEffectsAdminPage() {
                 hint="Upload MP3/WAV from your device or paste audio stream URL"
               />
 
-              {/* Master WAV / Full Download Link */}
-              <div>
-                <label className="block text-xs font-semibold text-zinc-300">
-                  Master High-Bitrate Download Link (Google Drive or Cloud Link)
-                </label>
-                <input
-                  type="url"
-                  value={editingTrack.googleDriveUrl || editingTrack.downloadUrl || ""}
-                  onChange={(e) =>
-                    setEditingTrack({
-                      ...editingTrack,
-                      googleDriveUrl: e.target.value,
-                      downloadUrl: e.target.value,
-                    })
-                  }
-                  placeholder="https://drive.google.com/file/d/... or /uploads/..."
-                  className="mt-1 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
-                />
-              </div>
+              {/* Master WAV / Full Download File */}
+              <FileUploader
+                label="Master Audio File or ZIP Archive (Delivered to Buyers)"
+                value={editingTrack.googleDriveUrl || editingTrack.downloadUrl || ""}
+                onChange={(url) =>
+                  setEditingTrack({
+                    ...editingTrack,
+                    googleDriveUrl: url,
+                    downloadUrl: url,
+                  })
+                }
+                fileType="any"
+                hint="Directly upload master lossless WAV/MP3 file or ZIP from device, or paste Drive link"
+              />
 
               {/* Cover Artwork */}
               <FileUploader

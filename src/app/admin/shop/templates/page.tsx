@@ -354,25 +354,20 @@ export default function TemplatesAdminPage() {
                 />
               </div>
 
-              {/* Template Share Link */}
-              <div>
-                <label className="block text-xs font-semibold text-zinc-300">
-                  Template Project Share Link
-                </label>
-                <input
-                  type="url"
-                  value={editingTemplate.canvaUrl || editingTemplate.templateUrl || ""}
-                  onChange={(e) =>
-                    setEditingTemplate({
-                      ...editingTemplate,
-                      canvaUrl: e.target.value,
-                      templateUrl: e.target.value,
-                    })
-                  }
-                  placeholder="https://... (Direct share link for buyers to edit template)"
-                  className="mt-1 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
-                />
-              </div>
+              {/* Template Graphic / Project File Uploader */}
+              <FileUploader
+                label="Template Asset File / Archive or Project Share Link"
+                value={editingTemplate.templateUrl || editingTemplate.canvaUrl || ""}
+                onChange={(url) =>
+                  setEditingTemplate({
+                    ...editingTemplate,
+                    templateUrl: url,
+                    canvaUrl: url,
+                  })
+                }
+                fileType="any"
+                hint="Upload template asset ZIP directly from device or switch to paste project link"
+              />
 
               {/* Cover Artwork */}
               <FileUploader

@@ -43,6 +43,7 @@ import {
 import type { AdminProduct, ProductType, DeliveryType } from "@/lib/admin/types";
 import { CATEGORIES, PRODUCT_TYPES, DELIVERY_TYPES } from "@/lib/constants";
 import { BeforeAfterSlider } from "@/components/shared/before-after-slider";
+import { FileUploader } from "@/components/admin/file-uploader";
 
 // The 7 official shop categories for BADARSH
 const SHOP_CATEGORY_TABS = [
@@ -704,18 +705,13 @@ export default function AdminProductsPage() {
                       />
                     </FormField>
 
-                    <FormField
-                      label="Google Drive Master Asset Folder / ZIP Link"
-                      hint="Upload your bundle to Google Drive & paste share link here"
-                    >
-                      <input
-                        type="url"
-                        value={editingProduct.googleDriveUrl || ""}
-                        onChange={(e) => setEditingProduct({ ...editingProduct, googleDriveUrl: e.target.value })}
-                        placeholder="https://drive.google.com/drive/folders/..."
-                        className={inputCls}
-                      />
-                    </FormField>
+                    <FileUploader
+                      label="Bundle Master Archive or Cloud Share Link"
+                      value={editingProduct.googleDriveUrl || editingProduct.downloadUrl || ""}
+                      onChange={(url) => setEditingProduct({ ...editingProduct, googleDriveUrl: url, downloadUrl: url })}
+                      fileType="any"
+                      hint="Directly drag & drop bundle ZIP file or switch to paste Google Drive link"
+                    />
                   </div>
                 )}
 
@@ -744,63 +740,51 @@ export default function AdminProductsPage() {
                       </FormField>
                     </div>
 
-                    <FormField
-                      label="Cloud Download URL (Direct Google Drive or Hosted Link)"
-                      hint="Direct download link provided to customers after download click"
-                    >
-                      <input
-                        type="url"
-                        value={editingProduct.appDownloadUrl || editingProduct.downloadUrl || ""}
-                        onChange={(e) =>
-                          setEditingProduct({
-                            ...editingProduct,
-                            appDownloadUrl: e.target.value,
-                            downloadUrl: e.target.value,
-                          })
-                        }
-                        placeholder="https://drive.google.com/file/d/.../view"
-                        className={inputCls}
-                      />
-                    </FormField>
+                    <FileUploader
+                      label="Application Installer File or Download Link"
+                      value={editingProduct.appDownloadUrl || editingProduct.downloadUrl || ""}
+                      onChange={(url) =>
+                        setEditingProduct({
+                          ...editingProduct,
+                          appDownloadUrl: url,
+                          downloadUrl: url,
+                        })
+                      }
+                      fileType="any"
+                      hint="Upload application installer directly from device or switch to paste download link"
+                    />
                   </div>
                 )}
 
                 {/* LIGHTROOM PRESETS */}
                 {(editingProduct.category === "photo-presets" || editingProduct.productType === "photo-preset") && (
                   <div className="space-y-4">
-                    <FormField
-                      label="Lightroom Share Link or DNG Download URL"
-                      hint="Direct Adobe Lightroom share link or DNG preset link"
-                    >
-                      <input
-                        type="url"
-                        value={editingProduct.presetLinkUrl || ""}
-                        onChange={(e) => setEditingProduct({ ...editingProduct, presetLinkUrl: e.target.value })}
-                        placeholder="https://lightroom.adobe.com/shares/..."
-                        className={inputCls}
-                      />
-                    </FormField>
+                    <FileUploader
+                      label="Lightroom Preset File (DNG / ZIP) or Adobe Share Link"
+                      value={editingProduct.presetLinkUrl || ""}
+                      onChange={(url) => setEditingProduct({ ...editingProduct, presetLinkUrl: url })}
+                      fileType="any"
+                      hint="Upload DNG preset file directly from device or paste Adobe link"
+                    />
 
                     <div className="grid grid-cols-2 gap-4">
-                      <FormField label="Before Image URL (RAW Photo)" hint="Used for Before/After comparison slider">
-                        <input
-                          type="url"
-                          value={editingProduct.beforeImage || ""}
-                          onChange={(e) => setEditingProduct({ ...editingProduct, beforeImage: e.target.value })}
-                          placeholder="https://images.unsplash.com/... (Raw unedited)"
-                          className={inputCls}
-                        />
-                      </FormField>
+                      <FileUploader
+                        label="Before Photo (RAW Unedited)"
+                        value={editingProduct.beforeImage || ""}
+                        onChange={(url) => setEditingProduct({ ...editingProduct, beforeImage: url })}
+                        accept="image/*"
+                        fileType="image"
+                        hint="Upload raw photo from device"
+                      />
 
-                      <FormField label="After Image URL (Color Graded)" hint="Used for Before/After comparison slider">
-                        <input
-                          type="url"
-                          value={editingProduct.afterImage || ""}
-                          onChange={(e) => setEditingProduct({ ...editingProduct, afterImage: e.target.value })}
-                          placeholder="https://images.unsplash.com/... (Color graded)"
-                          className={inputCls}
-                        />
-                      </FormField>
+                      <FileUploader
+                        label="After Photo (Color Graded)"
+                        value={editingProduct.afterImage || ""}
+                        onChange={(url) => setEditingProduct({ ...editingProduct, afterImage: url })}
+                        accept="image/*"
+                        fileType="image"
+                        hint="Upload graded photo from device"
+                      />
                     </div>
 
                     {/* Live Before/After Slider Test right in modal */}
@@ -825,17 +809,16 @@ export default function AdminProductsPage() {
                 {/* SOUND EFFECTS & BG MUSIC */}
                 {(editingProduct.category === "editing-bundles" || editingProduct.productType === "audio" || editingProduct.productType === "editing-bundle") && (
                   <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <FormField label="Audio Preview Stream URL" hint="Direct MP3/WAV/OGG stream link for web player">
-                        <input
-                          type="url"
-                          value={editingProduct.audioPreviewUrl || ""}
-                          onChange={(e) => setEditingProduct({ ...editingProduct, audioPreviewUrl: e.target.value })}
-                          placeholder="https://actions.google.com/sounds/v1/...ogg or MP3"
-                          className={inputCls}
-                        />
-                      </FormField>
+                    <FileUploader
+                      label="Audio Preview Track (MP3 / WAV / OGG)"
+                      value={editingProduct.audioPreviewUrl || ""}
+                      onChange={(url) => setEditingProduct({ ...editingProduct, audioPreviewUrl: url })}
+                      accept="audio/*"
+                      fileType="audio"
+                      hint="Upload MP3 or WAV audio track from device for streaming preview"
+                    />
 
+                    <div className="grid grid-cols-2 gap-4">
                       <FormField label="Audio Duration" hint="e.g. 1:45, 2:30">
                         <input
                           type="text"
@@ -845,72 +828,46 @@ export default function AdminProductsPage() {
                           className={inputCls}
                         />
                       </FormField>
+
+                      <FormField label="Sound Effect / Music Category" hint="e.g. Reels BGM, Cinematic, Ambient, Transitions, Lo-Fi">
+                        <input
+                          type="text"
+                          value={editingProduct.audioCategory || ""}
+                          onChange={(e) => setEditingProduct({ ...editingProduct, audioCategory: e.target.value })}
+                          placeholder="Reels BGM"
+                          className={inputCls}
+                        />
+                      </FormField>
                     </div>
 
-                    <FormField label="Sound Effect / Music Category" hint="e.g. Reels BGM, Cinematic, Ambient, Transitions, Horror, Lo-Fi">
-                      <input
-                        type="text"
-                        value={editingProduct.audioCategory || ""}
-                        onChange={(e) => setEditingProduct({ ...editingProduct, audioCategory: e.target.value })}
-                        placeholder="Reels BGM"
-                        className={inputCls}
-                      />
-                    </FormField>
-
-                    {/* Live in-modal audio preview */}
-                    {editingProduct.audioPreviewUrl && (
-                      <div className="flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900 p-3">
-                        <div className="flex items-center gap-2">
-                          <Volume2 className="h-4 w-4 text-[#FF5A36]" />
-                          <span className="text-xs text-white font-medium">Test Audio Stream Player</span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => handleAudioToggle(editingProduct.audioPreviewUrl!)}
-                          className="flex items-center gap-1.5 rounded-lg bg-[#FF5A36] px-3 py-1 text-xs font-semibold text-white"
-                        >
-                          {playingAudioUrl === editingProduct.audioPreviewUrl ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5" />}
-                          <span>{playingAudioUrl === editingProduct.audioPreviewUrl ? "Pause" : "Play"}</span>
-                        </button>
-                      </div>
-                    )}
+                    <FileUploader
+                      label="Master Audio File or ZIP Archive (Delivered to Buyers)"
+                      value={editingProduct.downloadUrl || ""}
+                      onChange={(url) => setEditingProduct({ ...editingProduct, downloadUrl: url })}
+                      fileType="any"
+                      hint="Upload master lossless audio file or ZIP archive from device"
+                    />
                   </div>
                 )}
 
                 {/* E-BOOKS & PLANNERS */}
                 {(editingProduct.category === "ebooks" || editingProduct.category === "planners" || editingProduct.productType === "ebook" || editingProduct.productType === "planner") && (
                   <div className="space-y-4">
-                    <FormField
-                      label="In-Browser PDF Reader Preview URL"
-                      hint="Google Drive preview link or direct PDF URL for on-site reader"
-                    >
-                      <input
-                        type="url"
-                        value={editingProduct.previewPdfUrl || ""}
-                        onChange={(e) => setEditingProduct({ ...editingProduct, previewPdfUrl: e.target.value })}
-                        placeholder="https://drive.google.com/file/d/FILE_ID/preview or https://...pdf"
-                        className={inputCls}
-                      />
-                    </FormField>
-
-                    <FormField
-                      label="Full High-Quality PDF Download Link (For Buyers)"
-                      hint="Protected link delivered to verified buyers"
-                    >
-                      <input
-                        type="url"
-                        value={editingProduct.pdfUrl || editingProduct.downloadUrl || ""}
-                        onChange={(e) =>
-                          setEditingProduct({
-                            ...editingProduct,
-                            pdfUrl: e.target.value,
-                            downloadUrl: e.target.value,
-                          })
-                        }
-                        placeholder="https://drive.google.com/uc?export=download&id=FILE_ID"
-                        className={inputCls}
-                      />
-                    </FormField>
+                    <FileUploader
+                      label={editingProduct.category === "ebooks" ? "E-Book Document (PDF)" : "Productivity Planner Document (PDF)"}
+                      value={editingProduct.previewPdfUrl || editingProduct.pdfUrl || ""}
+                      onChange={(url) =>
+                        setEditingProduct({
+                          ...editingProduct,
+                          previewPdfUrl: url,
+                          pdfUrl: url,
+                          downloadUrl: url,
+                        })
+                      }
+                      accept="application/pdf"
+                      fileType="pdf"
+                      hint="Upload PDF from device for on-site reader preview and buyer download"
+                    />
 
                     <div className="grid grid-cols-2 gap-4">
                       <FormField label="Total Page Count" hint="e.g. 142">
@@ -947,24 +904,21 @@ export default function AdminProductsPage() {
 
                 {/* TEMPLATES */}
                 {["social-media", "presentations", "branding", "business-cards"].includes(editingProduct.category || "") && (
-                  <FormField
-                    label="Template Project Share Link"
-                    hint="Direct link for customer to open, duplicate, or customize the template"
-                  >
-                    <input
-                      type="url"
-                      value={editingProduct.canvaUrl || editingProduct.templateUrl || ""}
-                      onChange={(e) =>
+                  <div className="space-y-4">
+                    <FileUploader
+                      label="Template Graphic or Project Archive"
+                      value={editingProduct.templateUrl || editingProduct.canvaUrl || ""}
+                      onChange={(url) =>
                         setEditingProduct({
                           ...editingProduct,
-                          canvaUrl: e.target.value,
-                          templateUrl: e.target.value,
+                          templateUrl: url,
+                          canvaUrl: url,
                         })
                       }
-                      placeholder="https://..."
-                      className={inputCls}
+                      fileType="any"
+                      hint="Upload template preview file, asset bundle, or switch to paste project link"
                     />
-                  </FormField>
+                  </div>
                 )}
               </div>
 
@@ -974,34 +928,32 @@ export default function AdminProductsPage() {
                   Media &amp; Visual Showcase
                 </p>
 
-                <FormField label="Primary Cover Image URL" required hint="CDN link, Unsplash, or local /images/...">
-                  <input
-                    type="url"
-                    value={editingProduct.images?.[0] || editingProduct.coverImageUrl || ""}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      const imgs = [...(editingProduct.images || [])];
-                      imgs[0] = val;
-                      setEditingProduct({
-                        ...editingProduct,
-                        images: imgs,
-                        coverImageUrl: val,
-                      });
-                    }}
-                    placeholder="https://images.unsplash.com/..."
-                    className={inputCls}
-                  />
-                </FormField>
+                <FileUploader
+                  label="Primary Cover Photo / Thumbnail"
+                  required
+                  value={editingProduct.images?.[0] || editingProduct.coverImageUrl || ""}
+                  onChange={(val) => {
+                    const imgs = [...(editingProduct.images || [])];
+                    imgs[0] = val;
+                    setEditingProduct({
+                      ...editingProduct,
+                      images: imgs,
+                      coverImageUrl: val,
+                    });
+                  }}
+                  accept="image/*"
+                  fileType="image"
+                  hint="Upload cover photo from device or switch to paste image URL"
+                />
 
-                <FormField label="Demo Video URL (YouTube or MP4)" hint="Optional trailer or motion demo shown on product page">
-                  <input
-                    type="text"
-                    value={editingProduct.videoUrl || ""}
-                    onChange={(e) => setEditingProduct({ ...editingProduct, videoUrl: e.target.value })}
-                    placeholder="https://www.youtube.com/watch?v=... or https://...preview.mp4"
-                    className={inputCls}
-                  />
-                </FormField>
+                <FileUploader
+                  label="Demo Video Preview (MP4 or YouTube)"
+                  value={editingProduct.videoUrl || ""}
+                  onChange={(url) => setEditingProduct({ ...editingProduct, videoUrl: url })}
+                  accept="video/mp4,video/*"
+                  fileType="video"
+                  hint="Upload MP4 video from device or switch to paste YouTube link"
+                />
               </div>
 
               {/* Section 4: Pricing & Delivery */}

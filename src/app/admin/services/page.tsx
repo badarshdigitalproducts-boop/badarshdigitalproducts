@@ -39,6 +39,7 @@ import type {
 } from "@/lib/admin/types";
 import { getWhatsAppUrl } from "@/lib/utils";
 import { BeforeAfterSlider } from "@/components/shared/before-after-slider";
+import { FileUploader } from "@/components/admin/file-uploader";
 
 const ICON_OPTIONS = [
   { value: "Video", label: "Video Production" },
@@ -571,6 +572,15 @@ export default function AdminServicesPage() {
                     </div>
                   </div>
 
+                  <FileUploader
+                    label="Service Cover Photo / Hero Visual"
+                    value={editingService.image || ""}
+                    onChange={(url) => setEditingService({ ...editingService, image: url })}
+                    accept="image/*"
+                    fileType="image"
+                    hint="Upload cover photo for this service directly from device, or paste image URL"
+                  />
+
                   <div>
                     <label className="block text-xs font-semibold text-zinc-300">
                       Short Pitch Description
@@ -855,36 +865,27 @@ export default function AdminServicesPage() {
                       Public Portfolio &amp; Trust Showcase
                     </p>
                     <p className="text-[11px] text-zinc-400 mt-0.5">
-                      Add sample videos, before/after photos, or live project links displayed directly on the service page.
+                      Directly upload sample MP4 videos, before/after photos, project mockups, or logo marks shown on live service pages.
                     </p>
                   </div>
 
-                  {/* Section A: Video URLs (for Video Editing) */}
+                  {/* Section A: Video URLs / MP4 Uploads (for Video Editing) */}
                   <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 space-y-3">
                     <div className="flex items-center gap-2 text-xs font-bold text-white">
                       <Video className="h-4 w-4 text-[#FF5A36]" />
-                      <span>Portfolio Videos (YouTube or MP4 Direct Links)</span>
+                      <span>Portfolio Videos (Direct MP4 Upload or YouTube Link)</span>
                     </div>
 
-                    <div className="flex gap-2">
-                      <input
-                        type="url"
-                        value={newVideoUrl}
-                        onChange={(e) => setNewVideoUrl(e.target.value)}
-                        placeholder="Paste YouTube or MP4 link (e.g. https://www.youtube.com/watch?v=...)"
-                        className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault();
-                            if (newVideoUrl.trim()) {
-                              const vids = [...(editingService.portfolioVideos || [])];
-                              vids.push(newVideoUrl.trim());
-                              setEditingService({ ...editingService, portfolioVideos: vids });
-                              setNewVideoUrl("");
-                            }
-                          }
-                        }}
-                      />
+                    <FileUploader
+                      label="Upload Sample Reel / Portfolio Video"
+                      value={newVideoUrl}
+                      onChange={(url) => setNewVideoUrl(url)}
+                      accept="video/mp4,video/*"
+                      fileType="video"
+                      hint="Upload MP4 video directly from device or switch to paste YouTube link"
+                    />
+
+                    {newVideoUrl && (
                       <button
                         type="button"
                         onClick={() => {
@@ -895,36 +896,39 @@ export default function AdminServicesPage() {
                             setNewVideoUrl("");
                           }
                         }}
-                        className="cursor-pointer rounded-xl bg-zinc-800 px-4 py-2 text-xs font-semibold text-white hover:bg-zinc-700"
+                        className="cursor-pointer inline-flex items-center gap-1.5 rounded-xl bg-[#FF5A36] px-4 py-2 text-xs font-semibold text-white hover:bg-[#ff4620]"
                       >
-                        + Add Video
+                        <Plus className="h-3.5 w-3.5" />
+                        <span>Add Video to Showcase</span>
                       </button>
-                    </div>
+                    )}
 
                     {/* Videos list */}
-                    <div className="space-y-2">
-                      {(editingService.portfolioVideos || []).map((vid, vIdx) => (
-                        <div
-                          key={vIdx}
-                          className="flex items-center justify-between rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-xs text-zinc-300"
-                        >
-                          <div className="flex items-center gap-2 truncate">
-                            <Play className="h-3.5 w-3.5 text-[#FF5A36] shrink-0" />
-                            <span className="truncate font-mono text-[11px]">{vid}</span>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              const vids = (editingService.portfolioVideos || []).filter((_, i) => i !== vIdx);
-                              setEditingService({ ...editingService, portfolioVideos: vids });
-                            }}
-                            className="cursor-pointer text-zinc-500 hover:text-red-400 p-1"
+                    {(editingService.portfolioVideos || []).length > 0 && (
+                      <div className="space-y-2 mt-2">
+                        {(editingService.portfolioVideos || []).map((vid, vIdx) => (
+                          <div
+                            key={vIdx}
+                            className="flex items-center justify-between rounded-lg border border-zinc-800 bg-zinc-950 p-2.5 text-xs text-zinc-300"
                           >
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
+                            <div className="flex items-center gap-2 truncate">
+                              <Play className="h-3.5 w-3.5 text-[#FF5A36] shrink-0" />
+                              <span className="truncate font-mono text-[11px]">{vid}</span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const vids = (editingService.portfolioVideos || []).filter((_, i) => i !== vIdx);
+                                setEditingService({ ...editingService, portfolioVideos: vids });
+                              }}
+                              className="cursor-pointer text-zinc-500 hover:text-red-400 p-1"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   {/* Section B: Portfolio Images */}
@@ -934,25 +938,16 @@ export default function AdminServicesPage() {
                       <span>Portfolio Images &amp; Project Screenshots</span>
                     </div>
 
-                    <div className="flex gap-2">
-                      <input
-                        type="url"
-                        value={newImageUrl}
-                        onChange={(e) => setNewImageUrl(e.target.value)}
-                        placeholder="Paste image URL (Unsplash, CDN, or Cloud link)..."
-                        className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault();
-                            if (newImageUrl.trim()) {
-                              const imgs = [...(editingService.portfolioImages || [])];
-                              imgs.push(newImageUrl.trim());
-                              setEditingService({ ...editingService, portfolioImages: imgs });
-                              setNewImageUrl("");
-                            }
-                          }
-                        }}
-                      />
+                    <FileUploader
+                      label="Upload Portfolio Photo / Visual"
+                      value={newImageUrl}
+                      onChange={(url) => setNewImageUrl(url)}
+                      accept="image/*"
+                      fileType="image"
+                      hint="Upload photo from device or switch to paste image URL"
+                    />
+
+                    {newImageUrl && (
                       <button
                         type="button"
                         onClick={() => {
@@ -963,32 +958,350 @@ export default function AdminServicesPage() {
                             setNewImageUrl("");
                           }
                         }}
-                        className="cursor-pointer rounded-xl bg-zinc-800 px-4 py-2 text-xs font-semibold text-white hover:bg-zinc-700"
+                        className="cursor-pointer inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-500"
                       >
-                        + Add Image
+                        <Plus className="h-3.5 w-3.5" />
+                        <span>Add Photo to Showcase</span>
                       </button>
-                    </div>
+                    )}
 
                     {/* Images gallery list */}
-                    <div className="flex flex-wrap gap-2.5">
-                      {(editingService.portfolioImages || []).map((img, iIdx) => (
-                        <div
-                          key={iIdx}
-                          className="group relative h-16 w-24 overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900"
-                        >
-                          <img src={img} alt={`Asset ${iIdx}`} className="h-full w-full object-cover" />
-                          <button
-                            type="button"
-                            onClick={() => {
-                              const imgs = (editingService.portfolioImages || []).filter((_, i) => i !== iIdx);
-                              setEditingService({ ...editingService, portfolioImages: imgs });
-                            }}
-                            className="cursor-pointer absolute top-1 right-1 rounded-full bg-black/70 p-1 text-white opacity-0 group-hover:opacity-100 hover:bg-red-600"
+                    {(editingService.portfolioImages || []).length > 0 && (
+                      <div className="flex flex-wrap gap-2.5 mt-2">
+                        {(editingService.portfolioImages || []).map((img, iIdx) => (
+                          <div
+                            key={iIdx}
+                            className="group relative h-16 w-24 overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900"
                           >
-                            <X className="h-3 w-3" />
-                          </button>
+                            <img src={img} alt={`Asset ${iIdx}`} className="h-full w-full object-cover" />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const imgs = (editingService.portfolioImages || []).filter((_, i) => i !== iIdx);
+                                setEditingService({ ...editingService, portfolioImages: imgs });
+                              }}
+                              className="cursor-pointer absolute top-1 right-1 rounded-full bg-black/70 p-1 text-white opacity-0 group-hover:opacity-100 hover:bg-red-600"
+                            >
+                              <X className="h-3 w-3" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Section C: Before / After Retouching Showcase */}
+                  <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 space-y-3">
+                    <div className="flex items-center gap-2 text-xs font-bold text-white">
+                      <Camera className="h-4 w-4 text-blue-400" />
+                      <span>Before &amp; After Photo Retouching Pairs</span>
+                    </div>
+
+                    <div className="space-y-3">
+                      <input
+                        type="text"
+                        value={baTitle}
+                        onChange={(e) => setBaTitle(e.target.value)}
+                        placeholder="Comparison title, e.g. Skin Retouching & Color Grading"
+                        className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                      />
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <FileUploader
+                          label="RAW / Unedited Photo (Before)"
+                          value={baBefore}
+                          onChange={(url) => setBaBefore(url)}
+                          accept="image/*"
+                          fileType="image"
+                          hint="Upload before image from device"
+                        />
+                        <FileUploader
+                          label="Retouched Photo (After)"
+                          value={baAfter}
+                          onChange={(url) => setBaAfter(url)}
+                          accept="image/*"
+                          fileType="image"
+                          hint="Upload after image from device"
+                        />
+                      </div>
+
+                      {baBefore && baAfter && (
+                        <div className="rounded-xl border border-zinc-800 bg-black/60 p-3 space-y-2">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 block">
+                            Interactive Slider Test:
+                          </span>
+                          <div className="h-48 w-full max-w-sm mx-auto">
+                            <BeforeAfterSlider
+                              beforeImage={baBefore}
+                              afterImage={baAfter}
+                              beforeLabel="Before"
+                              afterLabel="After"
+                            />
+                          </div>
                         </div>
-                      ))}
+                      )}
+
+                      {baBefore && baAfter && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const current = [...(editingService.portfolioBeforeAfter || [])];
+                            current.push({
+                              id: `ba-${Date.now()}`,
+                              title: baTitle.trim() || "Photo Retouching",
+                              before: baBefore,
+                              after: baAfter,
+                              beforeImage: baBefore,
+                              afterImage: baAfter,
+                              beforeLabel: "Before",
+                              afterLabel: "After",
+                            });
+                            setEditingService({ ...editingService, portfolioBeforeAfter: current });
+                            setBaBefore("");
+                            setBaAfter("");
+                            setBaTitle("");
+                          }}
+                          className="cursor-pointer inline-flex items-center gap-1.5 rounded-xl bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-500"
+                        >
+                          <Plus className="h-3.5 w-3.5" />
+                          <span>Add Before/After Showcase Pair</span>
+                        </button>
+                      )}
+
+                      {/* Before/After list */}
+                      {(editingService.portfolioBeforeAfter || []).length > 0 && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                          {(editingService.portfolioBeforeAfter || []).map((ba, baIdx) => (
+                            <div key={ba.id || baIdx} className="rounded-xl border border-zinc-800 bg-zinc-950 p-3 space-y-2">
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs font-semibold text-white">{ba.title}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const next = (editingService.portfolioBeforeAfter || []).filter((_, i) => i !== baIdx);
+                                    setEditingService({ ...editingService, portfolioBeforeAfter: next });
+                                  }}
+                                  className="text-zinc-500 hover:text-red-400 p-1"
+                                >
+                                  <Trash2 className="h-3.5 w-3.5" />
+                                </button>
+                              </div>
+                              <div className="h-32 w-full overflow-hidden rounded-lg">
+                                <BeforeAfterSlider
+                                  beforeImage={ba.beforeImage || ba.before || ""}
+                                  afterImage={ba.afterImage || ba.after || ""}
+                                  beforeLabel={ba.beforeLabel || "Before"}
+                                  afterLabel={ba.afterLabel || "After"}
+                                />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Section D: Website & App Showcase */}
+                  <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 space-y-3">
+                    <div className="flex items-center gap-2 text-xs font-bold text-white">
+                      <Globe className="h-4 w-4 text-purple-400" />
+                      <span>Live Website &amp; App Mockup Showcase</span>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <input
+                          type="text"
+                          value={webName}
+                          onChange={(e) => setWebName(e.target.value)}
+                          placeholder="Project title, e.g. Lumina SaaS Platform"
+                          className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                        />
+                        <input
+                          type="url"
+                          value={webUrl}
+                          onChange={(e) => setWebUrl(e.target.value)}
+                          placeholder="Live URL, e.g. https://lumina.io"
+                          className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                        />
+                      </div>
+
+                      <FileUploader
+                        label="Project Screenshot / Mockup"
+                        value={webImage}
+                        onChange={(url) => setWebImage(url)}
+                        accept="image/*"
+                        fileType="image"
+                        hint="Upload screenshot or mockup photo from device"
+                      />
+
+                      <input
+                        type="text"
+                        value={webTags}
+                        onChange={(e) => setWebTags(e.target.value)}
+                        placeholder="Tags separated by comma, e.g. Next.js, Stripe, Tailwind"
+                        className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                      />
+
+                      {webName && webImage && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const next = [...(editingService.portfolioWebsites || [])];
+                            next.push({
+                              id: `web-${Date.now()}`,
+                              name: webName.trim(),
+                              title: webName.trim(),
+                              url: webUrl.trim(),
+                              image: webImage,
+                              tags: webTags.split(",").map((t) => t.trim()).filter(Boolean),
+                            });
+                            setEditingService({ ...editingService, portfolioWebsites: next });
+                            setWebName("");
+                            setWebUrl("");
+                            setWebImage("");
+                            setWebTags("");
+                          }}
+                          className="cursor-pointer inline-flex items-center gap-1.5 rounded-xl bg-purple-600 px-4 py-2 text-xs font-semibold text-white hover:bg-purple-500"
+                        >
+                          <Plus className="h-3.5 w-3.5" />
+                          <span>Add Project to Showcase</span>
+                        </button>
+                      )}
+
+                      {/* Website/App list */}
+                      {(editingService.portfolioWebsites || []).length > 0 && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                          {(editingService.portfolioWebsites || []).map((w, wIdx) => (
+                            <div key={w.id || wIdx} className="rounded-xl border border-zinc-800 bg-zinc-950 p-3 space-y-2">
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs font-semibold text-white">{w.title}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const next = (editingService.portfolioWebsites || []).filter((_, i) => i !== wIdx);
+                                    setEditingService({ ...editingService, portfolioWebsites: next });
+                                  }}
+                                  className="text-zinc-500 hover:text-red-400 p-1"
+                                >
+                                  <Trash2 className="h-3.5 w-3.5" />
+                                </button>
+                              </div>
+                              <div className="h-28 w-full overflow-hidden rounded-lg bg-zinc-900">
+                                <img src={w.image} alt={w.title} className="h-full w-full object-cover" />
+                              </div>
+                              {w.url && (
+                                <a href={w.url} target="_blank" rel="noopener noreferrer" className="text-[11px] text-purple-400 hover:underline flex items-center gap-1">
+                                  <span>{w.url}</span>
+                                  <ExternalLink className="h-3 w-3" />
+                                </a>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Section E: Logo & Brand Design Showcase */}
+                  <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 space-y-3">
+                    <div className="flex items-center gap-2 text-xs font-bold text-white">
+                      <Sparkles className="h-4 w-4 text-amber-400" />
+                      <span>Logo &amp; Brand Marks Showcase</span>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <input
+                          type="text"
+                          value={logoName}
+                          onChange={(e) => setLogoName(e.target.value)}
+                          placeholder="Brand name, e.g. Nova Studios"
+                          className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                        />
+                        <input
+                          type="text"
+                          value={logoCategory}
+                          onChange={(e) => setLogoCategory(e.target.value)}
+                          placeholder="Category, e.g. Tech / Fashion / Media"
+                          className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <FileUploader
+                          label="Logo on Dark Background (Vector/PNG)"
+                          value={logoDark}
+                          onChange={(url) => setLogoDark(url)}
+                          accept="image/*"
+                          fileType="image"
+                          hint="Upload dark background logo version"
+                        />
+                        <FileUploader
+                          label="Logo on Light Background (Vector/PNG)"
+                          value={logoLight}
+                          onChange={(url) => setLogoLight(url)}
+                          accept="image/*"
+                          fileType="image"
+                          hint="Upload light background logo version"
+                        />
+                      </div>
+
+                      {logoName && (logoDark || logoLight) && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const next = [...(editingService.portfolioLogos || [])];
+                            next.push({
+                              id: `logo-${Date.now()}`,
+                              name: logoName.trim(),
+                              darkImage: logoDark || logoLight,
+                              lightImage: logoLight || logoDark,
+                              category: logoCategory.trim() || "Brand Identity",
+                            });
+                            setEditingService({ ...editingService, portfolioLogos: next });
+                            setLogoName("");
+                            setLogoDark("");
+                            setLogoLight("");
+                            setLogoCategory("");
+                          }}
+                          className="cursor-pointer inline-flex items-center gap-1.5 rounded-xl bg-amber-600 px-4 py-2 text-xs font-semibold text-white hover:bg-amber-500"
+                        >
+                          <Plus className="h-3.5 w-3.5" />
+                          <span>Add Brand Mark to Showcase</span>
+                        </button>
+                      )}
+
+                      {/* Logos list */}
+                      {(editingService.portfolioLogos || []).length > 0 && (
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-2">
+                          {(editingService.portfolioLogos || []).map((l, lIdx) => (
+                            <div key={l.id || lIdx} className="rounded-xl border border-zinc-800 bg-zinc-950 p-3 space-y-2">
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs font-semibold text-white">{l.name}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const next = (editingService.portfolioLogos || []).filter((_, i) => i !== lIdx);
+                                    setEditingService({ ...editingService, portfolioLogos: next });
+                                  }}
+                                  className="text-zinc-500 hover:text-red-400 p-1"
+                                >
+                                  <Trash2 className="h-3.5 w-3.5" />
+                                </button>
+                              </div>
+                              <div className="grid grid-cols-2 gap-1.5">
+                                <div className="h-16 rounded bg-black flex items-center justify-center p-2 border border-zinc-800">
+                                  <img src={l.darkImage} alt={l.name} className="max-h-full max-w-full object-contain" />
+                                </div>
+                                <div className="h-16 rounded bg-white flex items-center justify-center p-2 border border-zinc-200">
+                                  <img src={l.lightImage} alt={l.name} className="max-h-full max-w-full object-contain" />
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

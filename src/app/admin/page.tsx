@@ -23,6 +23,17 @@ import {
   CheckCircle2,
   Clock,
   Zap,
+  Archive,
+  Smartphone,
+  Camera,
+  Music,
+  BookOpen,
+  Calendar,
+  Video,
+  Globe,
+  UploadCloud,
+  Check,
+  Copy,
 } from "lucide-react";
 import type {
   LeadInquiry,
@@ -33,10 +44,129 @@ import type {
   AdminBlogPost,
   AdminCoupon,
 } from "@/lib/admin/types";
+import { FileUploader } from "@/components/admin/file-uploader";
+
+// 7 Dedicated Shop Categories
+const SHOP_CATEGORIES = [
+  {
+    id: "bundles",
+    title: "Bundles",
+    subtitle: "Editing packs, 4K clips, LUTs & motion",
+    href: "/admin/shop/bundles",
+    icon: Archive,
+    accent: "text-amber-400 bg-amber-500/10 border-amber-500/20",
+    match: (p: AdminProduct) => p.category === "bundles" || p.productType === "bundle",
+  },
+  {
+    id: "apps",
+    title: "Apps",
+    subtitle: "Creator tools & mobile applications (zero APK wording)",
+    href: "/admin/shop/apps",
+    icon: Smartphone,
+    accent: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+    match: (p: AdminProduct) => p.category === "editing-apps" || p.productType === "app-license",
+  },
+  {
+    id: "presets",
+    title: "Lightroom Presets",
+    subtitle: "Before/After RAW comparison & DNG presets",
+    href: "/admin/shop/presets",
+    icon: Camera,
+    accent: "text-blue-400 bg-blue-500/10 border-blue-500/20",
+    match: (p: AdminProduct) => p.category === "photo-presets" || p.productType === "photo-preset",
+  },
+  {
+    id: "sound-effects",
+    title: "Sound Effects & BGM",
+    subtitle: "Streaming audio player & master downloads",
+    href: "/admin/shop/sound-effects",
+    icon: Music,
+    accent: "text-[#FF5A36] bg-[#FF5A36]/10 border-[#FF5A36]/20",
+    match: (p: AdminProduct) => p.category === "editing-bundles" || p.productType === "audio" || p.productType === "editing-bundle",
+  },
+  {
+    id: "ebooks",
+    title: "E-Books",
+    subtitle: "In-browser PDF reader & protected download",
+    href: "/admin/shop/ebooks",
+    icon: BookOpen,
+    accent: "text-purple-400 bg-purple-500/10 border-purple-500/20",
+    match: (p: AdminProduct) => p.category === "ebooks" || p.productType === "ebook",
+  },
+  {
+    id: "planners",
+    title: "Planners",
+    subtitle: "Copy-protected life & productivity PDF planners",
+    href: "/admin/shop/planners",
+    icon: Calendar,
+    accent: "text-pink-400 bg-pink-500/10 border-pink-500/20",
+    match: (p: AdminProduct) => p.category === "planners" || p.productType === "planner",
+  },
+  {
+    id: "templates",
+    title: "Templates",
+    subtitle: "Graphic design templates (100% proprietary)",
+    href: "/admin/shop/templates",
+    icon: Layers,
+    accent: "text-cyan-400 bg-cyan-500/10 border-cyan-500/20",
+    match: (p: AdminProduct) => ["social-media", "presentations", "branding", "business-cards"].includes(p.category) || p.productType === "canva-template" || (p.productType as any) === "template",
+  },
+];
+
+// 5 Dedicated Creative Services
+const CREATIVE_SERVICES = [
+  {
+    id: "video-editing",
+    title: "Video Editing",
+    subtitle: "Tiers ₹250 / ₹400 / ₹799–₹1,000 + MP4 & YouTube portfolio",
+    href: "/admin/services/video-editing",
+    icon: Video,
+    accent: "text-[#FF5A36] bg-[#FF5A36]/10 border-[#FF5A36]/20",
+    pricing: "From ₹250",
+  },
+  {
+    id: "photo-editing",
+    title: "Photo Editing",
+    subtitle: "Tiers ₹150 / ₹350 / ₹799 + Before/After retouching sliders",
+    href: "/admin/services/photo-editing",
+    icon: Camera,
+    accent: "text-blue-400 bg-blue-500/10 border-blue-500/20",
+    pricing: "From ₹150",
+  },
+  {
+    id: "website-design",
+    title: "Website Design",
+    subtitle: "Custom SaaS & portfolio web builds + live site links",
+    href: "/admin/services/website-design",
+    icon: Globe,
+    accent: "text-purple-400 bg-purple-500/10 border-purple-500/20",
+    pricing: "From ₹2,999",
+  },
+  {
+    id: "app-development",
+    title: "App Development",
+    subtitle: "Cross-platform iOS & Android mobile apps + mockups",
+    href: "/admin/services/app-development",
+    icon: Smartphone,
+    accent: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+    pricing: "From ₹5,999",
+  },
+  {
+    id: "logo-design",
+    title: "Logo Design",
+    subtitle: "Tiers ₹500 / ₹1,199 / ₹1,999 + Dark & Light vector marks",
+    href: "/admin/services/logo-design",
+    icon: Sparkles,
+    accent: "text-amber-400 bg-amber-500/10 border-amber-500/20",
+    pricing: "From ₹500",
+  },
+];
 
 export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
   const [currency, setCurrency] = useState<"INR" | "USD">("INR");
+  const [products, setProducts] = useState<AdminProduct[]>([]);
+  const [services, setServices] = useState<AdminService[]>([]);
   const [metrics, setMetrics] = useState({
     totalRevenueINR: 0,
     totalDownloads: 0,
@@ -55,6 +185,9 @@ export default function AdminDashboardPage() {
   const [recentLeads, setRecentLeads] = useState<LeadInquiry[]>([]);
   const [recentOrders, setRecentOrders] = useState<OrderRecord[]>([]);
   const [settings, setSettings] = useState<SystemSettings | null>(null);
+
+  // Quick Dropzone state
+  const [vaultFileUrl, setVaultFileUrl] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -93,26 +226,29 @@ export default function AdminDashboardPage() {
       const settingsData = await settingsRes.json();
 
       const leads: LeadInquiry[] = leadsData.leads || [];
-      const products: AdminProduct[] = prodsData.products || [];
-      const services: AdminService[] = servicesData.services || [];
+      const prods: AdminProduct[] = prodsData.products || [];
+      const servs: AdminService[] = servicesData.services || [];
       const blogPosts: AdminBlogPost[] = blogData.posts || [];
       const orders: OrderRecord[] = ordersData.orders || [];
       const coupons: AdminCoupon[] = couponsData.coupons || [];
       const subscribers = subsData.subscribers || [];
 
+      setProducts(prods);
+      setServices(servs);
+
       const totalRev = orders
         .filter((o) => o.paymentStatus === "completed")
         .reduce((acc, o) => acc + (o.totalAmount || 0), 0);
 
-      const totalDownloads = products.reduce((acc, p) => acc + (p.downloads || 0), 0);
+      const totalDownloads = prods.reduce((acc, p) => acc + (p.downloads || 0), 0);
 
       setMetrics({
         totalRevenueINR: totalRev,
         totalDownloads,
-        publishedProducts: products.filter((p) => p.status === "published").length,
-        totalProducts: products.length,
-        activeServicesCount: services.filter((s) => s.status === "active").length,
-        totalServicesCount: services.length,
+        publishedProducts: prods.filter((p) => p.status === "published").length,
+        totalProducts: prods.length,
+        activeServicesCount: servs.filter((s) => s.status === "active").length,
+        totalServicesCount: servs.length,
         publishedPostsCount: blogPosts.filter((b) => b.status === "published").length,
         completedOrdersCount: orders.filter((o) => o.paymentStatus === "completed").length,
         activeCouponsCount: coupons.filter((c) => c.status === "active").length,
@@ -139,20 +275,20 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-8">
-      {/* Top Header & Quick Action Launcher */}
+      {/* Top Header & Global Status */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-xs font-mono font-medium tracking-wider text-emerald-400 uppercase">
-              Operational • 100% Secured
+              Operational • Standalone Founder OS
             </span>
           </div>
           <h1 className="mt-1 font-heading text-2xl font-bold tracking-tight text-white md:text-3xl">
             Founder Operating Console
           </h1>
           <p className="text-xs text-zinc-400">
-            Full control of digital assets, creative services, editorial content, and orders.
+            Dedicated managers for all 7 shop categories, 5 agency services, and universal device file uploads.
           </p>
         </div>
 
@@ -194,90 +330,9 @@ export default function AdminDashboardPage() {
             className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl bg-[#FF5A36] px-4 py-2 text-xs font-semibold text-white shadow-md hover:bg-[#ff4620] active:scale-[0.98] transition-all"
           >
             <Plus className="h-3.5 w-3.5" />
-            <span>Add Product</span>
+            <span>Master Catalog</span>
           </Link>
         </div>
-      </div>
-
-      {/* Quick Launchpad Buttons */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-        <Link
-          href="/admin/products"
-          className="flex items-center gap-2.5 rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-3 text-xs font-medium text-zinc-300 transition-all hover:border-[#FF5A36]/50 hover:bg-zinc-900 hover:text-white"
-        >
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#FF5A36]/15 text-[#FF5A36]">
-            <Package className="h-4 w-4" />
-          </div>
-          <div className="truncate">
-            <div className="font-semibold text-white">Add Product</div>
-            <div className="text-[10px] text-zinc-500">Templates / Apps</div>
-          </div>
-        </Link>
-
-        <Link
-          href="/admin/services"
-          className="flex items-center gap-2.5 rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-3 text-xs font-medium text-zinc-300 transition-all hover:border-[#FF5A36]/50 hover:bg-zinc-900 hover:text-white"
-        >
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-blue-500/15 text-blue-400">
-            <Layers className="h-4 w-4" />
-          </div>
-          <div className="truncate">
-            <div className="font-semibold text-white">Add Service</div>
-            <div className="text-[10px] text-zinc-500">Web / App / Video</div>
-          </div>
-        </Link>
-
-        <Link
-          href="/admin/blog"
-          className="flex items-center gap-2.5 rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-3 text-xs font-medium text-zinc-300 transition-all hover:border-[#FF5A36]/50 hover:bg-zinc-900 hover:text-white"
-        >
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-purple-500/15 text-purple-400">
-            <FileText className="h-4 w-4" />
-          </div>
-          <div className="truncate">
-            <div className="font-semibold text-white">Write Article</div>
-            <div className="text-[10px] text-zinc-500">Blog & Editorial</div>
-          </div>
-        </Link>
-
-        <Link
-          href="/admin/orders"
-          className="flex items-center gap-2.5 rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-3 text-xs font-medium text-zinc-300 transition-all hover:border-[#FF5A36]/50 hover:bg-zinc-900 hover:text-white"
-        >
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-500/15 text-emerald-400">
-            <ShoppingCart className="h-4 w-4" />
-          </div>
-          <div className="truncate">
-            <div className="font-semibold text-white">Log Order</div>
-            <div className="text-[10px] text-zinc-500">WhatsApp Delivery</div>
-          </div>
-        </Link>
-
-        <Link
-          href="/admin/coupons"
-          className="flex items-center gap-2.5 rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-3 text-xs font-medium text-zinc-300 transition-all hover:border-[#FF5A36]/50 hover:bg-zinc-900 hover:text-white"
-        >
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-amber-500/15 text-amber-400">
-            <Tag className="h-4 w-4" />
-          </div>
-          <div className="truncate">
-            <div className="font-semibold text-white">Create Coupon</div>
-            <div className="text-[10px] text-zinc-500">Promo Engine</div>
-          </div>
-        </Link>
-
-        <Link
-          href="/admin/settings"
-          className="flex items-center gap-2.5 rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-3 text-xs font-medium text-zinc-300 transition-all hover:border-[#FF5A36]/50 hover:bg-zinc-900 hover:text-white"
-        >
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-800 text-zinc-300">
-            <ShieldCheck className="h-4 w-4" />
-          </div>
-          <div className="truncate">
-            <div className="font-semibold text-white">System Config</div>
-            <div className="text-[10px] text-zinc-500">WhatsApp & Rates</div>
-          </div>
-        </Link>
       </div>
 
       {/* 6 Top KPI Metrics */}
@@ -312,7 +367,7 @@ export default function AdminDashboardPage() {
               / {metrics.totalProducts}
             </span>
           </div>
-          <p className="mt-1 text-[11px] text-zinc-500">Kits, bundles & apps</p>
+          <p className="mt-1 text-[11px] text-zinc-500">7 categories active</p>
         </div>
 
         {/* Metric 3: Agency Services */}
@@ -325,7 +380,7 @@ export default function AdminDashboardPage() {
             {metrics.activeServicesCount}
             <span className="text-xs font-normal text-zinc-500 ml-1">Active</span>
           </div>
-          <p className="mt-1 text-[11px] text-zinc-500">Web, App & Video</p>
+          <p className="mt-1 text-[11px] text-zinc-500">5 agency disciplines</p>
         </div>
 
         {/* Metric 4: Editorial Articles */}
@@ -343,7 +398,7 @@ export default function AdminDashboardPage() {
         {/* Metric 5: Agency Leads */}
         <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-4 backdrop-blur-md">
           <div className="flex items-center justify-between text-zinc-400">
-            <span className="text-xs font-medium">Inbound Inquiries</span>
+            <span className="text-xs font-medium">Inbound Leads</span>
             <Users2 className="h-4 w-4 text-amber-400" />
           </div>
           <div className="mt-2 font-heading text-xl font-bold tracking-tight text-white">
@@ -354,7 +409,7 @@ export default function AdminDashboardPage() {
               </span>
             )}
           </div>
-          <p className="mt-1 text-[11px] text-zinc-500">High-intent client leads</p>
+          <p className="mt-1 text-[11px] text-zinc-500">High-intent inquiries</p>
         </div>
 
         {/* Metric 6: Audience */}
@@ -370,7 +425,176 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Two Columns: Recent Leads & Recent Orders */}
+      {/* SECTION 1: UNIVERSAL ASSET VAULT / DIRECT FILE DROPZONE */}
+      <div className="rounded-2xl border border-zinc-800/80 bg-gradient-to-b from-zinc-900/60 to-zinc-950/80 p-6 backdrop-blur-md">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#FF5A36]/15 text-[#FF5A36]">
+              <UploadCloud className="h-4 w-4" />
+            </div>
+            <div>
+              <h2 className="font-heading text-sm font-bold text-white">
+                Universal Asset Dropzone &amp; File Vault
+              </h2>
+              <p className="text-[11px] text-zinc-400">
+                Directly upload any Photo, PDF Document, MP4 Video, or Audio Track from your computer to the server.
+              </p>
+            </div>
+          </div>
+          <span className="text-[11px] font-mono text-zinc-500">
+            Storage: /public/uploads/ • Instant Server URL
+          </span>
+        </div>
+
+        <FileUploader
+          label="Drop any file to upload and generate an instant public URL"
+          value={vaultFileUrl}
+          onChange={(url) => setVaultFileUrl(url)}
+          fileType="any"
+          hint="Supports Photos (PNG/JPG/WebP), PDFs (Books/Planners), MP4 Videos (Reels/Trailers), Audio (MP3/WAV), and ZIP Archives"
+        />
+      </div>
+
+      {/* SECTION 2: DIGITAL SHOP LAUNCHPAD (7 SEPARATE CATEGORIES) */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="font-heading text-base font-bold text-white flex items-center gap-2">
+              <Package className="h-4 w-4 text-[#FF5A36]" />
+              <span>Digital Shop Managers</span>
+            </h2>
+            <p className="text-xs text-zinc-400">
+              Every shop product category is managed on its own dedicated page with custom file dropzones.
+            </p>
+          </div>
+          <Link
+            href="/admin/products"
+            className="text-xs font-semibold text-[#FF5A36] hover:underline flex items-center gap-1"
+          >
+            <span>View All Products</span>
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {SHOP_CATEGORIES.map((cat) => {
+            const Icon = cat.icon;
+            const count = products.filter(cat.match).length;
+            return (
+              <div
+                key={cat.id}
+                className="group relative flex flex-col justify-between rounded-2xl border border-zinc-800/80 bg-zinc-950/70 p-4 transition-all hover:border-[#FF5A36]/50 hover:bg-zinc-900/40"
+              >
+                <div>
+                  <div className="flex items-center justify-between">
+                    <div className={`flex h-9 w-9 items-center justify-center rounded-xl border ${cat.accent}`}>
+                      <Icon className="h-4 w-4" />
+                    </div>
+                    <span className="rounded-full bg-zinc-900 border border-zinc-800 px-2 py-0.5 text-[10px] font-mono font-semibold text-zinc-300">
+                      {count} items
+                    </span>
+                  </div>
+
+                  <h3 className="mt-3 font-heading text-sm font-bold text-white group-hover:text-[#FF5A36] transition-colors">
+                    {cat.title}
+                  </h3>
+                  <p className="mt-0.5 text-[11px] text-zinc-400 line-clamp-2">
+                    {cat.subtitle}
+                  </p>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between">
+                  <Link
+                    href={cat.href}
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-white hover:text-[#FF5A36] transition-colors"
+                  >
+                    <span>Manage Category</span>
+                    <ArrowUpRight className="h-3 w-3" />
+                  </Link>
+
+                  <Link
+                    href={cat.href}
+                    className="rounded-lg bg-zinc-900 border border-zinc-800 px-2 py-1 text-[11px] font-semibold text-zinc-300 hover:bg-[#FF5A36] hover:text-white hover:border-[#FF5A36] transition-all"
+                  >
+                    + Upload
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* SECTION 3: CREATIVE AGENCY SERVICES (5 SEPARATE MANAGERS) */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="font-heading text-base font-bold text-white flex items-center gap-2">
+              <Layers className="h-4 w-4 text-blue-400" />
+              <span>Creative Agency Service Managers</span>
+            </h2>
+            <p className="text-xs text-zinc-400">
+              Manage client pricing tiers, deliverables, and trust showcase portfolios (MP4s, Before/After photos, Web links).
+            </p>
+          </div>
+          <Link
+            href="/admin/services"
+            className="text-xs font-semibold text-blue-400 hover:underline flex items-center gap-1"
+          >
+            <span>All Services</span>
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          {CREATIVE_SERVICES.map((srv) => {
+            const Icon = srv.icon;
+            return (
+              <div
+                key={srv.id}
+                className="group relative flex flex-col justify-between rounded-2xl border border-zinc-800/80 bg-zinc-950/70 p-4 transition-all hover:border-blue-500/50 hover:bg-zinc-900/40"
+              >
+                <div>
+                  <div className="flex items-center justify-between">
+                    <div className={`flex h-9 w-9 items-center justify-center rounded-xl border ${srv.accent}`}>
+                      <Icon className="h-4 w-4" />
+                    </div>
+                    <span className="rounded-full bg-zinc-900 border border-zinc-800 px-2 py-0.5 text-[10px] font-bold text-emerald-400">
+                      {srv.pricing}
+                    </span>
+                  </div>
+
+                  <h3 className="mt-3 font-heading text-sm font-bold text-white group-hover:text-blue-400 transition-colors">
+                    {srv.title}
+                  </h3>
+                  <p className="mt-0.5 text-[11px] text-zinc-400 line-clamp-2">
+                    {srv.subtitle}
+                  </p>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between">
+                  <Link
+                    href={srv.href}
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-white hover:text-blue-400 transition-colors"
+                  >
+                    <span>Manage Tiers</span>
+                    <ArrowUpRight className="h-3 w-3" />
+                  </Link>
+
+                  <Link
+                    href={srv.href}
+                    className="rounded-lg bg-zinc-900 border border-zinc-800 px-2 py-1 text-[11px] font-semibold text-zinc-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all"
+                  >
+                    + Portfolio
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* SECTION 4: RECENT LEADS & RECENT ORDERS CRM */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
         {/* Left Column: Recent Leads (7 cols) */}
         <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-6 backdrop-blur-md lg:col-span-7">
@@ -449,10 +673,10 @@ export default function AdminDashboardPage() {
           <div className="flex items-center justify-between border-b border-zinc-800/80 pb-4">
             <div>
               <h2 className="font-heading text-sm font-bold text-white">
-                Orders & Deliveries
+                Orders &amp; Deliveries
               </h2>
               <p className="text-[11px] text-zinc-400">
-                Direct transactions & verified license keys
+                Direct transactions &amp; verified license keys
               </p>
             </div>
             <Link

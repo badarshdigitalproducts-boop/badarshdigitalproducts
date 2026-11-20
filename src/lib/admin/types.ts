@@ -88,19 +88,27 @@ export interface AdminServicePackage {
 }
 
 export interface PortfolioBeforeAfterItem {
+  id?: string;
   before: string;
   after: string;
   title?: string;
+  beforeImage?: string;
+  afterImage?: string;
+  beforeLabel?: string;
+  afterLabel?: string;
 }
 
 export interface PortfolioWebsiteItem {
+  id?: string;
   name: string;
+  title?: string;
   url: string;
   image: string;
   tags: string[];
 }
 
 export interface PortfolioLogoItem {
+  id?: string;
   name: string;
   darkImage: string;
   lightImage?: string;
@@ -114,6 +122,7 @@ export interface AdminService {
   description: string;
   longDescription: string;
   icon: string;
+  image?: string;
   category?: string;
   status: "active" | "inactive";
   turnaround?: string;

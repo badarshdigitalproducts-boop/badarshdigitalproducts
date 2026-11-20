@@ -325,19 +325,14 @@ export default function PresetsAdminPage() {
                 />
               </div>
 
-              {/* Preset Link (Adobe share or DNG download link) */}
-              <div>
-                <label className="block text-xs font-semibold text-zinc-300">
-                  Adobe Lightroom Share Link or DNG Download URL
-                </label>
-                <input
-                  type="url"
-                  value={editingPreset.presetLinkUrl || ""}
-                  onChange={(e) => setEditingPreset({ ...editingPreset, presetLinkUrl: e.target.value })}
-                  placeholder="https://lightroom.adobe.com/shares/... or Google Drive DNG link"
-                  className="mt-1 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
-                />
-              </div>
+              {/* Preset File (DNG) or Adobe Share Link */}
+              <FileUploader
+                label="Lightroom Preset File (DNG / ZIP) or Adobe Share Link"
+                value={editingPreset.presetLinkUrl || ""}
+                onChange={(url) => setEditingPreset({ ...editingPreset, presetLinkUrl: url })}
+                fileType="any"
+                hint="Directly upload DNG preset file from device or switch to paste Adobe share link"
+              />
 
               {/* Before and After Image Uploaders */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

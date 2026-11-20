@@ -315,22 +315,14 @@ export default function BundlesAdminPage() {
                 />
               </div>
 
-              {/* Google Drive Master Link */}
-              <div>
-                <label className="block text-xs font-semibold text-zinc-300">
-                  Google Drive Share Link (Master Asset Folder or ZIP)
-                </label>
-                <input
-                  type="url"
-                  value={editingBundle.googleDriveUrl || ""}
-                  onChange={(e) => setEditingBundle({ ...editingBundle, googleDriveUrl: e.target.value })}
-                  placeholder="https://drive.google.com/drive/folders/..."
-                  className="mt-1 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
-                />
-                <span className="text-[11px] text-zinc-500 mt-0.5 block">
-                  Ensure Google Drive permissions are set to "Anyone with the link can view/download".
-                </span>
-              </div>
+              {/* Bundle Master Archive or Google Drive Link */}
+              <FileUploader
+                label="Bundle Master Archive File (ZIP) or Cloud Link"
+                value={editingBundle.googleDriveUrl || editingBundle.downloadUrl || ""}
+                onChange={(url) => setEditingBundle({ ...editingBundle, googleDriveUrl: url, downloadUrl: url })}
+                fileType="any"
+                hint="Directly upload ZIP archive from device or switch to paste Google Drive link"
+              />
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
