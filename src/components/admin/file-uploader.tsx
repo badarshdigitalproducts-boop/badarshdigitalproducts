@@ -16,6 +16,8 @@ import {
   Copy,
   Check,
   Download,
+  Info,
+  ExternalLink,
 } from "lucide-react";
 
 interface FileUploaderProps {
@@ -50,6 +52,18 @@ export function FileUploader({
     setUploading(true);
     setError(null);
 
+    // Vercel Serverless payload limit is 4.5 MB. Large E-Books (5MB - 50MB) must use Google Drive
+    const MAX_DIRECT_BYTES = 4.2 * 1024 * 1024;
+    if (file.size > MAX_DIRECT_BYTES) {
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+      setError(
+        `This file is ${sizeMb} MB. Direct serverless upload is limited to 4 MB. For large E-Books, Planners, or Bundles, please upload to Google Drive and paste the link below (recommended for high-speed global delivery).`
+      );
+      setShowLinkInput(true);
+      setUploading(false);
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -59,7 +73,21 @@ export function FileUploader({
         body: formData,
       });
 
-      const data = await res.json();
+      // Safely read response text first to guard against HTTP 413 or HTML error pages
+      const responseText = await res.text();
+      let data: any = {};
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseErr) {
+        if (res.status === 413 || responseText.includes("Request Entity Too Large")) {
+          throw new Error(
+            `File is too large (${(file.size / (1024 * 1024)).toFixed(1)} MB) for direct upload. Please paste a Google Drive link instead.`
+          );
+        }
+        throw new Error(
+          `Upload failed (${res.status}). Please paste a Google Drive or Cloud link.`
+        );
+      }
 
       if (!res.ok) {
         throw new Error(data.error || "File upload failed");
@@ -67,7 +95,8 @@ export function FileUploader({
 
       onChange(data.url);
     } catch (err: any) {
-      setError(err.message || "Upload failed. Try again or paste a Google Drive link.");
+      setError(err.message || "Upload failed. Please paste a Google Drive link instead.");
+      setShowLinkInput(true);
     } finally {
       setUploading(false);
     }
@@ -97,6 +126,23 @@ export function FileUploader({
     navigator.clipboard.writeText(value);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleUrlChange = (inputUrl: string) => {
+    let clean = inputUrl.trim();
+    // Auto-clean google drive links
+    if (clean.includes("drive.google.com/file/d/")) {
+      const match = clean.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) {
+        // If it's a PDF preview or download link
+        if (clean.includes("/preview")) {
+          clean = `https://drive.google.com/file/d/${match[1]}/preview`;
+        } else {
+          clean = `https://drive.google.com/file/d/${match[1]}/view`;
+        }
+      }
+    }
+    onChange(clean);
   };
 
   const getTypeLabel = () => {
@@ -130,10 +176,22 @@ export function FileUploader({
   };
 
   const isVideo = fileType === "video" || value?.match(/\.(mp4|mov|webm)$/i);
-  const isImage = fileType === "image" || value?.match(/\.(jpg|jpeg|png|webp|svg|gif)$/i) || value?.startsWith("https://images.unsplash.com");
-  const isPdf = fileType === "pdf" || value?.match(/\.pdf$/i) || value?.includes("/preview");
-  const isAudio = fileType === "audio" || value?.match(/\.(mp3|wav|ogg|m4a)$/i);
+  const isImage =
+    fileType === "image" ||
+    value?.match(/\.(jpg|jpeg|png|webp|svg|gif)$/i) ||
+    value?.startsWith("https://images.unsplash.com") ||
+    value?.startsWith("data:image/");
+  const isPdf =
+    fileType === "pdf" ||
+    value?.match(/\.pdf$/i) ||
+    value?.includes("/preview") ||
+    value?.startsWith("data:application/pdf");
+  const isAudio =
+    fileType === "audio" ||
+    value?.match(/\.(mp3|wav|ogg|m4a)$/i) ||
+    value?.startsWith("data:audio/");
   const isGeneric = !isVideo && !isImage && !isPdf && !isAudio;
+  const isGoogleDrive = value?.includes("drive.google.com");
 
   return (
     <div className="space-y-2">
@@ -146,36 +204,38 @@ export function FileUploader({
         <button
           type="button"
           onClick={() => setShowLinkInput(!showLinkInput)}
-          className="text-[11px] text-zinc-400 hover:text-[#FF5A36] flex items-center gap-1 transition-colors"
+          className="text-[11px] text-zinc-400 hover:text-[#FF5A36] flex items-center gap-1 transition-colors cursor-pointer"
         >
           <LinkIcon className="h-3 w-3" />
-          <span>{showLinkInput ? "Use File Upload" : "Paste Drive/Web Link"}</span>
+          <span>{showLinkInput ? "Switch to File Upload" : "Paste Drive/Web Link"}</span>
         </button>
       </div>
 
       {hint && <p className="text-[11px] text-zinc-500">{hint}</p>}
 
       {error && (
-        <div className="flex items-center gap-1.5 rounded-xl border border-red-500/30 bg-red-500/10 p-2.5 text-xs text-red-400">
-          <AlertCircle className="h-4 w-4 shrink-0" />
-          <span>{error}</span>
+        <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-300 space-y-1.5">
+          <div className="flex items-start gap-2">
+            <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-amber-400" />
+            <span className="leading-snug">{error}</span>
+          </div>
         </div>
       )}
 
-      {/* When a file is already uploaded/present */}
+      {/* When a file or link is already present */}
       {value ? (
         <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 p-3 space-y-3">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5 truncate max-w-[70%]">
               <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
               <span className="font-mono text-xs text-zinc-200 truncate">{value}</span>
             </div>
 
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 shrink-0">
               <button
                 type="button"
                 onClick={copyToClipboard}
-                className="inline-flex items-center gap-1 rounded-lg bg-zinc-900 border border-zinc-800 px-2 py-1 text-[11px] font-semibold text-zinc-300 hover:text-white hover:bg-zinc-800"
+                className="inline-flex items-center gap-1 rounded-lg bg-zinc-900 border border-zinc-800 px-2 py-1 text-[11px] font-semibold text-zinc-300 hover:text-white hover:bg-zinc-800 cursor-pointer"
                 title="Copy file URL"
               >
                 {copied ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
@@ -183,16 +243,18 @@ export function FileUploader({
               </button>
               <button
                 type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="rounded-lg bg-zinc-900 border border-zinc-800 px-2.5 py-1 text-[11px] font-semibold text-zinc-300 hover:text-white hover:bg-zinc-800"
-                title="Replace file"
+                onClick={() => {
+                  setShowLinkInput(true);
+                }}
+                className="rounded-lg bg-zinc-900 border border-zinc-800 px-2.5 py-1 text-[11px] font-semibold text-zinc-300 hover:text-white hover:bg-zinc-800 cursor-pointer"
+                title="Edit Link"
               >
-                Change
+                Edit
               </button>
               <button
                 type="button"
                 onClick={() => onChange("")}
-                className="rounded-lg bg-zinc-900 border border-zinc-800 p-1 text-zinc-400 hover:text-red-400 hover:bg-red-500/10"
+                className="rounded-lg bg-zinc-900 border border-zinc-800 p-1 text-zinc-400 hover:text-red-400 hover:bg-red-500/10 cursor-pointer"
                 title="Remove file"
               >
                 <X className="h-3.5 w-3.5" />
@@ -200,7 +262,7 @@ export function FileUploader({
             </div>
           </div>
 
-          {/* Live Preview based on type */}
+          {/* Live Previews */}
           {isImage && (
             <div className="relative aspect-[16/9] max-h-48 w-full overflow-hidden rounded-xl border border-zinc-800 bg-black/60">
               <img src={value} alt="Uploaded Preview" className="h-full w-full object-contain" />
@@ -224,22 +286,27 @@ export function FileUploader({
           )}
 
           {isPdf && (
-            <div className="flex items-center justify-between rounded-xl bg-zinc-900/60 p-3 border border-zinc-800">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between rounded-xl bg-zinc-900/60 p-3 border border-zinc-800 gap-2">
               <div className="flex items-center gap-2.5">
                 <FileText className="h-5 w-5 text-amber-400 shrink-0" />
                 <div>
-                  <span className="text-xs font-bold text-white block">PDF Document Attached</span>
-                  <span className="text-[10px] text-zinc-500">Ready for on-site preview reader &amp; downloads</span>
+                  <span className="text-xs font-bold text-white block">
+                    {isGoogleDrive ? "Google Drive PDF Attached" : "PDF Document Attached"}
+                  </span>
+                  <span className="text-[10px] text-zinc-500">
+                    Ready for on-site reader preview &amp; buyer instant download
+                  </span>
                 </div>
               </div>
               <a
                 href={value}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-lg bg-amber-500/15 border border-amber-500/30 px-3 py-1.5 text-[11px] font-semibold text-amber-400 hover:bg-amber-500/25"
+                className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-amber-500/15 border border-amber-500/30 px-3 py-1.5 text-[11px] font-semibold text-amber-400 hover:bg-amber-500/25"
               >
                 <Eye className="h-3.5 w-3.5" />
-                <span>Open PDF</span>
+                <span>Test Open PDF</span>
+                <ExternalLink className="h-3 w-3" />
               </a>
             </div>
           )}
@@ -276,15 +343,33 @@ export function FileUploader({
           )}
         </div>
       ) : showLinkInput ? (
-        /* Manual URL link input */
-        <div className="relative">
-          <input
-            type="text"
-            value={value || ""}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder="Paste Google Drive link, CDN link or YouTube link..."
-            className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2.5 text-xs text-white placeholder:text-zinc-600 focus:border-[#FF5A36] focus:outline-none"
-          />
+        /* Manual URL link input (Google Drive / CDN / S3) */
+        <div className="space-y-2">
+          <div className="relative">
+            <input
+              type="text"
+              value={value || ""}
+              onChange={(e) => handleUrlChange(e.target.value)}
+              placeholder="Paste Google Drive link (e.g. https://drive.google.com/file/d/.../view) or CDN URL..."
+              className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2.5 text-xs text-white placeholder:text-zinc-600 focus:border-[#FF5A36] focus:outline-none font-mono"
+            />
+          </div>
+
+          {/* Google Drive 3-Step Guide for E-Books */}
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/70 p-3 text-[11px] text-zinc-400 space-y-1.5">
+            <div className="flex items-center gap-1.5 font-semibold text-zinc-200">
+              <Info className="h-3.5 w-3.5 text-[#FF5A36]" />
+              <span>How to link Google Drive (Best for large E-Books &amp; Planners):</span>
+            </div>
+            <ol className="list-decimal list-inside space-y-0.5 text-zinc-400 pl-1">
+              <li>Upload your PDF or ZIP to your Google Drive</li>
+              <li>Right-click the file &rarr; click <strong>Share</strong> &rarr; change General access to <strong>&ldquo;Anyone with the link&rdquo;</strong></li>
+              <li>Click <strong>&ldquo;Copy link&rdquo;</strong> and paste it into the field above</li>
+            </ol>
+            <p className="text-[10px] text-emerald-400 font-medium">
+              &check; BADARSH will automatically format it for both the in-browser PDF reader &amp; customer downloads!
+            </p>
+          </div>
         </div>
       ) : (
         /* Drag and Drop Zone */
@@ -304,7 +389,7 @@ export function FileUploader({
             <div className="flex flex-col items-center gap-2 py-3">
               <Loader2 className="h-7 w-7 animate-spin text-[#FF5A36]" />
               <span className="text-xs font-semibold text-white">Uploading file directly to server...</span>
-              <span className="text-[10px] text-zinc-500">Please wait while the file is saved</span>
+              <span className="text-[10px] text-zinc-500">Please wait while the file is processed</span>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-2">
@@ -318,7 +403,17 @@ export function FileUploader({
                   <span className="text-[#FF5A36] underline underline-offset-2">browse device</span>
                 </p>
                 <p className="mt-0.5 text-[10px] text-zinc-500">
-                  Files are saved on your server and linked instantly
+                  Files under 4MB upload directly. For large E-Books/Planners,{" "}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowLinkInput(true);
+                    }}
+                    className="text-zinc-400 underline hover:text-[#FF5A36]"
+                  >
+                    paste a Google Drive link
+                  </button>
                 </p>
               </div>
             </div>

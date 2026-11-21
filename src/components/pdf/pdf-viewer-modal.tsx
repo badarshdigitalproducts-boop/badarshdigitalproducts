@@ -60,7 +60,7 @@ export function PdfViewerModal({
     if (!viewerSrc.includes("/preview")) {
       viewerSrc = viewerSrc.endsWith("/") ? `${viewerSrc}preview` : `${viewerSrc}/preview`;
     }
-  } else if (!rawUrl.endsWith(".pdf") && !rawUrl.includes("blob:") && !rawUrl.includes("google")) {
+  } else if (!rawUrl.endsWith(".pdf") && !rawUrl.includes("blob:") && !rawUrl.includes("google") && !rawUrl.startsWith("data:")) {
     // Wrap through Google Docs Viewer for cross-origin PDF viewing
     viewerSrc = `https://docs.google.com/viewer?url=${encodeURIComponent(rawUrl)}&embedded=true`;
   }

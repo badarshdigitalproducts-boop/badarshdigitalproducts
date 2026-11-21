@@ -3,6 +3,8 @@ import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { verifySessionToken, ADMIN_COOKIE_NAME } from "@/lib/admin/auth";
 
+export const maxDuration = 60;
+
 function isAuthorized(request: Request): boolean {
   const cookieHeader = request.headers.get("cookie") || "";
   const match = cookieHeader.match(new RegExp(`${ADMIN_COOKIE_NAME}=([^;]+)`));
@@ -11,7 +13,7 @@ function isAuthorized(request: Request): boolean {
 
 export async function POST(request: Request) {
   if (!isAuthorized(request)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "Unauthorized. Please log in to admin." }, { status: 401 });
   }
 
   try {
@@ -20,6 +22,18 @@ export async function POST(request: Request) {
 
     if (!file) {
       return NextResponse.json({ error: "No file provided for upload" }, { status: 400 });
+    }
+
+    const fileSizeMb = file.size / (1024 * 1024);
+
+    // Vercel serverless functions have a strict 4.5MB request payload limit
+    if (file.size > 4.5 * 1024 * 1024) {
+      return NextResponse.json(
+        {
+          error: `File is ${fileSizeMb.toFixed(1)} MB, which exceeds the direct serverless upload limit (4.5 MB). For large E-Books, Planners, or Bundles, please paste a Google Drive link (recommended for digital downloads).`,
+        },
+        { status: 413 }
+      );
     }
 
     const bytes = await file.arrayBuffer();
@@ -35,15 +49,22 @@ export async function POST(request: Request) {
       .slice(0, 50);
 
     const filename = `${cleanBaseName}-${Date.now()}${ext}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
 
-    // Ensure public/uploads exists
-    await mkdir(uploadDir, { recursive: true });
+    let publicUrl = "";
 
-    const filePath = path.join(uploadDir, filename);
-    await writeFile(filePath, buffer);
-
-    const publicUrl = `/uploads/${filename}`;
+    // In local development or persistent server, write to public/uploads
+    // On Vercel serverless (where filesystem is read-only), gracefully fallback to base64 Data URL
+    try {
+      const uploadDir = path.join(process.cwd(), "public", "uploads");
+      await mkdir(uploadDir, { recursive: true });
+      const filePath = path.join(uploadDir, filename);
+      await writeFile(filePath, buffer);
+      publicUrl = `/uploads/${filename}`;
+    } catch (fsErr: any) {
+      console.warn("Local filesystem write failed (likely serverless read-only), encoding as Data URL:", fsErr?.message);
+      const mime = file.type || "application/octet-stream";
+      publicUrl = `data:${mime};base64,${buffer.toString("base64")}`;
+    }
 
     return NextResponse.json({
       success: true,
@@ -55,7 +76,7 @@ export async function POST(request: Request) {
   } catch (error: any) {
     console.error("Admin upload error:", error);
     return NextResponse.json(
-      { error: error.message || "Failed to process file upload" },
+      { error: error?.message || "Failed to process file upload. Please paste a Google Drive link instead." },
       { status: 500 }
     );
   }
