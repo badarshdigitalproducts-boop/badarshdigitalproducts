@@ -90,7 +90,7 @@ const productLinks = [
   { label: "Bundles", href: "/bundles" },
   { label: "Apps", href: "/editing-apps" },
   { label: "Lightroom Presets", href: "/photo-presets" },
-  { label: "Sound Effects & BG Music", href: "/editing-bundles" },
+  { label: "Sound Effects", href: "/sound-effects" },
   { label: "E-Books", href: "/ebooks" },
   { label: "Planners", href: "/planners" },
   { label: "Templates", href: "/templates" },

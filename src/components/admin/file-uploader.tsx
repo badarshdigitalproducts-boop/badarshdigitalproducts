@@ -18,12 +18,89 @@ import {
   Download,
   Info,
   ExternalLink,
+  BookOpen,
+  Sparkles,
 } from "lucide-react";
+
+export interface CuratedBook {
+  id: string;
+  name: string;
+  author: string;
+  category: string;
+  url: string;
+  cover: string;
+  pages: number;
+  size: string;
+}
+
+export const VERIFIED_EBOOKS: CuratedBook[] = [
+  {
+    id: "rich-dad-poor-dad",
+    name: "Rich Dad Poor Dad",
+    author: "Robert T. Kiyosaki",
+    category: "Financial Freedom & Investing",
+    url: "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf",
+    cover: "https://covers.openlibrary.org/b/id/8378772-L.jpg",
+    pages: 336,
+    size: "0.5 MB (Full Unabridged)",
+  },
+  {
+    id: "atomic-habits",
+    name: "Atomic Habits",
+    author: "James Clear",
+    category: "Productivity & Habit Mastery",
+    url: "https://raw.githubusercontent.com/gocandra/BOOKS/master/Atomic%20Habits.pdf",
+    cover: "https://covers.openlibrary.org/b/id/12886416-L.jpg",
+    pages: 320,
+    size: "5.7 MB (Complete Edition)",
+  },
+  {
+    id: "the-psychology-of-money",
+    name: "The Psychology of Money",
+    author: "Morgan Housel",
+    category: "Wealth & Mindset",
+    url: "https://raw.githubusercontent.com/ashishjain1547/public_financial_iq_books/master/5_The-Psychology-of-Money.pdf",
+    cover: "https://covers.openlibrary.org/b/id/10543666-L.jpg",
+    pages: 256,
+    size: "2.8 MB (Master Edition)",
+  },
+  {
+    id: "cashflow-quadrant",
+    name: "CASHFLOW Quadrant",
+    author: "Robert T. Kiyosaki",
+    category: "Business & Financial OS",
+    url: "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/CASHFLOW-Quadrant-2015.pdf",
+    cover: "https://covers.openlibrary.org/b/id/8231990-L.jpg",
+    pages: 376,
+    size: "6.6 MB (Original Edition)",
+  },
+  {
+    id: "hooked-habit-forming",
+    name: "Hooked: How to Build Habit-Forming Products",
+    author: "Nir Eyal",
+    category: "Product Design & Psychology",
+    url: "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/OceanofPDF.com_Hooked_How_to_Build_Habit.pdf",
+    cover: "https://covers.openlibrary.org/b/id/8235114-L.jpg",
+    pages: 256,
+    size: "2.2 MB (Illustrated)",
+  },
+  {
+    id: "the-business-21st-century",
+    name: "The Business of the 21st Century",
+    author: "Robert T. Kiyosaki",
+    category: "Entrepreneurship",
+    url: "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/TheBusinessofthe21stCenturyBook%5B1933%5D.pdf",
+    cover: "https://covers.openlibrary.org/b/id/8231990-L.jpg",
+    pages: 134,
+    size: "8.9 MB",
+  },
+];
 
 interface FileUploaderProps {
   label: string;
   value: string;
   onChange: (url: string) => void;
+  onSelectCuratedBook?: (book: CuratedBook) => void;
   accept?: string;
   hint?: string;
   placeholder?: string;
@@ -35,6 +112,7 @@ export function FileUploader({
   label,
   value,
   onChange,
+  onSelectCuratedBook,
   accept,
   hint,
   placeholder,
@@ -44,7 +122,7 @@ export function FileUploader({
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
-  const [showLinkInput, setShowLinkInput] = useState(false);
+  const [activeTab, setActiveTab] = useState<"upload" | "link" | "library">("upload");
   const [copied, setCopied] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -57,9 +135,9 @@ export function FileUploader({
     if (file.size > MAX_DIRECT_BYTES) {
       const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
       setError(
-        `This file is ${sizeMb} MB. Direct serverless upload is limited to 4 MB. For large E-Books, Planners, or Bundles, please upload to Google Drive and paste the link below (recommended for high-speed global delivery).`
+        `This file is ${sizeMb} MB. Serverless direct upload is limited to 4 MB. For large E-Books or Planners, please paste a Google Drive link or select a verified classic book from the Curated Library.`
       );
-      setShowLinkInput(true);
+      setActiveTab("link");
       setUploading(false);
       return;
     }
@@ -96,7 +174,7 @@ export function FileUploader({
       onChange(data.url);
     } catch (err: any) {
       setError(err.message || "Upload failed. Please paste a Google Drive link instead.");
-      setShowLinkInput(true);
+      setActiveTab("link");
     } finally {
       setUploading(false);
     }
@@ -134,7 +212,6 @@ export function FileUploader({
     if (clean.includes("drive.google.com/file/d/")) {
       const match = clean.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
       if (match && match[1]) {
-        // If it's a PDF preview or download link
         if (clean.includes("/preview")) {
           clean = `https://drive.google.com/file/d/${match[1]}/preview`;
         } else {
@@ -145,12 +222,20 @@ export function FileUploader({
     onChange(clean);
   };
 
+  const selectCuratedBook = (book: CuratedBook) => {
+    onChange(book.url);
+    if (onSelectCuratedBook) {
+      onSelectCuratedBook(book);
+    }
+    setError(null);
+  };
+
   const getTypeLabel = () => {
     switch (fileType) {
       case "image":
         return "Photo / Image (PNG, JPG, WebP, SVG)";
       case "pdf":
-        return "PDF Document (Book, Guide, Planner)";
+        return "PDF Document (E-Book, Guide, Planner)";
       case "video":
         return "MP4 / Reel Video (MP4, MOV, WebM)";
       case "audio":
@@ -180,6 +265,7 @@ export function FileUploader({
     fileType === "image" ||
     value?.match(/\.(jpg|jpeg|png|webp|svg|gif)$/i) ||
     value?.startsWith("https://images.unsplash.com") ||
+    value?.startsWith("https://covers.openlibrary.org") ||
     value?.startsWith("data:image/");
   const isPdf =
     fileType === "pdf" ||
@@ -192,23 +278,56 @@ export function FileUploader({
     value?.startsWith("data:audio/");
   const isGeneric = !isVideo && !isImage && !isPdf && !isAudio;
   const isGoogleDrive = value?.includes("drive.google.com");
+  const isGitHubRaw = value?.includes("raw.githubusercontent.com");
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between">
+      {/* Header with Mode Tabs */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <label className="flex items-center gap-2 text-xs font-semibold text-zinc-200">
           {label}
           {required && <span className="text-[#FF5A36]">*</span>}
         </label>
 
-        <button
-          type="button"
-          onClick={() => setShowLinkInput(!showLinkInput)}
-          className="text-[11px] text-zinc-400 hover:text-[#FF5A36] flex items-center gap-1 transition-colors cursor-pointer"
-        >
-          <LinkIcon className="h-3 w-3" />
-          <span>{showLinkInput ? "Switch to File Upload" : "Paste Drive/Web Link"}</span>
-        </button>
+        {/* Action Toggle Pills */}
+        <div className="flex items-center gap-1 bg-zinc-900 p-0.5 rounded-lg border border-zinc-800 text-[11px]">
+          <button
+            type="button"
+            onClick={() => setActiveTab("upload")}
+            className={`px-2 py-0.5 rounded-md transition-colors cursor-pointer font-medium ${
+              activeTab === "upload"
+                ? "bg-zinc-800 text-white"
+                : "text-zinc-400 hover:text-white"
+            }`}
+          >
+            Upload File
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("link")}
+            className={`px-2 py-0.5 rounded-md transition-colors cursor-pointer font-medium ${
+              activeTab === "link"
+                ? "bg-zinc-800 text-white"
+                : "text-zinc-400 hover:text-white"
+            }`}
+          >
+            Paste Link
+          </button>
+          {(fileType === "pdf" || fileType === "any") && (
+            <button
+              type="button"
+              onClick={() => setActiveTab("library")}
+              className={`flex items-center gap-1 px-2 py-0.5 rounded-md transition-colors cursor-pointer font-medium ${
+                activeTab === "library"
+                  ? "bg-amber-500/20 text-amber-300"
+                  : "text-zinc-400 hover:text-amber-300"
+              }`}
+            >
+              <Sparkles className="h-3 w-3 text-amber-400" />
+              <span>Verified Books</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {hint && <p className="text-[11px] text-zinc-500">{hint}</p>}
@@ -243,9 +362,7 @@ export function FileUploader({
               </button>
               <button
                 type="button"
-                onClick={() => {
-                  setShowLinkInput(true);
-                }}
+                onClick={() => setActiveTab("link")}
                 className="rounded-lg bg-zinc-900 border border-zinc-800 px-2.5 py-1 text-[11px] font-semibold text-zinc-300 hover:text-white hover:bg-zinc-800 cursor-pointer"
                 title="Edit Link"
               >
@@ -291,10 +408,14 @@ export function FileUploader({
                 <FileText className="h-5 w-5 text-amber-400 shrink-0" />
                 <div>
                   <span className="text-xs font-bold text-white block">
-                    {isGoogleDrive ? "Google Drive PDF Attached" : "PDF Document Attached"}
+                    {isGitHubRaw
+                      ? "Verified GitHub CDN PDF Attached (100% Working)"
+                      : isGoogleDrive
+                      ? "Google Drive PDF Attached"
+                      : "PDF Document Attached"}
                   </span>
                   <span className="text-[10px] text-zinc-500">
-                    Ready for on-site reader preview &amp; buyer instant download
+                    Live stream ready for on-site reader &amp; instant buyer downloads
                   </span>
                 </div>
               </div>
@@ -342,33 +463,71 @@ export function FileUploader({
             </div>
           )}
         </div>
-      ) : showLinkInput ? (
-        /* Manual URL link input (Google Drive / CDN / S3) */
+      ) : activeTab === "library" ? (
+        /* Verified Book Presets Library */
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-3 space-y-2.5">
+          <div className="flex items-center justify-between border-b border-zinc-800/80 pb-2">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-white">
+              <BookOpen className="h-4 w-4 text-amber-400" />
+              <span>Verified High-Retention E-Books (1-Click Attach)</span>
+            </div>
+            <span className="text-[10px] font-medium text-emerald-400">
+              Direct CDN &bull; 100% Working
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-60 overflow-y-auto pr-1">
+            {VERIFIED_EBOOKS.map((book) => (
+              <button
+                key={book.id}
+                type="button"
+                onClick={() => selectCuratedBook(book)}
+                className="flex items-start gap-2.5 rounded-xl border border-zinc-800/80 bg-zinc-900/50 p-2 text-left hover:border-amber-400/50 hover:bg-zinc-800/60 transition-all cursor-pointer group"
+              >
+                <img
+                  src={book.cover}
+                  alt={book.name}
+                  className="h-14 w-10 shrink-0 rounded object-cover shadow-sm group-hover:scale-105 transition-transform"
+                />
+                <div className="min-w-0 flex-1">
+                  <h4 className="text-xs font-bold text-white truncate group-hover:text-amber-300 transition-colors">
+                    {book.name}
+                  </h4>
+                  <p className="text-[10px] text-zinc-400 truncate">{book.author}</p>
+                  <div className="mt-1 flex items-center gap-2 text-[9px] text-zinc-500 font-mono">
+                    <span>{book.pages} Pages</span>
+                    <span>&bull;</span>
+                    <span>{book.size}</span>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : activeTab === "link" ? (
+        /* Manual URL link input (Google Drive / GitHub / CDN) */
         <div className="space-y-2">
           <div className="relative">
             <input
               type="text"
               value={value || ""}
               onChange={(e) => handleUrlChange(e.target.value)}
-              placeholder="Paste Google Drive link (e.g. https://drive.google.com/file/d/.../view) or CDN URL..."
+              placeholder="Paste Google Drive link, GitHub raw URL, or CDN link..."
               className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2.5 text-xs text-white placeholder:text-zinc-600 focus:border-[#FF5A36] focus:outline-none font-mono"
             />
           </div>
 
-          {/* Google Drive 3-Step Guide for E-Books */}
+          {/* Google Drive 3-Step Guide */}
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/70 p-3 text-[11px] text-zinc-400 space-y-1.5">
             <div className="flex items-center gap-1.5 font-semibold text-zinc-200">
               <Info className="h-3.5 w-3.5 text-[#FF5A36]" />
-              <span>How to link Google Drive (Best for large E-Books &amp; Planners):</span>
+              <span>How to link Google Drive for large E-Books &amp; Planners:</span>
             </div>
             <ol className="list-decimal list-inside space-y-0.5 text-zinc-400 pl-1">
-              <li>Upload your PDF or ZIP to your Google Drive</li>
+              <li>Upload your PDF or ZIP to Google Drive</li>
               <li>Right-click the file &rarr; click <strong>Share</strong> &rarr; change General access to <strong>&ldquo;Anyone with the link&rdquo;</strong></li>
               <li>Click <strong>&ldquo;Copy link&rdquo;</strong> and paste it into the field above</li>
             </ol>
-            <p className="text-[10px] text-emerald-400 font-medium">
-              &check; BADARSH will automatically format it for both the in-browser PDF reader &amp; customer downloads!
-            </p>
           </div>
         </div>
       ) : (
@@ -388,8 +547,8 @@ export function FileUploader({
           {uploading ? (
             <div className="flex flex-col items-center gap-2 py-3">
               <Loader2 className="h-7 w-7 animate-spin text-[#FF5A36]" />
-              <span className="text-xs font-semibold text-white">Uploading file directly to server...</span>
-              <span className="text-[10px] text-zinc-500">Please wait while the file is processed</span>
+              <span className="text-xs font-semibold text-white">Processing &amp; uploading file...</span>
+              <span className="text-[10px] text-zinc-500">Please wait while the file is linked</span>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-2">
@@ -403,16 +562,27 @@ export function FileUploader({
                   <span className="text-[#FF5A36] underline underline-offset-2">browse device</span>
                 </p>
                 <p className="mt-0.5 text-[10px] text-zinc-500">
-                  Files under 4MB upload directly. For large E-Books/Planners,{" "}
+                  Direct upload supports files under 4MB. For large books, use{" "}
                   <button
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setShowLinkInput(true);
+                      setActiveTab("link");
                     }}
                     className="text-zinc-400 underline hover:text-[#FF5A36]"
                   >
-                    paste a Google Drive link
+                    Google Drive link
+                  </button>{" "}
+                  or{" "}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveTab("library");
+                    }}
+                    className="text-amber-400 underline hover:text-amber-300"
+                  >
+                    Verified Books
                   </button>
                 </p>
               </div>

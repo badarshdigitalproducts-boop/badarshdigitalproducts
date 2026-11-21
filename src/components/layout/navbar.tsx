@@ -92,7 +92,7 @@ export function Navbar() {
     return () => document.removeEventListener("mousedown", onClick);
   }, [close]);
 
-  const isShopActive = ["/bundles", "/editing-apps", "/photo-presets", "/editing-bundles", "/ebooks", "/planners", "/templates"].some((p) => pathname.startsWith(p));
+  const isShopActive = ["/bundles", "/editing-apps", "/photo-presets", "/editing-bundles", "/sound-effects", "/ebooks", "/planners", "/templates"].some((p) => pathname.startsWith(p));
   const isServicesActive = pathname.startsWith("/services");
 
   /* Shared link style */

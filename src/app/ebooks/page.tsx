@@ -22,9 +22,9 @@ import type { Product } from "@/types";
 
 const EBOOK_CATEGORIES = [
   { id: "all", label: "All E-Books" },
-  { id: "growth", label: "Marketing & Growth" },
-  { id: "founder", label: "Founder Playbooks" },
-  { id: "creator", label: "Creator Systems" },
+  { id: "finance", label: "Wealth & Finance" },
+  { id: "habits", label: "Habits & Productivity" },
+  { id: "business", label: "Business & Product Design" },
 ];
 
 export default function EbooksPage() {
@@ -54,12 +54,24 @@ export default function EbooksPage() {
         p.tags?.some((t) => t.toLowerCase().includes(search.toLowerCase()));
 
       let matchesCat = true;
-      if (selectedCategory === "growth") {
-        matchesCat = p.tags?.some((t) => ["growth", "marketing", "viral"].includes(t.toLowerCase())) || true;
-      } else if (selectedCategory === "founder") {
-        matchesCat = p.tags?.some((t) => ["founder", "business", "scale"].includes(t.toLowerCase())) || true;
-      } else if (selectedCategory === "creator") {
-        matchesCat = p.tags?.some((t) => ["creator", "video", "content"].includes(t.toLowerCase())) || true;
+      if (selectedCategory === "finance") {
+        matchesCat = Boolean(
+          p.tags?.some((t) => ["finance", "investing", "wealth", "money", "rich dad poor dad", "cashflow"].includes(t.toLowerCase())) ||
+          p.title.toLowerCase().includes("money") ||
+          p.title.toLowerCase().includes("rich") ||
+          p.title.toLowerCase().includes("cashflow")
+        );
+      } else if (selectedCategory === "habits") {
+        matchesCat = Boolean(
+          p.tags?.some((t) => ["habits", "productivity", "self improvement", "atomic habits"].includes(t.toLowerCase())) ||
+          p.title.toLowerCase().includes("habit")
+        );
+      } else if (selectedCategory === "business") {
+        matchesCat = Boolean(
+          p.tags?.some((t) => ["business", "startups", "ux", "product design", "hooked"].includes(t.toLowerCase())) ||
+          p.title.toLowerCase().includes("business") ||
+          p.title.toLowerCase().includes("hooked")
+        );
       }
 
       return isEbook && matchesSearch && matchesCat;

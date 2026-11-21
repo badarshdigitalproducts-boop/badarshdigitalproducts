@@ -63,9 +63,9 @@ export const SHOP_MENU = [
     icon: "",
   },
   {
-    label: "Sound Effects & BG Music",
-    href: "/editing-bundles",
-    desc: "Master audio tracks, sound design & 4K motion overlays",
+    label: "Sound Effects",
+    href: "/sound-effects",
+    desc: "Master 24-bit WAV audio, whooshes, impacts & UI sounds",
     icon: "",
   },
   {

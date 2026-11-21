@@ -864,9 +864,21 @@ export default function AdminProductsPage() {
                           downloadUrl: url,
                         })
                       }
+                      onSelectCuratedBook={(book) => {
+                        setEditingProduct({
+                          ...editingProduct,
+                          title: book.name,
+                          authorName: book.author,
+                          pageCount: book.pages,
+                          previewPdfUrl: book.url,
+                          pdfUrl: book.url,
+                          downloadUrl: book.url,
+                          images: [book.cover, ...(editingProduct.images || []).filter((img) => img !== book.cover)],
+                        });
+                      }}
                       accept="application/pdf"
                       fileType="pdf"
-                      hint="Upload PDF from device for on-site reader preview and buyer download"
+                      hint="Upload PDF from device, paste Google Drive link, or 1-click attach from Verified Books"
                     />
 
                     <div className="grid grid-cols-2 gap-4">

@@ -8,11 +8,8 @@ import {
   Pause,
   Download,
   Bookmark,
-  Link2,
   Check,
   Search,
-  Sparkles,
-  ShieldCheck,
   Volume2,
 } from "lucide-react";
 import { WaveformDisplay } from "./waveform-display";
@@ -59,10 +56,13 @@ export const SOUND_TRACKS: SfxTrack[] = [
     audioUrl: "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
     price: 0,
     waveformPoints: [
-      0.05, 0.12, 0.35, 0.75, 0.95, 0.65, 0.25, 0.08, 0.05, 0.05,
-      0.06, 0.08, 0.15, 0.45, 0.85, 0.5, 0.18, 0.06, 0.05, 0.05,
-      0.05, 0.06, 0.08, 0.22, 0.62, 0.98, 0.82, 0.4, 0.12, 0.05,
-      0.05, 0.05, 0.06, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05,
+      0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
+      0.05, 0.15, 0.35, 0.65, 0.80, 0.75, 0.45, 0.20, 0.08, 0.03, 0.02,
+      0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
+      0.05, 0.20, 0.50, 0.85, 0.90, 0.70, 0.35, 0.12, 0.05, 0.02,
+      0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
+      0.08, 0.25, 0.65, 0.95, 0.98, 0.88, 0.60, 0.30, 0.12, 0.05, 0.02,
+      0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
     ],
   },
   {
@@ -76,9 +76,12 @@ export const SOUND_TRACKS: SfxTrack[] = [
     audioUrl: "https://actions.google.com/sounds/v1/foley/beeps.ogg",
     price: 0,
     waveformPoints: [
-      0.05, 0.05, 0.06, 0.08, 0.12, 0.22, 0.45, 0.72, 0.88, 0.92,
-      0.85, 0.68, 0.52, 0.42, 0.35, 0.38, 0.45, 0.55, 0.4, 0.25,
-      0.15, 0.1, 0.08, 0.06, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05,
+      0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
+      0.03, 0.06, 0.12, 0.22, 0.38, 0.58, 0.75, 0.88, 0.94, 0.96,
+      0.92, 0.88, 0.94, 0.85, 0.90, 0.82, 0.75, 0.78, 0.70,
+      0.60, 0.48, 0.35, 0.22, 0.12, 0.05, 0.02,
+      0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
+      0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
     ],
   },
   {
@@ -92,12 +95,17 @@ export const SOUND_TRACKS: SfxTrack[] = [
     audioUrl: "https://actions.google.com/sounds/v1/impacts/crash.ogg",
     price: 0,
     waveformPoints: [
-      0.1, 0.4, 0.85, 0.95, 0.7, 0.35, 0.1, 0.05,
-      0.15, 0.55, 0.88, 0.65, 0.25, 0.08,
-      0.12, 0.45, 0.78, 0.3, 0.08,
-      0.18, 0.65, 0.82, 0.35, 0.1,
-      0.22, 0.75, 0.98, 0.85, 0.4, 0.15,
-      0.25, 0.8, 0.92, 0.88, 0.45, 0.12, 0.05,
+      0.12, 0.55, 0.92, 0.95, 0.65, 0.25, 0.02,
+      0.02, 0.02,
+      0.15, 0.60, 0.88, 0.70, 0.30, 0.02,
+      0.02, 0.02,
+      0.12, 0.45, 0.80, 0.40, 0.10, 0.02,
+      0.02, 0.02,
+      0.18, 0.65, 0.85, 0.45, 0.12, 0.02,
+      0.02, 0.02,
+      0.22, 0.75, 0.98, 0.90, 0.55, 0.20, 0.02,
+      0.02, 0.02,
+      0.25, 0.85, 0.98, 0.95, 0.80, 0.50, 0.20, 0.05, 0.02,
     ],
   },
   {
@@ -111,10 +119,15 @@ export const SOUND_TRACKS: SfxTrack[] = [
     audioUrl: "https://actions.google.com/sounds/v1/cartoon/pop.ogg",
     price: 0,
     waveformPoints: [
-      0.08, 0.45, 0.82, 0.55, 0.18, 0.06, 0.05,
-      0.1, 0.52, 0.89, 0.62, 0.2, 0.05,
-      0.08, 0.4, 0.75, 0.45, 0.15, 0.05,
-      0.12, 0.6, 0.95, 0.7, 0.25, 0.08, 0.05,
+      0.02, 0.02, 0.02,
+      0.08, 0.45, 0.88, 0.60, 0.20, 0.02,
+      0.02, 0.02, 0.02, 0.02,
+      0.10, 0.55, 0.92, 0.65, 0.22, 0.02,
+      0.02, 0.02, 0.02, 0.02,
+      0.08, 0.42, 0.85, 0.50, 0.18, 0.02,
+      0.02, 0.02, 0.02, 0.02,
+      0.12, 0.65, 0.98, 0.75, 0.30, 0.08, 0.02,
+      0.02, 0.02, 0.02, 0.02,
     ],
   },
   {
@@ -128,9 +141,11 @@ export const SOUND_TRACKS: SfxTrack[] = [
     audioUrl: "https://actions.google.com/sounds/v1/cartoon/slide_whistle.ogg",
     price: 0,
     waveformPoints: [
-      0.05, 0.1, 0.65, 0.12, 0.85, 0.15, 0.45, 0.1, 0.95, 0.2,
-      0.75, 0.18, 0.55, 0.12, 0.88, 0.25, 0.6, 0.1, 0.9, 0.15,
-      0.8, 0.12, 0.7, 0.15, 0.85, 0.2, 0.5, 0.1, 0.08, 0.05,
+      0.02, 0.02, 0.02, 0.05, 0.12, 0.75, 0.02, 0.15, 0.92, 0.02, 0.08, 0.55, 0.02,
+      0.20, 0.88, 0.02, 0.10, 0.65, 0.02, 0.30, 0.95, 0.02, 0.15, 0.70, 0.02,
+      0.25, 0.85, 0.02, 0.10, 0.60, 0.02, 0.40, 0.90, 0.02, 0.18, 0.75, 0.02,
+      0.22, 0.82, 0.02, 0.12, 0.68, 0.02, 0.35, 0.88, 0.02, 0.15, 0.65, 0.02,
+      0.20, 0.80, 0.02, 0.10, 0.50, 0.02, 0.02, 0.02,
     ],
   },
   {
@@ -144,9 +159,11 @@ export const SOUND_TRACKS: SfxTrack[] = [
     audioUrl: "https://actions.google.com/sounds/v1/foley/beeps.ogg",
     price: 0,
     waveformPoints: [
-      0.1, 0.35, 0.85, 0.95, 0.72, 0.42, 0.22, 0.12, 0.08, 0.06,
-      0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05,
-      0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05,
+      0.15, 0.60, 0.95, 0.98, 0.80, 0.45, 0.20, 0.08, 0.02, 0.02,
+      0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
+      0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
+      0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
+      0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
     ],
   },
   {
@@ -160,9 +177,9 @@ export const SOUND_TRACKS: SfxTrack[] = [
     audioUrl: "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
     price: 0,
     waveformPoints: [
-      0.05, 0.08, 0.15, 0.25, 0.42, 0.68, 0.92, 0.98, 0.75, 0.35,
-      0.12, 0.06, 0.05, 0.1, 0.22, 0.55, 0.88, 0.95, 0.65, 0.2,
-      0.06, 0.05, 0.08, 0.2, 0.5, 0.82, 0.96, 0.7, 0.28, 0.05,
+      0.02, 0.05, 0.15, 0.25, 0.42, 0.68, 0.92, 0.98, 0.75, 0.35,
+      0.12, 0.06, 0.02, 0.10, 0.22, 0.55, 0.88, 0.95, 0.65, 0.20,
+      0.06, 0.02, 0.08, 0.20, 0.50, 0.82, 0.96, 0.70, 0.28, 0.02,
     ],
   },
   {
@@ -176,8 +193,8 @@ export const SOUND_TRACKS: SfxTrack[] = [
     audioUrl: "https://actions.google.com/sounds/v1/household/clock_tick.ogg",
     price: 0,
     waveformPoints: [
-      0.08, 0.72, 0.18, 0.05, 0.12, 0.85, 0.22, 0.06, 0.15, 0.68,
-      0.2, 0.05, 0.1, 0.92, 0.25, 0.08, 0.18, 0.78, 0.2, 0.05,
+      0.08, 0.72, 0.18, 0.02, 0.12, 0.85, 0.22, 0.06, 0.15, 0.68,
+      0.20, 0.02, 0.10, 0.92, 0.25, 0.08, 0.18, 0.78, 0.20, 0.02,
     ],
   },
   {
@@ -191,9 +208,9 @@ export const SOUND_TRACKS: SfxTrack[] = [
     audioUrl: "https://actions.google.com/sounds/v1/water/rain_heavy.ogg",
     price: 0,
     waveformPoints: [
-      0.2, 0.25, 0.3, 0.28, 0.35, 0.32, 0.4, 0.55, 0.75, 0.88,
-      0.95, 0.82, 0.65, 0.45, 0.38, 0.32, 0.3, 0.34, 0.38, 0.42,
-      0.4, 0.35, 0.32, 0.3, 0.28, 0.26, 0.24, 0.22, 0.2, 0.18,
+      0.20, 0.25, 0.30, 0.28, 0.35, 0.32, 0.40, 0.55, 0.75, 0.88,
+      0.95, 0.82, 0.65, 0.45, 0.38, 0.32, 0.30, 0.34, 0.38, 0.42,
+      0.40, 0.35, 0.32, 0.30, 0.28, 0.26, 0.24, 0.22, 0.20, 0.02,
     ],
   },
   {
@@ -207,9 +224,9 @@ export const SOUND_TRACKS: SfxTrack[] = [
     audioUrl: "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
     price: 0,
     waveformPoints: [
-      0.15, 0.22, 0.38, 0.58, 0.78, 0.92, 0.85, 0.65, 0.45, 0.3,
-      0.2, 0.35, 0.65, 0.88, 0.95, 0.75, 0.42, 0.25, 0.4, 0.7,
-      0.9, 0.98, 0.82, 0.55, 0.3, 0.15, 0.08, 0.05, 0.05, 0.05,
+      0.15, 0.22, 0.38, 0.58, 0.78, 0.92, 0.85, 0.65, 0.45, 0.30,
+      0.20, 0.35, 0.65, 0.88, 0.95, 0.75, 0.42, 0.25, 0.40, 0.70,
+      0.90, 0.98, 0.82, 0.55, 0.30, 0.15, 0.08, 0.02, 0.02, 0.02,
     ],
   },
   {
@@ -223,9 +240,9 @@ export const SOUND_TRACKS: SfxTrack[] = [
     audioUrl: "https://actions.google.com/sounds/v1/foley/beeps.ogg",
     price: 0,
     waveformPoints: [
-      0.12, 0.18, 0.25, 0.32, 0.42, 0.5, 0.55, 0.52, 0.48, 0.45,
-      0.42, 0.38, 0.35, 0.32, 0.28, 0.22, 0.85, 0.45, 0.18, 0.1,
-      0.08, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05,
+      0.12, 0.18, 0.25, 0.32, 0.42, 0.50, 0.55, 0.52, 0.48, 0.45,
+      0.42, 0.38, 0.35, 0.32, 0.28, 0.22, 0.85, 0.45, 0.18, 0.10,
+      0.08, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
     ],
   },
   {
@@ -239,9 +256,9 @@ export const SOUND_TRACKS: SfxTrack[] = [
     audioUrl: "https://actions.google.com/sounds/v1/ambiences/outdoor_ambience.ogg",
     price: 0,
     waveformPoints: [
-      0.18, 0.28, 0.45, 0.65, 0.82, 0.92, 0.95, 0.9, 0.85, 0.8,
+      0.18, 0.28, 0.45, 0.65, 0.82, 0.92, 0.95, 0.90, 0.85, 0.80,
       0.75, 0.72, 0.78, 0.85, 0.88, 0.82, 0.75, 0.68, 0.62, 0.55,
-      0.48, 0.42, 0.35, 0.28, 0.22, 0.18, 0.14, 0.1, 0.08, 0.05,
+      0.48, 0.42, 0.35, 0.28, 0.22, 0.18, 0.14, 0.10, 0.08, 0.02,
     ],
   },
   {
@@ -257,7 +274,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     waveformPoints: [
       0.15, 0.22, 0.32, 0.45, 0.62, 0.78, 0.88, 0.92, 0.85, 0.78,
       0.72, 0.68, 0.65, 0.62, 0.58, 0.52, 0.45, 0.38, 0.32, 0.25,
-      0.2, 0.15, 0.12, 0.08, 0.06, 0.05, 0.05, 0.05, 0.05, 0.05,
+      0.20, 0.15, 0.12, 0.08, 0.06, 0.02, 0.02, 0.02, 0.02, 0.02,
     ],
   },
   {
@@ -271,10 +288,10 @@ export const SOUND_TRACKS: SfxTrack[] = [
     audioUrl: "https://actions.google.com/sounds/v1/impacts/crash.ogg",
     price: 0,
     waveformPoints: [
-      0.12, 0.88, 0.95, 0.55, 0.22, 0.08, 0.05,
-      0.1, 0.82, 0.92, 0.5, 0.18, 0.05,
-      0.15, 0.9, 0.98, 0.58, 0.2, 0.06,
-      0.12, 0.85, 0.89, 0.48, 0.15, 0.05,
+      0.12, 0.88, 0.95, 0.55, 0.22, 0.08, 0.02,
+      0.10, 0.82, 0.92, 0.50, 0.18, 0.02,
+      0.15, 0.90, 0.98, 0.58, 0.20, 0.06,
+      0.12, 0.85, 0.89, 0.48, 0.15, 0.02,
     ],
   },
   {
@@ -289,9 +306,9 @@ export const SOUND_TRACKS: SfxTrack[] = [
     price: 499,
     slug: "viral-sfx-motion-overlay-bundle",
     waveformPoints: [
-      0.15, 0.45, 0.8, 0.35, 0.65, 0.95, 0.4, 0.7, 0.9, 0.55,
-      0.3, 0.75, 0.85, 0.45, 0.8, 0.98, 0.5, 0.65, 0.9, 0.6,
-      0.35, 0.8, 0.92, 0.4, 0.75, 0.88, 0.45, 0.6, 0.85, 0.3,
+      0.15, 0.45, 0.80, 0.35, 0.65, 0.95, 0.40, 0.70, 0.90, 0.55,
+      0.30, 0.75, 0.85, 0.45, 0.80, 0.98, 0.50, 0.65, 0.90, 0.60,
+      0.35, 0.80, 0.92, 0.40, 0.75, 0.88, 0.45, 0.60, 0.85, 0.02,
     ],
   },
   {
@@ -306,14 +323,34 @@ export const SOUND_TRACKS: SfxTrack[] = [
     price: 399,
     slug: "cinematic-sfx-motion-overlays-vault",
     waveformPoints: [
-      0.1, 0.3, 0.6, 0.85, 0.95, 0.7, 0.4, 0.2, 0.5, 0.8,
-      0.98, 0.75, 0.35, 0.6, 0.88, 0.92, 0.65, 0.3, 0.55, 0.85,
-      0.95, 0.8, 0.45, 0.25, 0.6, 0.9, 0.98, 0.7, 0.35, 0.1,
+      0.10, 0.30, 0.60, 0.85, 0.95, 0.70, 0.40, 0.20, 0.50, 0.80,
+      0.98, 0.75, 0.35, 0.60, 0.88, 0.92, 0.65, 0.30, 0.55, 0.85,
+      0.95, 0.80, 0.45, 0.25, 0.60, 0.90, 0.98, 0.70, 0.35, 0.02,
     ],
   },
 ];
 
 type SortOption = "relevant" | "popular" | "newest" | "duration" | "name";
+
+// Envato / Freesound style "Find Similar / Variations" icon matching the reference screenshot
+function VariationsIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      className={className}
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="3.25" />
+      <path d="M19.5 7a9 9 0 0 0-7.5-4.5" strokeLinecap="round" />
+      <path d="M4.5 17a9 9 0 0 0 7.5 4.5" strokeLinecap="round" />
+      <circle cx="19.5" cy="7" r="1.5" fill="currentColor" />
+      <circle cx="4.5" cy="17" r="1.5" fill="currentColor" />
+    </svg>
+  );
+}
 
 export function SoundEffectsCatalog() {
   const [showFilters, setShowFilters] = useState(true);
@@ -345,15 +382,14 @@ export function SoundEffectsCatalog() {
     });
   };
 
-  // Copy share link
-  const handleCopyTrackLink = (track: SfxTrack, e: React.MouseEvent) => {
+  // Find similar sounds (filters by track category) or copies share link
+  const handleFindSimilar = (track: SfxTrack, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (typeof window !== "undefined") {
-      const url = `${window.location.origin}/sound-effects?track=${track.id}`;
-      navigator.clipboard.writeText(url).catch(() => {});
-      setCopiedTrackId(track.id);
-      setTimeout(() => setCopiedTrackId(null), 2000);
+    if (!selectedCategories.includes(track.category)) {
+      setSelectedCategories([track.category]);
     }
+    setCopiedTrackId(track.id);
+    setTimeout(() => setCopiedTrackId(null), 1500);
   };
 
   // Direct download handler
@@ -363,7 +399,6 @@ export function SoundEffectsCatalog() {
       window.location.href = `/templates/${track.slug}`;
       return;
     }
-    // Instant master WAV download trigger
     const link = document.createElement("a");
     link.href = track.audioUrl;
     link.download = `${track.title.toLowerCase().replace(/\s+/g, "-")}-master.ogg`;
@@ -411,118 +446,119 @@ export function SoundEffectsCatalog() {
 
   return (
     <div className="w-full">
-      {/* ─── Top Control Bar ─── */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between border-b border-border pb-4 gap-4">
-        {/* Left: Hide/Show Filters Button */}
-        <div className="flex items-center gap-3">
+      {/* ─── Top Control Bar matching reference screenshot exactly ─── */}
+      <div className="flex items-center justify-between border-b border-neutral-200/80 dark:border-neutral-800 pb-3 mb-6 gap-4">
+        {/* Left: Hide / Show Filters Toggle Button */}
+        <div className="flex items-center gap-4">
           <button
             onClick={() => setShowFilters((prev) => !prev)}
-            className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-background px-3.5 py-2 text-xs font-semibold text-foreground transition-colors hover:bg-muted active:scale-95 shadow-2xs"
+            className="inline-flex cursor-pointer items-center gap-2 text-[14px] font-medium text-neutral-900 dark:text-neutral-100 hover:text-black dark:hover:text-white transition-colors select-none"
             aria-label={showFilters ? "Hide Filters" : "Show Filters"}
           >
-            <SlidersHorizontal className="h-3.5 w-3.5 text-foreground" />
+            <SlidersHorizontal className="h-4 w-4 stroke-[1.8] text-neutral-900 dark:text-neutral-100" />
             <span>{showFilters ? "Hide Filters" : "Show Filters"}</span>
           </button>
 
-          {/* Active Filters Count Indicator */}
+          {/* Active Filters Clear link if selected */}
           {selectedCategories.length > 0 && (
             <button
               onClick={() => setSelectedCategories([])}
-              className="text-[11px] text-muted hover:text-foreground underline transition-colors cursor-pointer"
+              className="text-[12px] text-neutral-500 hover:text-black dark:hover:text-white underline transition-colors cursor-pointer"
             >
-              Clear filters ({selectedCategories.length})
+              Clear ({selectedCategories.length})
             </button>
           )}
         </div>
 
-        {/* Center/Right: Quick Search and Sort Dropdown */}
+        {/* Right: Sort by Relevant Dropdown */}
         <div className="flex items-center gap-3">
-          {/* Quick Search */}
-          <div className="relative flex-1 sm:w-64">
-            <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted" />
+          {/* Quick inline search for convenience */}
+          <div className="relative hidden sm:block w-48 lg:w-56">
+            <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-neutral-400" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search sounds, whooshes, UI..."
-              className="w-full rounded-lg border border-border bg-background pl-9 pr-3 py-1.5 text-xs text-foreground placeholder:text-muted focus:border-foreground focus:outline-none transition-colors"
+              placeholder="Search sounds..."
+              className="w-full rounded-md border border-neutral-200 dark:border-neutral-800 bg-transparent pl-8 pr-2.5 py-1 text-xs text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:border-neutral-500 focus:outline-none transition-colors"
             />
           </div>
 
-          {/* Sort Dropdown */}
-          <div className="relative">
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="appearance-none cursor-pointer rounded-lg border border-border bg-background pl-3 pr-8 py-1.5 text-xs font-medium text-foreground hover:bg-muted focus:border-foreground focus:outline-none transition-colors shadow-2xs"
-            >
-              <option value="relevant">Sort by Relevant</option>
-              <option value="popular">Sort by Most Popular</option>
-              <option value="newest">Sort by Newest</option>
-              <option value="duration">Sort by Duration</option>
-              <option value="name">Sort by Name (A-Z)</option>
-            </select>
-            <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-3 w-3 -translate-y-1/2 text-muted" />
+          <div className="flex items-center gap-1.5 text-[14px] text-neutral-700 dark:text-neutral-300 select-none">
+            <span className="text-neutral-500 dark:text-neutral-400 font-normal">Sort by</span>
+            <div className="relative inline-flex items-center">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortOption)}
+                className="appearance-none cursor-pointer bg-transparent pr-5 text-[14px] font-semibold text-neutral-900 dark:text-white focus:outline-none"
+              >
+                <option value="relevant" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white">
+                  Relevant
+                </option>
+                <option value="popular" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white">
+                  Most Popular
+                </option>
+                <option value="newest" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white">
+                  Newest
+                </option>
+                <option value="duration" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white">
+                  Duration
+                </option>
+                <option value="name" className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white">
+                  Name (A-Z)
+                </option>
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-0 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-neutral-700 dark:text-neutral-300 stroke-[2]" />
+            </div>
           </div>
         </div>
       </div>
 
       {/* ─── Main Two-Column Layout ─── */}
-      <div className="mt-6 flex flex-col md:flex-row gap-8 items-start">
-        {/* Left Sidebar: Categories with Checkboxes (Collapsible) */}
+      <div className="flex flex-col md:flex-row gap-8 lg:gap-12 items-start">
+        {/* Left Sidebar: Categories Checkboxes */}
         {showFilters && (
-          <aside className="w-full md:w-56 shrink-0 transition-all duration-200">
-            <h3 className="font-heading text-sm font-bold text-foreground tracking-tight">
+          <aside className="w-full md:w-52 shrink-0 transition-all duration-200">
+            <h3 className="text-[15px] font-bold text-neutral-900 dark:text-white tracking-tight">
               Categories
             </h3>
 
-            <div className="mt-4 space-y-2.5">
+            <div className="mt-4 space-y-3">
               {SFX_CATEGORIES.map((cat) => {
                 const isChecked = selectedCategories.includes(cat);
                 return (
                   <label
                     key={cat}
                     onClick={() => toggleCategory(cat)}
-                    className="flex cursor-pointer items-center gap-3 select-none text-xs text-foreground/90 hover:text-foreground transition-colors group"
+                    className="flex cursor-pointer items-center gap-2.5 select-none text-[14px] text-neutral-800 dark:text-neutral-200 hover:text-black dark:hover:text-white transition-colors group"
                   >
+                    {/* Sleek rounded square checkbox */}
                     <div
-                      className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[4px] border transition-colors ${
+                      className={`flex h-[17px] w-[17px] shrink-0 items-center justify-center rounded-[3px] border transition-colors ${
                         isChecked
-                          ? "border-foreground bg-foreground text-background"
-                          : "border-border bg-background group-hover:border-foreground/50"
+                          ? "border-black bg-black text-white dark:border-white dark:bg-white dark:text-black"
+                          : "border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 group-hover:border-neutral-500"
                       }`}
                     >
-                      {isChecked && <Check className="h-3 w-3 stroke-[2.5]" />}
+                      {isChecked && <Check className="h-3 w-3 stroke-[2.8]" />}
                     </div>
-                    <span className={isChecked ? "font-semibold text-foreground" : ""}>
+                    <span className={`leading-snug ${isChecked ? "font-semibold text-black dark:text-white" : ""}`}>
                       {cat}
                     </span>
                   </label>
                 );
               })}
             </div>
-
-            {/* Quality Seal */}
-            <div className="mt-8 rounded-xl border border-border bg-secondary/50 p-3 text-[11px] text-muted space-y-1.5">
-              <div className="flex items-center gap-1.5 font-bold text-foreground">
-                <ShieldCheck className="h-4 w-4 text-emerald-500" />
-                <span>24-Bit / 48kHz Master</span>
-              </div>
-              <p className="leading-snug">
-                100% Royalty-Free Commercial License for YouTube, Instagram Reels &amp; Commercials.
-              </p>
-            </div>
           </aside>
         )}
 
         {/* Right Main List: Audio Waveform Tracks */}
         <div className="flex-1 w-full min-w-0">
-          <div className="divide-y divide-border/60 border-y border-border">
+          <div className="divide-y divide-neutral-100 dark:divide-neutral-800/80">
             {filteredTracks.map((track) => {
               const isThisTrack = currentTrack?.id === track.id;
               const isThisPlaying = isThisTrack && isPlaying;
               const isSaved = savedTrackIds.has(track.id);
-              const isCopied = copiedTrackId === track.id;
 
               const handlePlayToggle = (e: React.MouseEvent) => {
                 e.stopPropagation();
@@ -546,36 +582,36 @@ export function SoundEffectsCatalog() {
                 <div
                   key={track.id}
                   onClick={handlePlayToggle}
-                  className="group flex flex-col md:flex-row md:items-center justify-between py-4 sm:py-5 px-1 sm:px-3 hover:bg-secondary/35 rounded-xl transition-colors cursor-pointer gap-4 md:gap-6"
+                  className="group flex flex-col md:flex-row md:items-center justify-between py-4 sm:py-5 hover:bg-neutral-50/60 dark:hover:bg-neutral-900/40 rounded-lg transition-colors cursor-pointer gap-3 md:gap-6 px-1 sm:px-2"
                 >
-                  {/* Left Column: Play Button + Title/Creator */}
-                  <div className="flex items-center gap-3.5 min-w-[210px] shrink-0">
-                    {/* Big Circular Play Button */}
+                  {/* Left Column: Circular Play Button + Title / Byline */}
+                  <div className="flex items-center gap-3.5 min-w-[210px] lg:min-w-[240px] shrink-0">
+                    {/* Big Circular Play Button matching screenshot */}
                     <button
                       onClick={handlePlayToggle}
-                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border bg-background text-foreground transition-all duration-150 group-hover:border-foreground/40 group-hover:scale-105 active:scale-95 shadow-2xs"
+                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white transition-all duration-150 group-hover:border-neutral-400 dark:group-hover:border-neutral-600 active:scale-95"
                       aria-label={isThisPlaying ? `Pause ${track.title}` : `Play ${track.title}`}
                     >
                       {isThisPlaying ? (
-                        <Pause className="h-4 w-4 fill-foreground text-foreground" />
+                        <Pause className="h-4 w-4 fill-black text-black dark:fill-white dark:text-white" />
                       ) : (
-                        <Play className="h-4 w-4 fill-foreground text-foreground ml-0.5" />
+                        <Play className="h-4 w-4 fill-black text-black dark:fill-white dark:text-white ml-0.5" />
                       )}
                     </button>
 
                     {/* Title & Author */}
                     <div className="min-w-0 flex-1">
-                      <h4 className="font-heading text-sm font-bold text-foreground truncate group-hover:text-accent transition-colors">
+                      <h4 className="text-[14px] sm:text-[15px] font-bold text-neutral-900 dark:text-white truncate">
                         {track.title}
                       </h4>
-                      <p className="text-xs text-muted truncate mt-0.5">
+                      <p className="text-[12px] sm:text-[13px] text-neutral-500 dark:text-neutral-400 truncate mt-0.5">
                         By {track.creator}
                       </p>
                     </div>
                   </div>
 
-                  {/* Middle: Realistic Waveform Display */}
-                  <div className="flex-1 min-w-0 max-w-xl px-1">
+                  {/* Middle Column: Realistic Waveform Display */}
+                  <div className="flex-1 min-w-0 max-w-2xl px-1">
                     <WaveformDisplay
                       points={track.waveformPoints}
                       isCurrent={isThisTrack}
@@ -600,40 +636,38 @@ export function SoundEffectsCatalog() {
                     />
                   </div>
 
-                  {/* Right Column: Clip Count & Action Icons */}
-                  <div className="flex items-center justify-between md:justify-end gap-5 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-border/40">
+                  {/* Right Column: Clip Count & 3 Action Icons */}
+                  <div className="flex items-center justify-between md:justify-end gap-5 shrink-0 pt-2 md:pt-0">
                     {/* Clip Count */}
-                    <span className="text-xs font-medium text-muted font-mono whitespace-nowrap">
+                    <span className="text-[13px] font-normal text-neutral-600 dark:text-neutral-400 whitespace-nowrap">
                       {track.clipsCount} {track.clipsCount === 1 ? "Clip" : "Clips"}
                     </span>
 
                     {/* Action Icon Group */}
-                    <div className="flex items-center gap-2 sm:gap-2.5">
-                      {/* Share Link Icon */}
+                    <div className="flex items-center gap-3">
+                      {/* Variations / Similar Sounds Icon */}
                       <button
-                        onClick={(e) => handleCopyTrackLink(track, e)}
-                        title={isCopied ? "Copied!" : "Copy link"}
-                        className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md text-muted hover:text-foreground hover:bg-muted transition-colors active:scale-95"
+                        onClick={(e) => handleFindSimilar(track, e)}
+                        title="Find similar sounds in category"
+                        className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-sm text-neutral-800 dark:text-neutral-200 hover:text-black dark:hover:text-white transition-colors active:scale-95"
+                        aria-label="Find similar sounds"
                       >
-                        {isCopied ? (
-                          <Check className="h-4 w-4 text-emerald-500" />
-                        ) : (
-                          <Link2 className="h-4 w-4" />
-                        )}
+                        <VariationsIcon className="h-4 w-4" />
                       </button>
 
                       {/* Bookmark Icon */}
                       <button
                         onClick={(e) => toggleSaveTrack(track.id, e)}
-                        title={isSaved ? "Saved" : "Save to favorites"}
-                        className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded-md transition-colors active:scale-95 ${
+                        title={isSaved ? "Saved" : "Save sound"}
+                        className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-sm transition-colors active:scale-95 ${
                           isSaved
-                            ? "text-foreground"
-                            : "text-muted hover:text-foreground hover:bg-muted"
+                            ? "text-black dark:text-white"
+                            : "text-neutral-800 dark:text-neutral-200 hover:text-black dark:hover:text-white"
                         }`}
+                        aria-label={isSaved ? "Remove from bookmarks" : "Save sound"}
                       >
                         <Bookmark
-                          className={`h-4 w-4 ${isSaved ? "fill-foreground text-foreground" : ""}`}
+                          className={`h-4 w-4 stroke-[1.8] ${isSaved ? "fill-black text-black dark:fill-white dark:text-white" : ""}`}
                         />
                       </button>
 
@@ -641,9 +675,10 @@ export function SoundEffectsCatalog() {
                       <button
                         onClick={(e) => handleDownloadTrack(track, e)}
                         title={track.price === 0 ? "Download Master WAV" : `Get (${formatPrice(track.price)})`}
-                        className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md text-foreground hover:bg-foreground hover:text-background transition-colors active:scale-95 border border-border"
+                        className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-sm text-neutral-800 dark:text-neutral-200 hover:text-black dark:hover:text-white transition-colors active:scale-95"
+                        aria-label="Download audio file"
                       >
-                        <Download className="h-4 w-4" />
+                        <Download className="h-4 w-4 stroke-[1.8]" />
                       </button>
                     </div>
                   </div>
@@ -654,20 +689,20 @@ export function SoundEffectsCatalog() {
 
           {/* Empty Search Result State */}
           {filteredTracks.length === 0 && (
-            <div className="py-16 text-center border-b border-border">
-              <Volume2 className="mx-auto h-10 w-10 text-muted" />
-              <h4 className="mt-3 font-heading text-base font-bold text-foreground">
+            <div className="py-16 text-center border-t border-neutral-200 dark:border-neutral-800">
+              <Volume2 className="mx-auto h-9 w-9 text-neutral-400" />
+              <h4 className="mt-3 text-[15px] font-bold text-neutral-900 dark:text-white">
                 No sound effects found
               </h4>
-              <p className="mt-1 text-xs text-muted">
-                Try searching for &ldquo;whoosh&rdquo;, &ldquo;explosion&rdquo;, or clearing active category filters.
+              <p className="mt-1 text-xs text-neutral-500">
+                Try searching for &ldquo;whoosh&rdquo;, &ldquo;explosion&rdquo;, or resetting your filters.
               </p>
               <button
                 onClick={() => {
                   setSearch("");
                   setSelectedCategories([]);
                 }}
-                className="mt-4 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-semibold text-foreground hover:bg-muted shadow-2xs"
+                className="mt-4 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3.5 py-1 text-xs font-semibold text-neutral-900 dark:text-white hover:bg-neutral-50"
               >
                 Reset filters
               </button>

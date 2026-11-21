@@ -47,7 +47,7 @@ export function BookCard({ product }: BookCardProps) {
           />
 
           {/* Top Format Badge */}
-          <div className="absolute top-3 right-3 z-20 rounded-full bg-black/70 px-2.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur-md border border-white/10">
+          <div className="absolute top-3 right-3 z-20 rounded-full bg-black/90 px-2.5 py-0.5 text-[10px] font-semibold text-white border border-white/15">
             {isFree ? "Free PDF" : "Digital Master PDF"}
           </div>
 
@@ -58,7 +58,7 @@ export function BookCard({ product }: BookCardProps) {
                 e.stopPropagation();
                 setReaderOpen(true);
               }}
-              className="flex w-full items-center justify-center gap-1.5 rounded-full bg-white/95 py-2 text-xs font-bold text-neutral-900 shadow-md backdrop-blur-md transition-transform hover:scale-[1.02] active:scale-95"
+              className="flex w-full items-center justify-center gap-1.5 rounded-full bg-white py-2 text-xs font-bold text-neutral-900 shadow-md transition-transform hover:scale-[1.02] active:scale-95 border border-black/10"
             >
               <Eye className="h-3.5 w-3.5" />
               <span>Read In-Browser (PDF)</span>
@@ -83,6 +83,11 @@ export function BookCard({ product }: BookCardProps) {
           <h3 className="mt-2.5 line-clamp-2 font-heading text-base font-bold text-foreground group-hover:text-accent transition-colors">
             {product.title}
           </h3>
+          {product.authorName && (
+            <p className="mt-0.5 text-xs font-semibold text-accent">
+              By {product.authorName}
+            </p>
+          )}
 
           <p className="mt-1.5 line-clamp-2 text-xs text-muted leading-relaxed">
             {product.description}
