@@ -36,7 +36,7 @@ export function BrandLogo({
         )}
         aria-label="BADARSH Home"
       >
-        <div className="relative h-9 w-9 overflow-hidden rounded-xl bg-gradient-to-tr from-accent/15 via-amber-500/10 to-transparent p-1 border border-border/60 shadow-xs backdrop-blur-md">
+        <div className="relative h-9 w-9 overflow-hidden rounded-lg border border-border bg-background p-1">
           {/* Light Theme: Dark Emblem (/logo-icon-dark-v3.png) | Dark Theme: White Emblem (/logo-icon-light-v3.png) */}
           <Image
             src={isDark ? "/logo-icon-light-v3.png" : "/logo-icon-dark-v3.png"}

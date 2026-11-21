@@ -27,10 +27,9 @@ export function ThemeToggle() {
   const isDark = resolvedTheme === "dark";
 
   return (
-    <motion.button
+    <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      whileTap={{ scale: 0.88 }}
-      className="relative cursor-pointer rounded-full p-2 text-foreground transition-colors duration-150 hover:bg-muted/30 active:bg-muted/50"
+      className="relative cursor-pointer rounded-full p-1.5 text-foreground/60 transition-colors duration-150 hover:text-foreground active:scale-95"
       aria-label="Toggle theme"
     >
       <AnimatePresence mode="wait" initial={false}>
@@ -56,6 +55,6 @@ export function ThemeToggle() {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.button>
+    </button>
   );
 }
