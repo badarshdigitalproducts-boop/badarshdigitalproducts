@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { SoundEffectsCatalog } from "@/components/audio/sound-effects-catalog";
-import { constructMetadata } from "@/lib/metadata";
+import { constructMetadata, getBaseUrl } from "@/lib/metadata";
 
 export const metadata: Metadata = constructMetadata({
   title: "Royalty-Free Sound Effects & Audio Library — 24-Bit Master WAV",
@@ -10,17 +10,18 @@ export const metadata: Metadata = constructMetadata({
 });
 
 export default function SoundEffectsPage() {
+  const baseUrl = getBaseUrl();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: "BADARSH Royalty-Free Sound Effects Library",
     description:
       "24-Bit / 48kHz uncompressed master sound effects for video creators, editors, and filmmakers.",
-    url: "https://badarshdigitalproducts.vercel.app/sound-effects",
+    url: `${baseUrl}/sound-effects`,
     publisher: {
       "@type": "Organization",
       name: "BADARSH Digital Products",
-      url: "https://badarshdigitalproducts.vercel.app",
+      url: baseUrl,
     },
   };
 

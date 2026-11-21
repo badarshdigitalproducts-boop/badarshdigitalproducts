@@ -1,10 +1,16 @@
 import { SiteConfig } from "@/types";
 
+const DEFAULT_SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "https://badarsh.vercel.app");
+
 export const siteConfig: SiteConfig = {
   name: "BADARSH",
   description:
     "High-impact design templates, creator software tools, video vaults & done-for-you creative services. Built for ambitious founders and creators to scale their brand online.",
-  url: "https://badarsh.com",
+  url: DEFAULT_SITE_URL,
   ogImage: "/images/og/og-default.png",
   links: {
     instagram: "https://instagram.com/badarsh",
