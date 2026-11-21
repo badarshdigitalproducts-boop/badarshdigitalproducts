@@ -182,19 +182,19 @@ export function ProductDetailView({
               {/* Badges Overlay */}
               <div className="absolute top-3 left-3 flex gap-2 pointer-events-none">
                 {product.isBestseller && (
-                  <span className="flex items-center gap-1 rounded-full bg-amber-500/90 px-3 py-1 text-xs font-bold text-white shadow-sm backdrop-blur-sm">
+                  <span className="flex items-center gap-1 rounded-full bg-amber-500 px-3 py-1 text-xs font-bold text-white shadow-sm">
                     <Sparkles className="h-3.5 w-3.5" /> Bestseller
                   </span>
                 )}
                 {discountPercent > 0 && (
-                  <span className="rounded-full bg-rose-500/90 px-3 py-1 text-xs font-bold text-white shadow-sm backdrop-blur-sm">
+                  <span className="rounded-full bg-rose-500 px-3 py-1 text-xs font-bold text-white shadow-sm">
                     Save {discountPercent}%
                   </span>
                 )}
               </div>
 
               {/* Studio Proof Watermark */}
-              <div className="absolute bottom-3 right-3 rounded-full bg-black/75 px-3 py-1 text-[10px] font-bold text-white backdrop-blur-md border border-white/10 pointer-events-none">
+              <div className="absolute bottom-3 right-3 rounded-full bg-black/90 px-3 py-1 text-[10px] font-bold text-white border border-white/10 pointer-events-none">
                 Crafted by BADARSH Studio
               </div>
             </div>
@@ -395,7 +395,7 @@ export function ProductDetailView({
       </div>
 
       {/* Interactive Tabs Section */}
-      <div className="mt-16 rounded-3xl border border-card-border/80 bg-card p-6 md:p-10 shadow-sm backdrop-blur-xl">
+      <div className="mt-16 rounded-3xl border border-card-border/80 bg-card p-6 md:p-10 shadow-sm">
         {/* Tab Headers with Apple-grade Spring Pill */}
         <div className="no-scrollbar relative flex items-center gap-2 overflow-x-auto border-b border-card-border/60 pb-4">
           {[
@@ -642,7 +642,7 @@ export function ProductDetailView({
       </div>
 
       {/* Sticky Mobile Purchase Bar */}
-      <div className="fixed bottom-0 inset-x-0 z-40 border-t border-card-border bg-card/95 p-3.5 backdrop-blur-xl sm:hidden">
+      <div className="fixed bottom-0 inset-x-0 z-40 border-t border-card-border bg-card p-3.5 shadow-lg sm:hidden">
         <div className="flex items-center justify-between gap-3">
           <div>
             <span className="text-[10px] text-muted block truncate max-w-[150px]">

@@ -125,7 +125,7 @@ export function ServicesPreview() {
           Swipe sideways to view agency packages &rarr;
         </p>
 
-        <div className="mt-14 rounded-3xl border border-accent/20 bg-gradient-to-r from-accent/5 via-purple-500/10 to-amber-500/5 p-8 text-center backdrop-blur-md">
+        <div className="mt-14 rounded-2xl border border-border bg-card p-8 text-center shadow-xs">
           <h4 className="font-heading text-xl font-bold text-foreground md:text-2xl">
             Need a custom digital marketing package?
           </h4>

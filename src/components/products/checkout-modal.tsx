@@ -184,7 +184,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={handleModalClose}
-          className="fixed inset-0 bg-black/80 backdrop-blur-md"
+          className="fixed inset-0 bg-black/80"
         />
 
         <motion.div
@@ -192,7 +192,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
           transition={{ type: "spring", duration: 0.36, bounce: 0.15 }}
-          className="relative z-10 flex max-h-[92vh] w-full max-w-lg flex-col overflow-y-auto rounded-3xl border border-card-border/80 bg-card p-6 shadow-2xl backdrop-blur-2xl sm:p-8"
+          className="relative z-10 flex max-h-[92vh] w-full max-w-lg flex-col overflow-y-auto rounded-3xl border border-card-border/80 bg-card p-6 shadow-2xl sm:p-8"
         >
           {/* Header */}
           <div className="flex items-center justify-between border-b border-card-border/60 pb-4">

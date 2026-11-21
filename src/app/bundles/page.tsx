@@ -85,15 +85,15 @@ export default function BundlesPage() {
 
         {/* Value Prop Badges */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <div className="flex items-center gap-2 rounded-full border border-card-border bg-card/60 px-4 py-1.5 text-xs font-medium text-foreground/90 backdrop-blur-sm">
+          <div className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-medium text-foreground shadow-2xs">
             <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
             <span>High-Speed Cloud Drive Access</span>
           </div>
-          <div className="flex items-center gap-2 rounded-full border border-card-border bg-card/60 px-4 py-1.5 text-xs font-medium text-foreground/90 backdrop-blur-sm">
+          <div className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-medium text-foreground shadow-2xs">
             <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
             <span>4K ProRes &amp; Uncompressed 24-Bit WAV</span>
           </div>
-          <div className="flex items-center gap-2 rounded-full border border-card-border bg-card/60 px-4 py-1.5 text-xs font-medium text-foreground/90 backdrop-blur-sm">
+          <div className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-medium text-foreground shadow-2xs">
             <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
             <span>Commercial Rights for All Client Projects</span>
           </div>
@@ -102,22 +102,22 @@ export default function BundlesPage() {
 
       {/* Cinematic Asset Breakdown Row */}
       <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="rounded-2xl border border-card-border bg-card/60 p-5 backdrop-blur-sm shadow-xs">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-xs">
           <Film className="h-5 w-5 text-accent mb-2" />
           <div className="font-heading text-2xl font-black text-foreground">4K Overlays</div>
           <p className="text-xs text-muted mt-1">Light leaks, film grains &amp; scratches</p>
         </div>
-        <div className="rounded-2xl border border-card-border bg-card/60 p-5 backdrop-blur-sm shadow-xs">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-xs">
           <Video className="h-5 w-5 text-emerald-500 mb-2" />
           <div className="font-heading text-2xl font-black text-foreground">Raw Clips</div>
           <p className="text-xs text-muted mt-1">Aerial 4K, b-roll shots &amp; background textures</p>
         </div>
-        <div className="rounded-2xl border border-card-border bg-card/60 p-5 backdrop-blur-sm shadow-xs">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-xs">
           <Layers className="h-5 w-5 text-amber-500 mb-2" />
           <div className="font-heading text-2xl font-black text-foreground">3D Titles</div>
           <p className="text-xs text-muted mt-1">Motion graphics &amp; cinematic typography</p>
         </div>
-        <div className="rounded-2xl border border-card-border bg-card/60 p-5 backdrop-blur-sm shadow-xs">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-xs">
           <HardDrive className="h-5 w-5 text-purple-400 mb-2" />
           <div className="font-heading text-2xl font-black text-foreground">Instant Drive</div>
           <p className="text-xs text-muted mt-1">Lifetime cloud drive access &amp; free updates</p>

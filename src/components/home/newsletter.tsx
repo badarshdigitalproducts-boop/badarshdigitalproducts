@@ -38,7 +38,7 @@ export function Newsletter() {
           <div className="pointer-events-none absolute -bottom-12 -left-12 h-64 w-64 rounded-full bg-accent/5 blur-3xl" />
 
           <div className="relative mx-auto max-w-3xl text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-card-border bg-background/80 px-4 py-1.5 text-xs font-semibold text-accent shadow-xs backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-semibold text-accent shadow-2xs">
               <Gift className="h-4 w-4" />
               <span>Free Founder Gift</span>
             </div>
@@ -55,7 +55,7 @@ export function Newsletter() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="mt-8 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-6 text-center backdrop-blur-md"
+                className="mt-8 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-6 text-center"
               >
                 <CheckCircle className="mx-auto h-10 w-10 text-emerald-500" />
                 <h3 className="mt-2 font-heading text-lg font-bold text-foreground">
@@ -85,7 +85,7 @@ export function Newsletter() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your business email..."
                   required
-                  className="w-full rounded-full border border-card-border bg-background/80 px-6 py-4 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 sm:max-w-md backdrop-blur-md"
+                  className="w-full rounded-full border border-border bg-background px-6 py-4 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent sm:max-w-md"
                 />
                 <button
                   type="submit"

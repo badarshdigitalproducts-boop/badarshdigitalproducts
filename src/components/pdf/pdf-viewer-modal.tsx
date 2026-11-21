@@ -67,7 +67,7 @@ export function PdfViewerModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-2 sm:p-4 md:p-6 animate-in fade-in duration-200"
       onContextMenu={isCopyProtected ? (e) => e.preventDefault() : undefined}
     >
       <div
@@ -78,7 +78,7 @@ export function PdfViewerModal({
         }`}
       >
         {/* Header Bar */}
-        <div className="flex items-center justify-between border-b border-card-border px-4 py-3 sm:px-6 sm:py-4 bg-background/80 backdrop-blur-sm">
+        <div className="flex items-center justify-between border-b border-card-border px-4 py-3 sm:px-6 sm:py-4 bg-background">
           <div className="flex items-center gap-3 min-w-0">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent">
               <BookOpen className="h-4 w-4" />

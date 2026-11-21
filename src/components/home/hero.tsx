@@ -193,7 +193,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-14 max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4 rounded-2xl border border-border/60 bg-card/70 p-6 backdrop-blur-xl shadow-xs"
+          className="mt-14 max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4 rounded-2xl border border-border bg-card p-6 shadow-xs"
         >
           {STATS.map((stat) => (
             <AnimatedCounter

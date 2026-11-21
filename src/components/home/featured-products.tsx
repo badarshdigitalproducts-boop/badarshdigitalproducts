@@ -54,7 +54,7 @@ export function FeaturedProducts() {
         <div className="mt-12 text-center">
           <Link
             href="/bundles"
-            className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.06] hover:bg-white/[0.12] px-6 py-2.5 text-xs sm:text-sm font-medium text-foreground backdrop-blur-md shadow-xs transition-all active:scale-95"
+            className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background hover:bg-muted px-6 py-2.5 text-xs sm:text-sm font-medium text-foreground shadow-xs transition-all active:scale-95"
           >
             <span>Explore All Master Bundles</span>
             <ChevronRight className="h-4 w-4" />

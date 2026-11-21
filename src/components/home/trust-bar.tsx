@@ -15,7 +15,7 @@ const clientNiches = [
 
 export function TrustBar() {
   return (
-    <section className="overflow-hidden w-full max-w-full border-y border-card-border/60 bg-card/30 py-8 backdrop-blur-sm">
+    <section className="overflow-hidden w-full max-w-full border-y border-border bg-card/50 py-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <p className="text-center text-xs font-semibold uppercase tracking-widest text-muted">
           Built For Ambitious Founders, Creators &amp; Modern Indian Businesses

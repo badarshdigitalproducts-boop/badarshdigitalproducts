@@ -58,13 +58,13 @@ export function SfxCard({ product }: SfxCardProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
         {/* Format Pill */}
-        <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 rounded-full bg-black/70 px-2.5 py-0.5 text-[10px] font-bold text-white backdrop-blur-md border border-white/10">
+        <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 rounded-full bg-black/90 px-2.5 py-0.5 text-[10px] font-bold text-white border border-white/15">
           <Disc3 className={`h-3 w-3 ${isThisPlaying ? "animate-spin text-accent" : "text-accent"}`} />
           <span>24-Bit WAV &bull; {product.audioCategory || "SFX"}</span>
         </div>
 
         {/* Interactive Audio Waveform Scrub Bar on bottom of card */}
-        <div className="absolute inset-x-3 bottom-3 z-10 flex items-center justify-between rounded-lg bg-black/80 px-3 py-2 backdrop-blur-md border border-white/10">
+        <div className="absolute inset-x-3 bottom-3 z-10 flex items-center justify-between rounded-lg bg-black/95 px-3 py-2 border border-white/15">
           <button
             onClick={handlePlayToggle}
             aria-label="Preview sound effect"

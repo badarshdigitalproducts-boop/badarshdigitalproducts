@@ -58,7 +58,7 @@ export default function BlogListingPage() {
         <div className="relative mt-10 overflow-hidden rounded-3xl border border-card-border bg-card shadow-md transition-all hover:border-accent/40 hover:shadow-xl">
           <div className="grid grid-cols-1 lg:grid-cols-12">
             <div className="flex aspect-[16/10] items-center justify-center bg-gradient-to-br from-accent/20 via-purple-900/30 to-card p-8 lg:col-span-6">
-              <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-background/80 border border-white/20 text-accent shadow-xl backdrop-blur-md">
+              <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-background border border-border text-foreground shadow-sm">
                 <Sparkles className="h-10 w-10" />
               </div>
             </div>
@@ -145,7 +145,7 @@ export default function BlogListingPage() {
               className="relative block aspect-[16/9] w-full overflow-hidden bg-gradient-to-tr from-accent/20 via-purple-900/30 to-card"
             >
               <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-background/80 border border-white/20 text-accent shadow-md backdrop-blur-md transition-transform duration-300 group-hover:scale-110">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-background border border-border text-foreground shadow-xs transition-transform duration-300 group-hover:scale-110">
                   <BookOpen className="h-6 w-6" />
                 </div>
               </div>

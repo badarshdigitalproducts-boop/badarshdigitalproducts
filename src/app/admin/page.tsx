@@ -338,7 +338,7 @@ export default function AdminDashboardPage() {
       {/* 6 Top KPI Metrics */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-6">
         {/* Metric 1: Revenue */}
-        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-4 backdrop-blur-md">
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-4">
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-xs font-medium">Gross Sales</span>
             {currency === "INR" ? (
@@ -356,7 +356,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Metric 2: Digital Products */}
-        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-4 backdrop-blur-md">
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-4">
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-xs font-medium">Digital Assets</span>
             <Package className="h-4 w-4 text-emerald-400" />
@@ -371,7 +371,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Metric 3: Agency Services */}
-        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-4 backdrop-blur-md">
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-4">
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-xs font-medium">Creative Services</span>
             <Layers className="h-4 w-4 text-blue-400" />
@@ -384,7 +384,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Metric 4: Editorial Articles */}
-        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-4 backdrop-blur-md">
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-4">
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-xs font-medium">Articles Live</span>
             <FileText className="h-4 w-4 text-purple-400" />
@@ -396,7 +396,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Metric 5: Agency Leads */}
-        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-4 backdrop-blur-md">
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-4">
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-xs font-medium">Inbound Leads</span>
             <Users2 className="h-4 w-4 text-amber-400" />
@@ -413,7 +413,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Metric 6: Audience */}
-        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-4 backdrop-blur-md">
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-4">
           <div className="flex items-center justify-between text-zinc-400">
             <span className="text-xs font-medium">Audience</span>
             <Mail className="h-4 w-4 text-pink-400" />
@@ -426,7 +426,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* SECTION 1: UNIVERSAL ASSET VAULT / DIRECT FILE DROPZONE */}
-      <div className="rounded-2xl border border-zinc-800/80 bg-gradient-to-b from-zinc-900/60 to-zinc-950/80 p-6 backdrop-blur-md">
+      <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
           <div className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#FF5A36]/15 text-[#FF5A36]">
@@ -597,7 +597,7 @@ export default function AdminDashboardPage() {
       {/* SECTION 4: RECENT LEADS & RECENT ORDERS CRM */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
         {/* Left Column: Recent Leads (7 cols) */}
-        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-6 backdrop-blur-md lg:col-span-7">
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6 lg:col-span-7">
           <div className="flex items-center justify-between border-b border-zinc-800/80 pb-4">
             <div>
               <h2 className="font-heading text-sm font-bold text-white">
@@ -669,7 +669,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Right Column: Recent Sales Orders (5 cols) */}
-        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-6 backdrop-blur-md lg:col-span-5">
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6 lg:col-span-5">
           <div className="flex items-center justify-between border-b border-zinc-800/80 pb-4">
             <div>
               <h2 className="font-heading text-sm font-bold text-white">

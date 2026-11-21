@@ -272,7 +272,7 @@ export function AiSupportAgent() {
             "group relative flex h-13 w-13 sm:h-14 sm:w-14 cursor-pointer items-center justify-center rounded-full border transition-all duration-300 shadow-xl active:scale-95",
             isOpen
               ? "border-accent bg-accent text-white shadow-accent/25"
-              : "border-white/15 bg-[#141416]/95 text-foreground hover:border-white/30 hover:scale-105 backdrop-blur-2xl"
+              : "border-border bg-card text-foreground hover:border-foreground/30 hover:scale-105 shadow-md"
           )}
           whileTap={{ scale: 0.92 }}
           aria-label={isOpen ? "Close AI Concierge" : "Open AI Concierge"}
@@ -310,11 +310,10 @@ export function AiSupportAgent() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.96 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed bottom-22 right-4 sm:right-6 z-50 flex w-[calc(100vw-2rem)] sm:w-[390px] h-[75vh] sm:h-[540px] max-h-[600px] flex-col overflow-hidden rounded-3xl border border-border/80 bg-background/95 shadow-2xl backdrop-blur-3xl"
-            style={{ WebkitBackdropFilter: "blur(28px) saturate(180%)" }}
+            className="fixed bottom-22 right-4 sm:right-6 z-50 flex w-[calc(100vw-2rem)] sm:w-[390px] h-[75vh] sm:h-[540px] max-h-[600px] flex-col overflow-hidden rounded-3xl border border-border bg-background shadow-2xl"
           >
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-border/60 bg-card/60 px-4 py-3 backdrop-blur-md">
+            <div className="flex items-center justify-between border-b border-border bg-card px-4 py-3">
               <div className="flex items-center gap-2.5">
                 <div className="relative h-8 w-8 overflow-hidden rounded-xl border border-white/10 bg-accent/15 p-1">
                   <Image
@@ -433,7 +432,7 @@ export function AiSupportAgent() {
             </div>
 
             {/* Input Bar — Clean & No WhatsApp */}
-            <div className="border-t border-border/60 bg-card/40 p-2.5 backdrop-blur-md">
+            <div className="border-t border-border bg-card p-2.5">
               <form onSubmit={handleFormSubmit} className="relative flex items-center">
                 <input
                   ref={inputRef}

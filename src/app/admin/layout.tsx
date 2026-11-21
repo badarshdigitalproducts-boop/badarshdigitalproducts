@@ -102,7 +102,7 @@ export default function AdminLayout({
   return (
     <div className="flex min-h-screen bg-[#09090B] text-zinc-100 selection:bg-[#FF5A36] selection:text-white">
       {/* Desktop Sidebar */}
-      <aside className="hidden w-64 shrink-0 flex-col justify-between border-r border-zinc-800/80 bg-zinc-950/80 p-5 backdrop-blur-xl md:flex overflow-y-auto max-h-screen sticky top-0">
+      <aside className="hidden w-64 shrink-0 flex-col justify-between border-r border-zinc-800 bg-zinc-950 p-5 md:flex overflow-y-auto max-h-screen sticky top-0">
         <div>
           {/* Logo & Founder Badge */}
           <div className="flex items-center gap-3 px-2">
@@ -220,7 +220,7 @@ export default function AdminLayout({
       {/* Main Content Area */}
       <div className="flex flex-1 flex-col overflow-x-hidden min-w-0">
         {/* Desktop Top Header Bar */}
-        <header className="hidden md:flex h-14 items-center justify-between border-b border-zinc-800/80 bg-zinc-950/40 px-8 backdrop-blur-md sticky top-0 z-30">
+        <header className="hidden md:flex h-14 items-center justify-between border-b border-zinc-800 bg-zinc-950 px-8 sticky top-0 z-30">
           <div className="flex items-center gap-2 text-xs text-zinc-400">
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
             <span className="font-semibold text-zinc-200">BADARSH Operating System</span>

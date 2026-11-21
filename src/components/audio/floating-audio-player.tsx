@@ -36,7 +36,7 @@ export function FloatingAudioPlayer() {
   const isFree = currentTrack.price === 0 || currentTrack.isFree;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-card-border/80 bg-background/90 backdrop-blur-xl shadow-2xl transition-all duration-300">
+    <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background shadow-2xl transition-all duration-300">
       {/* Top Thin Progress Bar (Interactive) */}
       <div
         className="relative h-1.5 w-full bg-secondary cursor-pointer group"

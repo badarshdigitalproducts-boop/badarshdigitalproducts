@@ -128,7 +128,7 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          className="inline-flex items-center gap-2 rounded-full border border-card-border bg-card/80 px-4 py-1.5 text-xs font-semibold text-muted shadow-xs backdrop-blur-md"
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-semibold text-muted shadow-2xs"
         >
           <span className="flex h-2 w-2 rounded-full bg-accent" />
           <span className="font-semibold text-foreground">BADARSH Studio Profile</span>
@@ -183,7 +183,7 @@ export default function AboutPage() {
       </div>
 
       {/* Stats Dock */}
-      <div className="mt-14 grid grid-cols-2 gap-4 rounded-2xl border border-card-border bg-card/60 p-6 backdrop-blur-xl shadow-xs sm:grid-cols-4 sm:p-8">
+      <div className="mt-14 grid grid-cols-2 gap-4 rounded-2xl border border-border bg-card p-6 shadow-xs sm:grid-cols-4 sm:p-8">
         {STATS.map((stat) => (
           <AnimatedCounter
             key={stat.label}
