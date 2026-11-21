@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -7,6 +8,7 @@ import { Play, Pause, Volume2, Video, Star, Download, ExternalLink, Sparkles, Di
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { useAudioPlayer } from "@/context/audio-player-context";
+import { CheckoutModal } from "../checkout-modal";
 
 interface SfxCardProps {
   product: Product;
@@ -17,12 +19,30 @@ export function SfxCard({ product }: SfxCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
   const { currentTrack, isPlaying, playTrack, togglePlay } = useAudioPlayer();
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const isThisPlaying = currentTrack?.id === product.id && isPlaying;
+  const isFree = product.price === 0;
 
   const audioSrc =
     product.audioPreviewUrl ||
     "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg";
+
+  const handleActionClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isFree) {
+      const a = document.createElement("a");
+      a.href = audioSrc;
+      a.download = `${product.title.toLowerCase().replace(/\s+/g, "-")}-master.ogg`;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } else {
+      setCheckoutOpen(true);
+    }
+  };
 
   const handlePlayToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -39,7 +59,8 @@ export function SfxCard({ product }: SfxCardProps) {
   };
 
   return (
-    <motion.div
+    <>
+      <motion.div
       whileHover={{ y: -6 }}
       whileTap={{ scale: 0.985 }}
       transition={{ type: "spring", duration: 0.35, bounce: 0.1 }}
@@ -146,17 +167,22 @@ export function SfxCard({ product }: SfxCardProps) {
           </div>
 
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              router.push(`/templates/${product.slug}`);
-            }}
-            className="flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-xs transition-opacity hover:opacity-90 active:scale-95"
+            onClick={handleActionClick}
+            className="flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-xs transition-opacity hover:opacity-90 active:scale-95 cursor-pointer"
           >
-            <span>{product.price === 0 ? "Get Free" : "Get Asset"}</span>
-            <ExternalLink className="h-3 w-3" />
+            <span>{isFree ? "Download Master" : "Get Asset"}</span>
+            {isFree ? <Download className="h-3 w-3" /> : <ExternalLink className="h-3 w-3" />}
           </button>
         </div>
       </div>
     </motion.div>
+
+    {/* Instant Checkout Modal */}
+    <CheckoutModal
+      product={product}
+      isOpen={checkoutOpen}
+      onClose={() => setCheckoutOpen(false)}
+    />
+  </>
   );
 }

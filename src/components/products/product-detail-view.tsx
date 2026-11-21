@@ -653,13 +653,37 @@ export function ProductDetailView({
             </span>
           </div>
 
-          <button
-            onClick={() => setCheckoutModalOpen(true)}
-            className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-5 py-2.5 font-heading text-xs font-bold text-white shadow-md hover:bg-accent-hover"
-          >
-            <ShoppingBag className="h-3.5 w-3.5" />
-            <span>Instant Download</span>
-          </button>
+          {product.price === 0 ? (
+            <button
+              onClick={() => {
+                const directUrl = product.downloadUrl || product.pdfUrl || product.appDownloadUrl || product.canvaUrl;
+                if (directUrl) {
+                  const a = document.createElement("a");
+                  a.href = directUrl;
+                  a.download = `${product.title.toLowerCase().replace(/\s+/g, "-")}-master`;
+                  a.target = "_blank";
+                  a.rel = "noopener noreferrer";
+                  document.body.appendChild(a);
+                  a.click();
+                  document.body.removeChild(a);
+                } else {
+                  setCheckoutModalOpen(true);
+                }
+              }}
+              className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-full bg-emerald-600 px-5 py-2.5 font-heading text-xs font-bold text-white shadow-md hover:bg-emerald-700"
+            >
+              <Download className="h-3.5 w-3.5" />
+              <span>Download Free</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => setCheckoutModalOpen(true)}
+              className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-5 py-2.5 font-heading text-xs font-bold text-white shadow-md hover:bg-accent-hover"
+            >
+              <ShoppingBag className="h-3.5 w-3.5" />
+              <span>Instant Access</span>
+            </button>
+          )}
         </div>
       </div>
 

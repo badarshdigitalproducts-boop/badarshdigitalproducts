@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Sliders, Sparkles, Star, Download, ExternalLink, Zap } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
+import { CheckoutModal } from "../checkout-modal";
 
 interface PresetCardProps {
   product: Product;
@@ -17,7 +18,20 @@ export function PresetCard({ product }: PresetCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
   const [sliderPosition, setSliderPosition] = useState(50);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const isFree = product.price === 0;
+
+  const handleActionClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isFree) {
+      const targetUrl = product.presetLinkUrl || product.downloadUrl || "https://lightroom.adobe.com/";
+      window.open(targetUrl, "_blank");
+    } else {
+      setCheckoutOpen(true);
+    }
+  };
 
   // Default high-contrast before/after images if product doesn't have custom ones
   const beforeImg =
@@ -45,7 +59,8 @@ export function PresetCard({ product }: PresetCardProps) {
   };
 
   return (
-    <motion.div
+    <>
+      <motion.div
       whileHover={{ y: -6 }}
       whileTap={{ scale: 0.985 }}
       transition={{ type: "spring", duration: 0.35, bounce: 0.1 }}
@@ -152,17 +167,22 @@ export function PresetCard({ product }: PresetCardProps) {
           </div>
 
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              router.push(`/templates/${product.slug}`);
-            }}
-            className="flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-xs transition-opacity hover:opacity-90 active:scale-95"
+            onClick={handleActionClick}
+            className="flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-xs transition-opacity hover:opacity-90 active:scale-95 cursor-pointer"
           >
-            <span>Get Preset</span>
+            <span>{isFree ? "Get Free Preset" : "Get Preset"}</span>
             <ExternalLink className="h-3 w-3" />
           </button>
         </div>
       </div>
     </motion.div>
+
+    {/* Instant Checkout Modal */}
+    <CheckoutModal
+      product={product}
+      isOpen={checkoutOpen}
+      onClose={() => setCheckoutOpen(false)}
+    />
+  </>
   );
 }

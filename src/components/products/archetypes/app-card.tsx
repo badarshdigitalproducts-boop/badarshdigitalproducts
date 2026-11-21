@@ -1,11 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Download, ShieldCheck, Cpu, Smartphone, Star, ArrowUpRight, Zap, Check } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
+import { CheckoutModal } from "../checkout-modal";
 
 interface AppCardProps {
   product: Product;
@@ -15,14 +17,33 @@ interface AppCardProps {
 export function AppCard({ product }: AppCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const appVersion = product.appVersion || (product as any).apkVersion || "v12.2 Pro Unlocked";
   const appSize = product.fileSize || "185 MB";
   const appPlatform = product.appPlatform || (product as any).apkArchitecture || "Android 9.0+ / Mobile";
   const isFree = product.price === 0;
 
+  const handleActionClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isFree) {
+      const directUrl = product.appDownloadUrl || product.downloadUrl || "https://www.capcut.com/";
+      const a = document.createElement("a");
+      a.href = directUrl;
+      a.download = `${product.title.toLowerCase().replace(/\s+/g, "-")}-app`;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } else {
+      setCheckoutOpen(true);
+    }
+  };
+
   return (
-    <motion.div
+    <>
+      <motion.div
       whileHover={{ y: -6 }}
       whileTap={{ scale: 0.985 }}
       transition={{ type: "spring", duration: 0.35, bounce: 0.1 }}
@@ -108,16 +129,21 @@ export function AppCard({ product }: AppCardProps) {
         </div>
 
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            router.push(`/templates/${product.slug}`);
-          }}
-          className="flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-xs transition-opacity hover:opacity-90 active:scale-95"
+          onClick={handleActionClick}
+          className="flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-xs transition-opacity hover:opacity-90 active:scale-95 cursor-pointer"
         >
           <Download className="h-3.5 w-3.5" />
           <span>{isFree ? "Get Free App" : "Get App"}</span>
         </button>
       </div>
     </motion.div>
+
+    {/* Instant Checkout Modal */}
+    <CheckoutModal
+      product={product}
+      isOpen={checkoutOpen}
+      onClose={() => setCheckoutOpen(false)}
+    />
+  </>
   );
 }

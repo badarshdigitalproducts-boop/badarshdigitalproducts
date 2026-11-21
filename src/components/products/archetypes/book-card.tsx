@@ -8,6 +8,7 @@ import { BookOpen, Download, Star, Eye, ChevronRight, Lock } from "lucide-react"
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { PdfViewerModal } from "@/components/pdf/pdf-viewer-modal";
+import { CheckoutModal } from "../checkout-modal";
 
 interface BookCardProps {
   product: Product;
@@ -18,11 +19,32 @@ export function BookCard({ product }: BookCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
   const [readerOpen, setReaderOpen] = useState(false);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const pageCount = product.pageCount ? `${product.pageCount} Pages` : product.specs?.count || "120+ Pages";
-  const pdfUrl = product.pdfUrl || product.downloadUrl || "https://drive.google.com/file/d/sample/view";
+  const pdfUrl = product.pdfUrl || product.downloadUrl || "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf";
   const previewPdfUrl = product.previewPdfUrl || pdfUrl;
   const isFree = product.price === 0;
+
+  const handleActionClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isFree) {
+      if (pdfUrl && pdfUrl !== "#") {
+        const a = document.createElement("a");
+        a.href = pdfUrl;
+        a.download = `${product.title.toLowerCase().replace(/\s+/g, "-")}-master.pdf`;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      } else {
+        setReaderOpen(true);
+      }
+    } else {
+      setCheckoutOpen(true);
+    }
+  };
 
   return (
     <>
@@ -110,13 +132,10 @@ export function BookCard({ product }: BookCardProps) {
             </div>
 
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                router.push(`/templates/${product.slug}`);
-              }}
-              className="flex items-center gap-1 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-xs transition-opacity hover:opacity-90 active:scale-95"
+              onClick={handleActionClick}
+              className="flex items-center gap-1 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-xs transition-opacity hover:opacity-90 active:scale-95 cursor-pointer"
             >
-              <span>{isFree ? "Get Free" : "Get Book"}</span>
+              <span>{isFree ? "Download PDF" : "Get Book"}</span>
               <ChevronRight className="h-3.5 w-3.5" />
             </button>
           </div>
@@ -135,6 +154,13 @@ export function BookCard({ product }: BookCardProps) {
         authorOrCategory={product.authorName || "BADARSH Publishing"}
         isCopyProtected={!isFree}
         slug={product.slug}
+      />
+
+      {/* Instant Checkout Modal */}
+      <CheckoutModal
+        product={product}
+        isOpen={checkoutOpen}
+        onClose={() => setCheckoutOpen(false)}
       />
     </>
   );

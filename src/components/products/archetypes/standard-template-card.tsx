@@ -8,6 +8,7 @@ import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { TemplatePreviewModal } from "../template-preview-modal";
 import { TemplateEditorModal } from "@/components/templates/template-editor-modal";
+import { CheckoutModal } from "../checkout-modal";
 
 interface StandardTemplateCardProps {
   product: Product;
@@ -19,7 +20,32 @@ export function StandardTemplateCard({ product }: StandardTemplateCardProps) {
   const { formatPrice: formatCurr } = useCurrency();
   const [previewOpen, setPreviewOpen] = useState(false);
   const [editorOpen, setEditorOpen] = useState(false);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [imageError, setImageError] = useState(false);
+
+  const isFree = product.price === 0;
+
+  const handleActionClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isFree) {
+      if (product.canvaUrl) {
+        window.open(product.canvaUrl, "_blank");
+      } else if (product.downloadUrl) {
+        const a = document.createElement("a");
+        a.href = product.downloadUrl;
+        a.download = `${product.title.toLowerCase().replace(/\s+/g, "-")}-template`;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      } else {
+        setEditorOpen(true);
+      }
+    } else {
+      setCheckoutOpen(true);
+    }
+  };
 
   const discountPercent =
     product.originalPrice && product.originalPrice > product.price
@@ -159,13 +185,10 @@ export function StandardTemplateCard({ product }: StandardTemplateCardProps) {
             </div>
 
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                router.push(`/templates/${product.slug}`);
-              }}
+              onClick={handleActionClick}
               className="inline-flex items-center gap-1 rounded-full bg-foreground px-3.5 py-1.5 text-xs font-medium text-background transition-opacity hover:opacity-85 active:scale-95 cursor-pointer"
             >
-              <span>Use Template</span>
+              <span>{isFree ? "Get Free Template" : "Get Template"}</span>
               <ArrowRight className="h-3 w-3" />
             </button>
           </div>
@@ -177,6 +200,10 @@ export function StandardTemplateCard({ product }: StandardTemplateCardProps) {
         product={product}
         isOpen={previewOpen}
         onClose={() => setPreviewOpen(false)}
+        onBuyClick={() => {
+          setPreviewOpen(false);
+          setCheckoutOpen(true);
+        }}
       />
 
       {/* In-Browser Template Customizer Studio */}
@@ -188,6 +215,13 @@ export function StandardTemplateCard({ product }: StandardTemplateCardProps) {
         defaultSubheadline={product.editableTemplateData?.subheadline || product.description}
         defaultBrandName={product.editableTemplateData?.brandText || "BADARSH STUDIO"}
         backgroundImage={coverImg}
+      />
+
+      {/* Instant Checkout Modal */}
+      <CheckoutModal
+        product={product}
+        isOpen={checkoutOpen}
+        onClose={() => setCheckoutOpen(false)}
       />
     </>
   );

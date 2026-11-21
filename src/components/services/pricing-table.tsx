@@ -1,9 +1,12 @@
 "use client";
 
-import { Check, Sparkles, MessageCircle } from "lucide-react";
+import { useState } from "react";
+import { Check, Sparkles, MessageCircle, CreditCard, Lock } from "lucide-react";
 import type { ServicePackage } from "@/types";
+import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { getWhatsAppUrl } from "@/lib/utils";
+import { CheckoutModal } from "@/components/products/checkout-modal";
 
 interface PricingTableProps {
   packages: ServicePackage[];
@@ -12,6 +15,7 @@ interface PricingTableProps {
 
 export function PricingTable({ packages, serviceTitle }: PricingTableProps) {
   const { formatPrice: formatCurr } = useCurrency();
+  const [selectedServiceProduct, setSelectedServiceProduct] = useState<Product | null>(null);
 
   const handleInquireClick = (pkg: ServicePackage) => {
     try {
@@ -92,7 +96,7 @@ export function PricingTable({ packages, serviceTitle }: PricingTableProps) {
               </ul>
             </div>
 
-            <div className="mt-8 border-t border-card-border/60 pt-6">
+            <div className="mt-8 border-t border-card-border/60 pt-6 space-y-2.5">
               <a
                 href={whatsappUrl}
                 target="_blank"
@@ -107,10 +111,49 @@ export function PricingTable({ packages, serviceTitle }: PricingTableProps) {
                 <MessageCircle className="h-4 w-4" />
                 <span>{pkg.ctaText || "Inquire via WhatsApp"}</span>
               </a>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedServiceProduct({
+                    id: `svc-${serviceTitle.toLowerCase().replace(/[^a-z0-9]/g, "-")}-${pkg.name.toLowerCase().replace(/[^a-z0-9]/g, "-")}`,
+                    slug: `service-${serviceTitle.toLowerCase().replace(/[^a-z0-9]/g, "-")}`,
+                    title: `${serviceTitle} — ${pkg.name}`,
+                    description: pkg.description,
+                    longDescription: pkg.description,
+                    price: pkg.price,
+                    currency: (pkg.currency as any) || "INR",
+                    category: "social-media",
+                    tags: ["service", serviceTitle.toLowerCase()],
+                    images: ["https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80"],
+                    features: pkg.features,
+                    rating: 5,
+                    reviewCount: 28,
+                    downloads: 140,
+                    isFeatured: true,
+                    isNew: false,
+                    isBestseller: pkg.isPopular || false,
+                    format: "Custom Agency Service",
+                    createdAt: "2026-01-01",
+                  });
+                }}
+                className="flex w-full cursor-pointer items-center justify-center gap-1.5 py-2 text-[11px] font-semibold text-muted hover:text-foreground transition-colors"
+              >
+                <Lock className="h-3 w-3 text-emerald-500" />
+                <span>Or Book &amp; Pay Online (UPI / Card) &rarr;</span>
+              </button>
             </div>
           </div>
         );
       })}
+
+      {selectedServiceProduct && (
+        <CheckoutModal
+          product={selectedServiceProduct}
+          isOpen={true}
+          onClose={() => setSelectedServiceProduct(null)}
+        />
+      )}
     </div>
   );
 }

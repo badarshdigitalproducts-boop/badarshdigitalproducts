@@ -1,11 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Package, Layers, Sparkles, Star, Download, ExternalLink, HardDrive } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
+import { CheckoutModal } from "../checkout-modal";
 
 interface BundleCardProps {
   product: Product;
@@ -15,6 +17,7 @@ interface BundleCardProps {
 export function BundleCard({ product }: BundleCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const totalAssets = product.totalAssetsCount || product.specs?.count || "700+ Assets";
   const bundleSize = product.fileSize || "2.1 GB";
@@ -24,8 +27,14 @@ export function BundleCard({ product }: BundleCardProps) {
       ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
       : 0;
 
+  const handleActionClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCheckoutOpen(true);
+  };
+
   return (
-    <motion.div
+    <>
+      <motion.div
       whileHover={{ y: -6 }}
       whileTap={{ scale: 0.985 }}
       transition={{ type: "spring", duration: 0.35, bounce: 0.1 }}
@@ -118,11 +127,8 @@ export function BundleCard({ product }: BundleCardProps) {
           </div>
 
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              router.push(`/templates/${product.slug}`);
-            }}
-            className="flex items-center gap-1.5 rounded-full bg-accent px-5 py-2 text-xs font-bold text-white shadow-md transition-all hover:bg-accent-hover hover:scale-105 active:scale-95"
+            onClick={handleActionClick}
+            className="flex items-center gap-1.5 rounded-full bg-accent px-5 py-2 text-xs font-bold text-white shadow-md transition-all hover:bg-accent-hover hover:scale-105 active:scale-95 cursor-pointer"
           >
             <span>Unlock Vault</span>
             <ExternalLink className="h-3.5 w-3.5" />
@@ -130,5 +136,13 @@ export function BundleCard({ product }: BundleCardProps) {
         </div>
       </div>
     </motion.div>
+
+    {/* Instant Checkout Modal */}
+    <CheckoutModal
+      product={product}
+      isOpen={checkoutOpen}
+      onClose={() => setCheckoutOpen(false)}
+    />
+  </>
   );
 }

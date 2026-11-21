@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ShoppingBag, MessageCircle, ExternalLink, ShieldCheck, Sparkles } from "lucide-react";
+import { ShoppingBag, MessageCircle, ExternalLink, ShieldCheck, Sparkles, Download } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
@@ -50,9 +50,31 @@ export function BuyButton({
     createdAt: "2026-01-01",
   };
 
+  const isFree = price === 0;
+
+  const handleFreeDownload = () => {
+    const directUrl =
+      productData.downloadUrl ||
+      productData.pdfUrl ||
+      productData.appDownloadUrl ||
+      productData.canvaUrl;
+    if (directUrl) {
+      const a = document.createElement("a");
+      a.href = directUrl;
+      a.download = `${productTitle.toLowerCase().replace(/\s+/g, "-")}-master`;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } else {
+      setCheckoutOpen(true);
+    }
+  };
+
   const handleWhatsAppQuick = () => {
     const msg = encodeURIComponent(
-      `Hi BADARSH! I want to purchase "${productTitle}" for ${formatCurr(price)}. Please share the direct download link and UPI payment details.`
+      `Hi BADARSH! I want to get "${productTitle}" (${isFree ? "Free Edition" : formatCurr(price)}). Please share the direct download link and details.`
     );
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
   };
@@ -60,17 +82,28 @@ export function BuyButton({
   return (
     <>
       <div className={`space-y-3 ${className}`}>
-        {/* Primary Checkout Button */}
-        <button
-          onClick={() => setCheckoutOpen(true)}
-          className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-full bg-accent px-8 py-4 font-heading text-base font-bold text-white shadow-lg shadow-accent/25 transition-all duration-300 hover:bg-accent-hover hover:shadow-xl hover:shadow-accent/35 active:scale-[0.98]"
-        >
-          <ShoppingBag className="h-5 w-5" />
-          <span>
-            Instant Access &bull; {formatCurr(price)}
-          </span>
-          <Sparkles className="h-4 w-4 opacity-75" />
-        </button>
+        {/* Primary Action Button */}
+        {isFree ? (
+          <button
+            onClick={handleFreeDownload}
+            className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-full bg-emerald-600 px-8 py-4 font-heading text-base font-bold text-white shadow-lg shadow-emerald-600/25 transition-all duration-300 hover:bg-emerald-700 hover:shadow-xl hover:shadow-emerald-600/35 active:scale-[0.98]"
+          >
+            <Download className="h-5 w-5" />
+            <span>Download Free (Instant Access)</span>
+            <Sparkles className="h-4 w-4 opacity-75" />
+          </button>
+        ) : (
+          <button
+            onClick={() => setCheckoutOpen(true)}
+            className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-full bg-accent px-8 py-4 font-heading text-base font-bold text-white shadow-lg shadow-accent/25 transition-all duration-300 hover:bg-accent-hover hover:shadow-xl hover:shadow-accent/35 active:scale-[0.98]"
+          >
+            <ShoppingBag className="h-5 w-5" />
+            <span>
+              Instant Access &bull; {formatCurr(price)}
+            </span>
+            <Sparkles className="h-4 w-4 opacity-75" />
+          </button>
+        )}
 
         {/* WhatsApp UPI Quick Option */}
         <button
@@ -78,7 +111,7 @@ export function BuyButton({
           className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 py-3 font-heading text-sm font-semibold text-emerald-600 transition-all duration-200 hover:bg-emerald-500 hover:text-white"
         >
           <MessageCircle className="h-4 w-4" />
-          <span>Buy with UPI on WhatsApp</span>
+          <span>{isFree ? "Get Direct Link on WhatsApp" : "Buy with UPI on WhatsApp"}</span>
         </button>
 
         <div className="flex items-center justify-center gap-2 text-xs text-muted">
