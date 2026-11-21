@@ -218,10 +218,8 @@ export function Navbar() {
           </nav>
 
           {/* Right controls */}
-          <div className="flex items-center gap-2">
-            <div className="hidden sm:block">
-              <CurrencyToggle />
-            </div>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <CurrencyToggle />
             <ThemeToggle />
             <div className="hidden md:block">
               <UserAccountButton />
@@ -237,7 +235,7 @@ export function Navbar() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen(true)}
-              className="cursor-pointer rounded-md p-2 text-foreground transition-colors hover:bg-muted md:hidden"
+              className="cursor-pointer rounded-md p-1.5 sm:p-2 text-foreground transition-colors hover:bg-muted md:hidden"
               aria-label="Open menu"
             >
               <Menu className="h-5 w-5" />
