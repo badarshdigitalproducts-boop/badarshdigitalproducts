@@ -1,13 +1,22 @@
 import type { MetadataRoute } from "next";
-import { siteConfig } from "@/lib/constants";
+
+const getBaseUrl = (): string => {
+  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+  return "https://badarshdigitalproducts.vercel.app";
+};
 
 export default function robots(): MetadataRoute.Robots {
+  const baseUrl = getBaseUrl();
+
   return {
     rules: {
       userAgent: "*",
       allow: "/",
       disallow: ["/api/", "/admin/", "/admin"],
     },
-    sitemap: `${siteConfig.url}/sitemap.xml`,
+    sitemap: `${baseUrl}/sitemap.xml`,
   };
 }
