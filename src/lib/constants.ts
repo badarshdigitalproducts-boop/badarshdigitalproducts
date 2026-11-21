@@ -80,6 +80,12 @@ export const SHOP_MENU = [
     desc: "1-click Lightroom mobile & desktop photo presets",
     icon: "",
   },
+  {
+    label: "Video Templates",
+    href: "/video-templates",
+    desc: "Beat-sync CapCut & Alight Motion XML short-form video edits",
+    icon: "",
+  },
 ] as const;
 
 export const SERVICES_MENU = [
@@ -93,6 +99,18 @@ export const SERVICES_MENU = [
     label: "Photo Editing",
     href: "/services/photo-editing",
     desc: "High-end retouching & product photography edits",
+    icon: "",
+  },
+  {
+    label: "Event Photography",
+    href: "/services/event-photography",
+    desc: "Weddings, birthdays, corporate events & model portfolios",
+    icon: "",
+  },
+  {
+    label: "Pre-Wedding Cinematic",
+    href: "/services/pre-wedding-cinematic",
+    desc: "Luxury 4K drone cinematography & romantic couple story films",
     icon: "",
   },
   {
@@ -131,8 +149,9 @@ export const CATEGORIES = [
   { value: "planners", label: "Planners" },
   { value: "bundles", label: "Bundles" },
   { value: "editing-apps", label: "Apps" },
-  { value: "editing-bundles", label: "Sound Effects & BG Music" },
+  { value: "sound-effects", label: "Sound Effects & WAV" },
   { value: "photo-presets", label: "Lightroom Presets" },
+  { value: "video-templates", label: "Video Templates (CapCut & Alight)" },
 ] as const;
 
 // All product delivery types supported by BADARSH admin

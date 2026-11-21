@@ -44,6 +44,20 @@ export interface Product {
   afterImage?: string;           // Graded / edited photo for preset comparison
   appVersion?: string;           // e.g. "v12.2 Pro Unlocked"
   appPlatform?: string;          // e.g. "Android & iOS" or "Mobile App"
+  aspectRatio?: "9:16" | "1:1" | "16:9" | "4:5" | "A4"; // Display aspect ratio for Canva & video
+  slides?: string[];             // Slide preview images for templates
+  capcutUrl?: string;            // Direct "Use Template in CapCut" URL
+  alightMotionXmlUrl?: string;   // Direct Alight Motion XML project file URL
+  bpm?: number;                  // Beats per minute for video templates
+  requiredClipsCount?: number;   // Number of media clips required for video template
+  freeDownloadUrl?: string;      // 1-click free download link
+  driveTree?: Array<{
+    name: string;
+    type: "folder" | "file";
+    size?: string;
+    count?: string;
+    previewUrl?: string;
+  }>;
   audioPreviewUrl?: string;      // Audio stream / preview for SFX & BG music
   audioDuration?: string;        // e.g. "0:45", "2:14"
   audioCategory?: string;        // e.g. "Cinematic", "Reels BGM", "Transitions", "Lo-Fi"
@@ -84,7 +98,9 @@ export type ProductCategory =
   | "bundles"
   | "editing-apps"
   | "editing-bundles"
-  | "photo-presets";
+  | "photo-presets"
+  | "video-templates"
+  | "sound-effects";
 
 export interface ProductFilter {
   category: ProductCategory | "all";

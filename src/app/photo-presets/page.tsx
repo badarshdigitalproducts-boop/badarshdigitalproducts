@@ -17,8 +17,8 @@ import {
 } from "lucide-react";
 import { products as fallbackProducts } from "@/content/products";
 import { useCurrency } from "@/context/currency-context";
-import { PresetCard } from "@/components/products/archetypes/preset-card";
-import { BeforeAfterSlider } from "@/components/shared/before-after-slider";
+import { BeforeAfterSlider } from "@/components/presets/before-after-slider";
+import { BeforeAfterSlider as HeroSlider } from "@/components/shared/before-after-slider";
 import type { Product } from "@/types";
 
 const PRESET_CATEGORIES = [
@@ -107,7 +107,7 @@ export default function PhotoPresetsPage() {
       <div className="mt-14 overflow-hidden rounded-3xl border border-card-border bg-card p-6 md:p-10 shadow-lg">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-7">
-            <BeforeAfterSlider
+            <HeroSlider
               beforeImage="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1200&q=70&auto=format&fit=crop"
               afterImage="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=1200&q=80&auto=format&fit=crop"
               beforeLabel="Raw Smartphone Shot"
@@ -185,10 +185,10 @@ export default function PhotoPresetsPage() {
         </div>
       </div>
 
-      {/* Presets Grid */}
+      {/* Presets Grid with Interactive Before/After Sliders */}
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {presets.map((preset) => (
-          <PresetCard key={preset.id} product={preset} priority />
+          <BeforeAfterSlider key={preset.id} product={preset} />
         ))}
       </div>
 

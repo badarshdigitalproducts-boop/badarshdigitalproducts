@@ -18,6 +18,8 @@ function revalidateCatalog(slug?: string) {
     revalidatePath("/editing-bundles");
     revalidatePath("/ebooks");
     revalidatePath("/planners");
+    revalidatePath("/sound-effects");
+    revalidatePath("/video-templates");
     if (slug) {
       revalidatePath(`/templates/${slug}`);
       revalidatePath(`/ebooks/${slug}`);

@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { products as fallbackProducts } from "@/content/products";
 import { useCurrency } from "@/context/currency-context";
+import { AestheticPlannerCard } from "@/components/planners/aesthetic-planner-card";
 import { PdfViewerModal } from "@/components/pdf/pdf-viewer-modal";
 import type { Product } from "@/types";
 
@@ -138,98 +139,11 @@ export default function PlannersPage() {
         </div>
       </div>
 
-      {/* Planners Grid */}
+      {/* iPad Aesthetic Planners Grid */}
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {planners.map((planner) => {
-          const isFree = planner.price === 0;
-          return (
-            <motion.div
-              key={planner.id}
-              whileHover={{ y: -6 }}
-              whileTap={{ scale: 0.985 }}
-              transition={{ type: "spring", duration: 0.35, bounce: 0.1 }}
-              onClick={() => setActiveViewerProduct(planner)}
-              className="group relative flex flex-col rounded-2xl border border-card-border bg-card p-5 shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-foreground/20 hover:shadow-xl hover:shadow-black/5 cursor-pointer"
-            >
-              {/* Planner Mockup Stage */}
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-neutral-900 shadow-md">
-                <img
-                  src={planner.images[0] || "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=800&q=80"}
-                  alt={planner.title}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-
-                {/* Category Pill */}
-                <div className="absolute top-3 left-3 z-10 rounded-full bg-black/85 px-2.5 py-0.5 text-[10px] font-bold text-white border border-white/10 uppercase tracking-wider">
-                  {planner.plannerCategory || "Productivity"}
-                </div>
-
-                {/* Free / Paid Pill */}
-                <div className="absolute top-3 right-3 z-10 rounded-full bg-accent px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs">
-                  {isFree ? "Free PDF" : "Digital Planner"}
-                </div>
-
-                {/* Look Inside Overlay */}
-                <div className="absolute inset-x-3 bottom-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  <div className="flex w-full items-center justify-center gap-1.5 rounded-full bg-white py-2 text-xs font-bold text-neutral-900 shadow-md">
-                    <Eye className="h-3.5 w-3.5" />
-                    <span>Open In-Browser Reader</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Details */}
-              <div className="mt-4 flex flex-1 flex-col">
-                <div className="flex items-center justify-between text-xs text-muted">
-                  <span className="font-semibold text-accent">
-                    {planner.specs?.count || "90-Day OS"}
-                  </span>
-                  <div className="flex items-center gap-1">
-                    <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                    <span className="font-semibold text-foreground">{planner.rating}</span>
-                    <span>({planner.reviewCount})</span>
-                  </div>
-                </div>
-
-                <h3 className="mt-2 font-heading text-base font-bold text-foreground line-clamp-1 group-hover:text-accent transition-colors">
-                  {planner.title}
-                </h3>
-
-                <p className="mt-1 line-clamp-2 text-xs text-muted leading-relaxed">
-                  {planner.description}
-                </p>
-
-                {/* Action Row */}
-                <div className="mt-auto pt-4 flex items-center justify-between border-t border-card-border/60">
-                  <div>
-                    <div className="flex items-baseline gap-2">
-                      <span className="font-heading text-lg font-bold text-foreground">
-                        {isFree ? "Free" : formatCurr(planner.price)}
-                      </span>
-                      {planner.originalPrice && planner.originalPrice > planner.price && (
-                        <span className="text-xs text-muted line-through">
-                          {formatCurr(planner.originalPrice)}
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-[10px] text-muted">Tablet &amp; Print Ready</span>
-                  </div>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setActiveViewerProduct(planner);
-                    }}
-                    className="flex items-center gap-1 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-xs transition-opacity hover:opacity-90 active:scale-95"
-                  >
-                    <span>{isFree ? "Read / Download" : "Preview"}</span>
-                    <ChevronRight className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          );
-        })}
+        {planners.map((planner) => (
+          <AestheticPlannerCard key={planner.id} product={planner} />
+        ))}
       </div>
 
       {/* Empty State */}

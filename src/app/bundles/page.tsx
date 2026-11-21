@@ -48,7 +48,11 @@ export default function BundlesPage() {
 
   const bundles = useMemo(() => {
     return productList.filter((p) => {
-      const isBundle = p.category === "bundles" || p.tags?.includes("bundle");
+      const isBundle =
+        p.category === "bundles" ||
+        p.category === "editing-bundles" ||
+        p.tags?.includes("bundle") ||
+        (p as any).productType === "bundle";
       const matchesSearch =
         search === "" ||
         p.title.toLowerCase().includes(search.toLowerCase()) ||

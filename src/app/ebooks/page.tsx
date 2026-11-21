@@ -17,7 +17,9 @@ import {
 } from "lucide-react";
 import { products as fallbackProducts } from "@/content/products";
 import { useCurrency } from "@/context/currency-context";
-import { BookCard } from "@/components/products/archetypes/book-card";
+import { Interactive3dBook } from "@/components/books/interactive-3d-book";
+import { ChapterReaderModal } from "@/components/books/chapter-reader-modal";
+import { CheckoutModal } from "@/components/products/checkout-modal";
 import type { Product } from "@/types";
 
 const EBOOK_CATEGORIES = [
@@ -32,6 +34,8 @@ export default function EbooksPage() {
   const [productList, setProductList] = useState<Product[]>(fallbackProducts);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [readerProduct, setReaderProduct] = useState<Product | null>(null);
+  const [checkoutProduct, setCheckoutProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     fetch("/api/products?category=ebooks")
@@ -140,12 +144,37 @@ export default function EbooksPage() {
         </div>
       </div>
 
-      {/* Books Grid */}
+      {/* 3D Physical Books Interactive Grid */}
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {ebooks.map((ebook) => (
-          <BookCard key={ebook.id} product={ebook} priority />
+          <Interactive3dBook
+            key={ebook.id}
+            product={ebook}
+            onReadPreview={(prod) => setReaderProduct(prod)}
+            onBuy={(prod) => setCheckoutProduct(prod)}
+          />
         ))}
       </div>
+
+      {/* In-Browser Chapter 1 & 2 Free Reader */}
+      <ChapterReaderModal
+        isOpen={Boolean(readerProduct)}
+        onClose={() => setReaderProduct(null)}
+        product={readerProduct}
+        onUnlock={(prod) => {
+          setReaderProduct(null);
+          setCheckoutProduct(prod);
+        }}
+      />
+
+      {/* 1-Click Instant Checkout */}
+      {checkoutProduct && (
+        <CheckoutModal
+          isOpen={Boolean(checkoutProduct)}
+          onClose={() => setCheckoutProduct(null)}
+          product={checkoutProduct}
+        />
+      )}
 
       {/* Empty State */}
       {ebooks.length === 0 && (

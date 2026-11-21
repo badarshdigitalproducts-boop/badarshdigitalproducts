@@ -38,6 +38,7 @@ const NAV_ITEMS = [
   { label: "Apps", href: "/admin/shop/apps", icon: Smartphone, group: "Digital Shop" },
   { label: "Lightroom Presets", href: "/admin/shop/presets", icon: Camera, group: "Digital Shop" },
   { label: "Sound Effects & BGM", href: "/admin/shop/sound-effects", icon: Music, group: "Digital Shop" },
+  { label: "Video Templates", href: "/admin/shop/video-templates", icon: Video, group: "Digital Shop" },
   { label: "E-Books", href: "/admin/shop/ebooks", icon: BookOpen, group: "Digital Shop" },
   { label: "Planners", href: "/admin/shop/planners", icon: Calendar, group: "Digital Shop" },
   { label: "Templates", href: "/admin/shop/templates", icon: Layers, group: "Digital Shop" },
@@ -45,6 +46,8 @@ const NAV_ITEMS = [
   // CREATIVE AGENCY SERVICES (Separated individually)
   { label: "Video Editing", href: "/admin/services/video-editing", icon: Video, group: "Creative Services" },
   { label: "Photo Editing", href: "/admin/services/photo-editing", icon: Camera, group: "Creative Services" },
+  { label: "Event Photography", href: "/admin/services/event-photography", icon: Camera, group: "Creative Services" },
+  { label: "Pre-Wedding Cinematic", href: "/admin/services/pre-wedding-cinematic", icon: Video, group: "Creative Services" },
   { label: "Website Design", href: "/admin/services/website-design", icon: Globe, group: "Creative Services" },
   { label: "App Development", href: "/admin/services/app-development", icon: Smartphone, group: "Creative Services" },
   { label: "Logo Design", href: "/admin/services/logo-design", icon: Sparkles, group: "Creative Services" },

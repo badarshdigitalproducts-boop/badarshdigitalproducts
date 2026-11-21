@@ -20,9 +20,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/editing-bundles`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: `${baseUrl}/editing-apps`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: `${baseUrl}/photo-presets`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
+    { url: `${baseUrl}/video-templates`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: `${baseUrl}/services`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/services/video-editing`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: `${baseUrl}/services/photo-editing`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
+    { url: `${baseUrl}/services/event-photography`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
+    { url: `${baseUrl}/services/pre-wedding-cinematic`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: `${baseUrl}/services/social-media-management`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: `${baseUrl}/services/website-design`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: `${baseUrl}/services/app-development`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
@@ -55,9 +58,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Non-blocking fallback
   }
 
-  // Dynamic canonical product routes
+  // Dynamic canonical product & ebook routes
   const productRoutes: MetadataRoute.Sitemap = allProducts.map((product) => ({
-    url: `${baseUrl}/templates/${product.slug}`,
+    url:
+      product.category === "ebooks"
+        ? `${baseUrl}/ebooks/${product.slug}`
+        : `${baseUrl}/templates/${product.slug}`,
     lastModified: product.createdAt ? new Date(product.createdAt) : now,
     changeFrequency: "weekly",
     priority: 0.85,

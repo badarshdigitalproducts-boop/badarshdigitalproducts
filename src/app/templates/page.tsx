@@ -37,6 +37,7 @@ function TemplatesContent() {
 
   const [productList, setProductList] = useState<Product[]>(initialProducts);
   const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam);
+  const [selectedAspectRatio, setSelectedAspectRatio] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("popular");
 
@@ -69,7 +70,15 @@ function TemplatesContent() {
           product.tags?.some((t: string) =>
             t.toLowerCase().includes(searchQuery.toLowerCase())
           );
-        return matchesCategory && matchesSearch;
+        const matchesAspect =
+          selectedAspectRatio === "all" ||
+          product.aspectRatio === selectedAspectRatio ||
+          (selectedAspectRatio === "9:16" && (product.tags?.includes("reels") || product.specs?.dimensions?.includes("1920"))) ||
+          (selectedAspectRatio === "1:1" && (product.tags?.includes("carousel") || product.specs?.dimensions?.includes("1080x1080"))) ||
+          (selectedAspectRatio === "16:9" && (product.category === "presentations" || product.specs?.dimensions?.includes("1920x1080"))) ||
+          (selectedAspectRatio === "A4" && (product.category === "planners" || product.tags?.includes("printable")));
+
+        return matchesCategory && matchesSearch && matchesAspect;
       })
       .sort((a, b) => {
         if (sortBy === "newest") {
@@ -154,6 +163,38 @@ function TemplatesContent() {
             <p className="text-[11px] text-foreground/50">Instant delivery to your email &amp; dashboard</p>
           </div>
         </div>
+      </div>
+
+      {/* ── Canva Aspect-Ratio Filter Segment ── */}
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+          <span className="text-xs font-semibold text-foreground/50 mr-2 flex items-center gap-1">
+            <Layout className="h-3.5 w-3.5 text-cyan-500" />
+            Aspect Ratio:
+          </span>
+          {[
+            { id: "all", label: "All Formats" },
+            { id: "9:16", label: "9:16 Vertical (Reels & Stories)" },
+            { id: "1:1", label: "1:1 / 4:5 (Carousels & Feed)" },
+            { id: "16:9", label: "16:9 Widescreen (Pitch Decks)" },
+            { id: "A4", label: "A4 / Letter (Print & PDF)" },
+          ].map((aspect) => (
+            <button
+              key={aspect.id}
+              onClick={() => setSelectedAspectRatio(aspect.id)}
+              className={`rounded-full px-3 py-1 text-xs font-semibold transition-all shrink-0 ${
+                selectedAspectRatio === aspect.id
+                  ? "bg-foreground text-background shadow-xs"
+                  : "bg-muted/50 text-foreground/70 hover:bg-muted hover:text-foreground"
+              }`}
+            >
+              {aspect.label}
+            </button>
+          ))}
+        </div>
+        <span className="text-xs font-medium text-foreground/50 hidden sm:inline">
+          Showing {filteredProducts.length} templates
+        </span>
       </div>
 
       {/* ── Filter & Search Toolbar ── */}

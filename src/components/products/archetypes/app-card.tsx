@@ -4,10 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Download, ShieldCheck, Cpu, Smartphone, Star, ArrowUpRight, Zap, Check } from "lucide-react";
+import { Download, ShieldCheck, Cpu, Smartphone, Star, ArrowUpRight, Zap, Check, Eye } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "../checkout-modal";
+import { AppStoreModal } from "@/components/apps/app-store-modal";
 
 interface AppCardProps {
   product: Product;
@@ -18,6 +19,7 @@ export function AppCard({ product }: AppCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
   const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [appStoreOpen, setAppStoreOpen] = useState(false);
 
   const appVersion = product.appVersion || (product as any).apkVersion || "v12.2 Pro Unlocked";
   const appSize = product.fileSize || "185 MB";
@@ -26,19 +28,7 @@ export function AppCard({ product }: AppCardProps) {
 
   const handleActionClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isFree) {
-      const directUrl = product.appDownloadUrl || product.downloadUrl || "https://www.capcut.com/";
-      const a = document.createElement("a");
-      a.href = directUrl;
-      a.download = `${product.title.toLowerCase().replace(/\s+/g, "-")}-app`;
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    } else {
-      setCheckoutOpen(true);
-    }
+    setAppStoreOpen(true);
   };
 
   return (
@@ -47,7 +37,7 @@ export function AppCard({ product }: AppCardProps) {
       whileHover={{ y: -6 }}
       whileTap={{ scale: 0.985 }}
       transition={{ type: "spring", duration: 0.35, bounce: 0.1 }}
-      onClick={() => router.push(`/templates/${product.slug}`)}
+      onClick={() => setAppStoreOpen(true)}
       className="group relative flex flex-col rounded-2xl border border-card-border bg-card p-6 shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-foreground/20 hover:shadow-xl hover:shadow-black/5 cursor-pointer"
     >
       {/* Top Header Row — App Squircle & Metadata */}
@@ -128,15 +118,35 @@ export function AppCard({ product }: AppCardProps) {
           <span className="text-[10px] text-muted">Direct Mobile App</span>
         </div>
 
-        <button
-          onClick={handleActionClick}
-          className="flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-xs transition-opacity hover:opacity-90 active:scale-95 cursor-pointer"
-        >
-          <Download className="h-3.5 w-3.5" />
-          <span>{isFree ? "Get Free App" : "Get App"}</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setAppStoreOpen(true)}
+            className="flex items-center gap-1 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted"
+          >
+            <Eye className="h-3.5 w-3.5 text-indigo-500" />
+            <span>Store View</span>
+          </button>
+          <button
+            onClick={handleActionClick}
+            className="flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-xs transition-opacity hover:opacity-90 active:scale-95 cursor-pointer"
+          >
+            <Download className="h-3.5 w-3.5" />
+            <span>{isFree ? "Install APK" : "Get App"}</span>
+          </button>
+        </div>
       </div>
     </motion.div>
+
+    {/* Apple App Store / Play Store Experience Modal */}
+    <AppStoreModal
+      isOpen={appStoreOpen}
+      onClose={() => setAppStoreOpen(false)}
+      product={product}
+      onUnlock={(prod) => {
+        setAppStoreOpen(false);
+        setCheckoutOpen(true);
+      }}
+    />
 
     {/* Instant Checkout Modal */}
     <CheckoutModal

@@ -508,143 +508,183 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                 </label>
               </div>
 
-              {/* Payment Method Selector */}
-              <div className="relative flex gap-2 border-b border-card-border/60 pb-3">
-                {[
-                  { id: "upi", label: "UPI Direct (India)" },
-                  { id: "whatsapp", label: "WhatsApp 1-Click" },
-                  { id: "card", label: "Card / Global" },
-                ].map((tab) => {
-                  const isActive = activeTab === tab.id;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id as any)}
-                      className={`relative z-10 flex-1 cursor-pointer rounded-xl py-2 text-xs font-bold transition-colors duration-150 active:scale-95 ${
-                        isActive
-                          ? "text-white"
-                          : "border border-card-border/60 bg-background/50 text-muted hover:text-foreground"
-                      }`}
-                    >
-                      {isActive && (
-                        <motion.div
-                          layoutId="checkoutPaymentTab"
-                          className={`absolute inset-0 -z-10 rounded-xl shadow-xs ${
-                            tab.id === "whatsapp" ? "bg-emerald-600" : "bg-accent"
-                          }`}
-                          transition={{ type: "spring", duration: 0.32, bounce: 0.15 }}
-                        />
-                      )}
-                      {tab.label}
-                    </button>
-                  );
-                })}
-              </div>
+              {/* Free Asset Direct Download vs Payment Flow */}
+              {finalTotal === 0 ? (
+                <div className="space-y-4">
+                  <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-5 text-center">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 px-3 py-1 text-xs font-bold text-emerald-500">
+                      <Sparkles className="h-3.5 w-3.5" /> 100% Free Asset
+                    </span>
+                    <h4 className="mt-3 font-heading text-base font-bold text-foreground">
+                      Instant Direct Download
+                    </h4>
+                    <p className="mt-1 text-xs text-muted">
+                      No payment required. Click below to download the master files directly to your device.
+                    </p>
+                  </div>
 
-              {/* Tab Content */}
-              <div>
-                {activeTab === "upi" && (
-                  <div className="space-y-4">
-                    <div className="rounded-2xl border border-card-border bg-background p-4 text-center">
-                      <div className="mx-auto flex h-36 w-36 items-center justify-center rounded-2xl border border-card-border bg-white p-2 shadow-sm">
-                        <img
-                          src={`https://quickchart.io/qr?text=${encodeURIComponent(
-                            `upi://pay?pa=7204250115@ybl&pn=BADARSH%20STUDIO&am=${finalTotal}&cu=INR&tn=${encodeURIComponent(
-                              product.title.slice(0, 20)
-                            )}`
-                          )}&size=160&margin=1`}
-                          alt="Scan to Pay via UPI"
-                          className="h-full w-full object-contain"
-                        />
-                      </div>
-                      <h4 className="mt-3 font-heading text-sm font-bold text-foreground">
-                        Scan with Any UPI App to Pay
-                      </h4>
-                      <p className="text-xs text-muted">
-                        PhonePe &bull; Google Pay &bull; Paytm &bull; BHIM &bull; CRED
-                      </p>
-                      <div className="mt-3 flex items-center justify-center gap-2 rounded-xl border border-dashed border-accent/40 bg-accent/5 p-2.5">
-                        <span className="font-mono text-xs font-bold text-foreground">
-                          {upiId}
-                        </span>
+                  <a
+                    href={
+                      product.freeDownloadUrl ||
+                      product.downloadUrl ||
+                      product.googleDriveUrl ||
+                      product.pdfUrl ||
+                      product.appDownloadUrl ||
+                      "#"
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download
+                    onClick={() => {
+                      setTimeout(handleModalClose, 800);
+                    }}
+                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-emerald-600 py-4 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-emerald-700 active:scale-[0.98]"
+                  >
+                    <Download className="h-4 w-4" />
+                    <span>Download Free Asset Now (Instant)</span>
+                  </a>
+                </div>
+              ) : (
+                <>
+                  {/* Payment Method Selector */}
+                  <div className="relative flex gap-2 border-b border-card-border/60 pb-3">
+                    {[
+                      { id: "upi", label: "UPI Direct (India)" },
+                      { id: "whatsapp", label: "WhatsApp 1-Click" },
+                      { id: "card", label: "Card / Global" },
+                    ].map((tab) => {
+                      const isActive = activeTab === tab.id;
+                      return (
+                        <button
+                          key={tab.id}
+                          onClick={() => setActiveTab(tab.id as any)}
+                          className={`relative z-10 flex-1 cursor-pointer rounded-xl py-2 text-xs font-bold transition-colors duration-150 active:scale-95 ${
+                            isActive
+                              ? "text-white"
+                              : "border border-card-border/60 bg-background/50 text-muted hover:text-foreground"
+                          }`}
+                        >
+                          {isActive && (
+                            <motion.div
+                              layoutId="checkoutPaymentTab"
+                              className={`absolute inset-0 -z-10 rounded-xl shadow-xs ${
+                                tab.id === "whatsapp" ? "bg-emerald-600" : "bg-accent"
+                              }`}
+                              transition={{ type: "spring", duration: 0.32, bounce: 0.15 }}
+                            />
+                          )}
+                          {tab.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Tab Content */}
+                  <div>
+                    {activeTab === "upi" && (
+                      <div className="space-y-4">
+                        <div className="rounded-2xl border border-card-border bg-background p-4 text-center">
+                          <div className="mx-auto flex h-36 w-36 items-center justify-center rounded-2xl border border-card-border bg-white p-2 shadow-sm">
+                            <img
+                              src={`https://quickchart.io/qr?text=${encodeURIComponent(
+                                `upi://pay?pa=7204250115@ybl&pn=BADARSH%20STUDIO&am=${finalTotal}&cu=INR&tn=${encodeURIComponent(
+                                  product.title.slice(0, 20)
+                                )}`
+                              )}&size=160&margin=1`}
+                              alt="Scan to Pay via UPI"
+                              className="h-full w-full object-contain"
+                            />
+                          </div>
+                          <h4 className="mt-3 font-heading text-sm font-bold text-foreground">
+                            Scan with Any UPI App to Pay
+                          </h4>
+                          <p className="text-xs text-muted">
+                            PhonePe &bull; Google Pay &bull; Paytm &bull; BHIM &bull; CRED
+                          </p>
+                          <div className="mt-3 flex items-center justify-center gap-2 rounded-xl border border-dashed border-accent/40 bg-accent/5 p-2.5">
+                            <span className="font-mono text-xs font-bold text-foreground">
+                              {upiId}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={handleCopyUpi}
+                              className="cursor-pointer rounded-md bg-accent px-2.5 py-1 text-[11px] font-bold text-white hover:bg-accent-hover transition-colors"
+                            >
+                              {copiedUpi ? "Copied!" : "Copy"}
+                            </button>
+                          </div>
+
+                          {/* Mobile Intent link */}
+                          <div className="mt-3">
+                            <a
+                              href={`upi://pay?pa=7204250115@ybl&pn=BADARSH%20STUDIO&am=${finalTotal}&cu=INR&tn=${encodeURIComponent(
+                                product.title.slice(0, 20)
+                              )}`}
+                              className="inline-flex sm:hidden items-center gap-1.5 text-xs font-bold text-accent hover:underline"
+                            >
+                              <span>Tap here to launch UPI App on Phone</span>
+                              <ExternalLink className="h-3 w-3" />
+                            </a>
+                          </div>
+                        </div>
+
                         <button
                           type="button"
-                          onClick={handleCopyUpi}
-                          className="cursor-pointer rounded-md bg-accent px-2.5 py-1 text-[11px] font-bold text-white hover:bg-accent-hover transition-colors"
+                          onClick={() => handleCompleteOrder()}
+                          disabled={submitting}
+                          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent py-4 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-accent-hover active:scale-[0.98] disabled:opacity-50"
                         >
-                          {copiedUpi ? "Copied!" : "Copy"}
+                          {submitting ? (
+                            <>
+                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                              <span>Verifying &amp; Unlocking Assets...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Lock className="h-4 w-4" />
+                              <span>I Have Paid &bull; Unlock Instant Access ({formatCurr(finalTotal)})</span>
+                            </>
+                          )}
                         </button>
                       </div>
+                    )}
 
-                      {/* Mobile Intent link */}
-                      <div className="mt-3">
-                        <a
-                          href={`upi://pay?pa=7204250115@ybl&pn=BADARSH%20STUDIO&am=${finalTotal}&cu=INR&tn=${encodeURIComponent(
-                            product.title.slice(0, 20)
-                          )}`}
-                          className="inline-flex sm:hidden items-center gap-1.5 text-xs font-bold text-accent hover:underline"
+                    {activeTab === "whatsapp" && (
+                      <div className="space-y-4 text-center">
+                        <p className="text-xs text-muted">
+                          Order directly through our verified business WhatsApp. Receive instant download links and dedicated support.
+                        </p>
+                        <button
+                          type="button"
+                          onClick={handleWhatsAppCheckout}
+                          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-emerald-600 py-4 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-emerald-700 active:scale-[0.98]"
                         >
-                          <span>Tap here to launch UPI App on Phone</span>
-                          <ExternalLink className="h-3 w-3" />
+                          <MessageCircle className="h-4 w-4" />
+                          <span>Complete on WhatsApp &bull; {formatCurr(finalTotal)}</span>
+                        </button>
+                      </div>
+                    )}
+
+                    {activeTab === "card" && (
+                      <div className="space-y-4 text-center">
+                        <p className="text-xs text-muted">
+                          International credit card, debit card, Apple Pay, and PayPal checkout via Gumroad.
+                        </p>
+                        <a
+                          href={product.gumroadUrl || `https://badarsh.gumroad.com/l/${product.slug}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent py-4 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-accent-hover active:scale-[0.98]"
+                        >
+                          <CreditCard className="h-4 w-4" />
+                          <span>Pay with Card / PayPal &bull; {formatCurr(finalTotal)}</span>
+                          <ExternalLink className="h-4 w-4" />
                         </a>
                       </div>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => handleCompleteOrder()}
-                      disabled={submitting}
-                      className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent py-4 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-accent-hover active:scale-[0.98] disabled:opacity-50"
-                    >
-                      {submitting ? (
-                        <>
-                          <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                          <span>Verifying &amp; Unlocking Assets...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Lock className="h-4 w-4" />
-                          <span>I Have Paid &bull; Unlock Instant Access ({formatCurr(finalTotal)})</span>
-                        </>
-                      )}
-                    </button>
+                    )}
                   </div>
-                )}
-
-                {activeTab === "whatsapp" && (
-                  <div className="space-y-4 text-center">
-                    <p className="text-xs text-muted">
-                      Order directly through our verified business WhatsApp. Receive instant download links and dedicated support.
-                    </p>
-                    <button
-                      type="button"
-                      onClick={handleWhatsAppCheckout}
-                      className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-emerald-600 py-4 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-emerald-700 active:scale-[0.98]"
-                    >
-                      <MessageCircle className="h-4 w-4" />
-                      <span>Complete on WhatsApp &bull; {formatCurr(finalTotal)}</span>
-                    </button>
-                  </div>
-                )}
-
-                {activeTab === "card" && (
-                  <div className="space-y-4 text-center">
-                    <p className="text-xs text-muted">
-                      International credit card, debit card, Apple Pay, and PayPal checkout via Gumroad.
-                    </p>
-                    <a
-                      href={product.gumroadUrl || `https://badarsh.gumroad.com/l/${product.slug}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent py-4 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-accent-hover active:scale-[0.98]"
-                    >
-                      <CreditCard className="h-4 w-4" />
-                      <span>Pay with Card / PayPal &bull; {formatCurr(finalTotal)}</span>
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
-                  </div>
-                )}
-              </div>
+                </>
+              )}
 
               {/* Guarantee */}
               <div className="flex items-center justify-center gap-2 border-t border-card-border/60 pt-4 text-xs text-muted">

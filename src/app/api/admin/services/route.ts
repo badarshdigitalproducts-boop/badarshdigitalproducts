@@ -14,6 +14,8 @@ function revalidateServices(slug?: string) {
     revalidatePath("/services");
     revalidatePath("/services/video-editing");
     revalidatePath("/services/photo-editing");
+    revalidatePath("/services/event-photography");
+    revalidatePath("/services/pre-wedding-cinematic");
     revalidatePath("/services/website-design");
     revalidatePath("/services/app-development");
     revalidatePath("/services/brand-identity");

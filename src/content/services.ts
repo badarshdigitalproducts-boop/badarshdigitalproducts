@@ -805,4 +805,271 @@ export const services: Service[] = [
       },
     ],
   },
+  {
+    id: "svc-007",
+    slug: "event-photography",
+    title: "Event Photography & Cinematography",
+    description:
+      "Luxury multi-cam photography and 4K storytelling for weddings, birthdays, corporate summits, and commercial shoots across Karnataka.",
+    longDescription:
+      "Capturing timeless elegance, authentic raw emotions, and grand celebrations. Our master photography team deploys full-frame Sony Alpha & FX3 cinema bodies, high-aperture G-Master prime glass, studio lighting grids, and DJI Pro stabilizer systems to capture your once-in-a-lifetime moments in pristine fidelity.",
+    icon: "Camera",
+    portfolioImages: [
+      "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=80",
+      "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=1200&q=80",
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1200&q=80",
+      "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?w=1200&q=80",
+    ],
+    features: [
+      "Sony FX3 & A7 IV dual-operator camera package",
+      "Prime 35mm, 50mm, 85mm f/1.4 Sony G-Master glass",
+      "Godox AD600 Pro high-speed strobe lights & softboxes",
+      "Skin-tone perfecting RAW color grading & magazine retouching",
+      "Private password-protected cloud client gallery for 1 year",
+      "Next-day sneak peek album (30 highlight photos)",
+      "Printed Italian leather photo album optional add-on",
+      "Available across Bengaluru, Mysuru, Hubli & Pan-India",
+    ],
+    packages: [
+      {
+        name: "Silver Essential Coverage",
+        price: 14999,
+        currency: "INR",
+        period: "per event",
+        description:
+          "Perfect for intimate birthdays, baby showers, engagements & private family gatherings up to 4 hours.",
+        features: [
+          "1 Senior Candid Photographer",
+          "Up to 4 hours continuous coverage",
+          "150+ high-res color-graded RAW photos",
+          "Private cloud gallery with instant download",
+          "48-hour sneak peek delivery (20 photos)",
+          "Full delivery within 7 working days",
+        ],
+        isPopular: false,
+        ctaText: "Book Silver (₹14,999)",
+        whatsappMessage:
+          "Hi BADARSH! I want to check availability for the Silver Event Photography package (₹14,999).",
+      },
+      {
+        name: "Gold Wedding & Grand Gala",
+        price: 34999,
+        currency: "INR",
+        period: "per event",
+        description:
+          "Full-day comprehensive dual-crew coverage with 4K cinematic highlight teaser for unforgettable celebrations.",
+        features: [
+          "2 Senior Photographers (Candid + Traditional)",
+          "1 Cinematographer for 4K highlight film",
+          "Up to 8 hours comprehensive coverage",
+          "400+ master retouched photos + 3-minute teaser",
+          "Same-day 30-photo sneak peek for Instagram",
+          "Custom luxury USB presentation box",
+          "Full delivery within 14 working days",
+        ],
+        isPopular: true,
+        ctaText: "Most Popular (₹34,999)",
+        whatsappMessage:
+          "Hi BADARSH! I want to reserve the Gold Wedding & Grand Gala package (₹34,999) for my upcoming date.",
+      },
+      {
+        name: "Royal Platinum Grand Celebration",
+        price: 74999,
+        currency: "INR",
+        period: "per event",
+        description:
+          "The ultimate luxury 3-day multi-ceremony production with licensed drone cinematography and imported leather album.",
+        features: [
+          "Full 4-person senior crew (2 Photos + 2 Cinema)",
+          "DJI Mavic 3 Cine 4K aerial drone coverage",
+          "Multi-event coverage (Haldi, Sangeet, Muhurtham, Reception)",
+          "1,000+ master edited images + 10-minute feature film",
+          "Handcrafted 40-page Italian leather flush-mount album",
+          "VIP priority editing & 5-day delivery",
+        ],
+        isPopular: false,
+        ctaText: "Book Royal Platinum (₹74,999)",
+        whatsappMessage:
+          "Hi BADARSH! I want to book the Royal Platinum Celebration package (₹74,999). Let's schedule an in-person or call consultation.",
+      },
+    ],
+    process: [
+      {
+        step: 1,
+        title: "Date & Location Lock",
+        description:
+          "Connect on WhatsApp to confirm crew availability for your dates and event venue.",
+        icon: "Calendar",
+      },
+      {
+        step: 2,
+        title: "Shotlist & Moodboard",
+        description:
+          "We tailor key family portraits, rituals, and lighting aesthetics to match your style.",
+        icon: "Lightbulb",
+      },
+      {
+        step: 3,
+        title: "Day-of Production",
+        description:
+          "Punctual, discreet, and creative multi-cam capture ensuring zero intrusive disruptions.",
+        icon: "Camera",
+      },
+      {
+        step: 4,
+        title: "Signature Master Delivery",
+        description:
+          "Private cloud gallery link with full-resolution lossless downloads and optional physical album delivery.",
+        icon: "Archive",
+      },
+    ],
+    faq: [
+      {
+        question: "How long after the event will we receive our photos?",
+        answer:
+          "You receive a 30-photo sneak peek album within 24-48 hours. The complete color-graded gallery is delivered in 7 to 14 working days.",
+      },
+      {
+        question: "Do you travel outside Bengaluru?",
+        answer:
+          "Yes! We regularly travel across Karnataka, Goa, Kerala, and pan-India. Travel and stay accommodations are billed at actuals.",
+      },
+    ],
+  },
+  {
+    id: "svc-008",
+    slug: "pre-wedding-cinematic",
+    title: "Cinematic Pre-Wedding Shoots & Love Stories",
+    description:
+      "4K drone cinematography, editorial fashion portraits, and story-driven film shoots at exotic destinations across India.",
+    longDescription:
+      "Turn your relationship into a high-budget cinema trailer. We script personalized love story narratives, capture sweeping 4K aerial drone vistas, direct candid romantic interactions, and score your film with licensed cinematic music.",
+    icon: "Video",
+    portfolioVideos: [
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+    ],
+    portfolioImages: [
+      "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=1200&q=80",
+      "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=80",
+      "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=1200&q=80",
+      "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=80",
+    ],
+    features: [
+      "Sony FX3 Cinema Line 4K 120FPS slow-motion camera",
+      "DJI Mavic 3 Cine licensed drone pilot aerials",
+      "DJI Ronin RS3 Pro 3-axis cinema stabilization",
+      "Editorial fashion direction & outfit coordination guide",
+      "Hollywood-style film emulation (Kodak 2383 look)",
+      "Original story scripting & interview voiceover recording",
+      "30-sec Instagram Reel teaser + 3 to 5-minute cinema film",
+      "75+ magazine-retouched portrait photos included",
+    ],
+    packages: [
+      {
+        name: "Romantic Teaser Film",
+        price: 24999,
+        currency: "INR",
+        period: "per shoot",
+        description:
+          "1-day local destination shoot with 40 editorial portraits and a 60-second 4K cinematic teaser.",
+        features: [
+          "1 Senior Cinematographer + 1 Senior Photographer",
+          "1 Day local shoot (up to 2 locations)",
+          "40 magazine-retouched portraits",
+          "60-second 4K cinematic teaser for Instagram",
+          "Styling & outfit guidance guide",
+          "Delivery in 10 working days",
+        ],
+        isPopular: false,
+        ctaText: "Book Teaser (₹24,999)",
+        whatsappMessage:
+          "Hi BADARSH! I'm interested in the Romantic Teaser Pre-Wedding Shoot (₹24,999).",
+      },
+      {
+        name: "Royal Romance Cinema Master",
+        price: 54999,
+        currency: "INR",
+        period: "per shoot",
+        description:
+          "Our signature package: 4K aerial drone shots, couple voiceover audio story, 3-minute film, and 80 fine-art photos.",
+        features: [
+          "Full 3-person cinema crew (Director + Drone Pilot + Photographer)",
+          "1-2 Days at iconic heritage or scenic destinations",
+          "4K licensed drone aerial cinematography",
+          "Couple love-story audio interview recording",
+          "3 to 4-minute 4K cinematic short film",
+          "60-sec Instagram Reel cut + 80 fine-art photos",
+          "Delivery within 14 working days",
+        ],
+        isPopular: true,
+        ctaText: "Signature Choice (₹54,999)",
+        whatsappMessage:
+          "Hi BADARSH! I want to book the Royal Romance Pre-Wedding Cinema package (₹54,999). Can we discuss locations?",
+      },
+      {
+        name: "Destination Luxe Feature Film",
+        price: 109999,
+        currency: "INR",
+        period: "per shoot",
+        description:
+          "Exotic pan-India shoot (Goa beaches, Udaipur palaces, Chikmagalur misty hills) with bespoke soundtrack and luxury photo book.",
+        features: [
+          "Full 4-person production unit with lighting setup",
+          "2 Full days multi-location shoot anywhere in India",
+          "Extensive 4K drone cinematography",
+          "Bespoke music license tailored to your story",
+          "5-minute theatrical cut + 3 viral Reels cuts",
+          "150+ magazine portraits + handcrafted 30-page album",
+          "Express 7-day editing turnaround",
+        ],
+        isPopular: false,
+        ctaText: "Book Destination Luxe (₹1,09,999)",
+        whatsappMessage:
+          "Hi BADARSH! I want to discuss the Destination Luxe Pre-Wedding Feature Film (₹1,09,999) for our upcoming trip.",
+      },
+    ],
+    process: [
+      {
+        step: 1,
+        title: "Story Brief & Vision",
+        description:
+          "We chat about how you met, your personal vibe, favorite songs, and aesthetic preferences.",
+        icon: "Lightbulb",
+      },
+      {
+        step: 2,
+        title: "Destination & Wardrobe Selection",
+        description:
+          "We help you pick stunning locations and curate matching outfit color schemes.",
+        icon: "Compass",
+      },
+      {
+        step: 3,
+        title: "Cinematic Shoot Day",
+        description:
+          "Relaxed, candid direction where you have fun while our crew captures magic in golden hour lighting.",
+        icon: "Camera",
+      },
+      {
+        step: 4,
+        title: "Premiere Delivery",
+        description:
+          "Receive your 4K theatrical film and color-graded editorial gallery ready to share with friends and family.",
+        icon: "Play",
+      },
+    ],
+    faq: [
+      {
+        question: "Can you help us choose pre-wedding shoot locations?",
+        answer:
+          "Absolutely! We provide a curated catalog of 30+ picturesque locations across Karnataka (Chikmagalur tea estates, Hampi ruins, Mysore palaces, Sakleshpur misty peaks) and Goa beaches.",
+      },
+      {
+        question: "Do you supply shoot permits and travel?",
+        answer:
+          "We assist with permit requirements for government and private venues. Travel and venue entry fees are covered by the client at actuals.",
+      },
+    ],
+  },
 ];

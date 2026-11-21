@@ -4,10 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Package, Layers, Sparkles, Star, Download, ExternalLink, HardDrive } from "lucide-react";
+import { Package, Layers, Sparkles, Star, Download, ExternalLink, HardDrive, Eye } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "../checkout-modal";
+import { DrivePreviewModal } from "@/components/bundles/drive-preview-modal";
 
 interface BundleCardProps {
   product: Product;
@@ -18,6 +19,7 @@ export function BundleCard({ product }: BundleCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
   const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [drivePreviewOpen, setDrivePreviewOpen] = useState(false);
 
   const totalAssets = product.totalAssetsCount || product.specs?.count || "700+ Assets";
   const bundleSize = product.fileSize || "2.1 GB";
@@ -126,16 +128,39 @@ export function BundleCard({ product }: BundleCardProps) {
             <span className="text-[10px] text-muted">Google Drive Direct Cloud Access</span>
           </div>
 
-          <button
-            onClick={handleActionClick}
-            className="flex items-center gap-1.5 rounded-full bg-accent px-5 py-2 text-xs font-bold text-white shadow-md transition-all hover:bg-accent-hover hover:scale-105 active:scale-95 cursor-pointer"
-          >
-            <span>Unlock Vault</span>
-            <ExternalLink className="h-3.5 w-3.5" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setDrivePreviewOpen(true);
+              }}
+              className="flex items-center gap-1 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted"
+            >
+              <Eye className="h-3.5 w-3.5 text-blue-500" />
+              <span>Browse Drive</span>
+            </button>
+            <button
+              onClick={handleActionClick}
+              className="flex items-center gap-1.5 rounded-full bg-accent px-4 py-1.5 text-xs font-bold text-white shadow-md transition-all hover:bg-accent-hover hover:scale-105 active:scale-95 cursor-pointer"
+            >
+              <span>Unlock</span>
+              <ExternalLink className="h-3 w-3" />
+            </button>
+          </div>
         </div>
       </div>
     </motion.div>
+
+    {/* Live Google Drive Cloud Tree Preview Modal */}
+    <DrivePreviewModal
+      isOpen={drivePreviewOpen}
+      onClose={() => setDrivePreviewOpen(false)}
+      product={product}
+      onUnlock={(prod) => {
+        setDrivePreviewOpen(false);
+        setCheckoutOpen(true);
+      }}
+    />
 
     {/* Instant Checkout Modal */}
     <CheckoutModal

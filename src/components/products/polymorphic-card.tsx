@@ -6,6 +6,7 @@ import { AppCard } from "./archetypes/app-card";
 import { PresetCard } from "./archetypes/preset-card";
 import { SfxCard } from "./archetypes/sfx-card";
 import { BundleCard } from "./archetypes/bundle-card";
+import { CanvaTemplateCard } from "@/components/templates/canva-template-card";
 import { StandardTemplateCard } from "./archetypes/standard-template-card";
 
 interface PolymorphicCardProps {
@@ -33,7 +34,7 @@ export function PolymorphicProductCard({ product, priority = false }: Polymorphi
       return <BundleCard product={product} priority={priority} />;
 
     default:
-      // Design Templates, presentations, social media, branding
-      return <StandardTemplateCard product={product} priority={priority} />;
+      // Canva-style design templates, presentations, social media, branding
+      return <CanvaTemplateCard product={product} priority={priority} />;
   }
 }

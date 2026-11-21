@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, CheckCircle2, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useAudioPlayer } from "@/context/audio-player-context";
 
 interface SocialActivity {
   name: string;
@@ -54,6 +56,7 @@ export function SocialProofToast() {
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const { currentTrack } = useAudioPlayer();
 
   useEffect(() => {
     if (dismissed) return;
@@ -83,7 +86,12 @@ export function SocialProofToast() {
   const current = activities[index];
 
   return (
-    <div className="fixed bottom-6 left-6 z-40 max-w-sm pointer-events-none sm:max-w-md">
+    <div
+      className={cn(
+        "fixed left-6 z-40 max-w-sm pointer-events-none sm:max-w-md transition-all duration-300",
+        currentTrack ? "bottom-24" : "bottom-6"
+      )}
+    >
       <AnimatePresence>
         {visible && (
           <motion.div

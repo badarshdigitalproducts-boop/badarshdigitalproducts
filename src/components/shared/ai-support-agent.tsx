@@ -13,6 +13,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAudioPlayer } from "@/context/audio-player-context";
 
 interface ChatMessage {
   id: string;
@@ -145,6 +146,7 @@ export function AiSupportAgent() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const { currentTrack } = useAudioPlayer();
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -265,7 +267,10 @@ export function AiSupportAgent() {
   return (
     <>
       {/* ─── Floating Trigger Button (Clean, No Annoying Notification) ─── */}
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className={cn(
+        "fixed right-6 z-50 transition-all duration-300",
+        currentTrack ? "bottom-24 sm:bottom-24" : "bottom-6"
+      )}>
         <motion.button
           onClick={() => setIsOpen((prev) => !prev)}
           className={cn(
@@ -310,7 +315,10 @@ export function AiSupportAgent() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.96 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed bottom-22 right-4 sm:right-6 z-50 flex w-[calc(100vw-2rem)] sm:w-[390px] h-[75vh] sm:h-[540px] max-h-[600px] flex-col overflow-hidden rounded-3xl border border-border bg-background shadow-2xl"
+            className={cn(
+              "fixed right-4 sm:right-6 z-50 flex w-[calc(100vw-2rem)] sm:w-[390px] h-[75vh] sm:h-[540px] max-h-[600px] flex-col overflow-hidden rounded-3xl border border-border bg-background shadow-2xl transition-all duration-300",
+              currentTrack ? "bottom-40 sm:bottom-42" : "bottom-22"
+            )}
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-border bg-card px-4 py-3">

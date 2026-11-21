@@ -20,6 +20,7 @@ import {
   ExternalLink,
   BookOpen,
   Sparkles,
+  HardDrive,
 } from "lucide-react";
 
 export interface CuratedBook {
@@ -122,7 +123,9 @@ export function FileUploader({
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
-  const [activeTab, setActiveTab] = useState<"upload" | "link" | "library">("upload");
+  const [activeTab, setActiveTab] = useState<"gdrive" | "upload" | "link" | "library">(
+    fileType === "image" ? "upload" : "gdrive"
+  );
   const [copied, setCopied] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -130,14 +133,14 @@ export function FileUploader({
     setUploading(true);
     setError(null);
 
-    // Vercel Serverless payload limit is 4.5 MB. Large E-Books (5MB - 50MB) must use Google Drive
+    // Vercel Serverless payload limit is 4.5 MB. Large E-Books, Audio, and Video files must use Google Drive
     const MAX_DIRECT_BYTES = 4.2 * 1024 * 1024;
     if (file.size > MAX_DIRECT_BYTES) {
       const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
       setError(
-        `This file is ${sizeMb} MB. Serverless direct upload is limited to 4 MB. For large E-Books or Planners, please paste a Google Drive link or select a verified classic book from the Curated Library.`
+        `This file is ${sizeMb} MB. Direct upload is limited to 4 MB. For large Sound Effects, Videos, Bundles, or PDFs, please paste your Google Drive link below.`
       );
-      setActiveTab("link");
+      setActiveTab("gdrive");
       setUploading(false);
       return;
     }
@@ -163,7 +166,7 @@ export function FileUploader({
           );
         }
         throw new Error(
-          `Upload failed (${res.status}). Please paste a Google Drive or Cloud link.`
+          `Upload failed (${res.status}). Please paste a Google Drive link.`
         );
       }
 
@@ -174,7 +177,7 @@ export function FileUploader({
       onChange(data.url);
     } catch (err: any) {
       setError(err.message || "Upload failed. Please paste a Google Drive link instead.");
-      setActiveTab("link");
+      setActiveTab("gdrive");
     } finally {
       setUploading(false);
     }
@@ -208,7 +211,7 @@ export function FileUploader({
 
   const handleUrlChange = (inputUrl: string) => {
     let clean = inputUrl.trim();
-    // Auto-clean google drive links
+    // Auto-clean Google Drive file links
     if (clean.includes("drive.google.com/file/d/")) {
       const match = clean.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
       if (match && match[1]) {
@@ -217,6 +220,16 @@ export function FileUploader({
         } else {
           clean = `https://drive.google.com/file/d/${match[1]}/view`;
         }
+      }
+    } else if (clean.includes("drive.google.com/open?id=")) {
+      const match = clean.match(/id=([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) {
+        clean = `https://drive.google.com/file/d/${match[1]}/view`;
+      }
+    } else if (clean.includes("drive.google.com/drive/folders/")) {
+      const match = clean.match(/\/drive\/folders\/([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) {
+        clean = `https://drive.google.com/drive/folders/${match[1]}`;
       }
     }
     onChange(clean);
@@ -293,6 +306,18 @@ export function FileUploader({
         <div className="flex items-center gap-1 bg-zinc-900 p-0.5 rounded-lg border border-zinc-800 text-[11px]">
           <button
             type="button"
+            onClick={() => setActiveTab("gdrive")}
+            className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-md transition-colors cursor-pointer font-bold ${
+              activeTab === "gdrive"
+                ? "bg-blue-600/30 text-blue-300 border border-blue-500/40"
+                : "text-zinc-400 hover:text-white"
+            }`}
+          >
+            <HardDrive className="h-3 w-3 text-blue-400" />
+            <span>Google Drive</span>
+          </button>
+          <button
+            type="button"
             onClick={() => setActiveTab("upload")}
             className={`px-2 py-0.5 rounded-md transition-colors cursor-pointer font-medium ${
               activeTab === "upload"
@@ -311,7 +336,7 @@ export function FileUploader({
                 : "text-zinc-400 hover:text-white"
             }`}
           >
-            Paste Link
+            Direct Link
           </button>
           {(fileType === "pdf" || fileType === "any") && (
             <button
@@ -460,6 +485,67 @@ export function FileUploader({
                 <Download className="h-3.5 w-3.5" />
                 <span>Download / View</span>
               </a>
+            </div>
+          )}
+        </div>
+      ) : activeTab === "gdrive" ? (
+        /* Dedicated Google Drive Cloud Vault Tab */
+        <div className="rounded-2xl border border-blue-500/30 bg-blue-500/5 p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-500/20 text-blue-400">
+                <HardDrive className="h-4 w-4" />
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-white">Google Drive Asset Connector</h4>
+                <p className="text-[10px] text-zinc-400">
+                  Ideal for Sound Packs, 4K Footage, E-Book PDFs, and Mega Bundles with zero file size limits.
+                </p>
+              </div>
+            </div>
+            <span className="rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 text-[9px] font-bold text-emerald-400 uppercase">
+              No Size Limit
+            </span>
+          </div>
+
+          <div className="flex gap-2">
+            <input
+              type="url"
+              value={value || ""}
+              onChange={(e) => handleUrlChange(e.target.value)}
+              placeholder="Paste Google Drive share link: https://drive.google.com/file/d/... or /drive/folders/..."
+              className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2.5 text-xs text-white placeholder:text-zinc-600 focus:border-blue-500 focus:outline-none font-mono"
+            />
+            {value && isGoogleDrive && (
+              <a
+                href={value}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-500 transition-colors shrink-0"
+              >
+                <span>Test Link</span>
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            )}
+          </div>
+
+          {value && isGoogleDrive ? (
+            <div className="flex items-center gap-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-2.5 text-xs text-emerald-400">
+              <CheckCircle2 className="h-4 w-4 shrink-0" />
+              <span>
+                {value.includes("/drive/folders/")
+                  ? "Google Drive Folder connected — Full folder access delivered to customers."
+                  : "Google Drive File connected — Auto-configured for in-browser streaming and direct download."}
+              </span>
+            </div>
+          ) : (
+            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-3 text-[11px] text-zinc-400 space-y-1">
+              <span className="font-semibold text-zinc-300 block">How to get your Google Drive link:</span>
+              <ol className="list-decimal list-inside space-y-0.5 text-zinc-400 pl-1">
+                <li>Upload your PDF, ZIP, MP3, or Video folder to your Google Drive.</li>
+                <li>Right-click the file/folder &rarr; click <strong>Share</strong> &rarr; change General access to <strong>&ldquo;Anyone with the link&rdquo;</strong>.</li>
+                <li>Click <strong>&ldquo;Copy link&rdquo;</strong> and paste it into the box above.</li>
+              </ol>
             </div>
           )}
         </div>
