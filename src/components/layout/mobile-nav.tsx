@@ -6,6 +6,7 @@ import { X, ChevronDown, LogOut, FolderLock, Sparkles, MessageCircle, User } fro
 import Link from "next/link";
 import { SHOP_MENU, SERVICES_MENU, siteConfig } from "@/lib/constants";
 import { BrandLogo } from "./brand-logo";
+import { CurrencyToggle } from "./currency-toggle";
 import { useAuth } from "@/context/auth-context";
 import { getWhatsAppUrl } from "@/lib/utils";
 
@@ -99,8 +100,8 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                         <span>My Library</span>
                       </Link>
                       <button
-                        onClick={() => {
-                          logout();
+                        onClick={async () => {
+                          await logout();
                           onClose();
                         }}
                         className="flex cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-border bg-background py-2 text-xs font-medium text-rose-500 transition-colors hover:bg-rose-500/10"
@@ -257,6 +258,10 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
 
             {/* Footer */}
             <div className="border-t border-border p-4 space-y-3">
+              <div className="flex items-center justify-between pb-1">
+                <span className="text-xs text-foreground/60 font-medium">Currency</span>
+                <CurrencyToggle />
+              </div>
               <Link
                 href="/bundles"
                 onClick={onClose}

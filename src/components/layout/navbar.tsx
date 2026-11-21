@@ -219,9 +219,13 @@ export function Navbar() {
 
           {/* Right controls */}
           <div className="flex items-center gap-2">
-            <CurrencyToggle />
+            <div className="hidden sm:block">
+              <CurrencyToggle />
+            </div>
             <ThemeToggle />
-            <UserAccountButton />
+            <div className="hidden md:block">
+              <UserAccountButton />
+            </div>
 
             <Link
               href="/bundles"

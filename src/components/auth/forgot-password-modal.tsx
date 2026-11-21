@@ -59,7 +59,7 @@ export function ForgotPasswordModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={handleClose}
-          className="fixed inset-0 bg-black/70 backdrop-blur-md transition-opacity"
+          className="fixed inset-0 bg-black/60 transition-opacity"
         />
 
         {/* Modal Window */}

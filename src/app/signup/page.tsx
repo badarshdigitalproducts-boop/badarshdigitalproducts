@@ -114,17 +114,14 @@ function SignupForm() {
   const activeError = localError || error;
 
   return (
-    <div className="min-h-[calc(100vh-4.5rem)] flex items-center justify-center px-4 py-10 relative overflow-hidden bg-background">
-      {/* Subtle atmospheric glow */}
-      <div className="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[340px] w-[500px] rounded-full bg-gradient-to-b from-accent/10 via-zinc-800/5 to-transparent blur-[100px] -z-10" />
-
+    <div className="min-h-[calc(100vh-4.5rem)] flex items-center justify-center px-4 py-10 relative bg-background">
       <motion.div
-        initial={{ opacity: 0, y: 12 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.28, ease: "easeOut" }}
-        className="w-full max-w-[420px]"
+        transition={{ duration: 0.25 }}
+        className="w-full max-w-[400px]"
       >
-        <div className="rounded-3xl border border-border/80 bg-card/85 p-7 sm:p-9 shadow-2xl backdrop-blur-2xl">
+        <div className="rounded-2xl border border-border bg-card p-6 sm:p-8 shadow-sm">
           {/* Header */}
           <div className="text-center">
             <div className="flex justify-center mb-3">
