@@ -90,6 +90,9 @@ export function constructMetadata({
       shortcut: "/favicon-16x16.png",
       apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
     },
+    verification: {
+      google: "BHjspiM_nBGBB2kH3AS9g5Bs47rBMjzB1hrkuSlGip0",
+    },
     metadataBase: new URL(baseUrl),
     other: {
       "geo.region": "IN-KA",
