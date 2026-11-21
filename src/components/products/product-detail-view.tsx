@@ -29,6 +29,8 @@ import { BuyButton } from "./buy-button";
 import { ProductCard } from "./product-card";
 import { TemplatePreviewModal } from "./template-preview-modal";
 import { CheckoutModal } from "./checkout-modal";
+import { PdfViewerModal } from "@/components/pdf/pdf-viewer-modal";
+import { BookOpen } from "lucide-react";
 
 interface ProductDetailViewProps {
   product: Product;
@@ -43,7 +45,14 @@ export function ProductDetailView({
   const [activeTab, setActiveTab] = useState<"overview" | "included" | "instructions" | "faq" | "reviews">("overview");
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
   const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
+  const [pdfReaderOpen, setPdfReaderOpen] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+
+  const isBookOrPlanner =
+    product.category === "ebooks" ||
+    product.category === "planners" ||
+    product.format?.toLowerCase().includes("pdf") ||
+    product.format?.toLowerCase().includes("book");
   const [selectedMedia, setSelectedMedia] = useState<"video" | number>(
     product.videoUrl ? "video" : 0
   );
@@ -245,17 +254,55 @@ export function ProductDetailView({
                 </button>
               ))}
 
-              {/* Quick Preview slides button */}
-              <button
-                type="button"
-                onClick={() => setPreviewModalOpen(true)}
-                className="ml-auto inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-card-border bg-card px-4 py-2 text-xs font-bold text-foreground shadow-sm hover:border-accent hover:text-accent transition-colors"
-              >
-                <Eye className="h-3.5 w-3.5" />
-                <span>Quick Preview</span>
-              </button>
+              {/* Category-specific preview triggers */}
+              {isBookOrPlanner ? (
+                <button
+                  type="button"
+                  onClick={() => setPdfReaderOpen(true)}
+                  className="ml-auto inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-bold text-background shadow-sm hover:opacity-90 transition-all active:scale-95"
+                >
+                  <BookOpen className="h-3.5 w-3.5" />
+                  <span>Read In-Browser (PDF)</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setPreviewModalOpen(true)}
+                  className="ml-auto inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-card-border bg-card px-4 py-2 text-xs font-bold text-foreground shadow-sm hover:border-accent hover:text-accent transition-colors"
+                >
+                  <Eye className="h-3.5 w-3.5" />
+                  <span>Quick Preview</span>
+                </button>
+              )}
             </div>
           </div>
+
+          {/* Interactive In-Browser Reading Banner for Ebooks & Planners */}
+          {isBookOrPlanner && (
+            <div className="flex flex-col sm:flex-row items-center justify-between rounded-2xl border border-accent/25 bg-accent/5 p-4 gap-3">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent text-white shadow-xs">
+                  <BookOpen className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="font-heading text-xs sm:text-sm font-bold text-foreground">
+                    Interactive In-Browser Reading Available
+                  </h4>
+                  <p className="text-[11px] text-muted">
+                    Read the complete book preview in your browser now. Offline master PDF download unlocked upon purchase.
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setPdfReaderOpen(true)}
+                className="inline-flex cursor-pointer items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-accent-hover transition-all active:scale-95 shrink-0"
+              >
+                <BookOpen className="h-3.5 w-3.5" />
+                <span>Open Reader Now</span>
+              </button>
+            </div>
+          )}
 
           {/* Key Product Guarantees */}
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -693,6 +740,19 @@ export function ProductDetailView({
         isOpen={previewModalOpen}
         onClose={() => setPreviewModalOpen(false)}
         onBuyClick={() => setCheckoutModalOpen(true)}
+      />
+
+      <PdfViewerModal
+        product={product}
+        isOpen={pdfReaderOpen}
+        onClose={() => setPdfReaderOpen(false)}
+        title={product.title}
+        pdfUrl={product.pdfUrl || product.downloadUrl || "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf"}
+        price={product.price}
+        isFree={product.price === 0}
+        authorOrCategory={product.authorName || product.category}
+        isCopyProtected={product.price > 0}
+        slug={product.slug}
       />
 
       <CheckoutModal
