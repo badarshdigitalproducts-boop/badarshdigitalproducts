@@ -197,6 +197,8 @@ export interface OrderItem {
   quantity: number;
   productType?: string;
   downloadUrl?: string;
+  templateUrl?: string;
+  canvaUrl?: string;
 }
 
 export interface OrderRecord {
@@ -207,7 +209,7 @@ export interface OrderRecord {
   items: OrderItem[];
   totalAmount: number;
   currency: string;
-  paymentMethod: "UPI" | "Razorpay" | "Stripe" | "Manual Bank Transfer";
+  paymentMethod: "UPI" | "Razorpay" | "Stripe" | "Manual Bank Transfer" | "Cashfree" | string;
   paymentStatus: "completed" | "pending" | "refunded";
   licenseKey: string;
   canvaAccessDelivered: boolean;

@@ -72,5 +72,39 @@ export default async function EbookSlugPage({ params }: EbookSlugPageProps) {
     notFound();
   }
 
-  return <BookDetailView product={book} />;
+  const bookJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    name: book.title,
+    author: {
+      "@type": "Person",
+      name: (book as any).authorName || "BADARSH Studio",
+    },
+    numberOfPages: book.pageCount || 240,
+    bookFormat: "https://schema.org/EBook",
+    inLanguage: "English",
+    description: book.description,
+    image: book.images?.[0] || "/images/og/og-default.png",
+    offers: {
+      "@type": "Offer",
+      price: book.price,
+      priceCurrency: book.currency || "INR",
+      availability: "https://schema.org/InStock",
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: book.rating || 5,
+      reviewCount: book.reviewCount || 28,
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(bookJsonLd) }}
+      />
+      <BookDetailView product={book} />
+    </>
+  );
 }

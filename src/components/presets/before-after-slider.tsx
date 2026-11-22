@@ -92,7 +92,7 @@ export function BeforeAfterSlider({ product }: BeforeAfterSliderProps) {
           ref={containerRef}
           onMouseDown={handleMouseDown}
           onTouchMove={handleTouchMove}
-          className="relative aspect-[4/3] w-full select-none overflow-hidden rounded-2xl bg-neutral-950 cursor-ew-resize shadow-lg"
+          className="relative aspect-[4/3] w-full select-none overflow-hidden rounded-2xl bg-neutral-950 cursor-ew-resize shadow-lg touch-none"
         >
           {/* AFTER Image (Background Base) */}
           <img

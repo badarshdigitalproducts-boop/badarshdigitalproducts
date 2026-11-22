@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { BookOpen, Star, Eye, Sparkles, Lock, ArrowRight, ShieldCheck } from "lucide-react";
 import type { Product } from "@/types/product";
@@ -16,10 +16,21 @@ export function Interactive3dBook({ product, onReadPreview, onBuy }: Interactive
   const { formatPrice: formatCurr } = useCurrency();
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
+  // Optimize performance on mobile touch devices
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || window.matchMedia("(pointer: coarse)").matches);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
+    if (isMobile || !cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
@@ -35,8 +46,10 @@ export function Interactive3dBook({ product, onReadPreview, onBuy }: Interactive
   };
 
   const handleMouseLeave = () => {
-    setRotateX(0);
-    setRotateY(0);
+    if (!isMobile) {
+      setRotateX(0);
+      setRotateY(0);
+    }
   };
 
   const isFree = product.price === 0;
@@ -48,19 +61,23 @@ export function Interactive3dBook({ product, onReadPreview, onBuy }: Interactive
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ perspective: 1000 }}
+      style={{ perspective: isMobile ? undefined : 1000 }}
       className="group relative flex flex-col rounded-3xl border border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm hover:shadow-2xl transition-all duration-300"
     >
       {/* 3D Physical Book Stage */}
       <div className="relative py-4 flex items-center justify-center">
         <motion.div
-          animate={{
-            rotateX,
-            rotateY,
-            scale: rotateX !== 0 || rotateY !== 0 ? 1.04 : 1,
-          }}
+          animate={
+            isMobile
+              ? { scale: 1 }
+              : {
+                  rotateX,
+                  rotateY,
+                  scale: rotateX !== 0 || rotateY !== 0 ? 1.04 : 1,
+                }
+          }
           transition={{ type: "spring", stiffness: 300, damping: 25 }}
-          style={{ transformStyle: "preserve-3d" }}
+          style={{ transformStyle: isMobile ? undefined : "preserve-3d" }}
           className="relative aspect-[3/4.2] w-full max-w-[220px] rounded-r-xl rounded-l-xs overflow-hidden shadow-2xl shadow-black/40 cursor-pointer bg-neutral-950"
           onClick={() => onReadPreview(product)}
         >

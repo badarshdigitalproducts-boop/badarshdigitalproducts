@@ -83,7 +83,7 @@ export async function createCashfreeOrder(params: CreateCashfreeOrderParams) {
         order_meta: {
           return_url:
             params.returnUrl ||
-            `${process.env.NEXT_PUBLIC_SITE_URL || "https://badarsh.vercel.app"}/order-success?order_id={order_id}`,
+            `${process.env.NEXT_PUBLIC_SITE_URL || "https://badarsh.com"}/orders/{order_id}`,
         },
       }),
     });

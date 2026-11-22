@@ -81,6 +81,8 @@ export async function POST(request: Request) {
         quantity: 1,
         productType: productType || "canva-template",
         downloadUrl: downloadUrl || "",
+        templateUrl: canvaUrl || undefined,
+        canvaUrl: canvaUrl || undefined,
       },
     ];
 

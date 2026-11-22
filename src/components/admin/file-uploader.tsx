@@ -133,19 +133,51 @@ export function FileUploader({
     setUploading(true);
     setError(null);
 
-    // Vercel Serverless payload limit is 4.5 MB. Large E-Books, Audio, and Video files must use Google Drive
-    const MAX_DIRECT_BYTES = 4.2 * 1024 * 1024;
-    if (file.size > MAX_DIRECT_BYTES) {
-      const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
-      setError(
-        `This file is ${sizeMb} MB. Direct upload is limited to 4 MB. For large Sound Effects, Videos, Bundles, or PDFs, please paste your Google Drive link below.`
-      );
-      setActiveTab("gdrive");
-      setUploading(false);
-      return;
-    }
-
     try {
+      // 1. Try Cloudflare R2 direct pre-signed upload first (supports files up to 5GB with zero egress fees)
+      try {
+        const presignRes = await fetch("/api/admin/r2/upload-url", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            filename: file.name,
+            fileType: file.type || "application/octet-stream",
+          }),
+        });
+
+        if (presignRes.ok) {
+          const presignData = await presignRes.json();
+          if (presignData.isR2Active && presignData.uploadUrl) {
+            // Upload directly to Cloudflare R2 bucket from client browser
+            const r2PutRes = await fetch(presignData.uploadUrl, {
+              method: "PUT",
+              headers: { "Content-Type": file.type || "application/octet-stream" },
+              body: file,
+            });
+
+            if (r2PutRes.ok) {
+              onChange(presignData.publicUrl || `r2://${presignData.key}`);
+              setUploading(false);
+              return;
+            }
+          }
+        }
+      } catch (r2Err) {
+        console.warn("Cloudflare R2 pre-signed upload attempt skipped/fallback:", r2Err);
+      }
+
+      // 2. Serverless Direct Upload Fallback (limited to 4.2MB on Vercel lambda)
+      const MAX_DIRECT_BYTES = 4.2 * 1024 * 1024;
+      if (file.size > MAX_DIRECT_BYTES) {
+        const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+        setError(
+          `This file is ${sizeMb} MB. Serverless upload without Cloudflare R2 keys is limited to 4.2 MB. Please paste your Google Drive link below, or connect Cloudflare R2 for multi-gigabyte uploads.`
+        );
+        setActiveTab("gdrive");
+        setUploading(false);
+        return;
+      }
+
       const formData = new FormData();
       formData.append("file", file);
 

@@ -134,11 +134,54 @@ async function ProductDetailContent({ params }: ProductPageProps) {
     },
   };
 
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Who designs these digital products and assets?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Every single digital product, video editing bundle, preset pack, playbook, and template is personally conceptualized, designed, and tested by the BADARSH in-house creative agency team.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How will I receive the files immediately after payment?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Instant delivery! The moment your payment is verified, you are shown your direct download links (ZIP, PDF, presets) and direct template project links on screen, along with a verified commercial license key.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Can I use these assets for client projects and commercial videos?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes! Every BADARSH asset includes a Commercial License. You are free to produce client videos, commercial social media content, brand identity deliverables, and client campaigns with zero royalty fees.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What software do I need to use this product?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "All templates and guides are tested with free apps (VN Editor, CapCut, Premiere, DaVinci, Lightroom Mobile) so you never need expensive subscriptions.",
+        },
+      },
+    ],
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <ProductDetailView
         product={product}
