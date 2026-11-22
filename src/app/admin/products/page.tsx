@@ -45,13 +45,14 @@ import { CATEGORIES, PRODUCT_TYPES, DELIVERY_TYPES } from "@/lib/constants";
 import { BeforeAfterSlider } from "@/components/shared/before-after-slider";
 import { FileUploader } from "@/components/admin/file-uploader";
 
-// The 7 official shop categories for BADARSH
+// The 8 official shop categories for BADARSH
 const SHOP_CATEGORY_TABS = [
   { id: "all", label: "All Products", icon: Package },
   { id: "bundles", label: "Bundles", icon: Archive, match: (p: AdminProduct) => p.category === "bundles" || p.productType === "bundle" },
   { id: "editing-apps", label: "Apps", icon: Smartphone, match: (p: AdminProduct) => p.category === "editing-apps" || p.productType === "app-license" },
   { id: "photo-presets", label: "Lightroom Presets", icon: Camera, match: (p: AdminProduct) => p.category === "photo-presets" || p.productType === "photo-preset" },
-  { id: "editing-bundles", label: "Sound Effects & BGM", icon: Music, match: (p: AdminProduct) => p.category === "editing-bundles" || p.productType === "audio" || p.productType === "editing-bundle" },
+  { id: "editing-bundles", label: "Sound Effects & BGM", icon: Music, match: (p: AdminProduct) => p.category === "editing-bundles" || p.category === "sound-effects" || p.productType === "audio" || p.productType === "editing-bundle" },
+  { id: "video-templates", label: "Video Templates", icon: Video, match: (p: AdminProduct) => p.category === "video-templates" || (p.productType as string) === "video-template" || (p.productType as any) === "video" },
   { id: "ebooks", label: "E-Books", icon: BookOpen, match: (p: AdminProduct) => p.category === "ebooks" || p.productType === "ebook" },
   { id: "planners", label: "Planners", icon: Calendar, match: (p: AdminProduct) => p.category === "planners" || p.productType === "planner" },
   { id: "templates", label: "Templates", icon: Layers, match: (p: AdminProduct) => ["social-media", "presentations", "branding", "business-cards"].includes(p.category) || p.productType === "canva-template" || (p.productType as any) === "template" },
@@ -846,6 +847,53 @@ export default function AdminProductsPage() {
                       onChange={(url) => setEditingProduct({ ...editingProduct, downloadUrl: url })}
                       fileType="any"
                       hint="Upload master lossless audio file or ZIP archive from device"
+                    />
+                  </div>
+                )}
+
+                {/* VIDEO TEMPLATES (CapCut & Alight Motion) */}
+                {(editingProduct.category === "video-templates" || (editingProduct.productType as string) === "video-template" || (editingProduct.productType as any) === "video") && (
+                  <div className="space-y-4">
+                    <FileUploader
+                      label="Video Demonstration / Reel Preview (MP4 or YouTube link)"
+                      value={editingProduct.videoUrl || ""}
+                      onChange={(url) => setEditingProduct({ ...editingProduct, videoUrl: url })}
+                      accept="video/*"
+                      fileType="video"
+                      hint="Paste MP4 direct URL, YouTube link, or upload reel clip"
+                    />
+
+                    <FormField
+                      label="Alight Motion XML / CapCut Template Project Link"
+                      hint="Direct project import link delivered to creators"
+                    >
+                      <input
+                        type="url"
+                        value={editingProduct.templateUrl || editingProduct.canvaUrl || ""}
+                        onChange={(e) =>
+                          setEditingProduct({
+                            ...editingProduct,
+                            templateUrl: e.target.value,
+                            canvaUrl: e.target.value,
+                          })
+                        }
+                        placeholder="https://alightmotion.link/... or CapCut template URL"
+                        className={inputCls}
+                      />
+                    </FormField>
+
+                    <FileUploader
+                      label="Master Project Archive / Google Drive Assets Link"
+                      value={editingProduct.googleDriveUrl || editingProduct.downloadUrl || ""}
+                      onChange={(url) =>
+                        setEditingProduct({
+                          ...editingProduct,
+                          googleDriveUrl: url,
+                          downloadUrl: url,
+                        })
+                      }
+                      fileType="any"
+                      hint="Google Drive folder or ZIP archive containing 4K clips, fonts & assets"
                     />
                   </div>
                 )}

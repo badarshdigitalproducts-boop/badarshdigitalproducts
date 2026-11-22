@@ -59,7 +59,7 @@ export default function TemplatesAdminPage() {
         ...editingTemplate,
         category: editingTemplate.category || "social-media",
         productType: "canva-template",
-        deliveryType: "canva-link",
+        deliveryType: editingTemplate.googleDriveUrl ? "google-drive" : "canva-link",
         status: editingTemplate.status || "published",
         price: Number(editingTemplate.price) || 299,
         originalPrice: editingTemplate.originalPrice ? Number(editingTemplate.originalPrice) : undefined,

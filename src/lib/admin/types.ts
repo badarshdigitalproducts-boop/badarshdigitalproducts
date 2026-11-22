@@ -4,6 +4,7 @@ import type { Service, ServicePackage } from "@/types";
 export type ProductType =
   | "template"
   | "canva-template"
+  | "video-template"
   | "ebook"
   | "planner"
   | "app-license"

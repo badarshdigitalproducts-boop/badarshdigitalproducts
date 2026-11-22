@@ -213,7 +213,7 @@ export default function AdminLeadsPage() {
                         {lead.phone && (
                           <a
                             href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
-                              `Hi ${lead.name}! I received your inquiry for ${lead.interest} on BADARSH. When would be a good time to connect?`
+                              `Hi ${lead.name}! 🚀 This is BADARSH Creative Studio regarding your inquiry for *${lead.interest}*${lead.budget ? ` (Budget: ${lead.budget})` : ""}.\n\nWhen is a good time for a quick 5-min chat or walkthrough call today?`
                             )}`}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -272,7 +272,7 @@ export default function AdminLeadsPage() {
               {selectedLead.phone && (
                 <a
                   href={`https://wa.me/${selectedLead.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
-                    `Hi ${selectedLead.name}! I saw your inquiry for ${selectedLead.interest} on BADARSH.`
+                    `Hi ${selectedLead.name}! 🚀 This is BADARSH Creative Studio regarding your inquiry for *${selectedLead.interest}*${selectedLead.budget ? ` (Budget: ${selectedLead.budget})` : ""}.\n\nWe'd love to share personalized portfolio samples and discuss your vision. When are you free for a quick chat?`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

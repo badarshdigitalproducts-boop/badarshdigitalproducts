@@ -103,6 +103,18 @@ const SHOP_CATEGORIES = [
     match: (p: AdminProduct) => p.category === "planners" || p.productType === "planner",
   },
   {
+    id: "video-templates",
+    title: "Video Templates",
+    subtitle: "Beat-sync CapCut & Alight Motion XML short-form video edits",
+    href: "/admin/shop/video-templates",
+    icon: Video,
+    accent: "text-rose-400 bg-rose-500/10 border-rose-500/20",
+    match: (p: AdminProduct) =>
+      p.category === "video-templates" ||
+      (p.productType as string) === "video-template" ||
+      (p.productType as any) === "video",
+  },
+  {
     id: "templates",
     title: "Templates",
     subtitle: "Graphic design templates (100% proprietary)",
@@ -113,7 +125,7 @@ const SHOP_CATEGORIES = [
   },
 ];
 
-// 5 Dedicated Creative Services
+// 7 Dedicated Creative Services
 const CREATIVE_SERVICES = [
   {
     id: "video-editing",
@@ -132,6 +144,24 @@ const CREATIVE_SERVICES = [
     icon: Camera,
     accent: "text-blue-400 bg-blue-500/10 border-blue-500/20",
     pricing: "From ₹150",
+  },
+  {
+    id: "event-photography",
+    title: "Event Photography",
+    subtitle: "Weddings, birthdays, corporate summits & Sony FX3 dual-cam",
+    href: "/admin/services/event-photography",
+    icon: Camera,
+    accent: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+    pricing: "From ₹14,999",
+  },
+  {
+    id: "pre-wedding-cinematic",
+    title: "Pre-Wedding Cinematic",
+    subtitle: "4K destination teaser film, love stories & DJI Mavic drone aerials",
+    href: "/admin/services/pre-wedding-cinematic",
+    icon: Video,
+    accent: "text-indigo-400 bg-indigo-500/10 border-indigo-500/20",
+    pricing: "From ₹24,999",
   },
   {
     id: "website-design",

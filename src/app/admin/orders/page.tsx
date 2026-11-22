@@ -22,7 +22,7 @@ import {
   Smartphone,
   ShieldCheck,
 } from "lucide-react";
-import type { OrderRecord, OrderItem } from "@/lib/admin/types";
+import type { OrderRecord, OrderItem, AdminProduct } from "@/lib/admin/types";
 
 const DEFAULT_ORDER: Partial<OrderRecord> = {
   customerName: "",
@@ -48,6 +48,7 @@ const DEFAULT_ORDER: Partial<OrderRecord> = {
 
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<OrderRecord[]>([]);
+  const [catalogProducts, setCatalogProducts] = useState<AdminProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -58,6 +59,7 @@ export default function AdminOrdersPage() {
   const [editingOrder, setEditingOrder] = useState<Partial<OrderRecord>>(DEFAULT_ORDER);
   const [itemTitle, setItemTitle] = useState("");
   const [itemPrice, setItemPrice] = useState("299");
+  const [itemDeliveryUrl, setItemDeliveryUrl] = useState("");
   const [saving, setSaving] = useState(false);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<{ type: "success" | "error"; message: string } | null>(
@@ -66,6 +68,7 @@ export default function AdminOrdersPage() {
 
   useEffect(() => {
     fetchOrders();
+    fetchCatalogProducts();
   }, []);
 
   const fetchOrders = async () => {
@@ -81,6 +84,39 @@ export default function AdminOrdersPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const fetchCatalogProducts = async () => {
+    try {
+      const res = await fetch("/api/admin/products");
+      const data = await res.json();
+      if (data.products) {
+        setCatalogProducts(data.products);
+      }
+    } catch {
+      // Non-blocking
+    }
+  };
+
+  const handleProductSelect = (productId: string) => {
+    const prod = catalogProducts.find((p) => p.id === productId);
+    if (!prod) return;
+    setItemTitle(prod.title);
+    setItemPrice(String(prod.price));
+    const delivery =
+      prod.googleDriveUrl ||
+      prod.downloadUrl ||
+      prod.templateUrl ||
+      prod.canvaUrl ||
+      prod.appDownloadUrl ||
+      prod.presetLinkUrl ||
+      "";
+    setItemDeliveryUrl(delivery);
+    setEditingOrder((prev) => ({
+      ...prev,
+      totalAmount: prod.price,
+      deliveryNotes: delivery ? `Digital Delivery Link: ${delivery}` : prev.deliveryNotes,
+    }));
   };
 
   const showFeedback = (type: "success" | "error", message: string) => {
@@ -110,6 +146,7 @@ export default function AdminOrdersPage() {
     });
     setItemTitle("Social Media Growth Kit");
     setItemPrice("299");
+    setItemDeliveryUrl("");
     setIsModalOpen(true);
   };
 
@@ -118,6 +155,9 @@ export default function AdminOrdersPage() {
     if (order.items && order.items[0]) {
       setItemTitle(order.items[0].title);
       setItemPrice(String(order.items[0].price));
+      setItemDeliveryUrl(order.items[0].downloadUrl || "");
+    } else {
+      setItemDeliveryUrl("");
     }
     setIsModalOpen(true);
   };
@@ -137,20 +177,21 @@ export default function AdminOrdersPage() {
 
     try {
       setSaving(true);
-      const parsedItems: OrderItem[] = editingOrder.items?.length
-        ? editingOrder.items
-        : [
-            {
-              id: `item-${Date.now()}`,
-              title: itemTitle || "BADARSH Digital Product",
-              price: Number(itemPrice) || 299,
-              quantity: 1,
-            },
-          ];
+      const parsedItems: OrderItem[] = [
+        {
+          id: editingOrder.items?.[0]?.id || `item-${Date.now()}`,
+          title: itemTitle || "BADARSH Digital Product",
+          price: Number(itemPrice) || editingOrder.totalAmount || 299,
+          quantity: 1,
+          productType: editingOrder.items?.[0]?.productType || "digital-product",
+          downloadUrl: itemDeliveryUrl || undefined,
+        },
+      ];
 
       const payload = {
         ...editingOrder,
         items: parsedItems,
+        deliveryNotes: itemDeliveryUrl || editingOrder.deliveryNotes,
         licenseKey: editingOrder.licenseKey || generateLicenseKey(),
       };
 
@@ -199,7 +240,18 @@ export default function AdminOrdersPage() {
     const targetPhone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
 
     const itemNames = order.items.map((i) => i.title).join(", ") || "Digital Assets";
-    const msg = `Hi ${order.customerName}! 🚀 Thank you for purchasing from BADARSH.\n\n📦 Order: ${order.id}\n📁 Products: ${itemNames}\n🔑 Your Official Digital License: ${order.licenseKey}\n\nNeed any help? Our founder & support team is right here on WhatsApp!`;
+    const downloadLinks = order.items
+      .map((i) => i.downloadUrl)
+      .filter(Boolean) as string[];
+
+    let deliverySection = "";
+    if (downloadLinks.length > 0) {
+      deliverySection = `\n\n📥 Instant Asset Access / Google Drive:\n${downloadLinks.join("\n")}`;
+    } else if (order.deliveryNotes && order.deliveryNotes.includes("http")) {
+      deliverySection = `\n\n📥 Instant Asset Access / Google Drive:\n${order.deliveryNotes}`;
+    }
+
+    const msg = `Hi ${order.customerName}! 🚀 Thank you for purchasing from BADARSH.\n\n📦 Order: ${order.id}\n📁 Products: ${itemNames}\n🔑 Your Official Digital License: ${order.licenseKey}${deliverySection}\n\nNeed any help? Our founder & support team is right here on WhatsApp!`;
 
     return `https://wa.me/${targetPhone}?text=${encodeURIComponent(msg)}`;
   };
@@ -609,6 +661,29 @@ export default function AdminOrdersPage() {
                 </div>
               </div>
 
+              {/* Quick Catalog Auto-Fill */}
+              {catalogProducts.length > 0 && (
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-300">
+                    Quick Auto-Fill from Catalog (Optional)
+                  </label>
+                  <select
+                    onChange={(e) => {
+                      if (e.target.value) handleProductSelect(e.target.value);
+                    }}
+                    defaultValue=""
+                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-zinc-300 focus:border-[#FF5A36] focus:outline-none"
+                  >
+                    <option value="">-- Choose a catalog product to auto-fill details &amp; Drive link --</option>
+                    {catalogProducts.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.title} (₹{p.price})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
               {/* Product Item Purchased */}
               <div>
                 <label className="block text-xs font-semibold text-zinc-300">
@@ -621,6 +696,23 @@ export default function AdminOrdersPage() {
                   onChange={(e) => setItemTitle(e.target.value)}
                   className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
                 />
+              </div>
+
+              {/* Digital Delivery Link */}
+              <div>
+                <label className="block text-xs font-semibold text-zinc-300">
+                  Digital Delivery Link (Google Drive / Direct Download URL)
+                </label>
+                <input
+                  type="url"
+                  placeholder="https://drive.google.com/drive/folders/... or https://..."
+                  value={itemDeliveryUrl}
+                  onChange={(e) => setItemDeliveryUrl(e.target.value)}
+                  className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white placeholder:text-zinc-600 focus:border-[#FF5A36] focus:outline-none font-mono"
+                />
+                <p className="mt-1 text-[10px] text-zinc-500">
+                  Automatically attached to customer WhatsApp delivery message.
+                </p>
               </div>
 
               {/* Total Amount & Gateway */}

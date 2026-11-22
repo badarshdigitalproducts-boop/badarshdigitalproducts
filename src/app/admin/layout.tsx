@@ -16,6 +16,7 @@ import {
   ShoppingCart,
   FileText,
   Tag,
+  Package,
   Layers,
   Archive,
   Smartphone,
@@ -33,7 +34,8 @@ import { cn } from "@/lib/utils";
 const NAV_ITEMS = [
   { label: "Overview", href: "/admin", icon: LayoutDashboard, group: null as null | string },
 
-  // DIGITAL SHOP (Separated individually)
+  // DIGITAL SHOP (Separated individually + All Products Master)
+  { label: "All Products Master", href: "/admin/products", icon: Package, group: "Digital Shop" },
   { label: "Bundles", href: "/admin/shop/bundles", icon: Archive, group: "Digital Shop" },
   { label: "Apps", href: "/admin/shop/apps", icon: Smartphone, group: "Digital Shop" },
   { label: "Lightroom Presets", href: "/admin/shop/presets", icon: Camera, group: "Digital Shop" },

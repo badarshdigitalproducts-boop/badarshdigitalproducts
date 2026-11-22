@@ -209,22 +209,35 @@ export function FileUploader({
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const extractDriveFileId = (url: string): string | null => {
+    if (!url) return null;
+    if (url.includes("/file/d/")) {
+      const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) return match[1];
+    }
+    if (url.includes("id=")) {
+      const match = url.match(/id=([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) return match[1];
+    }
+    return null;
+  };
+
   const handleUrlChange = (inputUrl: string) => {
     let clean = inputUrl.trim();
-    // Auto-clean Google Drive file links
-    if (clean.includes("drive.google.com/file/d/")) {
-      const match = clean.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-      if (match && match[1]) {
-        if (clean.includes("/preview")) {
-          clean = `https://drive.google.com/file/d/${match[1]}/preview`;
-        } else {
-          clean = `https://drive.google.com/file/d/${match[1]}/view`;
-        }
-      }
-    } else if (clean.includes("drive.google.com/open?id=")) {
-      const match = clean.match(/id=([a-zA-Z0-9_-]+)/);
-      if (match && match[1]) {
-        clean = `https://drive.google.com/file/d/${match[1]}/view`;
+    const fileId = extractDriveFileId(clean);
+
+    // Auto-clean & optimize Google Drive file links by media context
+    if (fileId) {
+      if (fileType === "audio") {
+        clean = `https://docs.google.com/uc?export=open&id=${fileId}`;
+      } else if (fileType === "image") {
+        clean = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1200`;
+      } else if (fileType === "pdf" && (label.toLowerCase().includes("preview") || clean.includes("/preview"))) {
+        clean = `https://drive.google.com/file/d/${fileId}/preview`;
+      } else if (clean.includes("/preview")) {
+        clean = `https://drive.google.com/file/d/${fileId}/preview`;
+      } else if (clean.includes("/view")) {
+        clean = `https://drive.google.com/file/d/${fileId}/view`;
       }
     } else if (clean.includes("drive.google.com/drive/folders/")) {
       const match = clean.match(/\/drive\/folders\/([a-zA-Z0-9_-]+)/);
@@ -233,6 +246,23 @@ export function FileUploader({
       }
     }
     onChange(clean);
+  };
+
+  const setDriveFormat = (format: "download" | "preview" | "audio" | "view" | "thumbnail") => {
+    const fileId = extractDriveFileId(value);
+    if (!fileId) return;
+
+    if (format === "download") {
+      onChange(`https://drive.google.com/uc?export=download&id=${fileId}`);
+    } else if (format === "preview") {
+      onChange(`https://drive.google.com/file/d/${fileId}/preview`);
+    } else if (format === "audio") {
+      onChange(`https://docs.google.com/uc?export=open&id=${fileId}`);
+    } else if (format === "thumbnail") {
+      onChange(`https://drive.google.com/thumbnail?id=${fileId}&sz=w1200`);
+    } else if (format === "view") {
+      onChange(`https://drive.google.com/file/d/${fileId}/view`);
+    }
   };
 
   const selectCuratedBook = (book: CuratedBook) => {
@@ -530,13 +560,70 @@ export function FileUploader({
           </div>
 
           {value && isGoogleDrive ? (
-            <div className="flex items-center gap-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-2.5 text-xs text-emerald-400">
-              <CheckCircle2 className="h-4 w-4 shrink-0" />
-              <span>
-                {value.includes("/drive/folders/")
-                  ? "Google Drive Folder connected — Full folder access delivered to customers."
-                  : "Google Drive File connected — Auto-configured for in-browser streaming and direct download."}
-              </span>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-2.5 text-xs text-emerald-400">
+                <CheckCircle2 className="h-4 w-4 shrink-0" />
+                <span>
+                  {value.includes("/drive/folders/")
+                    ? "Google Drive Folder connected — Full folder access delivered to customers."
+                    : "Google Drive File connected — Auto-configured for in-browser streaming and direct download."}
+                </span>
+              </div>
+
+              {extractDriveFileId(value) && (
+                <div className="flex flex-wrap items-center gap-1.5 p-2 rounded-xl bg-zinc-900/80 border border-zinc-800">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 mr-1">
+                    Auto-Format:
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setDriveFormat("download")}
+                    className={`px-2 py-0.5 rounded text-[10px] font-medium transition-colors cursor-pointer ${
+                      value.includes("export=download")
+                        ? "bg-blue-600 text-white font-bold"
+                        : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                    }`}
+                    title="Direct instant download without opening Google Drive UI"
+                  >
+                    1-Click Download
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDriveFormat("preview")}
+                    className={`px-2 py-0.5 rounded text-[10px] font-medium transition-colors cursor-pointer ${
+                      value.includes("/preview")
+                        ? "bg-blue-600 text-white font-bold"
+                        : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                    }`}
+                    title="In-browser reader & player iframe embed"
+                  >
+                    Viewer / Preview
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDriveFormat("audio")}
+                    className={`px-2 py-0.5 rounded text-[10px] font-medium transition-colors cursor-pointer ${
+                      value.includes("export=open")
+                        ? "bg-emerald-600 text-white font-bold"
+                        : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                    }`}
+                    title="Direct stream audio player"
+                  >
+                    Audio Stream
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDriveFormat("view")}
+                    className={`px-2 py-0.5 rounded text-[10px] font-medium transition-colors cursor-pointer ${
+                      value.includes("/view")
+                        ? "bg-blue-600 text-white font-bold"
+                        : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                    }`}
+                  >
+                    Standard View
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-3 text-[11px] text-zinc-400 space-y-1">

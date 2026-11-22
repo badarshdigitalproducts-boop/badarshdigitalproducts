@@ -92,6 +92,41 @@ export async function GET(request: NextRequest) {
           );
         }
 
+        // Video Templates match
+        if (
+          catLower === "video-templates" ||
+          catLower === "video-template" ||
+          catLower === "video" ||
+          catLower === "alight-motion" ||
+          catLower === "capcut"
+        ) {
+          return (
+            pCat === "video-templates" ||
+            (p.productType as string) === "video-template" ||
+            (p.productType as any) === "video" ||
+            p.tags?.some((t: string) =>
+              ["video", "template", "capcut", "alight", "alight motion", "reels template", "reels"].includes(t.toLowerCase())
+            )
+          );
+        }
+
+        // Graphic Design Templates match
+        if (
+          catLower === "templates" ||
+          catLower === "template" ||
+          catLower === "canva-templates" ||
+          catLower === "canva"
+        ) {
+          return (
+            ["social-media", "presentations", "branding", "business-cards", "templates"].includes(pCat) ||
+            p.productType === "canva-template" ||
+            (p.productType as any) === "template" ||
+            p.tags?.some((t: string) =>
+              ["template", "canva", "social", "branding", "presentation", "instagram"].includes(t.toLowerCase())
+            )
+          );
+        }
+
         return false;
       });
 

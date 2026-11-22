@@ -54,7 +54,7 @@ export default function AppsAdminPage() {
         ...editingApp,
         category: "editing-apps",
         productType: "app-license",
-        deliveryType: "download-url",
+        deliveryType: editingApp.googleDriveUrl ? "google-drive" : "download-url",
         status: editingApp.status || "published",
         price: Number(editingApp.price) || 0,
         originalPrice: editingApp.originalPrice ? Number(editingApp.originalPrice) : undefined,

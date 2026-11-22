@@ -157,6 +157,7 @@ export const CATEGORIES = [
 // All product delivery types supported by BADARSH admin
 export const PRODUCT_TYPES = [
   { value: "canva-template", label: "Studio Design Template" },
+  { value: "video-template", label: "Video Template (Alight / CapCut)" },
   { value: "ebook", label: "E-Book (PDF)" },
   { value: "planner", label: "Planner / Tracker" },
   { value: "app-license", label: "App / Software License" },

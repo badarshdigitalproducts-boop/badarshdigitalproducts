@@ -37,7 +37,13 @@ export default function BundlesAdminPage() {
       const res = await fetch("/api/admin/products");
       const data = await res.json();
       const all: AdminProduct[] = data.products || [];
-      setProducts(all.filter((p) => p.category === "bundles" || p.productType === "bundle"));
+      setProducts(
+        all.filter(
+          (p) =>
+            (p.category === "bundles" || p.category === "editing-bundles" || p.productType === "bundle") &&
+            p.productType !== "audio"
+        )
+      );
     } catch (err) {
       console.error("Failed to load bundles:", err);
     } finally {

@@ -43,6 +43,7 @@ export default function SoundEffectsAdminPage() {
       setProducts(
         all.filter(
           (p) =>
+            p.category === "sound-effects" ||
             p.category === "editing-bundles" ||
             p.productType === "audio" ||
             p.productType === "editing-bundle"
@@ -79,7 +80,7 @@ export default function SoundEffectsAdminPage() {
     try {
       const payload: Partial<AdminProduct> = {
         ...editingTrack,
-        category: "editing-bundles",
+        category: "sound-effects",
         productType: "audio",
         deliveryType: editingTrack.googleDriveUrl ? "google-drive" : "download-url",
         status: editingTrack.status || "published",
