@@ -46,3 +46,7 @@ public/uploads/*
 
 .vercel
 .env*
+
+# cloudflare
+.open-next
+.wrangler
