@@ -37,8 +37,27 @@ export function ChapterReaderModal({
   const [activeChapter, setActiveChapter] = useState(1);
   const [fontSize, setFontSize] = useState<"sm" | "md" | "lg">("md");
   const [theme, setTheme] = useState<"paper" | "sepia" | "night">("paper");
+  
+  const rawPdfUrl = product?.previewPdfUrl || product?.pdfUrl || (product as any)?.googleDriveUrl;
+  const [viewMode, setViewMode] = useState<"reader" | "pdf">(rawPdfUrl ? "pdf" : "reader");
 
   if (!isOpen || !product) return null;
+
+  let formattedPdfUrl = rawPdfUrl || "";
+  if (formattedPdfUrl.includes("drive.google.com")) {
+    formattedPdfUrl = formattedPdfUrl.replace(/\/view(\?.*)?$/, "/preview").replace(/\/edit(\?.*)?$/, "/preview");
+    if (!formattedPdfUrl.includes("/preview")) {
+      formattedPdfUrl = formattedPdfUrl.endsWith("/") ? `${formattedPdfUrl}preview` : `${formattedPdfUrl}/preview`;
+    }
+  } else if (
+    formattedPdfUrl &&
+    !formattedPdfUrl.endsWith(".pdf") &&
+    !formattedPdfUrl.includes("blob:") &&
+    !formattedPdfUrl.includes("google") &&
+    !formattedPdfUrl.startsWith("data:")
+  ) {
+    formattedPdfUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(formattedPdfUrl)}&embedded=true`;
+  }
 
   const chapters = [
     {
@@ -121,6 +140,28 @@ export function ChapterReaderModal({
 
           {/* Reading Controls (Theme, Font Size, Close) */}
           <div className="flex items-center gap-3">
+            {/* View Mode Toggle when PDF link is available */}
+            {rawPdfUrl && (
+              <div className="flex items-center rounded-full p-0.5 bg-black/5 dark:bg-white/5 border border-inherit text-xs font-semibold">
+                <button
+                  onClick={() => setViewMode("pdf")}
+                  className={`px-2.5 py-1 rounded-full transition-all ${
+                    viewMode === "pdf" ? "bg-indigo-600 text-white shadow-xs font-bold" : "opacity-60 hover:opacity-100"
+                  }`}
+                >
+                  Original PDF
+                </button>
+                <button
+                  onClick={() => setViewMode("reader")}
+                  className={`px-2.5 py-1 rounded-full transition-all ${
+                    viewMode === "reader" ? "bg-indigo-600 text-white shadow-xs font-bold" : "opacity-60 hover:opacity-100"
+                  }`}
+                >
+                  Clean Reader
+                </button>
+              </div>
+            )}
+
             {/* Theme Switcher */}
             <div className="hidden sm:flex items-center gap-1 rounded-full p-1 bg-black/5 dark:bg-white/5 border border-inherit">
               <button
@@ -193,9 +234,19 @@ export function ChapterReaderModal({
           </div>
         </div>
 
-        {/* Reader Body: Sidebar TOC + Main Reading Area */}
-        <div className="flex flex-1 overflow-hidden">
-          {/* Table of Contents Sidebar */}
+        {/* Reader Body: Original PDF Viewer OR Clean Typography Reader */}
+        {viewMode === "pdf" && formattedPdfUrl ? (
+          <div className="relative flex-1 bg-neutral-950 overflow-hidden select-none">
+            <iframe
+              src={formattedPdfUrl}
+              title={`PDF Preview of ${product.title}`}
+              className="w-full h-full border-0"
+              sandbox="allow-scripts allow-same-origin"
+            />
+          </div>
+        ) : (
+          <div className="flex flex-1 overflow-hidden">
+            {/* Table of Contents Sidebar */}
           <div className="hidden md:flex w-72 flex-col border-r border-inherit p-4 overflow-y-auto">
             <span className="text-[11px] font-bold uppercase tracking-wider opacity-50 mb-3">
               Table of Contents
@@ -315,6 +366,7 @@ export function ChapterReaderModal({
             </div>
           </div>
         </div>
+      )}
       </motion.div>
     </div>
   );

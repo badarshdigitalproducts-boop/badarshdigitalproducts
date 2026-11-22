@@ -50,6 +50,10 @@ export default function PhotoPresetsPage() {
     return productList.filter((p) => {
       const isPreset =
         p.category === "photo-presets" ||
+        (p.category as string) === "presets" ||
+        (p.category as string) === "preset" ||
+        (p as any).productType === "photo-preset" ||
+        (p as any).productType === "preset" ||
         p.tags?.includes("preset") ||
         p.tags?.includes("lightroom");
       const matchesSearch =

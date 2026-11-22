@@ -58,7 +58,11 @@ export default function PlannersPage() {
 
   const planners = useMemo(() => {
     return productList.filter((p) => {
-      const isPlanner = p.category === "planners" || p.tags?.includes("planner");
+      const isPlanner =
+        p.category === "planners" ||
+        (p.category as string) === "planner" ||
+        (p as any).productType === "planner" ||
+        p.tags?.includes("planner");
       const matchesSearch =
         search === "" ||
         p.title.toLowerCase().includes(search.toLowerCase()) ||

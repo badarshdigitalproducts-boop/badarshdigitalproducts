@@ -53,7 +53,14 @@ export default function PresetsAdminPage() {
         ...editingPreset,
         category: "photo-presets",
         productType: "photo-preset",
-        deliveryType: editingPreset.presetLinkUrl?.includes("drive.google.com") ? "google-drive" : "external-url",
+        googleDriveUrl:
+          editingPreset.googleDriveUrl ||
+          (editingPreset.presetLinkUrl?.includes("drive.google.com")
+            ? editingPreset.presetLinkUrl
+            : undefined),
+        deliveryType: editingPreset.presetLinkUrl?.includes("drive.google.com")
+          ? "google-drive"
+          : "external-url",
         status: editingPreset.status || "published",
         price: Number(editingPreset.price) || 199,
         originalPrice: editingPreset.originalPrice ? Number(editingPreset.originalPrice) : undefined,

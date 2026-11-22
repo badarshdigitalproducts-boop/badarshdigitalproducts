@@ -151,14 +151,18 @@ export default function VideoTemplatesPage() {
   ];
 
   const templates = useMemo(() => {
-    const combined = [...initialVideoTemplates];
-    productList
-      .filter((p) => p.category === "video-templates")
-      .forEach((p) => {
-        if (!combined.some((c) => c.id === p.id)) {
-          combined.push(p);
-        }
-      });
+    const adminTemplates = productList.filter(
+      (p) =>
+        p.category === "video-templates" ||
+        (p as any).productType === "video-template" ||
+        (p as any).productType === "video"
+    );
+    const combined = [...adminTemplates];
+    initialVideoTemplates.forEach((p) => {
+      if (!combined.some((c) => c.id === p.id)) {
+        combined.push(p);
+      }
+    });
 
     return combined.filter((p) => {
       const matchesSearch =

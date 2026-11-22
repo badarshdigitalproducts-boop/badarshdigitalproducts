@@ -82,6 +82,7 @@ export default function SoundEffectsAdminPage() {
         ...editingTrack,
         category: "sound-effects",
         productType: "audio",
+        audioPreviewUrl: editingTrack.audioPreviewUrl || editingTrack.downloadUrl || "",
         deliveryType: editingTrack.googleDriveUrl ? "google-drive" : "download-url",
         status: editingTrack.status || "published",
         price: Number(editingTrack.price) || 0,

@@ -50,7 +50,13 @@ export default function EbooksPage() {
 
   const ebooks = useMemo(() => {
     return productList.filter((p) => {
-      const isEbook = p.category === "ebooks" || p.tags?.includes("ebook");
+      const isEbook =
+        p.category === "ebooks" ||
+        (p.category as string) === "ebook" ||
+        (p as any).productType === "ebook" ||
+        p.tags?.includes("ebook") ||
+        p.tags?.includes("book") ||
+        p.tags?.includes("guide");
       const matchesSearch =
         search === "" ||
         p.title.toLowerCase().includes(search.toLowerCase()) ||

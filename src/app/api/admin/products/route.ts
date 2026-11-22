@@ -11,10 +11,13 @@ function isAuthorized(request: Request): boolean {
 
 function revalidateCatalog(slug?: string) {
   try {
+    revalidatePath("/");
     revalidatePath("/templates");
     revalidatePath("/bundles");
+    revalidatePath("/apps");
     revalidatePath("/editing-apps");
     revalidatePath("/photo-presets");
+    revalidatePath("/presets");
     revalidatePath("/editing-bundles");
     revalidatePath("/ebooks");
     revalidatePath("/planners");

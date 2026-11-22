@@ -6,8 +6,12 @@ export async function GET(request: NextRequest) {
   const category = request.nextUrl.searchParams.get("category");
   try {
     const adminProducts = await getAdminProducts();
-    const allProducts =
-      adminProducts && adminProducts.length > 0 ? adminProducts : fallbackProducts;
+    const prodMap = new Map<string, any>();
+    // Seed with static products first
+    fallbackProducts.forEach((p) => prodMap.set(p.id, p));
+    // Overlay with admin / Firestore products (taking priority by ID)
+    (adminProducts || []).forEach((p: any) => prodMap.set(p.id, p));
+    const allProducts = Array.from(prodMap.values());
     const published = allProducts.filter((p: any) => p.status === "published" || !p.status);
 
     if (category && category !== "all") {

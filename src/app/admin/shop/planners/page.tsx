@@ -53,7 +53,19 @@ export default function PlannersAdminPage() {
         ...editingPlanner,
         category: "planners",
         productType: "planner",
-        deliveryType: editingPlanner.googleDriveUrl ? "google-drive" : "download-url",
+        googleDriveUrl:
+          editingPlanner.googleDriveUrl ||
+          (editingPlanner.pdfUrl?.includes("drive.google.com")
+            ? editingPlanner.pdfUrl
+            : editingPlanner.downloadUrl?.includes("drive.google.com")
+            ? editingPlanner.downloadUrl
+            : undefined),
+        deliveryType:
+          editingPlanner.googleDriveUrl ||
+          editingPlanner.pdfUrl?.includes("drive.google.com") ||
+          editingPlanner.downloadUrl?.includes("drive.google.com")
+            ? "google-drive"
+            : "download-url",
         status: editingPlanner.status || "published",
         price: Number(editingPlanner.price) || 0,
         originalPrice: editingPlanner.originalPrice ? Number(editingPlanner.originalPrice) : undefined,

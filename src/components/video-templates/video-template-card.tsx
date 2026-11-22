@@ -73,7 +73,13 @@ export function VideoTemplateCard({ product }: VideoTemplateCardProps) {
   const handleDownloadXml = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isFree) {
-      window.open(product.alightMotionXmlUrl || product.downloadUrl || "#", "_blank");
+      window.open(
+        product.alightMotionXmlUrl ||
+          product.downloadUrl ||
+          (product as any).googleDriveUrl ||
+          "#",
+        "_blank"
+      );
     } else {
       setCheckoutOpen(true);
     }

@@ -59,7 +59,21 @@ export default function TemplatesAdminPage() {
         ...editingTemplate,
         category: editingTemplate.category || "social-media",
         productType: "canva-template",
-        deliveryType: editingTemplate.googleDriveUrl ? "google-drive" : "canva-link",
+        canvaUrl: editingTemplate.canvaUrl || editingTemplate.templateUrl || "",
+        templateUrl: editingTemplate.templateUrl || editingTemplate.canvaUrl || "",
+        googleDriveUrl:
+          editingTemplate.googleDriveUrl ||
+          (editingTemplate.canvaUrl?.includes("drive.google.com")
+            ? editingTemplate.canvaUrl
+            : editingTemplate.templateUrl?.includes("drive.google.com")
+            ? editingTemplate.templateUrl
+            : undefined),
+        deliveryType:
+          editingTemplate.googleDriveUrl ||
+          editingTemplate.canvaUrl?.includes("drive.google.com") ||
+          editingTemplate.templateUrl?.includes("drive.google.com")
+            ? "google-drive"
+            : "canva-link",
         status: editingTemplate.status || "published",
         price: Number(editingTemplate.price) || 299,
         originalPrice: editingTemplate.originalPrice ? Number(editingTemplate.originalPrice) : undefined,

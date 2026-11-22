@@ -50,6 +50,10 @@ export default function EditingAppsPage() {
     return productList.filter((p) => {
       const isApp =
         p.category === "editing-apps" ||
+        (p.category as string) === "apps" ||
+        (p.category as string) === "app" ||
+        (p as any).productType === "app-license" ||
+        (p as any).productType === "app" ||
         p.tags?.includes("editing apps") ||
         p.tags?.includes("editing app") ||
         p.tags?.includes("mobile creator") ||

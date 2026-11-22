@@ -98,18 +98,14 @@ export function BundleCard({ product }: BundleCardProps) {
 
         {/* Breakdown Chips */}
         <div className="mt-4 flex flex-wrap gap-1.5 text-[10px]">
-          <span className="rounded-md bg-secondary px-2 py-1 font-medium text-foreground">
-            500+ SFX (WAV)
-          </span>
-          <span className="rounded-md bg-secondary px-2 py-1 font-medium text-foreground">
-            100 Transitions
-          </span>
-          <span className="rounded-md bg-secondary px-2 py-1 font-medium text-foreground">
-            50 LUTs
-          </span>
-          <span className="rounded-md bg-secondary px-2 py-1 font-medium text-foreground">
-            4K Green Screen
-          </span>
+          {(product.features && product.features.length > 0
+            ? product.features.slice(0, 4)
+            : ["500+ SFX (WAV)", "100 Transitions", "50 LUTs", "4K Green Screen"]
+          ).map((feat, i) => (
+            <span key={i} className="rounded-md bg-secondary px-2 py-1 font-medium text-foreground">
+              {feat}
+            </span>
+          ))}
         </div>
 
         {/* Price & Action Row */}

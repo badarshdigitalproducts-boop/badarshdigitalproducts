@@ -72,8 +72,10 @@ export function BeforeAfterSlider({ product }: BeforeAfterSliderProps) {
   const handleDownload = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isFree) {
-      if (product.presetLinkUrl || product.downloadUrl) {
-        window.open(product.presetLinkUrl || product.downloadUrl, "_blank");
+      const presetTarget =
+        product.presetLinkUrl || product.downloadUrl || (product as any).googleDriveUrl;
+      if (presetTarget) {
+        window.open(presetTarget, "_blank");
       } else {
         setGuideModalOpen(true);
       }

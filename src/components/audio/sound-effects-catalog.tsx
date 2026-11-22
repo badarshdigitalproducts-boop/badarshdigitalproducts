@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   SlidersHorizontal,
   ChevronDown,
@@ -359,10 +359,85 @@ export function SoundEffectsCatalog() {
   const [sortBy, setSortBy] = useState<SortOption>("relevant");
   const [savedTrackIds, setSavedTrackIds] = useState<Set<string>>(new Set());
   const [copiedTrackId, setCopiedTrackId] = useState<string | null>(null);
+  const [adminTracks, setAdminTracks] = useState<SfxTrack[]>([]);
 
   const { currentTrack, isPlaying, currentTime, duration, playTrack, togglePlay, seek } =
     useAudioPlayer();
   const { formatPrice } = useCurrency();
+
+  // Load live tracks from Admin/Firestore
+  useEffect(() => {
+    fetch("/api/products?category=sound-effects")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.products && Array.isArray(data.products) && data.products.length > 0) {
+          const mapped: SfxTrack[] = data.products
+            .filter((p: any) =>
+              p.audioPreviewUrl ||
+              p.downloadUrl ||
+              p.googleDriveUrl ||
+              p.category === "sound-effects" ||
+              p.category === "editing-bundles" ||
+              p.productType === "audio"
+            )
+            .map((p: any) => {
+              const durSec =
+                typeof p.duration === "number"
+                  ? p.duration
+                  : typeof p.audioDuration === "number"
+                  ? p.audioDuration
+                  : 12;
+              const durLabel =
+                typeof p.audioDuration === "string"
+                  ? p.audioDuration
+                  : typeof p.duration === "string"
+                  ? p.duration
+                  : "0:12";
+              return {
+                id: p.id,
+                title: p.title,
+                creator: p.authorName || "BADARSH Studio",
+                category: p.audioCategory || (p.tags && p.tags[0]) || "Transitions & Movement",
+                clipsCount: p.clipsCount || 1,
+                durationSeconds: durSec,
+                durationLabel: durLabel,
+                audioUrl:
+                  p.audioPreviewUrl ||
+                  p.downloadUrl ||
+                  p.googleDriveUrl ||
+                  "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
+                waveformPoints: [
+                  0.1, 0.25, 0.6, 0.85, 0.95, 0.75, 0.5, 0.3, 0.65, 0.9, 0.7, 0.4, 0.2, 0.1, 0.05,
+                ],
+                price: typeof p.price === "number" ? p.price : 0,
+                slug: p.slug,
+              };
+            });
+          setAdminTracks(mapped);
+        }
+      })
+      .catch((err) => console.error("Error loading live sound effects:", err));
+  }, []);
+
+  // Merge admin-added tracks at the front ahead of static defaults
+  const allTracks = useMemo(() => {
+    const combined = [...adminTracks];
+    SOUND_TRACKS.forEach((track) => {
+      if (!combined.some((t) => t.id === track.id)) {
+        combined.push(track);
+      }
+    });
+    return combined;
+  }, [adminTracks]);
+
+  // Dynamic categories including any custom categories created by admin
+  const categoriesList = useMemo(() => {
+    const cats = new Set<string>(SFX_CATEGORIES);
+    adminTracks.forEach((t) => {
+      if (t.category) cats.add(t.category);
+    });
+    return Array.from(cats);
+  }, [adminTracks]);
 
   // Category toggle handler
   const toggleCategory = (cat: string) => {
@@ -399,6 +474,10 @@ export function SoundEffectsCatalog() {
       window.location.href = `/templates/${track.slug}`;
       return;
     }
+    if (track.price > 0) {
+      window.location.href = `/checkout?productId=${track.id}`;
+      return;
+    }
     const link = document.createElement("a");
     link.href = track.audioUrl;
     link.download = `${track.title.toLowerCase().replace(/\s+/g, "-")}-master.ogg`;
@@ -411,7 +490,7 @@ export function SoundEffectsCatalog() {
 
   // Filter & Sort tracks
   const filteredTracks = useMemo(() => {
-    let result = SOUND_TRACKS.filter((track) => {
+    let result = allTracks.filter((track) => {
       const matchesSearch =
         search === "" ||
         track.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -442,7 +521,7 @@ export function SoundEffectsCatalog() {
     }
 
     return result;
-  }, [search, selectedCategories, sortBy]);
+  }, [allTracks, search, selectedCategories, sortBy]);
 
   return (
     <div className="w-full">
@@ -524,7 +603,7 @@ export function SoundEffectsCatalog() {
             </h3>
 
             <div className="mt-4 space-y-3">
-              {SFX_CATEGORIES.map((cat) => {
+              {categoriesList.map((cat) => {
                 const isChecked = selectedCategories.includes(cat);
                 return (
                   <label

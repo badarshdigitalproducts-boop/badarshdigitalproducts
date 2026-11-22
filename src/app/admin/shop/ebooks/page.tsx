@@ -53,7 +53,19 @@ export default function EbooksAdminPage() {
         ...editingBook,
         category: "ebooks",
         productType: "ebook",
-        deliveryType: editingBook.googleDriveUrl ? "google-drive" : "download-url",
+        googleDriveUrl:
+          editingBook.googleDriveUrl ||
+          (editingBook.pdfUrl?.includes("drive.google.com")
+            ? editingBook.pdfUrl
+            : editingBook.downloadUrl?.includes("drive.google.com")
+            ? editingBook.downloadUrl
+            : undefined),
+        deliveryType:
+          editingBook.googleDriveUrl ||
+          editingBook.pdfUrl?.includes("drive.google.com") ||
+          editingBook.downloadUrl?.includes("drive.google.com")
+            ? "google-drive"
+            : "download-url",
         status: editingBook.status || "published",
         price: Number(editingBook.price) || 0,
         originalPrice: editingBook.originalPrice ? Number(editingBook.originalPrice) : undefined,

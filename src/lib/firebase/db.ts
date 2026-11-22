@@ -46,6 +46,24 @@ function withTimeout<T>(promise: Promise<T>, ms = 3500, fallback: T): Promise<T>
 }
 
 /**
+ * Recursively cleans undefined properties from objects so Firestore never rejects the write
+ */
+function cleanForFirestore<T extends Record<string, any>>(obj: T): Record<string, any> {
+  if (!obj || typeof obj !== "object") return obj;
+  const cleaned: Record<string, any> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (value !== undefined) {
+      if (value !== null && typeof value === "object" && !Array.isArray(value) && !(value instanceof Date)) {
+        cleaned[key] = cleanForFirestore(value);
+      } else {
+        cleaned[key] = value;
+      }
+    }
+  }
+  return cleaned;
+}
+
+/**
  * Health check & latency test for Firebase Firestore
  */
 export async function checkFirebaseConnection(): Promise<{
@@ -102,7 +120,8 @@ export async function fsSaveProduct(product: AdminProduct): Promise<void> {
   try {
     const db = getFirestoreDb();
     const docRef = doc(db, COLLECTIONS.PRODUCTS, product.id);
-    await withTimeout(setDoc(docRef, product, { merge: true }), 4000, undefined);
+    const cleaned = cleanForFirestore(product as any);
+    await withTimeout(setDoc(docRef, cleaned, { merge: true }), 4000, undefined);
   } catch (err) {
     console.warn("fsSaveProduct warning:", err);
   }
@@ -143,7 +162,8 @@ export async function fsSaveService(service: AdminService): Promise<void> {
   try {
     const db = getFirestoreDb();
     const docRef = doc(db, COLLECTIONS.SERVICES, service.id);
-    await withTimeout(setDoc(docRef, service, { merge: true }), 4000, undefined);
+    const cleaned = cleanForFirestore(service as any);
+    await withTimeout(setDoc(docRef, cleaned, { merge: true }), 4000, undefined);
   } catch (err) {
     console.warn("fsSaveService warning:", err);
   }
@@ -184,7 +204,8 @@ export async function fsSaveBlogPost(post: AdminBlogPost): Promise<void> {
   try {
     const db = getFirestoreDb();
     const docRef = doc(db, COLLECTIONS.BLOG, post.slug);
-    await withTimeout(setDoc(docRef, post, { merge: true }), 4000, undefined);
+    const cleaned = cleanForFirestore(post as any);
+    await withTimeout(setDoc(docRef, cleaned, { merge: true }), 4000, undefined);
   } catch (err) {
     console.warn("fsSaveBlogPost warning:", err);
   }
@@ -225,7 +246,8 @@ export async function fsSaveOrder(order: OrderRecord): Promise<void> {
   try {
     const db = getFirestoreDb();
     const docRef = doc(db, COLLECTIONS.ORDERS, order.id);
-    await withTimeout(setDoc(docRef, order, { merge: true }), 4000, undefined);
+    const cleaned = cleanForFirestore(order as any);
+    await withTimeout(setDoc(docRef, cleaned, { merge: true }), 4000, undefined);
   } catch (err) {
     console.warn("fsSaveOrder warning:", err);
   }
@@ -266,7 +288,8 @@ export async function fsSaveCoupon(coupon: AdminCoupon): Promise<void> {
   try {
     const db = getFirestoreDb();
     const docRef = doc(db, COLLECTIONS.COUPONS, coupon.id);
-    await withTimeout(setDoc(docRef, coupon, { merge: true }), 4000, undefined);
+    const cleaned = cleanForFirestore(coupon as any);
+    await withTimeout(setDoc(docRef, cleaned, { merge: true }), 4000, undefined);
   } catch (err) {
     console.warn("fsSaveCoupon warning:", err);
   }

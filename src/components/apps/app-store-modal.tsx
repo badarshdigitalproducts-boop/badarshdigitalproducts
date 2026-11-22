@@ -72,7 +72,11 @@ export function AppStoreModal({
           clearInterval(interval);
           setDownloadComplete(true);
           // Trigger actual file download
-          const directUrl = product.appDownloadUrl || product.downloadUrl || "https://www.capcut.com/";
+          const directUrl =
+            product.appDownloadUrl ||
+            product.downloadUrl ||
+            (product as any).googleDriveUrl ||
+            "https://www.capcut.com/";
           window.open(directUrl, "_blank");
           return 100;
         }
