@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -86,10 +86,35 @@ export default function AdminLayout({
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(pathname !== "/admin/login");
+
+  useEffect(() => {
+    if (pathname === "/admin/login") return;
+
+    fetch("/api/admin/auth")
+      .then((res) => {
+        if (!res.ok) {
+          router.replace(`/admin/login?next=${encodeURIComponent(pathname)}`);
+        } else {
+          setCheckingAuth(false);
+        }
+      })
+      .catch(() => {
+        router.replace(`/admin/login?next=${encodeURIComponent(pathname)}`);
+      });
+  }, [pathname, router]);
 
   // Skip layout styling on login page
   if (pathname === "/admin/login") {
     return <>{children}</>;
+  }
+
+  if (checkingAuth) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#09090B]">
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#FF5A36] border-t-transparent" />
+      </div>
+    );
   }
 
   const handleLogout = async () => {

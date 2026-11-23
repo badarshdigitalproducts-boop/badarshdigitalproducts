@@ -1,18 +1,43 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import {
   createUserAccount,
   createUserSessionToken,
   USER_COOKIE_NAME,
   USER_SESSION_MAX_AGE_SECONDS,
 } from "@/lib/auth/user-auth";
+import { checkRateLimit, createRateLimitResponse } from "@/lib/security/rate-limiter";
+import { sanitizeText, sanitizeEmail, isHoneypotTriggered } from "@/lib/security/sanitize";
 
-export async function POST(request: Request) {
+export const dynamic = "force-dynamic";
+
+export async function POST(request: NextRequest) {
+  // Rate limit: 5 signups per 15 minutes per IP
+  const rateLimit = checkRateLimit(request, {
+    maxRequests: 5,
+    windowSeconds: 900,
+    prefix: "auth_signup",
+  });
+  if (!rateLimit.success) {
+    return createRateLimitResponse(rateLimit.resetInSeconds);
+  }
+
   try {
-    const { name, email, password, consentGiven } = await request.json();
+    const body = await request.json();
 
-    if (!email || !password) {
+    if (isHoneypotTriggered(body)) {
       return NextResponse.json(
-        { error: "Email and password are required." },
+        { error: "Registration rejected by security policy." },
+        { status: 400 }
+      );
+    }
+
+    const { name, email, password, consentGiven } = body;
+    const cleanName = sanitizeText(name, 80);
+    const cleanEmail = sanitizeEmail(email);
+
+    if (!cleanEmail || !password) {
+      return NextResponse.json(
+        { error: "A valid email and password are required." },
         { status: 400 }
       );
     }
@@ -34,7 +59,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const user = await createUserAccount(name, email, password, "email", undefined, true);
+    const user = await createUserAccount(cleanName, cleanEmail, password, "email", undefined, true);
 
     const token = createUserSessionToken({
       uid: user.id,

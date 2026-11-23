@@ -2,6 +2,25 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAdminProducts } from "@/lib/admin/store";
 import { products as fallbackProducts } from "@/content/products";
 
+function sanitizePublicProduct(product: any) {
+  // If product is not completely free, strip raw delivery assets from public catalog API
+  const isFree = product.price === 0;
+  const sanitized = { ...product };
+  if (!isFree) {
+    delete sanitized.downloadUrl;
+    delete sanitized.googleDriveUrl;
+    delete sanitized.pdfUrl;
+    delete sanitized.appDownloadUrl;
+    delete sanitized.presetLinkUrl;
+    delete sanitized.overlayLinkUrl;
+    delete sanitized.canvaUrl;
+    delete sanitized.templateUrl;
+    delete sanitized.capcutUrl;
+    delete sanitized.alightMotionXmlUrl;
+  }
+  return sanitized;
+}
+
 export async function GET(request: NextRequest) {
   const category = request.nextUrl.searchParams.get("category");
   try {
@@ -12,7 +31,9 @@ export async function GET(request: NextRequest) {
     // Overlay with admin / Firestore products (taking priority by ID)
     (adminProducts || []).forEach((p: any) => prodMap.set(p.id, p));
     const allProducts = Array.from(prodMap.values());
-    const published = allProducts.filter((p: any) => p.status === "published" || !p.status);
+    const published = allProducts
+      .filter((p: any) => p.status === "published" || !p.status)
+      .map(sanitizePublicProduct);
 
     if (category && category !== "all") {
       const catLower = category.toLowerCase().trim();
@@ -141,6 +162,7 @@ export async function GET(request: NextRequest) {
   } catch (error: any) {
     if (error?.digest) throw error;
     console.error("Error reading products:", error);
-    return NextResponse.json({ products: fallbackProducts, total: fallbackProducts.length });
+    const safeFallbacks = fallbackProducts.map(sanitizePublicProduct);
+    return NextResponse.json({ products: safeFallbacks, total: safeFallbacks.length });
   }
 }

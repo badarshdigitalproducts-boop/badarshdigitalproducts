@@ -3,60 +3,71 @@
     "products": {
       ".read": true,
       "$productId": {
-        ".write": true,
+        ".write": "auth != null && (auth.token.admin === true || auth.uid === 'badarsh-admin')",
         ".validate": "newData.hasChildren(['id', 'title', 'price']) && newData.child('price').isNumber()"
       }
     },
     "services": {
       ".read": true,
       "$serviceId": {
-        ".write": true,
+        ".write": "auth != null && (auth.token.admin === true || auth.uid === 'badarsh-admin')",
         ".validate": "newData.hasChildren(['id', 'title'])"
       }
     },
     "blog_posts": {
       ".read": true,
       "$slug": {
-        ".write": true,
+        ".write": "auth != null && (auth.token.admin === true || auth.uid === 'badarsh-admin')",
         ".validate": "newData.hasChildren(['slug', 'title'])"
       }
     },
     "coupons": {
-      ".read": true,
+      ".read": "auth != null",
       "$couponId": {
-        ".write": true,
+        ".write": "auth != null && (auth.token.admin === true || auth.uid === 'badarsh-admin')",
         ".validate": "newData.hasChildren(['code', 'discountValue'])"
       }
     },
     "settings": {
       ".read": true,
-      ".write": true,
+      ".write": "auth != null && (auth.token.admin === true || auth.uid === 'badarsh-admin')",
       ".validate": "newData.hasChildren(['siteName'])"
     },
     "orders": {
+      ".read": false,
       "$orderId": {
-        ".read": true,
-        ".write": "!data.exists() || newData.exists()",
+        ".read": "auth != null && (auth.token.admin === true || data.child('userId').val() === auth.uid || data.child('customerEmail').val() === auth.token.email)",
+        ".write": "auth != null && (auth.token.admin === true || auth.uid === 'badarsh-admin')",
         ".validate": "newData.hasChildren(['id', 'customerName', 'totalAmount']) && newData.child('totalAmount').isNumber()"
       }
     },
+    "users": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || auth.token.admin === true)",
+        ".write": "auth != null && (auth.uid === $uid || auth.token.admin === true)",
+        ".validate": "newData.hasChildren(['email'])"
+      }
+    },
     "leads": {
-      ".read": false,
+      ".read": "auth != null && auth.token.admin === true",
       "$leadId": {
         ".write": "!data.exists()",
         ".validate": "newData.hasChildren(['id', 'name', 'email'])"
       }
     },
     "subscribers": {
-      ".read": false,
+      ".read": "auth != null && auth.token.admin === true",
       "$subscriberId": {
         ".write": "!data.exists()",
         ".validate": "newData.hasChildren(['email'])"
       }
     },
     "audit_logs": {
-      ".read": false,
-      ".write": true
+      ".read": "auth != null && auth.token.admin === true",
+      "$logId": {
+        ".write": "auth != null",
+        ".validate": "newData.hasChildren(['id', 'action', 'timestamp'])"
+      }
     }
   }
 }

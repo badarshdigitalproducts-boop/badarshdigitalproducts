@@ -1,23 +1,38 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import {
   verifyUserCredentials,
   createUserSessionToken,
   USER_COOKIE_NAME,
   USER_SESSION_MAX_AGE_SECONDS,
 } from "@/lib/auth/user-auth";
+import { checkRateLimit, createRateLimitResponse } from "@/lib/security/rate-limiter";
+import { sanitizeEmail } from "@/lib/security/sanitize";
 
-export async function POST(request: Request) {
+export const dynamic = "force-dynamic";
+
+export async function POST(request: NextRequest) {
+  // Rate limit: 5 login attempts per 15 minutes per IP to block credential stuffing
+  const rateLimit = checkRateLimit(request, {
+    maxRequests: 5,
+    windowSeconds: 900,
+    prefix: "auth_login",
+  });
+  if (!rateLimit.success) {
+    return createRateLimitResponse(rateLimit.resetInSeconds);
+  }
+
   try {
     const { email, password } = await request.json();
+    const cleanEmail = sanitizeEmail(email);
 
-    if (!email || !password) {
+    if (!cleanEmail || !password) {
       return NextResponse.json(
-        { error: "Email and password are required." },
+        { error: "A valid email address and password are required." },
         { status: 400 }
       );
     }
 
-    const user = await verifyUserCredentials(email, password);
+    const user = await verifyUserCredentials(cleanEmail, password);
     if (!user) {
       return NextResponse.json(
         { error: "Incorrect email or password. Please verify and try again." },

@@ -1,9 +1,62 @@
 import { NextResponse } from "next/server";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
+import crypto from "crypto";
 import { verifySessionToken, ADMIN_COOKIE_NAME } from "@/lib/admin/auth";
+import { getDatabase, saveDatabase } from "@/lib/admin/store";
 
 export const maxDuration = 60;
+
+const ALLOWED_EXTENSIONS = new Set([
+  ".png",
+  ".jpg",
+  ".jpeg",
+  ".webp",
+  ".gif",
+  ".pdf",
+  ".mp3",
+  ".wav",
+  ".mp4",
+  ".zip",
+  ".dng",
+  ".json",
+]);
+
+const ALLOWED_MIME_TYPES = new Set([
+  "image/png",
+  "image/jpeg",
+  "image/webp",
+  "image/gif",
+  "application/pdf",
+  "audio/mpeg",
+  "audio/wav",
+  "audio/mp3",
+  "audio/x-wav",
+  "video/mp4",
+  "application/zip",
+  "application/x-zip-compressed",
+  "image/x-adobe-dng",
+  "application/json",
+]);
+
+const DANGEROUS_EXTENSIONS = new Set([
+  ".html",
+  ".htm",
+  ".svg",
+  ".exe",
+  ".bat",
+  ".cmd",
+  ".sh",
+  ".php",
+  ".js",
+  ".mjs",
+  ".ts",
+  ".jsp",
+  ".asp",
+  ".cgi",
+  ".vbs",
+  ".scr",
+]);
 
 function isAuthorized(request: Request): boolean {
   const cookieHeader = request.headers.get("cookie") || "";
@@ -36,12 +89,38 @@ export async function POST(request: Request) {
       );
     }
 
+    // STRICT FILE VALIDATION
+    const originalName = file.name || "asset";
+    const ext = path.extname(originalName).toLowerCase();
+    const mime = (file.type || "").toLowerCase().trim();
+
+    if (DANGEROUS_EXTENSIONS.has(ext)) {
+      return NextResponse.json(
+        { error: `Executable and script files (${ext}) are prohibited for security reasons.` },
+        { status: 400 }
+      );
+    }
+
+    if (!ALLOWED_EXTENSIONS.has(ext)) {
+      return NextResponse.json(
+        {
+          error: `File type "${ext}" is not supported. Allowed formats: PNG, JPG, WEBP, PDF, MP3, WAV, MP4, ZIP, DNG.`,
+        },
+        { status: 400 }
+      );
+    }
+
+    if (mime && !ALLOWED_MIME_TYPES.has(mime) && mime !== "application/octet-stream") {
+      return NextResponse.json(
+        { error: `MIME type "${mime}" does not match allowed media profiles.` },
+        { status: 400 }
+      );
+    }
+
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
     // Sanitize filename and create clean path
-    const originalName = file.name || "asset";
-    const ext = path.extname(originalName) || "";
     const cleanBaseName = path
       .basename(originalName, ext)
       .toLowerCase()
@@ -67,8 +146,28 @@ export async function POST(request: Request) {
       }
     } catch (fsErr: any) {
       console.warn("Local filesystem write skipped (serverless/edge environment), encoding as Data URL:", fsErr?.message);
-      const mime = file.type || "application/octet-stream";
-      publicUrl = `data:${mime};base64,${buffer.toString("base64")}`;
+      const safeMime = mime || "application/octet-stream";
+      publicUrl = `data:${safeMime};base64,${buffer.toString("base64")}`;
+    }
+
+    // Log admin action to audit logs
+    try {
+      const db = await getDatabase();
+      if (!db.auditLogs) db.auditLogs = [];
+      db.auditLogs.unshift({
+        id: `audit-${Date.now().toString(36)}-${crypto.randomBytes(2).toString("hex")}`,
+        action: "ADMIN_FILE_UPLOAD",
+        details: JSON.stringify({
+          filename,
+          originalName,
+          size: file.size,
+          mimeType: mime,
+        }),
+        timestamp: new Date().toISOString(),
+      });
+      await saveDatabase(db);
+    } catch (auditErr) {
+      console.warn("Audit log recording error:", auditErr);
     }
 
     return NextResponse.json({

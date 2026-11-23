@@ -1,14 +1,49 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { addLead } from "@/lib/admin/store";
+import { checkRateLimit, createRateLimitResponse } from "@/lib/security/rate-limiter";
+import {
+  sanitizeText,
+  sanitizeEmail,
+  sanitizePhone,
+  isHoneypotTriggered,
+  isSubmissionUnnaturallyFast,
+} from "@/lib/security/sanitize";
 
-export async function POST(request: Request) {
+export const dynamic = "force-dynamic";
+
+export async function POST(request: NextRequest) {
+  // 1. Rate limiting: 5 requests per 10 minutes per IP
+  const rateLimit = checkRateLimit(request, {
+    maxRequests: 5,
+    windowSeconds: 600,
+    prefix: "contact",
+  });
+  if (!rateLimit.success) {
+    return createRateLimitResponse(rateLimit.resetInSeconds);
+  }
+
   try {
     const data = await request.json();
-    const { name, email, phone, interest, message, budget } = data;
+
+    // 2. Honeypot & bot timing protection
+    if (isHoneypotTriggered(data) || isSubmissionUnnaturallyFast(data._renderedAt, 600)) {
+      return NextResponse.json(
+        { error: "Submission rejected by security policy." },
+        { status: 400 }
+      );
+    }
+
+    // 3. Sanitize inputs
+    const name = sanitizeText(data.name, 80);
+    const email = sanitizeEmail(data.email);
+    const phone = sanitizePhone(data.phone);
+    const interest = sanitizeText(data.interest, 60) || "General Inquiry";
+    const message = sanitizeText(data.message, 2000);
+    const budget = sanitizeText(data.budget, 40);
 
     if (!name || !email || !message) {
       return NextResponse.json(
-        { error: "Name, email, and message are required" },
+        { error: "Valid name, email, and message are required" },
         { status: 400 }
       );
     }
@@ -18,17 +53,9 @@ export async function POST(request: Request) {
       name,
       email,
       phone,
-      interest: interest || "General Inquiry",
+      interest,
       message,
       budget,
-    });
-
-    console.log("[BADARSH Contact Inquiry Saved]", {
-      leadId: savedLead.id,
-      name,
-      email,
-      interest,
-      receivedAt: new Date().toISOString(),
     });
 
     return NextResponse.json({
@@ -36,10 +63,10 @@ export async function POST(request: Request) {
       message: "Inquiry received successfully. Our founder will be in touch shortly.",
       leadId: savedLead.id,
     });
-  } catch (error) {
-    console.error("Contact API error:", error);
+  } catch (error: any) {
+    console.error("Contact API error:", error?.message);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Failed to process inquiry. Please try again." },
       { status: 500 }
     );
   }

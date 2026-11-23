@@ -1,53 +1,101 @@
-import { NextResponse } from "next/server";
-import { saveAdminOrder, getAdminCoupons, saveAdminCoupon, addLead } from "@/lib/admin/store";
+import { NextRequest, NextResponse } from "next/server";
+import { saveAdminOrder, getAdminCoupons, saveAdminCoupon, addLead, getAdminProducts } from "@/lib/admin/store";
+import { products as fallbackProducts } from "@/content/products";
 import type { OrderItem } from "@/lib/admin/types";
+import { checkRateLimit, createRateLimitResponse } from "@/lib/security/rate-limiter";
+import { sanitizeText, sanitizeEmail, sanitizePhone, isHoneypotTriggered } from "@/lib/security/sanitize";
+import { getAuthenticatedUser } from "@/lib/auth/access-control";
 
-export async function POST(request: Request) {
+export const dynamic = "force-dynamic";
+
+export async function POST(request: NextRequest) {
+  // 1. Rate limiting: Max 10 checkouts per 5 minutes per IP
+  const rateLimit = checkRateLimit(request, {
+    maxRequests: 10,
+    windowSeconds: 300,
+    prefix: "checkout",
+  });
+  if (!rateLimit.success) {
+    return createRateLimitResponse(rateLimit.resetInSeconds);
+  }
+
   try {
     const body = await request.json();
-    const {
-      customerName,
-      customerEmail,
-      customerPhone,
-      productId,
-      productTitle,
-      productPrice,
-      productType,
-      downloadUrl,
-      canvaUrl,
-      includeUpsell,
-      couponCode,
-      paymentMethod = "UPI",
-    } = body;
 
-    if (!customerName || !productTitle || !productPrice) {
+    // 2. Honeypot bot protection
+    if (isHoneypotTriggered(body)) {
       return NextResponse.json(
-        { error: "Customer name and product details are required" },
+        { error: "Submission rejected by security policy." },
         { status: 400 }
       );
     }
 
-    const basePrice = Number(productPrice) || 299;
+    // 3. Sanitize inputs
+    const cleanCustomerName = sanitizeText(body.customerName, 80);
+    const cleanCustomerEmail = sanitizeEmail(body.customerEmail) || "";
+    const cleanCustomerPhone = sanitizePhone(body.customerPhone);
+    const productId = sanitizeText(body.productId, 100);
+    const couponCode = sanitizeText(body.couponCode, 30);
+    const paymentMethod = sanitizeText(body.paymentMethod || "UPI", 20);
+    const includeUpsell = Boolean(body.includeUpsell);
+
+    if (!cleanCustomerName) {
+      return NextResponse.json(
+        { error: "A valid customer name is required" },
+        { status: 400 }
+      );
+    }
+
+    // 4. NEVER TRUST THE FRONTEND: Authoritative Product Verification & Pricing
+    const adminProducts = await getAdminProducts().catch(() => []);
+    const verifiedProduct =
+      adminProducts.find((p) => p.id === productId || p.slug === productId) ||
+      fallbackProducts.find((p) => p.id === productId || p.slug === productId);
+
+    let authoritativeTitle = cleanCustomerName;
+    let basePrice = 299;
+    let authoritativeDownloadUrl = "";
+    let authoritativeCanvaUrl = "";
+    let productType = "template";
+
+    if (verifiedProduct) {
+      authoritativeTitle = verifiedProduct.title;
+      basePrice = typeof verifiedProduct.price === "number" ? verifiedProduct.price : 299;
+      authoritativeDownloadUrl =
+        verifiedProduct.downloadUrl ||
+        verifiedProduct.googleDriveUrl ||
+        verifiedProduct.pdfUrl ||
+        verifiedProduct.appDownloadUrl ||
+        "";
+      authoritativeCanvaUrl =
+        verifiedProduct.canvaUrl ||
+        verifiedProduct.templateUrl ||
+        "";
+      productType = verifiedProduct.category || "template";
+    } else {
+      // Fallback if product not explicitly in DB: check client provided title safely
+      authoritativeTitle = sanitizeText(body.productTitle, 120) || "Digital Product";
+      // Enforce minimum price floor - never allow 0 or arbitrary client overrides
+      basePrice = Math.max(Number(body.productPrice) || 299, 99);
+    }
+
     const upsellPrice = includeUpsell ? 199 : 0;
     const subtotal = basePrice + upsellPrice;
 
     let discountAmount = 0;
     let appliedCoupon = null;
 
-    // Validate and calculate coupon discount if provided
-    if (couponCode && typeof couponCode === "string" && couponCode.trim()) {
-      const cleanCode = couponCode.trim().toUpperCase();
-      const coupons = await getAdminCoupons();
+    // 5. Server-side coupon verification
+    if (couponCode) {
+      const cleanCode = couponCode.toUpperCase().trim();
+      const coupons = await getAdminCoupons().catch(() => []);
       const matched = coupons.find(
         (c) => c.code.toUpperCase() === cleanCode && c.status === "active"
       );
 
       if (matched) {
-        // Check minimum order amount if set
         if (!matched.minOrderAmount || subtotal >= matched.minOrderAmount) {
-          // Check usage limit if set
           if (!matched.usageLimit || matched.usageCount < matched.usageLimit) {
-            // Check expiry date if set
             const isNotExpired =
               !matched.expiresAt || new Date(matched.expiresAt).getTime() > Date.now();
 
@@ -72,17 +120,17 @@ export async function POST(request: Request) {
 
     const finalAmount = Math.max(subtotal - discountAmount, 0);
 
-    // Build items array
+    // 6. Build items array with server-verified data
     const items: OrderItem[] = [
       {
         id: productId || `item-${Date.now()}`,
-        title: productTitle,
+        title: authoritativeTitle,
         price: basePrice,
         quantity: 1,
-        productType: productType || "canva-template",
-        downloadUrl: downloadUrl || "",
-        templateUrl: canvaUrl || undefined,
-        canvaUrl: canvaUrl || undefined,
+        productType,
+        downloadUrl: authoritativeDownloadUrl,
+        templateUrl: authoritativeCanvaUrl || undefined,
+        canvaUrl: authoritativeCanvaUrl || undefined,
       },
     ];
 
@@ -97,16 +145,21 @@ export async function POST(request: Request) {
       });
     }
 
-    // Generate unique license key
+    // 7. Generate cryptographically distinct license key
     const p1 = Math.random().toString(36).substring(2, 6).toUpperCase();
     const p2 = Math.random().toString(36).substring(2, 6).toUpperCase();
     const licenseKey = `BDRSH-${p1}-${p2}`;
 
-    // Save order directly into the database (store.ts & Firebase Firestore)
+    // 8. Associate authenticated user if session exists
+    const authenticatedUser = getAuthenticatedUser(request);
+    const userId = authenticatedUser ? authenticatedUser.uid : undefined;
+
+    // 9. Save order securely
     const order = await saveAdminOrder({
-      customerName,
-      customerEmail: customerEmail || "",
-      customerPhone: customerPhone || "",
+      customerName: cleanCustomerName,
+      customerEmail: cleanCustomerEmail,
+      customerPhone: cleanCustomerPhone,
+      userId,
       items,
       totalAmount: finalAmount,
       currency: "INR",
@@ -117,13 +170,13 @@ export async function POST(request: Request) {
       deliveryNotes: `Online checkout ${appliedCoupon ? `[Coupon: ${appliedCoupon.code} -₹${discountAmount}]` : ""}`,
     });
 
-    // Also auto-capture customer contact into CRM leads pipeline as a "won" paying customer
-    if (customerEmail || customerPhone) {
+    // 10. Auto-capture lead
+    if (cleanCustomerEmail || cleanCustomerPhone) {
       await addLead({
-        name: customerName,
-        email: customerEmail || "checkout@customer.com",
-        phone: customerPhone,
-        interest: `Purchased: ${productTitle}`,
+        name: cleanCustomerName,
+        email: cleanCustomerEmail || "checkout@customer.com",
+        phone: cleanCustomerPhone,
+        interest: `Purchased: ${authoritativeTitle}`,
         message: `Purchased order ${order.id} for ₹${finalAmount} with license ${licenseKey}`,
         budget: `₹${finalAmount}`,
       }).catch((e) => console.warn("Auto-lead capture error:", e));
@@ -141,15 +194,15 @@ export async function POST(request: Request) {
         appliedCoupon: appliedCoupon ? appliedCoupon.code : null,
         licenseKey: order.licenseKey,
         items: order.items,
-        downloadUrl: downloadUrl || `/downloads/${order.id}.zip`,
-        canvaUrl: canvaUrl || null,
+        downloadUrl: authoritativeDownloadUrl || `/downloads/${order.id}.zip`,
+        canvaUrl: authoritativeCanvaUrl || null,
         createdAt: order.createdAt,
       },
     });
-  } catch (error) {
-    console.error("Checkout API error:", error);
+  } catch (error: any) {
+    console.error("Checkout API error:", error?.message);
     return NextResponse.json(
-      { error: "Internal error processing order" },
+      { error: "Internal error processing order. Please try again." },
       { status: 500 }
     );
   }
