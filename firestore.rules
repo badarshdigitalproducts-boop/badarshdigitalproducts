@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Public Storefront Catalog
+    match /products/{document} {
+      allow read: if true;
+      allow write: if request.resource.data.price is number;
+    }
+    match /services/{document} {
+      allow read: if true;
+      allow write: if request.resource.data.title is string;
+    }
+    match /blog_posts/{document} {
+      allow read: if true;
+      allow write: if request.resource.data.title is string;
+    }
+    match /coupons/{document} {
+      allow read: if true;
+      allow write: if request.resource.data.discountValue is number;
+    }
+    match /settings/{document} {
+      allow read: if true;
+      allow write: if request.resource.data.siteName is string;
+    }
+
+    // Orders: Safe customer creation; blocks unauthorized deletion or tampering
+    match /orders/{document} {
+      allow read: if true;
+      allow create: if request.resource.data.totalAmount is number;
+      allow update, delete: if false;
+    }
+
+    // Leads & Subscribers: Competitors cannot read or scrape your customer list
+    match /leads/{document} {
+      allow read: if false;
+      allow create: if request.resource.data.email is string;
+      allow update, delete: if false;
+    }
+    match /subscribers/{document} {
+      allow read: if false;
+      allow create: if request.resource.data.email is string;
+      allow update, delete: if false;
+    }
+    match /audit_logs/{document} {
+      allow read: if false;
+      allow write: if true;
+    }
+  }
+}
