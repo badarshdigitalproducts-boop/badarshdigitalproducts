@@ -55,9 +55,13 @@ export function BuyButton({
   const handleFreeDownload = () => {
     const directUrl =
       productData.downloadUrl ||
+      productData.alightMotionXmlUrl ||
+      productData.capcutUrl ||
+      productData.googleDriveUrl ||
       productData.pdfUrl ||
       productData.appDownloadUrl ||
-      productData.canvaUrl;
+      productData.canvaUrl ||
+      productData.templateUrl;
     if (directUrl) {
       const a = document.createElement("a");
       a.href = directUrl;
@@ -68,7 +72,7 @@ export function BuyButton({
       a.click();
       document.body.removeChild(a);
     } else {
-      setCheckoutOpen(true);
+      window.location.href = `/api/download?productId=${encodeURIComponent(productData.id || productData.slug)}`;
     }
   };
 

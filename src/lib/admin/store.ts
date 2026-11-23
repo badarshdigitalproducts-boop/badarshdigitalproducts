@@ -494,6 +494,10 @@ export async function getDatabase(): Promise<AdminDatabase> {
     if (activeSettings) {
       localDb.settings = { ...localDb.settings, ...activeSettings };
     }
+    // Security Hardening: Ensure Cashfree secret key is NEVER stored or held in database state
+    if (localDb.settings?.cashfree) {
+      localDb.settings.cashfree.secretKey = "";
+    }
   } catch {
     // Keep localDb without throwing
   }
@@ -503,6 +507,10 @@ export async function getDatabase(): Promise<AdminDatabase> {
 }
 
 export async function saveDatabase(db: AdminDatabase): Promise<void> {
+  // Security Hardening: Ensure Cashfree secret key is NEVER written to JSON store
+  if (db.settings?.cashfree) {
+    db.settings.cashfree.secretKey = "";
+  }
   cachedDb = db;
 
   // 1. Persist to /tmp (guaranteed writable on Vercel lambda if available)

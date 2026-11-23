@@ -91,6 +91,50 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Handle failure events: record failure note on order
+    const isFailure =
+      paymentStatus === "FAILED" ||
+      paymentStatus === "USER_DROPPED" ||
+      paymentStatus === "CANCELLED" ||
+      eventType === "PAYMENT_FAILED_WEBHOOK" ||
+      eventType === "PAYMENT_USER_DROPPED_WEBHOOK";
+
+    if (isFailure) {
+      const orders = await getAdminOrders();
+      const existingOrder = orders.find(
+        (o) => o.id.toLowerCase() === orderId.toLowerCase()
+      );
+
+      if (existingOrder && existingOrder.paymentStatus !== "completed") {
+        const failureReason =
+          paymentData?.payment_message ||
+          paymentData?.payment_status_description ||
+          eventType ||
+          "Payment failed";
+        const updatedOrder = {
+          ...existingOrder,
+          deliveryNotes: `${existingOrder.deliveryNotes || ""} [Cashfree Failure: ${failureReason} at ${new Date().toISOString()}]`.trim(),
+        };
+
+        await saveAdminOrder(updatedOrder);
+
+        if (isFirebaseConfigured()) {
+          await Promise.allSettled([
+            fsSaveOrder(updatedOrder),
+            rtSaveOrder(updatedOrder),
+          ]);
+        }
+
+        console.log(`Cashfree Webhook: Failure recorded for Order #${orderId}: ${failureReason}`);
+        return NextResponse.json({
+          received: true,
+          status: "failure_recorded",
+          orderId,
+          event: eventType,
+        });
+      }
+    }
+
     return NextResponse.json({ received: true, event: eventType });
   } catch (err: any) {
     console.error("Cashfree webhook processing error:", err);

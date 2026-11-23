@@ -158,12 +158,20 @@ export async function POST(request: NextRequest) {
 
     // 9. Payment Gateway Routing: Free products vs Cashfree Production
     const isFree = finalAmount === 0;
-    const wantsCashfree = paymentMethod === "Cashfree" || paymentMethod === "Online" || paymentMethod === "Stripe" || paymentMethod === "Card";
+    const isOnlineCheckout =
+      !isFree &&
+      (paymentMethod === "Cashfree" ||
+        paymentMethod === "Online" ||
+        paymentMethod === "UPI" ||
+        paymentMethod === "Card" ||
+        paymentMethod === "Stripe" ||
+        !paymentMethod ||
+        paymentMethod === "");
 
     let paymentSessionId: string | undefined = undefined;
     let cfEnv: string = "PROD";
 
-    if (!isFree && wantsCashfree) {
+    if (isOnlineCheckout) {
       try {
         const cfResult = await createCashfreeOrder({
           orderId,
@@ -171,27 +179,25 @@ export async function POST(request: NextRequest) {
           customerName: cleanCustomerName,
           customerEmail: cleanCustomerEmail,
           customerPhone: cleanCustomerPhone,
-          customerId: userId || `cust_${Date.now()}`,
+          customerId: userId || `cust_${orderId.replace(/[^a-zA-Z0-9]/g, "").slice(-12)}`,
         });
 
         if (cfResult.success && cfResult.paymentSessionId) {
           paymentSessionId = cfResult.paymentSessionId;
           cfEnv = cfResult.env || "PROD";
+        } else {
+          console.error("Cashfree order creation failed:", cfResult.error);
         }
       } catch (cfErr) {
-        console.warn("Cashfree session creation warning (fallback active):", cfErr);
+        console.warn("Cashfree session creation warning:", cfErr);
       }
     }
 
     // Determine initial payment status:
-    // If Cashfree session created -> status "pending" until webhook or redirect verification
-    // If free -> status "completed" immediately
-    // If manual mode / direct checkout -> status "completed"
-    const paymentStatus = isFree
-      ? "completed"
-      : paymentSessionId
-      ? "pending"
-      : "completed";
+    // If free product -> status "completed" immediately
+    // If online checkout -> status "pending" until verified via webhook or redirect sync
+    // If manual mode (UPI QR / WhatsApp) -> status "pending"
+    const paymentStatus = isFree ? "completed" : "pending";
 
     // 10. Save order securely
     const order = await saveAdminOrder({
@@ -207,7 +213,7 @@ export async function POST(request: NextRequest) {
       paymentStatus,
       licenseKey,
       canvaAccessDelivered: paymentStatus === "completed",
-      deliveryNotes: `Online checkout ${appliedCoupon ? `[Coupon: ${appliedCoupon.code} -₹${discountAmount}]` : ""} ${paymentSessionId ? `[Cashfree Session: ${paymentSessionId.slice(0, 16)}...]` : ""}`,
+      deliveryNotes: `Online checkout ${appliedCoupon ? `[Coupon: ${appliedCoupon.code} -₹${discountAmount}]` : ""} ${paymentSessionId ? `[Cashfree Session: ${paymentSessionId.slice(0, 16)}...]` : ""}`.trim(),
     });
 
     // 11. Auto-capture lead
@@ -227,6 +233,7 @@ export async function POST(request: NextRequest) {
       paymentRequired: Boolean(paymentSessionId),
       paymentSessionId,
       cfEnv,
+      orderId: order.id,
       order: {
         id: order.id,
         customerName: order.customerName,

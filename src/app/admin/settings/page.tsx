@@ -119,14 +119,6 @@ export default function AdminSettingsPage() {
   };
 
   const handleTestCashfree = async () => {
-    if (!settings?.cashfree?.appId || !settings?.cashfree?.secretKey) {
-      setCashfreeTestResult({
-        success: false,
-        error: "Please enter both Cashfree App ID and Secret Key before testing.",
-      });
-      return;
-    }
-
     try {
       setTestingCashfree(true);
       setCashfreeTestResult(null);
@@ -134,9 +126,7 @@ export default function AdminSettingsPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          appId: settings.cashfree.appId,
-          secretKey: settings.cashfree.secretKey,
-          env: settings.cashfree.env || "TEST",
+          env: settings?.cashfree?.env || "PROD",
         }),
       });
       const data = await res.json();

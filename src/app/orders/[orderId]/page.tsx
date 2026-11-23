@@ -43,7 +43,8 @@ export default function OrderFulfillmentPage() {
   useEffect(() => {
     if (!orderId) return;
 
-    fetch(`/api/orders/${orderId}`)
+    const query = typeof window !== "undefined" ? window.location.search : "";
+    fetch(`/api/orders/${orderId}${query}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.order) {
@@ -112,8 +113,8 @@ export default function OrderFulfillmentPage() {
 
   const handleDownload = (productId: string) => {
     setDownloadingId(productId);
-    // Dispatches via secure anti-piracy endpoint with Cloudflare R2 / token verification
-    window.location.href = `/api/download?orderId=${orderId}&productId=${productId}`;
+    const keyParam = order?.licenseKey ? `&key=${encodeURIComponent(order.licenseKey)}` : "";
+    window.location.href = `/api/download?orderId=${encodeURIComponent(orderId)}&productId=${encodeURIComponent(productId)}${keyParam}`;
     setTimeout(() => setDownloadingId(null), 3000);
   };
 

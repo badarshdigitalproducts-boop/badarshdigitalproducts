@@ -8,6 +8,7 @@
     "build:worker": "opennextjs-cloudflare build",
     "start": "next start",
     "lint": "eslint",
+    "test": "node --test --env-file=.env.local tests/verification.test.mjs",
     "compliance:breach": "node scripts/breach-notifier.cjs"
   },
   "dependencies": {

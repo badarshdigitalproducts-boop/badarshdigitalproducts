@@ -98,11 +98,12 @@ export function canAccessOrder(
   // 1. Admin can access all orders
   if (isAdminAuthenticated(request)) return true;
 
-  // 2. Order secret token (license key or explicit fulfillment token)
-  if (orderSecretToken && order.licenseKey) {
+  // 2. Order secret token (license key, matching order ID, or fulfillment token)
+  if (orderSecretToken) {
+    const trimmed = orderSecretToken.trim();
     if (
-      orderSecretToken.trim() === order.licenseKey.trim() ||
-      orderSecretToken.trim() === order.id.trim()
+      (order.licenseKey && trimmed === order.licenseKey.trim()) ||
+      trimmed === order.id.trim()
     ) {
       return true;
     }

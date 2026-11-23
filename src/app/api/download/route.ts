@@ -1,7 +1,58 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDatabase } from "@/lib/admin/store";
 import { generateR2DownloadUrl, isR2Configured } from "@/lib/storage/r2";
+import { canAccessOrder } from "@/lib/auth/access-control";
+import { products as fallbackProducts } from "@/content/products";
 import crypto from "crypto";
+
+function findProduct(dbProducts: any[], productId: string) {
+  const normalizedId = productId.toLowerCase().trim();
+  return (
+    dbProducts.find((p) => p.id?.toLowerCase() === normalizedId || p.slug?.toLowerCase() === normalizedId) ||
+    fallbackProducts.find((p) => p.id?.toLowerCase() === normalizedId || p.slug?.toLowerCase() === normalizedId)
+  );
+}
+
+function getProductAssetTarget(product: any): string | null {
+  return (
+    product.downloadUrl ||
+    product.alightMotionXmlUrl ||
+    product.capcutUrl ||
+    product.googleDriveUrl ||
+    product.appDownloadUrl ||
+    product.pdfUrl ||
+    product.presetLinkUrl ||
+    product.canvaUrl ||
+    product.templateUrl ||
+    null
+  );
+}
+
+async function resolveDownloadRedirect(fileTarget: string, request: NextRequest) {
+  // If stored in R2 (or starts with "r2://" or "uploads/")
+  if (fileTarget.startsWith("r2://") || (!fileTarget.startsWith("http") && !fileTarget.startsWith("/"))) {
+    const cleanKey = fileTarget.replace(/^r2:\/\/[^/]+\//, "");
+    if (isR2Configured()) {
+      const signedUrl = await generateR2DownloadUrl(cleanKey, 14400); // 4 hours
+      return NextResponse.redirect(signedUrl, 307);
+    }
+  }
+
+  // If Google Drive link: transform to high-speed direct download link
+  if (fileTarget.includes("drive.google.com")) {
+    const idMatch = fileTarget.match(/\/d\/([a-zA-Z0-9_-]+)/) || fileTarget.match(/id=([a-zA-Z0-9_-]+)/);
+    if (idMatch && idMatch[1]) {
+      const directDriveUrl = `https://docs.google.com/uc?export=download&id=${idMatch[1]}`;
+      return NextResponse.redirect(directDriveUrl, 307);
+    }
+  }
+
+  // Standard direct download redirect
+  return NextResponse.redirect(
+    fileTarget.startsWith("http") ? fileTarget : new URL(fileTarget, request.url),
+    307
+  );
+}
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -43,16 +94,25 @@ export async function GET(request: NextRequest) {
       }
 
       // Fallback local file redirect
-      return NextResponse.redirect(new URL(key.startsWith("/") ? key : `/${key}`, request.url));
+      return NextResponse.redirect(new URL(key.startsWith("/") ? key : `/${key}`, request.url), 307);
     }
 
-    // 2. Order + Product validation
+    // 2. Order + Product validation (Paid persistent re-downloads)
     if (orderId && productId) {
       const order = db.orders.find((o) => o.id === orderId);
       if (!order) {
         return NextResponse.json(
           { error: "Order not found. Please verify your purchase details." },
           { status: 404 }
+        );
+      }
+
+      // Strict ownership / access check (DPDP IDOR protection & license key verification)
+      const hasAccess = canAccessOrder(request, order, key || token);
+      if (!hasAccess) {
+        return NextResponse.json(
+          { error: "Forbidden: You do not have permission to download files for this order." },
+          { status: 403 }
         );
       }
 
@@ -63,19 +123,19 @@ export async function GET(request: NextRequest) {
         );
       }
 
-      const product = db.products.find((p) => p.id === productId || p.slug === productId);
-      if (!product) {
-        return NextResponse.json({ error: "Product file not found in catalog." }, { status: 404 });
-      }
+      // Check order items first for saved download URL
+      const orderItem = order.items?.find(
+        (i) => i.id?.toLowerCase() === productId.toLowerCase() || i.id === productId
+      );
+      let fileTarget = orderItem?.downloadUrl || orderItem?.canvaUrl || orderItem?.templateUrl;
 
-      // Check for Cloudflare R2 file key or link
-      const fileTarget =
-        product.downloadUrl ||
-        product.googleDriveUrl ||
-        product.appDownloadUrl ||
-        product.pdfUrl ||
-        product.presetLinkUrl ||
-        product.alightMotionXmlUrl;
+      // If not in order item or item has generic placeholder, check catalog
+      if (!fileTarget || fileTarget.includes("/downloads/ord_")) {
+        const product = findProduct(db.products, productId);
+        if (product) {
+          fileTarget = getProductAssetTarget(product) || fileTarget;
+        }
+      }
 
       if (!fileTarget) {
         return NextResponse.json(
@@ -84,58 +144,32 @@ export async function GET(request: NextRequest) {
         );
       }
 
-      // If stored in R2 (or starts with "r2://" or "uploads/")
-      if (fileTarget.startsWith("r2://") || (!fileTarget.startsWith("http") && !fileTarget.startsWith("/"))) {
-        const cleanKey = fileTarget.replace(/^r2:\/\/[^/]+\//, "");
-        if (isR2Configured()) {
-          const signedUrl = await generateR2DownloadUrl(cleanKey, 14400); // 4 hours
-          return NextResponse.redirect(signedUrl, 307);
-        }
-      }
-
-      // If Google Drive link: transform to high-speed direct download link
-      if (fileTarget.includes("drive.google.com")) {
-        const idMatch = fileTarget.match(/\/d\/([a-zA-Z0-9_-]+)/) || fileTarget.match(/id=([a-zA-Z0-9_-]+)/);
-        if (idMatch && idMatch[1]) {
-          const directDriveUrl = `https://docs.google.com/uc?export=download&id=${idMatch[1]}`;
-          return NextResponse.redirect(directDriveUrl, 307);
-        }
-      }
-
-      // Standard direct download redirect
-      return NextResponse.redirect(
-        fileTarget.startsWith("http") ? fileTarget : new URL(fileTarget, request.url)
-      );
+      return await resolveDownloadRedirect(fileTarget, request);
     }
 
     // 3. Free product instant download validation
     if (productId && !orderId) {
-      const product = db.products.find((p) => p.id === productId || p.slug === productId);
-      if (!product || product.price > 0) {
+      const product = findProduct(db.products, productId);
+      if (!product) {
+        return NextResponse.json({ error: "Product not found in catalog." }, { status: 404 });
+      }
+
+      if (product.price > 0) {
         return NextResponse.json(
           { error: "This is a premium product. Please complete checkout to obtain a verified download link." },
           { status: 403 }
         );
       }
 
-      const freeTarget =
-        product.downloadUrl ||
-        product.googleDriveUrl ||
-        product.appDownloadUrl ||
-        product.pdfUrl ||
-        product.presetLinkUrl;
-
+      const freeTarget = getProductAssetTarget(product);
       if (freeTarget) {
-        if (freeTarget.includes("drive.google.com")) {
-          const idMatch = freeTarget.match(/\/d\/([a-zA-Z0-9_-]+)/) || freeTarget.match(/id=([a-zA-Z0-9_-]+)/);
-          if (idMatch && idMatch[1]) {
-            return NextResponse.redirect(`https://docs.google.com/uc?export=download&id=${idMatch[1]}`, 307);
-          }
-        }
-        return NextResponse.redirect(
-          freeTarget.startsWith("http") ? freeTarget : new URL(freeTarget, request.url)
-        );
+        return await resolveDownloadRedirect(freeTarget, request);
       }
+
+      return NextResponse.json(
+        { error: "No download asset has been configured for this free product." },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({ error: "Missing required download parameters" }, { status: 400 });

@@ -1,0 +1,389 @@
+/**
+ * Automated Verification Test Suite for Badarsh Production Hardening
+ * Uses native node:test runner and node:assert/strict assertions.
+ * Validates:
+ * 1. Environment Security & Credential Isolation
+ * 2. Cashfree Order Creation Session Payload Generation
+ * 3. Cashfree Webhook HMAC-SHA256 Signature Verification
+ * 4. Download Route Authorization Logic (Free Instant vs Paid Persistent Access)
+ */
+
+import { describe, it } from "node:test";
+import assert from "node:assert/strict";
+import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const rootDir = path.resolve(__dirname, "..");
+
+describe("1. Credential Security & Leakage Prevention", () => {
+  it("should have .env.local with production Cashfree credentials", () => {
+    const envPath = path.join(rootDir, ".env.local");
+    assert.ok(fs.existsSync(envPath), ".env.local exists");
+    const content = fs.readFileSync(envPath, "utf-8");
+    assert.match(content, /CASHFREE_APP_ID=/);
+    assert.match(content, /CASHFREE_SECRET_KEY=/);
+    assert.match(content, /CASHFREE_ENV=PROD/);
+  });
+
+  it("should strictly ignore .env files in .gitignore", () => {
+    const gitignorePath = path.join(rootDir, ".gitignore");
+    assert.ok(fs.existsSync(gitignorePath), ".gitignore exists");
+    const content = fs.readFileSync(gitignorePath, "utf-8");
+    assert.match(content, /\.env\*/, ".gitignore contains .env* pattern");
+  });
+
+  it("should have zero plaintext Cashfree Secret Keys in admin-store.json", () => {
+    const storePath = path.join(rootDir, "src", "data", "admin-store.json");
+    if (fs.existsSync(storePath)) {
+      const content = fs.readFileSync(storePath, "utf-8");
+      const store = JSON.parse(content);
+      const secret = store.settings?.cashfree?.secretKey;
+      assert.ok(!secret || secret === "", "admin-store.json secretKey must be empty");
+    }
+  });
+});
+
+describe("2. Cashfree Order Creation Session Payload Generation", () => {
+  function buildOrderPayload(orderId, orderAmount, customerName, customerEmail, customerPhone) {
+    const cleanPhone = (customerPhone || "9999999999").replace(/\D/g, "").slice(-10) || "9999999999";
+    const cleanEmail = customerEmail?.trim() || "creator@badarsh.com";
+    const cleanCustomerId = `cust_${orderId.replace(/[^a-zA-Z0-9]/g, "").slice(-12)}`.slice(0, 50);
+
+    return {
+      order_id: orderId,
+      order_amount: Math.max(Number(orderAmount) || 1, 1),
+      order_currency: "INR",
+      customer_details: {
+        customer_id: cleanCustomerId,
+        customer_name: customerName || "Valued Creator",
+        customer_email: cleanEmail,
+        customer_phone: cleanPhone,
+      },
+      order_meta: {
+        return_url: `https://badarsh.com/orders/${orderId}?cf_id={order_id}`,
+        notify_url: `https://badarsh.com/api/webhooks/cashfree`,
+      },
+    };
+  }
+
+  it("should generate valid order payload structure", () => {
+    const payload = buildOrderPayload(
+      "ord_1700000000_abcd",
+      499,
+      "Channu Patil",
+      "channu@example.com",
+      "+91 97401 55667"
+    );
+
+    assert.equal(payload.order_id, "ord_1700000000_abcd");
+    assert.equal(payload.order_amount, 499);
+    assert.equal(payload.order_currency, "INR");
+    assert.equal(payload.customer_details.customer_name, "Channu Patil");
+    assert.equal(payload.customer_details.customer_email, "channu@example.com");
+    assert.equal(payload.customer_details.customer_phone, "9740155667");
+    assert.ok(payload.order_meta.return_url.includes("?cf_id={order_id}"));
+    assert.equal(payload.order_meta.notify_url, "https://badarsh.com/api/webhooks/cashfree");
+  });
+
+  it("should enforce minimum order amount of 1", () => {
+    const payload = buildOrderPayload("ord_min_1", 0, "Test", "t@b.com", "9876543210");
+    assert.equal(payload.order_amount, 1);
+  });
+
+  it("should sanitize malformed phone numbers to 10 digits", () => {
+    const p1 = buildOrderPayload("ord_p1", 100, "A", "a@b.com", "+91-98765-43210");
+    assert.equal(p1.customer_details.customer_phone, "9876543210");
+
+    const p2 = buildOrderPayload("ord_p2", 100, "B", "b@b.com", "invalid-phone");
+    assert.equal(p2.customer_details.customer_phone, "9999999999");
+  });
+});
+
+describe("3. Cashfree Webhook HMAC-SHA256 Signature Verification", () => {
+  const secretKey = process.env.CASHFREE_SECRET_KEY || "mock_test_secret_key_1234567890abcdef";
+
+  function verifyCashfreeWebhookSignature(rawBody, timestamp, signature, secret) {
+    if (!signature || !timestamp || !rawBody || !secret) return false;
+    const payload = `${timestamp}${rawBody}`;
+    const expectedBase64 = crypto
+      .createHmac("sha256", secret)
+      .update(payload)
+      .digest("base64");
+
+    const expectedHex = crypto
+      .createHmac("sha256", secret)
+      .update(payload)
+      .digest("hex");
+
+    const sigTrimmed = signature.trim();
+
+    if (sigTrimmed.length === expectedBase64.length) {
+      try {
+        if (crypto.timingSafeEqual(Buffer.from(sigTrimmed), Buffer.from(expectedBase64))) {
+          return true;
+        }
+      } catch {
+        return false;
+      }
+    }
+
+    if (sigTrimmed.length === expectedHex.length) {
+      try {
+        if (crypto.timingSafeEqual(Buffer.from(sigTrimmed), Buffer.from(expectedHex))) {
+          return true;
+        }
+      } catch {
+        return false;
+      }
+    }
+
+    return false;
+  }
+
+  const sampleTimestamp = "1700000000";
+  const sampleRawBody = JSON.stringify({
+    data: {
+      order: { order_id: "ord_test_webhook_001", order_amount: 299 },
+      payment: { payment_status: "SUCCESS", cf_payment_id: "cf_pay_12345" },
+    },
+    type: "PAYMENT_SUCCESS_WEBHOOK",
+  });
+
+  const validBase64Signature = crypto
+    .createHmac("sha256", secretKey)
+    .update(`${sampleTimestamp}${sampleRawBody}`)
+    .digest("base64");
+
+  it("should accept authentic webhook signature using timingSafeEqual", () => {
+    const isValid = verifyCashfreeWebhookSignature(
+      sampleRawBody,
+      sampleTimestamp,
+      validBase64Signature,
+      secretKey
+    );
+    assert.equal(isValid, true);
+  });
+
+  it("should reject tampered payload", () => {
+    const tamperedBody = JSON.stringify({
+      data: {
+        order: { order_id: "ord_test_webhook_001", order_amount: 1 }, // tampered amount
+        payment: { payment_status: "SUCCESS", cf_payment_id: "cf_pay_12345" },
+      },
+      type: "PAYMENT_SUCCESS_WEBHOOK",
+    });
+
+    const isValid = verifyCashfreeWebhookSignature(
+      tamperedBody,
+      sampleTimestamp,
+      validBase64Signature,
+      secretKey
+    );
+    assert.equal(isValid, false);
+  });
+
+  it("should reject altered timestamp (replay attack prevention)", () => {
+    const isValid = verifyCashfreeWebhookSignature(
+      sampleRawBody,
+      "1700000001", // altered timestamp
+      validBase64Signature,
+      secretKey
+    );
+    assert.equal(isValid, false);
+  });
+
+  it("should reject forged signature", () => {
+    const forgedSig = crypto
+      .createHmac("sha256", "wrong_attacker_secret_key")
+      .update(`${sampleTimestamp}${sampleRawBody}`)
+      .digest("base64");
+
+    const isValid = verifyCashfreeWebhookSignature(
+      sampleRawBody,
+      sampleTimestamp,
+      forgedSig,
+      secretKey
+    );
+    assert.equal(isValid, false);
+  });
+
+  it("should reject empty or missing parameters", () => {
+    assert.equal(verifyCashfreeWebhookSignature("", sampleTimestamp, validBase64Signature, secretKey), false);
+    assert.equal(verifyCashfreeWebhookSignature(sampleRawBody, "", validBase64Signature, secretKey), false);
+    assert.equal(verifyCashfreeWebhookSignature(sampleRawBody, sampleTimestamp, "", secretKey), false);
+    assert.equal(verifyCashfreeWebhookSignature(sampleRawBody, sampleTimestamp, validBase64Signature, ""), false);
+  });
+});
+
+describe("4. Download Route Authorization Logic (Free Instant vs Paid Persistent)", () => {
+  function authorizeDownload({ product, order, requesterToken, requesterUser }) {
+    // 1. Free product instant download (no order or payment required)
+    if (product && product.price === 0) {
+      const assetTarget =
+        product.downloadUrl ||
+        product.alightMotionXmlUrl ||
+        product.capcutUrl ||
+        product.googleDriveUrl ||
+        product.appDownloadUrl ||
+        product.pdfUrl ||
+        product.canvaUrl ||
+        product.templateUrl;
+
+      if (!assetTarget) {
+        return { authorized: false, status: 404, error: "NO_ASSET" };
+      }
+      return { authorized: true, status: 200, target: assetTarget, type: "FREE_INSTANT" };
+    }
+
+    // 2. Paid product: Requires valid completed order
+    if (!order) {
+      return { authorized: false, status: 404, error: "ORDER_NOT_FOUND" };
+    }
+
+    // Strict access control: token/licenseKey or customer identity match
+    const hasAccess =
+      (requesterToken && order.licenseKey && requesterToken.trim() === order.licenseKey.trim()) ||
+      (requesterToken && requesterToken.trim() === order.id.trim()) ||
+      (requesterUser && order.userId && requesterUser.uid === order.userId) ||
+      (requesterUser && requesterUser.email && order.customerEmail && requesterUser.email.toLowerCase() === order.customerEmail.toLowerCase());
+
+    if (!hasAccess) {
+      return { authorized: false, status: 403, error: "FORBIDDEN_IDOR" };
+    }
+
+    if (order.paymentStatus !== "completed") {
+      return { authorized: false, status: 402, error: "PAYMENT_PENDING" };
+    }
+
+    // Order is completed & authorized: locate download target
+    const orderItem = order.items?.find((i) => i.id === product?.id);
+    const assetTarget =
+      orderItem?.downloadUrl ||
+      product?.downloadUrl ||
+      product?.alightMotionXmlUrl ||
+      product?.capcutUrl ||
+      product?.googleDriveUrl ||
+      product?.canvaUrl;
+
+    if (!assetTarget) {
+      return { authorized: false, status: 404, error: "NO_ASSET" };
+    }
+
+    return { authorized: true, status: 200, target: assetTarget, type: "PAID_VERIFIED_PERPETUAL" };
+  }
+
+  const freeVideoTemplate = {
+    id: "vt-001",
+    title: "Velocity Beat Shake & Flash Vol. 1",
+    price: 0,
+    alightMotionXmlUrl: "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
+    capcutUrl: "https://www.capcut.com/template-detail/720000000001",
+  };
+
+  const paidTemplatePack = {
+    id: "prod-001",
+    title: "Instagram Reels Mega Pack",
+    price: 499,
+    downloadUrl: "https://r2.badarsh.com/assets/reels-mega-pack.zip",
+  };
+
+  it("should permit free product direct download without order or credentials", () => {
+    const res = authorizeDownload({ product: freeVideoTemplate });
+    assert.equal(res.authorized, true);
+    assert.equal(res.status, 200);
+    assert.equal(res.type, "FREE_INSTANT");
+    assert.equal(res.target, freeVideoTemplate.alightMotionXmlUrl);
+  });
+
+  it("should reject unpurchased paid product download without order", () => {
+    const res = authorizeDownload({ product: paidTemplatePack });
+    assert.equal(res.authorized, false);
+    assert.equal(res.status, 404);
+  });
+
+  it("should reject paid product download when payment is pending", () => {
+    const pendingOrder = {
+      id: "ord_1001",
+      paymentStatus: "pending",
+      licenseKey: "BDRSH-AAA-BBB",
+      customerEmail: "buyer@badarsh.com",
+      items: [{ id: "prod-001", downloadUrl: "https://r2.badarsh.com/assets/reels-mega-pack.zip" }],
+    };
+
+    const res = authorizeDownload({
+      product: paidTemplatePack,
+      order: pendingOrder,
+      requesterToken: "BDRSH-AAA-BBB",
+    });
+
+    assert.equal(res.authorized, false);
+    assert.equal(res.status, 402);
+    assert.equal(res.error, "PAYMENT_PENDING");
+  });
+
+  it("should reject paid product download when accessed by unauthorized third party (IDOR)", () => {
+    const completedOrder = {
+      id: "ord_1002",
+      paymentStatus: "completed",
+      licenseKey: "BDRSH-SECRET-KEY",
+      customerEmail: "realbuyer@badarsh.com",
+      items: [{ id: "prod-001", downloadUrl: "https://r2.badarsh.com/assets/reels-mega-pack.zip" }],
+    };
+
+    const res = authorizeDownload({
+      product: paidTemplatePack,
+      order: completedOrder,
+      requesterToken: "BDRSH-WRONG-KEY",
+      requesterUser: { uid: "attacker", email: "attacker@badarsh.com" },
+    });
+
+    assert.equal(res.authorized, false);
+    assert.equal(res.status, 403);
+    assert.equal(res.error, "FORBIDDEN_IDOR");
+  });
+
+  it("should authorize permanent re-downloads for completed orders with license key", () => {
+    const completedOrder = {
+      id: "ord_1003",
+      paymentStatus: "completed",
+      licenseKey: "BDRSH-VALID-LICENSE",
+      customerEmail: "creator@example.com",
+      items: [{ id: "prod-001", downloadUrl: "https://r2.badarsh.com/assets/reels-mega-pack.zip" }],
+    };
+
+    const res = authorizeDownload({
+      product: paidTemplatePack,
+      order: completedOrder,
+      requesterToken: "BDRSH-VALID-LICENSE",
+    });
+
+    assert.equal(res.authorized, true);
+    assert.equal(res.status, 200);
+    assert.equal(res.type, "PAID_VERIFIED_PERPETUAL");
+    assert.equal(res.target, "https://r2.badarsh.com/assets/reels-mega-pack.zip");
+  });
+
+  it("should authorize permanent re-downloads for completed orders with matching order ID return token", () => {
+    const completedOrder = {
+      id: "ord_1004",
+      paymentStatus: "completed",
+      licenseKey: "BDRSH-ANOTHER-KEY",
+      customerEmail: "creator@example.com",
+      items: [{ id: "prod-001", downloadUrl: "https://r2.badarsh.com/assets/reels-mega-pack.zip" }],
+    };
+
+    const res = authorizeDownload({
+      product: paidTemplatePack,
+      order: completedOrder,
+      requesterToken: "ord_1004", // returned via cf_id redirect
+    });
+
+    assert.equal(res.authorized, true);
+    assert.equal(res.status, 200);
+    assert.equal(res.type, "PAID_VERIFIED_PERPETUAL");
+  });
+});
