@@ -44,19 +44,19 @@ export function ChapterReaderModal({
   if (!isOpen || !product) return null;
 
   let formattedPdfUrl = rawPdfUrl || "";
-  if (formattedPdfUrl.includes("drive.google.com")) {
-    formattedPdfUrl = formattedPdfUrl.replace(/\/view(\?.*)?$/, "/preview").replace(/\/edit(\?.*)?$/, "/preview");
-    if (!formattedPdfUrl.includes("/preview")) {
-      formattedPdfUrl = formattedPdfUrl.endsWith("/") ? `${formattedPdfUrl}preview` : `${formattedPdfUrl}/preview`;
+  if (formattedPdfUrl) {
+    if (formattedPdfUrl.includes("drive.google.com")) {
+      formattedPdfUrl = formattedPdfUrl.replace(/\/view(\?.*)?$/, "/preview").replace(/\/edit(\?.*)?$/, "/preview");
+      if (!formattedPdfUrl.includes("/preview")) {
+        formattedPdfUrl = formattedPdfUrl.endsWith("/") ? `${formattedPdfUrl}preview` : `${formattedPdfUrl}/preview`;
+      }
+    } else if (
+      !formattedPdfUrl.includes("blob:") &&
+      !formattedPdfUrl.startsWith("data:") &&
+      (formattedPdfUrl.startsWith("http://") || formattedPdfUrl.startsWith("https://"))
+    ) {
+      formattedPdfUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(formattedPdfUrl)}&embedded=true`;
     }
-  } else if (
-    formattedPdfUrl &&
-    !formattedPdfUrl.endsWith(".pdf") &&
-    !formattedPdfUrl.includes("blob:") &&
-    !formattedPdfUrl.includes("google") &&
-    !formattedPdfUrl.startsWith("data:")
-  ) {
-    formattedPdfUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(formattedPdfUrl)}&embedded=true`;
   }
 
   const chapters = [

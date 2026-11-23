@@ -387,6 +387,29 @@ export default function EbooksAdminPage() {
                 hint="Upload PDF from device or paste Google Drive preview link (e.g. https://drive.google.com/file/d/.../preview)"
               />
 
+              {/* Live In-Browser Reader verification */}
+              {editingBook.previewPdfUrl && (
+                <div className="flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-2.5">
+                  <div className="flex items-center gap-2 text-xs text-zinc-300 truncate">
+                    <Eye className="h-4 w-4 text-blue-400 shrink-0" />
+                    <span className="truncate">In-Browser Reader Ready</span>
+                  </div>
+                  <a
+                    href={
+                      editingBook.previewPdfUrl.includes("drive.google.com")
+                        ? editingBook.previewPdfUrl.replace(/\/view(\?.*)?$/, "/preview")
+                        : `https://docs.google.com/viewer?url=${encodeURIComponent(editingBook.previewPdfUrl)}&embedded=true`
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 px-3 py-1 text-xs font-semibold text-white transition-colors"
+                  >
+                    <span>Test In-Browser Reader</span>
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                </div>
+              )}
+
               {/* Full PDF Download URL for Customers */}
               <FileUploader
                 label="Full PDF Download File or Cloud Link"

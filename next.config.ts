@@ -17,11 +17,6 @@ const nextConfig: NextConfig = {
         destination: "/about",
         permanent: true,
       },
-      {
-        source: "/ebooks/:slug",
-        destination: "/templates/:slug",
-        permanent: true,
-      },
     ];
   },
 };

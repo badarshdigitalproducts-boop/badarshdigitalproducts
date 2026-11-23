@@ -37,7 +37,16 @@ export default function TemplatesAdminPage() {
       const all: AdminProduct[] = data.products || [];
       setProducts(
         all.filter((p) =>
-          ["social-media", "presentations", "branding", "business-cards"].includes(p.category) ||
+          [
+            "social-media",
+            "presentations",
+            "branding",
+            "business-cards",
+            "wedding-cards",
+            "marriage-cards",
+            "linkedin-templates",
+            "banners",
+          ].includes(p.category) ||
           p.productType === "canva-template" ||
           (p.productType as any) === "template"
         )
@@ -327,14 +336,17 @@ export default function TemplatesAdminPage() {
                     Template Sub-Category
                   </label>
                   <select
-                    value={editingTemplate.category || "social-media"}
+                    value={editingTemplate.category || "wedding-cards"}
                     onChange={(e) => setEditingTemplate({ ...editingTemplate, category: e.target.value as any })}
                     className="mt-1 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
                   >
+                    <option value="wedding-cards">Marriage &amp; Wedding Cards (Canva)</option>
+                    <option value="business-cards">Business Stationery &amp; Cards</option>
+                    <option value="linkedin-templates">LinkedIn Banners &amp; Carousels</option>
                     <option value="social-media">Social Media (Carousels &amp; Reels)</option>
+                    <option value="banners">Marketing Banners &amp; Posters</option>
                     <option value="presentations">Pitch Decks &amp; Presentations</option>
                     <option value="branding">Branding Kits &amp; Guidelines</option>
-                    <option value="business-cards">Business Stationery &amp; Cards</option>
                   </select>
                 </div>
 
@@ -368,9 +380,9 @@ export default function TemplatesAdminPage() {
                 />
               </div>
 
-              {/* Template Graphic / Project File Uploader */}
+              {/* Canva Template Share Link Uploader */}
               <FileUploader
-                label="Template Asset File / Archive or Project Share Link"
+                label="Canva Template Share Link (Direct 1-Click 'Use Template')"
                 value={editingTemplate.templateUrl || editingTemplate.canvaUrl || ""}
                 onChange={(url) =>
                   setEditingTemplate({
@@ -380,7 +392,8 @@ export default function TemplatesAdminPage() {
                   })
                 }
                 fileType="any"
-                hint="Upload template asset ZIP directly from device or switch to paste project link"
+                hint="Paste official Canva template share link (e.g. https://www.canva.com/design/.../view?template=...) or upload project asset"
+                placeholder="https://www.canva.com/design/.../view?template=..."
               />
 
               {/* Cover Artwork */}

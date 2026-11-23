@@ -114,22 +114,23 @@ export function PdfViewerModal({
 
   // Decide source URL: use previewPdfUrl if available, else pdfUrl
   const rawUrl = previewPdfUrl || pdfUrl;
-  let viewerSrc = rawUrl;
+  let viewerSrc = rawUrl || "";
 
-  // If it's a google drive link, format as preview
-  if (rawUrl.includes("drive.google.com")) {
-    viewerSrc = rawUrl.replace(/\/view(\?.*)?$/, "/preview").replace(/\/edit(\?.*)?$/, "/preview");
-    if (!viewerSrc.includes("/preview")) {
-      viewerSrc = viewerSrc.endsWith("/") ? `${viewerSrc}preview` : `${viewerSrc}/preview`;
+  if (rawUrl) {
+    if (rawUrl.includes("drive.google.com")) {
+      viewerSrc = rawUrl.replace(/\/view(\?.*)?$/, "/preview").replace(/\/edit(\?.*)?$/, "/preview");
+      if (!viewerSrc.includes("/preview")) {
+        viewerSrc = viewerSrc.endsWith("/") ? `${viewerSrc}preview` : `${viewerSrc}/preview`;
+      }
+    } else if (
+      !rawUrl.includes("blob:") &&
+      !rawUrl.startsWith("data:") &&
+      (rawUrl.startsWith("http://") || rawUrl.startsWith("https://"))
+    ) {
+      // Wrap through Google Docs Viewer for seamless cross-origin in-browser PDF viewing
+      // Guarantees external PDFs (GitHub raw, Cloudflare R2, AWS S3, etc.) render without X-Frame-Options block
+      viewerSrc = `https://docs.google.com/viewer?url=${encodeURIComponent(rawUrl)}&embedded=true`;
     }
-  } else if (
-    !rawUrl.endsWith(".pdf") &&
-    !rawUrl.includes("blob:") &&
-    !rawUrl.includes("google") &&
-    !rawUrl.startsWith("data:")
-  ) {
-    // Wrap through Google Docs Viewer for cross-origin PDF viewing
-    viewerSrc = `https://docs.google.com/viewer?url=${encodeURIComponent(rawUrl)}&embedded=true`;
   }
 
   const handleDownloadClick = (e: React.MouseEvent) => {

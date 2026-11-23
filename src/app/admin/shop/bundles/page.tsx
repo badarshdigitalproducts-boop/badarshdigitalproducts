@@ -323,12 +323,32 @@ export default function BundlesAdminPage() {
 
               {/* Bundle Master Archive or Google Drive Link */}
               <FileUploader
-                label="Bundle Master Archive File (ZIP) or Cloud Link"
+                label="Bundle Google Drive Link or Master Archive (ZIP)"
                 value={editingBundle.googleDriveUrl || editingBundle.downloadUrl || ""}
                 onChange={(url) => setEditingBundle({ ...editingBundle, googleDriveUrl: url, downloadUrl: url })}
                 fileType="any"
-                hint="Directly upload ZIP archive from device or switch to paste Google Drive link"
+                hint="Paste Google Drive folder / archive link or directly upload ZIP from device"
+                placeholder="https://drive.google.com/drive/folders/... or https://drive.google.com/file/d/..."
               />
+
+              {/* Live Google Drive Preview test in Modal */}
+              {(editingBundle.googleDriveUrl || editingBundle.downloadUrl) && (
+                <div className="flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-2.5">
+                  <div className="flex items-center gap-2 text-xs text-zinc-300 truncate">
+                    <Sparkles className="h-4 w-4 text-amber-400 shrink-0" />
+                    <span className="truncate">Cloud Delivery Ready</span>
+                  </div>
+                  <a
+                    href={editingBundle.googleDriveUrl || editingBundle.downloadUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 px-3 py-1 text-xs font-semibold text-white transition-colors"
+                  >
+                    <span>Test Drive Preview</span>
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                </div>
+              )}
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
