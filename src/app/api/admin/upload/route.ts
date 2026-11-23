@@ -53,15 +53,20 @@ export async function POST(request: Request) {
     let publicUrl = "";
 
     // In local development or persistent server, write to public/uploads
-    // On Vercel serverless (where filesystem is read-only), gracefully fallback to base64 Data URL
+    // On Vercel / Cloudflare edge runtime, gracefully fallback to base64 Data URL
     try {
-      const uploadDir = path.join(process.cwd(), "public", "uploads");
-      await mkdir(uploadDir, { recursive: true });
-      const filePath = path.join(uploadDir, filename);
-      await writeFile(filePath, buffer);
-      publicUrl = `/uploads/${filename}`;
+      const cwd = typeof process !== "undefined" && typeof process.cwd === "function" ? process.cwd() : "";
+      if (cwd) {
+        const uploadDir = path.join(cwd, "public", "uploads");
+        await mkdir(uploadDir, { recursive: true });
+        const filePath = path.join(uploadDir, filename);
+        await writeFile(filePath, buffer);
+        publicUrl = `/uploads/${filename}`;
+      } else {
+        throw new Error("No filesystem available in edge isolate");
+      }
     } catch (fsErr: any) {
-      console.warn("Local filesystem write failed (likely serverless read-only), encoding as Data URL:", fsErr?.message);
+      console.warn("Local filesystem write skipped (serverless/edge environment), encoding as Data URL:", fsErr?.message);
       const mime = file.type || "application/octet-stream";
       publicUrl = `data:${mime};base64,${buffer.toString("base64")}`;
     }

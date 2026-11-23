@@ -18,6 +18,14 @@
     "NEXT_PUBLIC_SITE_URL": "https://badarsh.com",
     "ADMIN_SECRET_KEY": "badarsh@founder2026",
     "ADMIN_SESSION_SECRET": "badarsh_secure_hmac_session_secret_994821a8b3c4",
-    "CASHFREE_ENV": "production"
+    "CASHFREE_ENV": "production",
+    "NEXT_PUBLIC_FIREBASE_API_KEY": "AIzaSyAFu2un34z7mG01kQaddduJNvOXg87HlBg",
+    "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN": "badarsh-d353b.firebaseapp.com",
+    "NEXT_PUBLIC_FIREBASE_PROJECT_ID": "badarsh-d353b",
+    "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET": "badarsh-d353b.firebasestorage.app",
+    "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "848460887811",
+    "NEXT_PUBLIC_FIREBASE_APP_ID": "1:848460887811:web:74b6b4671f01c936c49b36",
+    "NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID": "G-HCJ3QJL64G",
+    "NEXT_PUBLIC_FIREBASE_DATABASE_URL": "https://badarsh-d353b-default-rtdb.asia-southeast1.firebasedatabase.app"
   }
 }

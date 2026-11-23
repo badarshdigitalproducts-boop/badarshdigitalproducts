@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
+import bundledStoreData from "@/data/admin-store.json";
 import { products as initialStaticProducts } from "@/content/products";
 import { services as initialStaticServices } from "@/content/services";
 import { blogPosts as initialStaticBlogPosts } from "@/content/blog";
@@ -71,8 +72,9 @@ import type {
   AuditLog,
 } from "./types";
 
-const DATA_DIR = path.join(process.cwd(), "src", "data");
-const STORE_PATH = path.join(DATA_DIR, "admin-store.json");
+const cwd = typeof process !== "undefined" && typeof process.cwd === "function" ? process.cwd() : "";
+const DATA_DIR = cwd ? path.join(cwd, "src", "data") : "";
+const STORE_PATH = DATA_DIR ? path.join(DATA_DIR, "admin-store.json") : "";
 const TMP_DIR = "/tmp";
 const TMP_STORE_PATH = path.join(TMP_DIR, "admin-store.json");
 
@@ -374,10 +376,17 @@ export async function getDatabase(): Promise<AdminDatabase> {
 
   try {
     let raw: string | null = null;
-    try {
-      raw = await fs.readFile(TMP_STORE_PATH, "utf8");
-    } catch {
-      raw = await fs.readFile(STORE_PATH, "utf8");
+    if (STORE_PATH) {
+      try {
+        raw = await fs.readFile(TMP_STORE_PATH, "utf8");
+      } catch {
+        raw = await fs.readFile(STORE_PATH, "utf8");
+      }
+    }
+
+    if (!raw) {
+      // In serverless / edge runtime (e.g. Cloudflare Workers), use statically bundled store
+      raw = JSON.stringify(bundledStoreData);
     }
 
     const parsed = JSON.parse(raw);
@@ -533,7 +542,7 @@ export async function getDatabase(): Promise<AdminDatabase> {
       });
     }
 
-    if (modified) {
+    if (modified && STORE_PATH) {
       try {
         await fs.writeFile(STORE_PATH, JSON.stringify(parsed, null, 2), "utf8");
       } catch {
@@ -543,15 +552,20 @@ export async function getDatabase(): Promise<AdminDatabase> {
 
     localDb = parsed;
   } catch {
-    // Initialize file if not found
-    const seed = getSeedDatabase();
+    // Fallback to bundled store or seed database
     try {
-      await fs.mkdir(DATA_DIR, { recursive: true });
-      await fs.writeFile(STORE_PATH, JSON.stringify(seed, null, 2), "utf8");
+      localDb = JSON.parse(JSON.stringify(bundledStoreData)) as AdminDatabase;
     } catch {
-      // In serverless read-only environments fallback gracefully to memory
+      localDb = getSeedDatabase();
     }
-    localDb = seed;
+    if (STORE_PATH && DATA_DIR) {
+      try {
+        await fs.mkdir(DATA_DIR, { recursive: true });
+        await fs.writeFile(STORE_PATH, JSON.stringify(localDb, null, 2), "utf8");
+      } catch {
+        // In serverless / edge read-only environments fallback gracefully to memory
+      }
+    }
   }
 
   // Attempt live Realtime Database & Firestore sync if cloud collections are populated
@@ -636,19 +650,21 @@ export async function getDatabase(): Promise<AdminDatabase> {
 export async function saveDatabase(db: AdminDatabase): Promise<void> {
   cachedDb = db;
 
-  // 1. Persist to /tmp (guaranteed writable on Vercel lambda)
+  // 1. Persist to /tmp (guaranteed writable on Vercel lambda if available)
   try {
     await fs.writeFile(TMP_STORE_PATH, JSON.stringify(db, null, 2), "utf8");
   } catch {
-    // Non-blocking in environments without /tmp
+    // Non-blocking in environments without /tmp (e.g. Cloudflare Workers edge)
   }
 
   // 2. Persist to project root store (local dev & persistent environments)
-  try {
-    await fs.mkdir(DATA_DIR, { recursive: true });
-    await fs.writeFile(STORE_PATH, JSON.stringify(db, null, 2), "utf8");
-  } catch {
-    // Non-blocking in serverless read-only filesystem
+  if (STORE_PATH && DATA_DIR) {
+    try {
+      await fs.mkdir(DATA_DIR, { recursive: true });
+      await fs.writeFile(STORE_PATH, JSON.stringify(db, null, 2), "utf8");
+    } catch {
+      // Non-blocking in serverless/edge read-only filesystem
+    }
   }
 }
 

@@ -2,8 +2,7 @@ import type { MetadataRoute } from "next";
 import { getBaseUrl } from "@/lib/metadata";
 import { products as staticProducts } from "@/content/products";
 import { blogPosts } from "@/content/blog";
-import fs from "fs";
-import path from "path";
+import adminStoreData from "@/data/admin-store.json";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = getBaseUrl();
@@ -41,16 +40,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Read admin store products safely to index custom products
   let allProducts = [...staticProducts];
   try {
-    const adminPath = path.join(process.cwd(), "src/data/admin-store.json");
-    if (fs.existsSync(adminPath)) {
-      const data = JSON.parse(fs.readFileSync(adminPath, "utf8"));
-      if (data.products && Array.isArray(data.products)) {
-        const seenSlugs = new Set(allProducts.map((p) => p.slug));
-        for (const p of data.products) {
-          if (p.slug && !seenSlugs.has(p.slug)) {
-            allProducts.push(p);
-            seenSlugs.add(p.slug);
-          }
+    const data = adminStoreData as any;
+    if (data?.products && Array.isArray(data.products)) {
+      const seenSlugs = new Set(allProducts.map((p) => p.slug));
+      for (const p of data.products) {
+        if (p.slug && !seenSlugs.has(p.slug)) {
+          allProducts.push(p);
+          seenSlugs.add(p.slug);
         }
       }
     }
