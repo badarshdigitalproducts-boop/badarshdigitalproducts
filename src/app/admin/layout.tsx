@@ -145,11 +145,11 @@ export default function AdminLayout({
                 <span className="font-heading text-sm font-bold tracking-tight text-white">
                   BADARSH
                 </span>
-                <span className="rounded-full bg-[#FF5A36]/15 px-1.5 py-0.5 text-[10px] font-bold text-[#FF5A36]">
-                  AOS
+                <span className="rounded-full bg-rose-500/15 px-1.5 py-0.5 text-[10px] font-bold text-rose-400 border border-rose-500/30">
+                  Z+ SECURE
                 </span>
               </div>
-              <p className="text-[11px] text-zinc-400">Founder Command Center</p>
+              <p className="text-[11px] text-zinc-400">Founder Command Center &bull; Z+ Vault</p>
             </div>
           </div>
 
