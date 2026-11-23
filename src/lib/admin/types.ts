@@ -279,5 +279,6 @@ export interface AdminDatabase {
   settings: SystemSettings;
   auditLogs: AuditLog[];
   users?: UserAccount[];
+  deletedProductIds?: string[];
 }
 

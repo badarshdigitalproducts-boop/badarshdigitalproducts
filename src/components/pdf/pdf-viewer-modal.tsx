@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "@/components/products/checkout-modal";
+import { triggerDirectDownload } from "@/lib/download";
 import type { Product } from "@/types/product";
 
 interface PdfViewerModalProps {
@@ -137,15 +138,8 @@ export function PdfViewerModal({
     e.preventDefault();
     e.stopPropagation();
     if (isFree || price === 0) {
-      // Free download direct trigger
-      const a = document.createElement("a");
-      a.href = pdfUrl;
-      a.download = `${title.toLowerCase().replace(/\s+/g, "-")}-master.pdf`;
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      // Free download direct trigger without opening new tab
+      triggerDirectDownload(pdfUrl, `${title.toLowerCase().replace(/\s+/g, "-")}-master.pdf`);
     } else {
       // Paid download: open checkout modal
       setCheckoutOpen(true);

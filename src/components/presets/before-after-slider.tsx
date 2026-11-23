@@ -16,6 +16,7 @@ import {
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "@/components/products/checkout-modal";
+import { triggerDirectDownload } from "@/lib/download";
 
 interface BeforeAfterSliderProps {
   product: Product;
@@ -75,7 +76,7 @@ export function BeforeAfterSlider({ product }: BeforeAfterSliderProps) {
       const presetTarget =
         product.presetLinkUrl || product.downloadUrl || (product as any).googleDriveUrl;
       if (presetTarget) {
-        window.open(presetTarget, "_blank");
+        triggerDirectDownload(presetTarget, `${product.title.toLowerCase().replace(/\s+/g, "-")}-preset.dng`);
       } else {
         setGuideModalOpen(true);
       }

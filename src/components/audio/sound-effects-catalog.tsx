@@ -15,6 +15,7 @@ import {
 import { WaveformDisplay } from "./waveform-display";
 import { useAudioPlayer } from "@/context/audio-player-context";
 import { useCurrency } from "@/context/currency-context";
+import { triggerDirectDownload } from "@/lib/download";
 
 export interface SfxTrack {
   id: string;
@@ -478,14 +479,7 @@ export function SoundEffectsCatalog() {
       window.location.href = `/checkout?productId=${track.id}`;
       return;
     }
-    const link = document.createElement("a");
-    link.href = track.audioUrl;
-    link.download = `${track.title.toLowerCase().replace(/\s+/g, "-")}-master.ogg`;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    triggerDirectDownload(track.audioUrl, `${track.title.toLowerCase().replace(/\s+/g, "-")}-master.ogg`);
   };
 
   // Filter & Sort tracks

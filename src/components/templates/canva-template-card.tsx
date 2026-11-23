@@ -16,6 +16,7 @@ import {
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "@/components/products/checkout-modal";
+import { triggerDirectDownload } from "@/lib/download";
 
 interface CanvaTemplateCardProps {
   product: Product;
@@ -83,7 +84,7 @@ export function CanvaTemplateCard({ product }: CanvaTemplateCardProps) {
       if (product.canvaUrl) {
         window.open(product.canvaUrl, "_blank");
       } else if (product.downloadUrl) {
-        window.open(product.downloadUrl, "_blank");
+        triggerDirectDownload(product.downloadUrl, `${product.title.toLowerCase().replace(/\s+/g, "-")}-template.zip`);
       } else {
         router.push(`/templates/${product.slug}`);
       }

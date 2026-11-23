@@ -49,6 +49,17 @@ export default function OrderFulfillmentPage() {
       .then((data) => {
         if (data.order) {
           setOrder(data.order);
+          if (data.order.paymentStatus === "completed") {
+            try {
+              const unlocked: Record<string, { orderId: string; licenseKey: string }> = JSON.parse(
+                localStorage.getItem("badarsh_unlocked_products") || "{}"
+              );
+              data.order.items?.forEach((item: any) => {
+                unlocked[item.id] = { orderId: data.order.id, licenseKey: data.order.licenseKey };
+              });
+              localStorage.setItem("badarsh_unlocked_products", JSON.stringify(unlocked));
+            } catch {}
+          }
         } else {
           // If not in database yet (e.g. mock test checkout), synthesize active order
           setOrder({

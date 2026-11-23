@@ -7,7 +7,6 @@ import {
   Pause,
   Sparkles,
   ExternalLink,
-  Download,
   Film,
   Music2,
   Layers,
@@ -15,6 +14,7 @@ import {
   CheckCircle2,
   Volume2,
   VolumeX,
+  Lock,
 } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
@@ -61,25 +61,10 @@ export function VideoTemplateCard({ product }: VideoTemplateCardProps) {
 
   const isFree = product.price === 0;
 
-  const handleUseCapCut = (e: React.MouseEvent) => {
+  const handleAction = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isFree) {
-      window.open(product.capcutUrl || "https://www.capcut.com/template", "_blank");
-    } else {
-      setCheckoutOpen(true);
-    }
-  };
-
-  const handleDownloadXml = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (isFree) {
-      window.open(
-        product.alightMotionXmlUrl ||
-          product.downloadUrl ||
-          (product as any).googleDriveUrl ||
-          "#",
-        "_blank"
-      );
+      window.open(product.capcutUrl || "https://www.capcut.com/template", "_blank", "noopener,noreferrer");
     } else {
       setCheckoutOpen(true);
     }
@@ -92,7 +77,18 @@ export function VideoTemplateCard({ product }: VideoTemplateCardProps) {
         transition={{ type: "spring", duration: 0.35 }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className="group relative flex flex-col rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm hover:shadow-2xl transition-all"
+        onClick={() => {
+          if (videoRef.current) {
+            if (isPlaying) {
+              videoRef.current.pause();
+              setIsPlaying(false);
+            } else {
+              videoRef.current.play().catch(() => {});
+              setIsPlaying(true);
+            }
+          }
+        }}
+        className="group relative flex flex-col rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm hover:shadow-2xl transition-all cursor-pointer"
       >
         {/* 9:16 Vertical Video Frame */}
         <div className="relative aspect-[9/16] w-full max-h-[380px] overflow-hidden rounded-2xl bg-black shadow-lg">
@@ -178,22 +174,25 @@ export function VideoTemplateCard({ product }: VideoTemplateCardProps) {
             </p>
           </div>
 
-          {/* Dual Delivery Actions: CapCut Link vs Alight Motion XML */}
+          {/* Action: Buy if paid, USE if free */}
           <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800 flex flex-col gap-2">
-            <button
-              onClick={handleUseCapCut}
-              className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 py-2 text-xs font-bold shadow-md hover:scale-102 active:scale-98 transition-transform"
-            >
-              <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-              <span>Use Template in CapCut</span>
-            </button>
-            <button
-              onClick={handleDownloadXml}
-              className="w-full flex items-center justify-center gap-1 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800/60 py-1.5 text-xs font-semibold text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700"
-            >
-              <Download className="h-3 w-3 text-indigo-500" />
-              <span>Alight Motion XML Project</span>
-            </button>
+            {isFree ? (
+              <button
+                onClick={handleAction}
+                className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 text-xs font-bold shadow-md hover:scale-102 active:scale-98 transition-transform cursor-pointer"
+              >
+                <Sparkles className="h-3.5 w-3.5 text-amber-300" />
+                <span>USE (Free Template)</span>
+              </button>
+            ) : (
+              <button
+                onClick={handleAction}
+                className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 py-2.5 text-xs font-bold shadow-md hover:scale-102 active:scale-98 transition-transform cursor-pointer"
+              >
+                <Lock className="h-3.5 w-3.5 text-amber-400" />
+                <span>Buy Now ({formatCurr(product.price)})</span>
+              </button>
+            )}
           </div>
         </div>
       </motion.div>

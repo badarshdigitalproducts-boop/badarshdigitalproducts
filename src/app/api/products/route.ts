@@ -25,11 +25,24 @@ export async function GET(request: NextRequest) {
   const category = request.nextUrl.searchParams.get("category");
   try {
     const adminProducts = await getAdminProducts();
+    const deletedSet = new Set<string>();
+    try {
+      const db = await (await import("@/lib/admin/store")).getDatabase();
+      (db.deletedProductIds || []).forEach((id: string) => deletedSet.add(id));
+    } catch {}
+
     const prodMap = new Map<string, any>();
-    // Seed with static products first
-    fallbackProducts.forEach((p) => prodMap.set(p.id, p));
-    // Overlay with admin / Firestore products (taking priority by ID)
-    (adminProducts || []).forEach((p: any) => prodMap.set(p.id, p));
+    // Seed with static products if admin store is not yet initialized
+    if (!adminProducts || adminProducts.length === 0) {
+      fallbackProducts.forEach((p) => {
+        if (!deletedSet.has(p.id)) prodMap.set(p.id, p);
+      });
+    } else {
+      // Admin products are the authoritative live catalog
+      adminProducts.forEach((p: any) => {
+        if (!deletedSet.has(p.id)) prodMap.set(p.id, p);
+      });
+    }
     const allProducts = Array.from(prodMap.values());
     const published = allProducts
       .filter((p: any) => p.status === "published" || !p.status)

@@ -669,6 +669,10 @@ export async function deleteAdminProduct(id: string): Promise<boolean> {
   const initialLength = db.products.length;
   const target = db.products.find((p) => p.id === id);
   db.products = db.products.filter((p) => p.id !== id);
+  if (!db.deletedProductIds) db.deletedProductIds = [];
+  if (!db.deletedProductIds.includes(id)) {
+    db.deletedProductIds.push(id);
+  }
   if (db.products.length !== initialLength) {
     await addAuditLog("PRODUCT_DELETED", `Product "${target?.title || id}" deleted`);
     await saveDatabase(db);

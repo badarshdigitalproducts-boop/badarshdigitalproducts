@@ -18,6 +18,7 @@ import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { PdfViewerModal } from "@/components/pdf/pdf-viewer-modal";
 import { CheckoutModal } from "@/components/products/checkout-modal";
+import { triggerDirectDownload } from "@/lib/download";
 
 interface AestheticPlannerCardProps {
   product: Product;
@@ -45,7 +46,7 @@ export function AestheticPlannerCard({ product }: AestheticPlannerCardProps) {
     e.stopPropagation();
     if (isFree) {
       if (product.downloadUrl) {
-        window.open(product.downloadUrl, "_blank");
+        triggerDirectDownload(product.downloadUrl, `${product.title.toLowerCase().replace(/\s+/g, "-")}-planner.pdf`);
       } else {
         setPreviewOpen(true);
       }

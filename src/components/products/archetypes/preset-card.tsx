@@ -8,6 +8,7 @@ import { Sliders, Sparkles, Star, Download, ExternalLink, Zap } from "lucide-rea
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "../checkout-modal";
+import { triggerDirectDownload } from "@/lib/download";
 
 interface PresetCardProps {
   product: Product;
@@ -27,7 +28,7 @@ export function PresetCard({ product }: PresetCardProps) {
     e.stopPropagation();
     if (isFree) {
       const targetUrl = product.presetLinkUrl || product.downloadUrl || "https://lightroom.adobe.com/";
-      window.open(targetUrl, "_blank");
+      triggerDirectDownload(targetUrl, `${product.title.toLowerCase().replace(/\s+/g, "-")}-preset.dng`);
     } else {
       setCheckoutOpen(true);
     }

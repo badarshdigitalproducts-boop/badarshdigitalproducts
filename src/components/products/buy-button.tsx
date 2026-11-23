@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { ShoppingBag, MessageCircle, ExternalLink, ShieldCheck, Sparkles, Download } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ShoppingBag, MessageCircle, ExternalLink, ShieldCheck, Sparkles, Download, CheckCircle2 } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
 import { CheckoutModal } from "./checkout-modal";
+import { triggerDirectDownload } from "@/lib/download";
 
 interface BuyButtonProps {
   price: number;
@@ -51,29 +52,28 @@ export function BuyButton({
   };
 
   const isFree = price === 0;
+  const [isUnlocked, setIsUnlocked] = useState(false);
+
+  useEffect(() => {
+    try {
+      const unlocked = JSON.parse(localStorage.getItem("badarsh_unlocked_products") || "{}");
+      const key = productData.id || productData.slug;
+      if (unlocked[key]) {
+        setIsUnlocked(true);
+      }
+    } catch {}
+  }, [productData.id, productData.slug]);
 
   const handleFreeDownload = () => {
     const directUrl =
       productData.downloadUrl ||
-      productData.alightMotionXmlUrl ||
-      productData.capcutUrl ||
       productData.googleDriveUrl ||
       productData.pdfUrl ||
       productData.appDownloadUrl ||
       productData.canvaUrl ||
-      productData.templateUrl;
-    if (directUrl) {
-      const a = document.createElement("a");
-      a.href = directUrl;
-      a.download = `${productTitle.toLowerCase().replace(/\s+/g, "-")}-master`;
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    } else {
-      window.location.href = `/api/download?productId=${encodeURIComponent(productData.id || productData.slug)}`;
-    }
+      productData.templateUrl ||
+      `/api/download?productId=${encodeURIComponent(productData.id || productData.slug)}`;
+    triggerDirectDownload(directUrl, `${productTitle.toLowerCase().replace(/\s+/g, "-")}-master`);
   };
 
   const handleWhatsAppQuick = () => {
@@ -87,7 +87,15 @@ export function BuyButton({
     <>
       <div className={`space-y-3 ${className}`}>
         {/* Primary Action Button */}
-        {isFree ? (
+        {isUnlocked ? (
+          <button
+            onClick={handleFreeDownload}
+            className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-full bg-emerald-600 px-8 py-4 font-heading text-base font-bold text-white shadow-lg shadow-emerald-600/25 transition-all duration-300 hover:bg-emerald-700 hover:shadow-xl hover:shadow-emerald-600/35 active:scale-[0.98]"
+          >
+            <CheckCircle2 className="h-5 w-5 text-emerald-200" />
+            <span>Download Master Files (Purchased)</span>
+          </button>
+        ) : isFree ? (
           <button
             onClick={handleFreeDownload}
             className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-full bg-emerald-600 px-8 py-4 font-heading text-base font-bold text-white shadow-lg shadow-emerald-600/25 transition-all duration-300 hover:bg-emerald-700 hover:shadow-xl hover:shadow-emerald-600/35 active:scale-[0.98]"

@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
+import { triggerDirectDownload } from "@/lib/download";
 
 interface AppStoreModalProps {
   isOpen: boolean;
@@ -77,7 +78,7 @@ export function AppStoreModal({
             product.downloadUrl ||
             (product as any).googleDriveUrl ||
             "https://www.capcut.com/";
-          window.open(directUrl, "_blank");
+          triggerDirectDownload(directUrl, `${product.title.toLowerCase().replace(/\s+/g, "-")}-app.apk`);
           return 100;
         }
         return prev + 25;
