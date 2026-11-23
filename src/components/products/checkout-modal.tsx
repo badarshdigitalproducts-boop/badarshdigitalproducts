@@ -49,7 +49,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
   const [couponError, setCouponError] = useState<string | null>(null);
 
   // Tabs & Submission State
-  const [activeTab, setActiveTab] = useState<"upi" | "card" | "whatsapp">("upi");
+  const [activeTab, setActiveTab] = useState<"online" | "qr" | "whatsapp">("online");
   const [copiedUpi, setCopiedUpi] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [orderConfirmed, setOrderConfirmed] = useState<any | null>(null);
@@ -62,6 +62,21 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
   const finalTotal = Math.max(subtotal - discountAmount, 0);
 
   const upiId = "badarsh@upi"; // Official UPI ID
+
+  const loadCashfreeSdk = () => {
+    return new Promise<any>((resolve) => {
+      if ((window as any).Cashfree) {
+        resolve((window as any).Cashfree);
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://sdk.cashfree.com/js/v3/cashfree.js";
+      script.async = true;
+      script.onload = () => resolve((window as any).Cashfree);
+      script.onerror = () => resolve(null);
+      document.body.appendChild(script);
+    });
+  };
 
   const handleCopyUpi = () => {
     navigator.clipboard.writeText(upiId);
@@ -130,12 +145,37 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
           downloadUrl: product.downloadUrl || product.pdfUrl || product.appDownloadUrl || product.googleDriveUrl || "",
           includeUpsell,
           couponCode: appliedCoupon?.code,
-          paymentMethod: activeTab === "upi" ? "UPI" : activeTab === "card" ? "Stripe" : "Manual Bank Transfer",
+          paymentMethod: activeTab === "online" ? "Cashfree" : activeTab === "qr" ? "UPI QR" : "WhatsApp",
         }),
       });
 
       const data = await res.json();
       if (res.ok && data.success) {
+        if (data.paymentRequired && data.paymentSessionId) {
+          try {
+            const Cashfree = await loadCashfreeSdk();
+            if (Cashfree) {
+              const cf = Cashfree({
+                mode: data.cfEnv === "TEST" ? "sandbox" : "production",
+              });
+              cf.checkout({
+                paymentSessionId: data.paymentSessionId,
+                redirectTarget: "_self",
+              });
+              return;
+            }
+          } catch (cfErr) {
+            console.warn("Cashfree SDK checkout fallback:", cfErr);
+          }
+
+          const cfUrl =
+            data.cfEnv === "TEST"
+              ? `https://sandbox.cashfree.com/order/#${data.paymentSessionId}`
+              : `https://payments.cashfree.com/order/#${data.paymentSessionId}`;
+          window.location.href = cfUrl;
+          return;
+        }
+
         setOrderConfirmed(data.order);
       } else {
         alert(data.error || "Failed to process order");
@@ -549,9 +589,9 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                   {/* Payment Method Selector */}
                   <div className="relative flex gap-2 border-b border-card-border/60 pb-3">
                     {[
-                      { id: "upi", label: "UPI Direct (India)" },
-                      { id: "whatsapp", label: "WhatsApp 1-Click" },
-                      { id: "card", label: "Card / Global" },
+                      { id: "online", label: "Instant Pay (UPI / Cards)" },
+                      { id: "qr", label: "Direct UPI QR" },
+                      { id: "whatsapp", label: "WhatsApp" },
                     ].map((tab) => {
                       const isActive = activeTab === tab.id;
                       return (
@@ -581,7 +621,47 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
 
                   {/* Tab Content */}
                   <div>
-                    {activeTab === "upi" && (
+                    {activeTab === "online" && (
+                      <div className="space-y-4">
+                        <div className="rounded-2xl border border-card-border bg-background p-4 text-center space-y-3">
+                          <div className="flex items-center justify-center gap-2 text-xs font-semibold text-emerald-500">
+                            <ShieldCheck className="h-4 w-4" />
+                            <span>Cashfree Official Production Gateway</span>
+                          </div>
+                          <p className="text-xs text-muted">
+                            Fast &amp; secure checkout supporting all UPI Apps, Credit/Debit Cards &amp; NetBanking.
+                          </p>
+                          <div className="flex flex-wrap items-center justify-center gap-2 pt-1 text-[11px] text-muted font-medium">
+                            <span className="rounded-md bg-secondary px-2.5 py-1">Google Pay</span>
+                            <span className="rounded-md bg-secondary px-2.5 py-1">PhonePe</span>
+                            <span className="rounded-md bg-secondary px-2.5 py-1">Paytm</span>
+                            <span className="rounded-md bg-secondary px-2.5 py-1">Cards / RuPay</span>
+                            <span className="rounded-md bg-secondary px-2.5 py-1">NetBanking</span>
+                          </div>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => handleCompleteOrder()}
+                          disabled={submitting}
+                          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent py-4 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-accent-hover active:scale-[0.98] disabled:opacity-50"
+                        >
+                          {submitting ? (
+                            <>
+                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                              <span>Connecting to Cashfree Secure Checkout...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Lock className="h-4 w-4" />
+                              <span>Pay {formatCurr(finalTotal)} &bull; Instant File Delivery</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    )}
+
+                    {activeTab === "qr" && (
                       <div className="space-y-4">
                         <div className="rounded-2xl border border-card-border bg-background p-4 text-center">
                           <div className="mx-auto flex h-36 w-36 items-center justify-center rounded-2xl border border-card-border bg-white p-2 shadow-sm">
@@ -662,24 +742,6 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                           <MessageCircle className="h-4 w-4" />
                           <span>Complete on WhatsApp &bull; {formatCurr(finalTotal)}</span>
                         </button>
-                      </div>
-                    )}
-
-                    {activeTab === "card" && (
-                      <div className="space-y-4 text-center">
-                        <p className="text-xs text-muted">
-                          International credit card, debit card, Apple Pay, and PayPal checkout via Gumroad.
-                        </p>
-                        <a
-                          href={product.gumroadUrl || `https://badarsh.gumroad.com/l/${product.slug}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent py-4 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-accent-hover active:scale-[0.98]"
-                        >
-                          <CreditCard className="h-4 w-4" />
-                          <span>Pay with Card / PayPal &bull; {formatCurr(finalTotal)}</span>
-                          <ExternalLink className="h-4 w-4" />
-                        </a>
                       </div>
                     )}
                   </div>

@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { verifySessionToken, ADMIN_COOKIE_NAME } from "@/lib/admin/auth";
-import { testCashfreeConnection, getCashfreeCredentials } from "@/lib/cashfree";
-import { updateSystemSettings, getSystemSettings } from "@/lib/admin/store";
+import { testCashfreeConnection, getCashfreeCredentials, getMaskedCashfreeCredentials } from "@/lib/cashfree";
 
 function isAuthorized(request: Request): boolean {
   const cookieHeader = request.headers.get("cookie") || "";
@@ -14,15 +13,8 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const credentials = await getCashfreeCredentials();
-  return NextResponse.json({
-    configured: credentials.isConfigured,
-    enabled: credentials.enabled,
-    env: credentials.env,
-    appIdMasked: credentials.appId
-      ? `${credentials.appId.slice(0, 4)}...${credentials.appId.slice(-4)}`
-      : "",
-  });
+  const masked = await getMaskedCashfreeCredentials();
+  return NextResponse.json(masked);
 }
 
 export async function POST(request: Request) {
@@ -31,7 +23,13 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { appId, secretKey, env = "TEST" } = await request.json();
+    const body = await request.json().catch(() => ({}));
+    const creds = await getCashfreeCredentials();
+
+    // Prioritize credentials from request or fallback to server env credentials
+    const appId = body.appId?.includes("••••") || !body.appId ? creds.appId : body.appId;
+    const secretKey = body.secretKey?.includes("••••") || !body.secretKey ? creds.secretKey : body.secretKey;
+    const env = body.env || creds.env || "PROD";
 
     if (!appId || !secretKey) {
       return NextResponse.json(

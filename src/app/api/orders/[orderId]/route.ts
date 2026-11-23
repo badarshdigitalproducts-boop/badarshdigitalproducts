@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
-import { getAdminOrders } from "@/lib/admin/store";
+import { getAdminOrders, saveAdminOrder } from "@/lib/admin/store";
 import { canAccessOrder } from "@/lib/auth/access-control";
+import { getCashfreeOrder } from "@/lib/cashfree";
+import { fsSaveOrder, rtSaveOrder, isFirebaseConfigured } from "@/lib/firebase";
 
 interface RouteParams {
   params: Promise<{ orderId: string }>;
@@ -14,10 +16,10 @@ export async function GET(request: Request, { params }: RouteParams) {
     }
 
     const { searchParams } = new URL(request.url);
-    const token = searchParams.get("token") || searchParams.get("key");
+    const token = searchParams.get("token") || searchParams.get("key") || searchParams.get("cf_id");
 
     const orders = await getAdminOrders();
-    const order = orders.find(
+    let order = orders.find(
       (o) => o.id.toLowerCase() === orderId.toLowerCase() || o.licenseKey === orderId
     );
 
@@ -35,6 +37,32 @@ export async function GET(request: Request, { params }: RouteParams) {
         },
         { status: 403 }
       );
+    }
+
+    // Auto-verify pending order against Cashfree Production Gateway
+    if (order.paymentStatus !== "completed") {
+      try {
+        const cfResult = await getCashfreeOrder(order.id);
+        if (cfResult.success && cfResult.isPaid) {
+          order = {
+            ...order,
+            paymentStatus: "completed",
+            paymentMethod: "Cashfree",
+            canvaAccessDelivered: true,
+            deliveryNotes: `Auto-verified on customer redirect via Cashfree Production Gateway (${cfResult.cfOrderId || "CF_PAID"})`,
+          };
+          await saveAdminOrder(order);
+
+          if (isFirebaseConfigured()) {
+            await Promise.allSettled([
+              fsSaveOrder(order),
+              rtSaveOrder(order),
+            ]);
+          }
+        }
+      } catch (cfErr) {
+        console.warn("Cashfree status check warning:", cfErr);
+      }
     }
 
     // Return sanitized customer order record

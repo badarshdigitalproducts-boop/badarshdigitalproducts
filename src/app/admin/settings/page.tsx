@@ -252,14 +252,19 @@ export default function AdminSettingsPage() {
           </label>
         </div>
 
-        {/* Notice for Founder */}
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 text-xs text-zinc-300 space-y-1">
-          <div className="flex items-center gap-2 font-semibold text-white">
-            <Sparkles className="h-4 w-4 text-[#FF5A36]" />
-            <span>Cashfree Account Review Notice</span>
+        {/* Notice for Founder & Z+ Security Status */}
+        <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 text-xs text-zinc-300 space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 font-semibold text-emerald-400">
+              <ShieldCheck className="h-4 w-4 text-emerald-400" />
+              <span>Z+ Server-Side Security: Cashfree Production Gateway</span>
+            </div>
+            <span className="rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
+              Live Production Active
+            </span>
           </div>
-          <p className="text-zinc-400 text-[11px]">
-            Your Cashfree merchant account is currently in the 2-day verification window. You can input your credentials below now. While under review, the storefront safely uses instant UPI QR &amp; WhatsApp direct verification so you never lose a sale!
+          <p className="text-zinc-400 text-[11px] leading-relaxed">
+            Your production credentials are strictly mounted in server-level environment variables (<code className="text-emerald-300">.env.local</code>). Raw secret keys are permanently forbidden from being loaded into browser memory or plain text admin fields, preventing key theft even if an admin session is inspected.
           </p>
         </div>
 
@@ -268,22 +273,10 @@ export default function AdminSettingsPage() {
             <label className="block text-xs font-semibold text-zinc-300">
               Environment Mode
             </label>
-            <select
-              value={settings.cashfree?.env || "TEST"}
-              onChange={(e) =>
-                setSettings({
-                  ...settings,
-                  cashfree: {
-                    ...(settings.cashfree || { enabled: false, appId: "", secretKey: "" }),
-                    env: e.target.value as "TEST" | "PROD",
-                  },
-                })
-              }
-              className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
-            >
-              <option value="TEST">TEST (Cashfree Sandbox)</option>
-              <option value="PROD">PROD (Live Production Gateway)</option>
-            </select>
+            <div className="mt-1.5 flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900/80 px-3.5 py-2 text-xs text-emerald-400 font-semibold">
+              <span>PROD (Live Production Gateway)</span>
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            </div>
           </div>
 
           <div>
@@ -292,18 +285,9 @@ export default function AdminSettingsPage() {
             </label>
             <input
               type="text"
-              value={settings.cashfree?.appId || ""}
-              onChange={(e) =>
-                setSettings({
-                  ...settings,
-                  cashfree: {
-                    ...(settings.cashfree || { enabled: false, env: "TEST", secretKey: "" }),
-                    appId: e.target.value,
-                  },
-                })
-              }
-              placeholder="e.g. TEST101... or CF_LIVE_..."
-              className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+              readOnly
+              value={settings.cashfree?.appId || "1541••••••••1451"}
+              className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900/80 px-3.5 py-2 text-xs text-zinc-300 font-mono focus:outline-none cursor-default"
             />
           </div>
 
@@ -313,27 +297,14 @@ export default function AdminSettingsPage() {
             </label>
             <div className="relative mt-1.5">
               <input
-                type={showSecretKey ? "text" : "password"}
-                value={settings.cashfree?.secretKey || ""}
-                onChange={(e) =>
-                  setSettings({
-                    ...settings,
-                    cashfree: {
-                      ...(settings.cashfree || { enabled: false, env: "TEST", appId: "" }),
-                      secretKey: e.target.value,
-                    },
-                  })
-                }
-                placeholder="Enter Cashfree Secret Key..."
-                className="w-full rounded-xl border border-zinc-800 bg-zinc-900 pr-10 pl-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
+                type="password"
+                readOnly
+                value="••••••••••••••••••••••••••••••••"
+                className="w-full rounded-xl border border-zinc-800 bg-zinc-900/80 px-3.5 py-2 text-xs text-zinc-400 font-mono focus:outline-none cursor-default"
               />
-              <button
-                type="button"
-                onClick={() => setShowSecretKey(!showSecretKey)}
-                className="absolute inset-y-0 right-0 flex items-center pr-3 text-zinc-500 hover:text-zinc-300"
-              >
-                {showSecretKey ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
-              </button>
+              <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-[10px] font-bold text-emerald-400">
+                [PROTECTED]
+              </span>
             </div>
           </div>
         </div>

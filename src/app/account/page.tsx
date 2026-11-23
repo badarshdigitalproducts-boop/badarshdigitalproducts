@@ -314,15 +314,22 @@ export default function AccountSettingsPage() {
                   </p>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <span className="font-heading font-bold text-foreground">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-heading font-bold text-foreground mr-1">
                     {formatCurr(ord.totalAmount)}
                   </span>
                   <Link
                     href={`/orders/${ord.id}`}
-                    className="inline-flex items-center gap-1 rounded-lg border border-card-border bg-background px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-xs font-semibold text-white hover:bg-accent-hover transition-colors shadow-xs"
                   >
-                    <span>View Receipt</span>
+                    <Download className="h-3 w-3" />
+                    <span>Download Files</span>
+                  </Link>
+                  <Link
+                    href={`/orders/${ord.id}`}
+                    className="inline-flex items-center gap-1 rounded-lg border border-card-border bg-background px-2.5 py-1.5 text-xs font-semibold text-foreground hover:bg-muted transition-colors"
+                  >
+                    <span>Receipt</span>
                     <ExternalLink className="h-3 w-3" />
                   </Link>
                 </div>

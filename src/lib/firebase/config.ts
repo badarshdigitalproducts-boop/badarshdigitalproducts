@@ -73,6 +73,10 @@ export function getGoogleAuthProvider(): GoogleAuthProvider {
   return googleProvider;
 }
 
+export function isFirebaseConfigured(): boolean {
+  return Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
+}
+
 /**
  * Safely initialize Firebase Analytics only on browser client side
  */

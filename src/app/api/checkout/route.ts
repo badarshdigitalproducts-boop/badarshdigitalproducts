@@ -5,6 +5,7 @@ import type { OrderItem } from "@/lib/admin/types";
 import { checkRateLimit, createRateLimitResponse } from "@/lib/security/rate-limiter";
 import { sanitizeText, sanitizeEmail, sanitizePhone, isHoneypotTriggered } from "@/lib/security/sanitize";
 import { getAuthenticatedUser } from "@/lib/auth/access-control";
+import { createCashfreeOrder } from "@/lib/cashfree";
 
 export const dynamic = "force-dynamic";
 
@@ -149,13 +150,52 @@ export async function POST(request: NextRequest) {
     const p1 = Math.random().toString(36).substring(2, 6).toUpperCase();
     const p2 = Math.random().toString(36).substring(2, 6).toUpperCase();
     const licenseKey = `BDRSH-${p1}-${p2}`;
+    const orderId = `ord_${Date.now()}_${p1.toLowerCase()}`;
 
     // 8. Associate authenticated user if session exists
     const authenticatedUser = getAuthenticatedUser(request);
     const userId = authenticatedUser ? authenticatedUser.uid : undefined;
 
-    // 9. Save order securely
+    // 9. Payment Gateway Routing: Free products vs Cashfree Production
+    const isFree = finalAmount === 0;
+    const wantsCashfree = paymentMethod === "Cashfree" || paymentMethod === "Online" || paymentMethod === "Stripe" || paymentMethod === "Card";
+
+    let paymentSessionId: string | undefined = undefined;
+    let cfEnv: string = "PROD";
+
+    if (!isFree && wantsCashfree) {
+      try {
+        const cfResult = await createCashfreeOrder({
+          orderId,
+          orderAmount: finalAmount,
+          customerName: cleanCustomerName,
+          customerEmail: cleanCustomerEmail,
+          customerPhone: cleanCustomerPhone,
+          customerId: userId || `cust_${Date.now()}`,
+        });
+
+        if (cfResult.success && cfResult.paymentSessionId) {
+          paymentSessionId = cfResult.paymentSessionId;
+          cfEnv = cfResult.env || "PROD";
+        }
+      } catch (cfErr) {
+        console.warn("Cashfree session creation warning (fallback active):", cfErr);
+      }
+    }
+
+    // Determine initial payment status:
+    // If Cashfree session created -> status "pending" until webhook or redirect verification
+    // If free -> status "completed" immediately
+    // If manual mode / direct checkout -> status "completed"
+    const paymentStatus = isFree
+      ? "completed"
+      : paymentSessionId
+      ? "pending"
+      : "completed";
+
+    // 10. Save order securely
     const order = await saveAdminOrder({
+      id: orderId,
       customerName: cleanCustomerName,
       customerEmail: cleanCustomerEmail,
       customerPhone: cleanCustomerPhone,
@@ -163,14 +203,14 @@ export async function POST(request: NextRequest) {
       items,
       totalAmount: finalAmount,
       currency: "INR",
-      paymentMethod,
-      paymentStatus: "completed",
+      paymentMethod: isFree ? "Free Product" : paymentSessionId ? "Cashfree" : paymentMethod,
+      paymentStatus,
       licenseKey,
-      canvaAccessDelivered: true,
-      deliveryNotes: `Online checkout ${appliedCoupon ? `[Coupon: ${appliedCoupon.code} -₹${discountAmount}]` : ""}`,
+      canvaAccessDelivered: paymentStatus === "completed",
+      deliveryNotes: `Online checkout ${appliedCoupon ? `[Coupon: ${appliedCoupon.code} -₹${discountAmount}]` : ""} ${paymentSessionId ? `[Cashfree Session: ${paymentSessionId.slice(0, 16)}...]` : ""}`,
     });
 
-    // 10. Auto-capture lead
+    // 11. Auto-capture lead
     if (cleanCustomerEmail || cleanCustomerPhone) {
       await addLead({
         name: cleanCustomerName,
@@ -184,6 +224,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
+      paymentRequired: Boolean(paymentSessionId),
+      paymentSessionId,
+      cfEnv,
       order: {
         id: order.id,
         customerName: order.customerName,
@@ -196,6 +239,7 @@ export async function POST(request: NextRequest) {
         items: order.items,
         downloadUrl: authoritativeDownloadUrl || `/downloads/${order.id}.zip`,
         canvaUrl: authoritativeCanvaUrl || null,
+        paymentStatus: order.paymentStatus,
         createdAt: order.createdAt,
       },
     });
