@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   Download,
   Share2,
+  ExternalLink,
 } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
@@ -55,7 +56,7 @@ export function ChapterReaderModal({
       !formattedPdfUrl.startsWith("data:") &&
       (formattedPdfUrl.startsWith("http://") || formattedPdfUrl.startsWith("https://"))
     ) {
-      formattedPdfUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(formattedPdfUrl)}&embedded=true`;
+      formattedPdfUrl = `/api/pdf-proxy?url=${encodeURIComponent(formattedPdfUrl)}`;
     }
   }
 
@@ -224,6 +225,19 @@ export function ChapterReaderModal({
               <span>Unlock ({formatCurr(product.price)})</span>
             </button>
 
+            {/* Open in New Window */}
+            {viewMode === "pdf" && formattedPdfUrl && (
+              <a
+                href={formattedPdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:flex rounded-full p-2 opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5 transition-all"
+                title="Open PDF in new window"
+              >
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            )}
+
             {/* Close */}
             <button
               onClick={onClose}
@@ -237,12 +251,29 @@ export function ChapterReaderModal({
         {/* Reader Body: Original PDF Viewer OR Clean Typography Reader */}
         {viewMode === "pdf" && formattedPdfUrl ? (
           <div className="relative flex-1 bg-neutral-950 overflow-hidden select-none">
-            <iframe
-              src={formattedPdfUrl}
-              title={`PDF Preview of ${product.title}`}
-              className="w-full h-full border-0"
-              sandbox="allow-scripts allow-same-origin"
-            />
+            <object
+              data={formattedPdfUrl}
+              type="application/pdf"
+              className="w-full h-full"
+            >
+              <iframe
+                src={formattedPdfUrl}
+                title={`PDF Preview of ${product.title}`}
+                className="w-full h-full border-0"
+              />
+              <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center text-xs text-neutral-400 space-y-3">
+                <BookOpen className="h-8 w-8 text-indigo-400 opacity-60" />
+                <p>Preview loaded. If your device does not embed PDFs, click below:</p>
+                <a
+                  href={formattedPdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-xl bg-indigo-600 px-5 py-2 text-xs font-bold text-white shadow-md hover:bg-indigo-700 transition-colors"
+                >
+                  Open PDF Reader ↗
+                </a>
+              </div>
+            </object>
           </div>
         ) : (
           <div className="flex flex-1 overflow-hidden">

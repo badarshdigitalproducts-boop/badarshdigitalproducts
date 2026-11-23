@@ -6,10 +6,10 @@ const securityHeaders = [
     key: "Strict-Transport-Security",
     value: "max-age=63072000; includeSubDomains; preload",
   },
-  // 2. Anti-Clickjacking: Disallow embedding in iframes
+  // 2. Anti-Clickjacking: Allow same-origin framing (e.g. for PDF previews and modals) while blocking external framing
   {
     key: "X-Frame-Options",
-    value: "DENY",
+    value: "SAMEORIGIN",
   },
   // 3. Anti-MIME Sniffing
   {
@@ -42,9 +42,9 @@ const securityHeaders = [
       "img-src 'self' data: blob: https: https://images.unsplash.com https://*.firebasestorage.app https://lh3.googleusercontent.com",
       "media-src 'self' data: blob: https: https://*.cloudflarestorage.com",
       "connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://*.cloudflarestorage.com https://*.r2.cloudflarestorage.com https://sandbox.cashfree.com https://api.cashfree.com https://challenges.cloudflare.com",
-      "frame-src 'self' https://accounts.google.com https://sdk.cashfree.com https://challenges.cloudflare.com",
-      "frame-ancestors 'none'",
-      "object-src 'none'",
+      "frame-src 'self' blob: data: https://accounts.google.com https://sdk.cashfree.com https://challenges.cloudflare.com https://docs.google.com https://drive.google.com https://www.youtube-nocookie.com https://www.youtube.com",
+      "frame-ancestors 'self'",
+      "object-src 'self' blob: data:",
       "base-uri 'self'",
       "form-action 'self'",
     ].join("; "),

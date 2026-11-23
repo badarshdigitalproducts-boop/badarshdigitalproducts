@@ -13,6 +13,7 @@ import {
   AlertCircle,
   CheckCircle2,
   Share2,
+  ExternalLink,
 } from "lucide-react";
 import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "@/components/products/checkout-modal";
@@ -127,9 +128,8 @@ export function PdfViewerModal({
       !rawUrl.startsWith("data:") &&
       (rawUrl.startsWith("http://") || rawUrl.startsWith("https://"))
     ) {
-      // Wrap through Google Docs Viewer for seamless cross-origin in-browser PDF viewing
-      // Guarantees external PDFs (GitHub raw, Cloudflare R2, AWS S3, etc.) render without X-Frame-Options block
-      viewerSrc = `https://docs.google.com/viewer?url=${encodeURIComponent(rawUrl)}&embedded=true`;
+      // Stream through same-origin PDF proxy to bypass X-Frame-Options: deny and CSP blocks
+      viewerSrc = `/api/pdf-proxy?url=${encodeURIComponent(rawUrl)}`;
     }
   }
 
@@ -220,6 +220,17 @@ export function PdfViewerModal({
                 </button>
               )}
 
+              {/* Open in New Window */}
+              <a
+                href={viewerSrc}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:flex rounded-full p-2 text-muted hover:bg-secondary hover:text-foreground transition-colors cursor-pointer"
+                title="Open PDF in new window"
+              >
+                <ExternalLink className="h-4 w-4" />
+              </a>
+
               {/* Fullscreen Toggle */}
               <button
                 onClick={() => setIsFullscreen(!isFullscreen)}
@@ -264,13 +275,32 @@ export function PdfViewerModal({
               </div>
             )}
 
-            {/* Embedded PDF Viewer */}
-            <iframe
-              src={viewerSrc}
-              className="h-full w-full border-none"
-              title={title}
-              sandbox="allow-scripts allow-same-origin allow-forms"
-            />
+            {/* Embedded Native PDF Viewer */}
+            <object
+              data={viewerSrc}
+              type="application/pdf"
+              className="h-full w-full"
+            >
+              <iframe
+                src={viewerSrc}
+                className="h-full w-full border-none"
+                title={title}
+              />
+              <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center text-xs text-muted space-y-3">
+                <BookOpen className="h-8 w-8 text-accent opacity-60" />
+                <p className="max-w-md">
+                  Preview loaded. If your browser does not render PDFs inline, click below to read:
+                </p>
+                <a
+                  href={viewerSrc}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full bg-accent px-5 py-2 text-xs font-bold text-white shadow-md hover:bg-accent-hover transition-colors"
+                >
+                  Open in Fullscreen PDF Reader ↗
+                </a>
+              </div>
+            </object>
           </div>
 
           {/* ── Bottom Persistent Conversion & Security Banner ── */}
