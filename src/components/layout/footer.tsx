@@ -309,10 +309,14 @@ export function Footer() {
               </form>
               <p className="text-[11px] text-muted">
                 🔒 Protected by our{" "}
-                <Link href="/privacy" className="underline hover:text-foreground">
+                <Link href="/privacy-policy" className="underline hover:text-foreground">
                   Privacy Policy
                 </Link>
-                . Unsubscribe anytime.
+                .{" "}
+                <Link href="/unsubscribe" className="underline hover:text-foreground">
+                  1-Click Unsubscribe
+                </Link>{" "}
+                anytime.
               </p>
             </div>
           )}
@@ -331,7 +335,7 @@ export function Footer() {
 
           <div className="flex flex-wrap items-center gap-4 sm:gap-6">
             <Link
-              href="/privacy"
+              href="/privacy-policy"
               className="cursor-pointer transition-colors duration-200 hover:text-foreground"
             >
               Privacy Policy
@@ -349,10 +353,22 @@ export function Footer() {
               Refund Policy
             </Link>
             <Link
+              href="/cookie-policy"
+              className="cursor-pointer transition-colors duration-200 hover:text-foreground"
+            >
+              Cookie Policy
+            </Link>
+            <Link
               href="/license"
               className="cursor-pointer transition-colors duration-200 hover:text-foreground"
             >
               Commercial License
+            </Link>
+            <Link
+              href="/unsubscribe"
+              className="cursor-pointer transition-colors duration-200 hover:text-foreground"
+            >
+              Unsubscribe
             </Link>
           </div>
         </div>

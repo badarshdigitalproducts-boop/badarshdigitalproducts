@@ -3,6 +3,7 @@ import { ThemeProvider } from "next-themes";
 import { fontHeading, fontBody } from "@/lib/fonts";
 import { constructMetadata } from "@/lib/metadata";
 import { StorefrontNav, StorefrontFooter } from "@/components/layout/storefront-shell";
+import { CookieConsentBanner } from "@/components/layout/cookie-banner";
 import { CurrencyProvider } from "@/context/currency-context";
 import { AudioPlayerProvider } from "@/context/audio-player-context";
 import { AuthProvider } from "@/context/auth-context";
@@ -123,6 +124,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <StorefrontNav />
                 <main className="flex-1">{children}</main>
                 <StorefrontFooter />
+                <CookieConsentBanner />
               </AudioPlayerProvider>
             </CurrencyProvider>
           </AuthProvider>

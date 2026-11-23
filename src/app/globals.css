@@ -16,7 +16,7 @@
   --accent: #FF5A36;
   --accent-hover: #E84926;
   --gold: #D97706;
-  --muted: #86868B;
+  --muted: #6E6E73;
   --secondary: #F5F5F7;
   --glass-bg: rgba(255, 255, 255, 0.75);
   --glass-border: rgba(0, 0, 0, 0.08);
@@ -72,8 +72,13 @@
 }
 
 /* ============================================
-   Base Styles — Strict Zero Horizontal Overflow
+   Base Styles — Strict Zero Horizontal Overflow & WCAG Keyboard Focus
    ============================================ */
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 
 html {
   scroll-behavior: smooth;

@@ -268,8 +268,7 @@ function SignupForm() {
                   className="mt-0.5 h-4 w-4 rounded border-border accent-accent cursor-pointer shrink-0"
                 />
                 <span className="text-[11px] text-muted leading-relaxed">
-                  I give my explicit, informed consent under India&apos;s{" "}
-                  <strong className="text-foreground">DPDP Act, 2023</strong> to the collection and processing of my personal data as described in the{" "}
+                  I confirm that I am at least <strong className="text-foreground">18 years of age</strong> (or possess verifiable parental/guardian consent under Section 9 of the <strong className="text-foreground">DPDP Act, 2023</strong>) and give my explicit, informed consent to the collection and processing of my personal data as described in the{" "}
                   <Link
                     href="/privacy-policy"
                     target="_blank"

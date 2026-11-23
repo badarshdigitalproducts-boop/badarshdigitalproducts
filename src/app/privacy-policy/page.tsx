@@ -231,10 +231,18 @@ export default function PrivacyPolicyPage() {
             <div className="rounded-2xl border border-card-border/80 bg-background/40 p-4 space-y-1.5">
               <div className="flex items-center gap-2 font-semibold text-foreground text-xs">
                 <Trash2 className="h-3.5 w-3.5 text-rose-400" />
-                <span>3. Right to Erasure / Right to be Forgotten</span>
+                <span>3. Right to Erasure / Right to be Forgotten (Section 12)</span>
               </div>
               <p className="text-xs">
-                You have the right to request permanent deletion of your account and personal data via our 1-click &ldquo;Delete My Account&rdquo; cascading purge tool.
+                You have the right to request permanent deletion of your account and personal data. Logged-in users can execute an instant cascading purge via{" "}
+                <Link href="/account" className="font-semibold text-accent underline hover:text-accent-hover">
+                  Account &amp; DPDP Privacy Settings
+                </Link>
+                . Guest buyers may email{" "}
+                <a href="mailto:dpo@badarsh.com?subject=Statutory%20DPDP%20Data%20Erasure%20Request" className="font-semibold text-rose-500 underline hover:text-rose-600">
+                  dpo@badarsh.com
+                </a>{" "}
+                with a 7-day statutory fulfillment guarantee.
               </p>
             </div>
 
