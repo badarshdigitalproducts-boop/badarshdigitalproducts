@@ -31,6 +31,33 @@ import {
   fsSyncFullDatabase,
   checkFirebaseConnection,
 } from "@/lib/firebase/db";
+import {
+  rtGetProducts,
+  rtSaveProduct,
+  rtDeleteProduct,
+  rtGetServices,
+  rtSaveService,
+  rtDeleteService,
+  rtGetBlogPosts,
+  rtSaveBlogPost,
+  rtDeleteBlogPost,
+  rtGetOrders,
+  rtSaveOrder,
+  rtDeleteOrder,
+  rtGetCoupons,
+  rtSaveCoupon,
+  rtDeleteCoupon,
+  rtGetLeads,
+  rtSaveLead,
+  rtDeleteLead,
+  rtGetSubscribers,
+  rtSaveSubscriber,
+  rtDeleteSubscriber,
+  rtGetSettings,
+  rtSaveSettings,
+  rtSyncFullDatabase,
+  checkRealtimeDbConnection,
+} from "@/lib/firebase/rtdb";
 import type {
   AdminDatabase,
   AdminProduct,
@@ -527,30 +554,39 @@ export async function getDatabase(): Promise<AdminDatabase> {
     localDb = seed;
   }
 
-  // Attempt live Firestore sync if cloud collections are populated
+  // Attempt live Realtime Database & Firestore sync if cloud collections are populated
   try {
-    const [fsProds, fsServices, fsPosts, fsOrders, fsCoupons, fsLeads, fsSubs, fsSettings] =
-      await Promise.all([
-        fsGetProducts().catch(() => []),
-        fsGetServices().catch(() => []),
-        fsGetBlogPosts().catch(() => []),
-        fsGetOrders().catch(() => []),
-        fsGetCoupons().catch(() => []),
-        fsGetLeads().catch(() => []),
-        fsGetSubscribers().catch(() => []),
-        fsGetSettings().catch(() => null),
-      ]);
+    const [
+      fsProds, fsServices, fsPosts, fsOrders, fsCoupons, fsLeads, fsSubs, fsSettings,
+      rtProds, rtServices, rtOrders, rtLeads, rtSettings
+    ] = await Promise.all([
+      fsGetProducts().catch(() => []),
+      fsGetServices().catch(() => []),
+      fsGetBlogPosts().catch(() => []),
+      fsGetOrders().catch(() => []),
+      fsGetCoupons().catch(() => []),
+      fsGetLeads().catch(() => []),
+      fsGetSubscribers().catch(() => []),
+      fsGetSettings().catch(() => null),
+      rtGetProducts().catch(() => []),
+      rtGetServices().catch(() => []),
+      rtGetOrders().catch(() => []),
+      rtGetLeads().catch(() => []),
+      rtGetSettings().catch(() => null),
+    ]);
 
-    if (fsProds && fsProds.length > 0) {
+    const cloudProds = fsProds.length > 0 ? fsProds : rtProds;
+    if (cloudProds && cloudProds.length > 0) {
       const prodMap = new Map<string, AdminProduct>();
       localDb.products.forEach((p) => prodMap.set(p.id, p));
-      fsProds.forEach((p) => prodMap.set(p.id, p));
+      cloudProds.forEach((p) => prodMap.set(p.id, p));
       localDb.products = Array.from(prodMap.values());
     }
-    if (fsServices && fsServices.length > 0) {
+    const cloudServices = fsServices.length > 0 ? fsServices : rtServices;
+    if (cloudServices && cloudServices.length > 0) {
       const svcMap = new Map<string, AdminService>();
       localDb.services.forEach((s) => svcMap.set(s.id, s));
-      fsServices.forEach((s) => svcMap.set(s.id, s));
+      cloudServices.forEach((s) => svcMap.set(s.id, s));
       localDb.services = Array.from(svcMap.values());
     }
     if (fsPosts && fsPosts.length > 0) {
@@ -559,10 +595,11 @@ export async function getDatabase(): Promise<AdminDatabase> {
       fsPosts.forEach((b) => postMap.set(b.slug, b));
       localDb.blogPosts = Array.from(postMap.values());
     }
-    if (fsOrders && fsOrders.length > 0) {
+    const cloudOrders = fsOrders.length > 0 ? fsOrders : rtOrders;
+    if (cloudOrders && cloudOrders.length > 0) {
       const ordMap = new Map<string, OrderRecord>();
       localDb.orders.forEach((o) => ordMap.set(o.id, o));
-      fsOrders.forEach((o) => ordMap.set(o.id, o));
+      cloudOrders.forEach((o) => ordMap.set(o.id, o));
       localDb.orders = Array.from(ordMap.values());
     }
     if (fsCoupons && fsCoupons.length > 0) {
@@ -571,10 +608,11 @@ export async function getDatabase(): Promise<AdminDatabase> {
       fsCoupons.forEach((c) => cpnMap.set(c.id, c));
       localDb.coupons = Array.from(cpnMap.values());
     }
-    if (fsLeads && fsLeads.length > 0) {
+    const cloudLeads = fsLeads.length > 0 ? fsLeads : rtLeads;
+    if (cloudLeads && cloudLeads.length > 0) {
       const leadMap = new Map<string, LeadInquiry>();
       localDb.leads.forEach((l) => leadMap.set(l.id, l));
-      fsLeads.forEach((l) => leadMap.set(l.id, l));
+      cloudLeads.forEach((l) => leadMap.set(l.id, l));
       localDb.leads = Array.from(leadMap.values());
     }
     if (fsSubs && fsSubs.length > 0) {
@@ -583,8 +621,9 @@ export async function getDatabase(): Promise<AdminDatabase> {
       fsSubs.forEach((s) => subMap.set(s.id, s));
       localDb.subscribers = Array.from(subMap.values());
     }
-    if (fsSettings) {
-      localDb.settings = { ...localDb.settings, ...fsSettings };
+    const activeSettings = fsSettings || rtSettings;
+    if (activeSettings) {
+      localDb.settings = { ...localDb.settings, ...activeSettings };
     }
   } catch {
     // Keep localDb without throwing
@@ -742,6 +781,7 @@ export async function saveAdminProduct(productData: Partial<AdminProduct> & { ti
   );
   await saveDatabase(db);
   fsSaveProduct(product).catch((err) => console.warn("Firestore product save error:", err));
+  rtSaveProduct(product).catch((err) => console.warn("Realtime DB product save error:", err));
   return product;
 }
 
@@ -754,6 +794,7 @@ export async function deleteAdminProduct(id: string): Promise<boolean> {
     await addAuditLog("PRODUCT_DELETED", `Product "${target?.title || id}" deleted`);
     await saveDatabase(db);
     fsDeleteProduct(id).catch((err) => console.warn("Firestore product delete error:", err));
+    rtDeleteProduct(id).catch((err) => console.warn("Realtime DB product delete error:", err));
     return true;
   }
   return false;
@@ -823,6 +864,7 @@ export async function saveAdminService(serviceData: Partial<AdminService> & { ti
   );
   await saveDatabase(db);
   fsSaveService(service).catch((err) => console.warn("Firestore service save error:", err));
+  rtSaveService(service).catch((err) => console.warn("Realtime DB service save error:", err));
   return service;
 }
 
@@ -835,6 +877,7 @@ export async function deleteAdminService(id: string): Promise<boolean> {
     await addAuditLog("SERVICE_DELETED", `Service "${target?.title || id}" deleted`);
     await saveDatabase(db);
     fsDeleteService(id).catch((err) => console.warn("Firestore service delete error:", err));
+    rtDeleteService(id).catch((err) => console.warn("Realtime DB service delete error:", err));
     return true;
   }
   return false;
@@ -885,6 +928,7 @@ export async function saveAdminBlogPost(postData: Partial<AdminBlogPost> & { tit
   await addAuditLog("BLOG_SAVED", `Blog post "${post.title}" saved`);
   await saveDatabase(db);
   fsSaveBlogPost(post).catch((err) => console.warn("Firestore blog save error:", err));
+  rtSaveBlogPost(post).catch((err) => console.warn("Realtime DB blog save error:", err));
   return post;
 }
 
@@ -896,6 +940,7 @@ export async function deleteAdminBlogPost(slug: string): Promise<boolean> {
     await addAuditLog("BLOG_DELETED", `Blog post "${slug}" deleted`);
     await saveDatabase(db);
     fsDeleteBlogPost(slug).catch((err) => console.warn("Firestore blog delete error:", err));
+    rtDeleteBlogPost(slug).catch((err) => console.warn("Realtime DB blog delete error:", err));
     return true;
   }
   return false;
@@ -963,6 +1008,7 @@ export async function saveAdminOrder(orderData: Partial<OrderRecord> & { custome
   await addAuditLog("ORDER_SAVED", `Order ${order.id} for ${order.customerName} (₹${order.totalAmount}) saved`);
   await saveDatabase(db);
   fsSaveOrder(order).catch((err) => console.warn("Firestore order save error:", err));
+  rtSaveOrder(order).catch((err) => console.warn("Realtime DB order save error:", err));
   return order;
 }
 
@@ -974,6 +1020,7 @@ export async function deleteAdminOrder(id: string): Promise<boolean> {
     await addAuditLog("ORDER_DELETED", `Order ${id} deleted`);
     await saveDatabase(db);
     fsDeleteOrder(id).catch((err) => console.warn("Firestore order delete error:", err));
+    rtDeleteOrder(id).catch((err) => console.warn("Realtime DB order delete error:", err));
     return true;
   }
   return false;
@@ -1020,6 +1067,7 @@ export async function saveAdminCoupon(couponData: Partial<AdminCoupon> & { code:
   await addAuditLog("COUPON_SAVED", `Coupon "${coupon.code}" (${coupon.discountValue}${coupon.discountType === "percentage" ? "%" : "₹"}) saved`);
   await saveDatabase(db);
   fsSaveCoupon(coupon).catch((err) => console.warn("Firestore coupon save error:", err));
+  rtSaveCoupon(coupon).catch((err) => console.warn("Realtime DB coupon save error:", err));
   return coupon;
 }
 
@@ -1031,6 +1079,7 @@ export async function deleteAdminCoupon(id: string): Promise<boolean> {
     await addAuditLog("COUPON_DELETED", `Coupon ${id} deleted`);
     await saveDatabase(db);
     fsDeleteCoupon(id).catch((err) => console.warn("Firestore coupon delete error:", err));
+    rtDeleteCoupon(id).catch((err) => console.warn("Realtime DB coupon delete error:", err));
     return true;
   }
   return false;
@@ -1064,6 +1113,7 @@ export async function addLead(data: {
   await addAuditLog("LEAD_RECEIVED", `Inbound lead from ${newLead.name} for ${newLead.interest}`);
   await saveDatabase(db);
   fsSaveLead(newLead).catch((err) => console.warn("Firestore lead save error:", err));
+  rtSaveLead(newLead).catch((err) => console.warn("Realtime DB lead save error:", err));
   return newLead;
 }
 
@@ -1079,6 +1129,7 @@ export async function updateLead(id: string, updates: Partial<LeadInquiry>): Pro
   };
   await saveDatabase(db);
   fsSaveLead(db.leads[idx]).catch((err) => console.warn("Firestore lead update error:", err));
+  rtSaveLead(db.leads[idx]).catch((err) => console.warn("Realtime DB lead update error:", err));
   return db.leads[idx];
 }
 
@@ -1090,6 +1141,7 @@ export async function deleteLead(id: string): Promise<boolean> {
     await addAuditLog("LEAD_DELETED", `Lead ${id} deleted`);
     await saveDatabase(db);
     fsDeleteLead(id).catch((err) => console.warn("Firestore lead delete error:", err));
+    rtDeleteLead(id).catch((err) => console.warn("Realtime DB lead delete error:", err));
     return true;
   }
   return false;
@@ -1118,6 +1170,7 @@ export async function addSubscriber(email: string, source = "Website"): Promise<
   await addAuditLog("SUBSCRIBER_JOINED", `New newsletter subscriber: ${email}`);
   await saveDatabase(db);
   fsSaveSubscriber(newSub).catch((err) => console.warn("Firestore subscriber save error:", err));
+  rtSaveSubscriber(newSub).catch((err) => console.warn("Realtime DB subscriber save error:", err));
   return newSub;
 }
 
@@ -1128,6 +1181,7 @@ export async function deleteSubscriber(id: string): Promise<boolean> {
   if (db.subscribers.length !== len) {
     await saveDatabase(db);
     fsDeleteSubscriber(id).catch((err) => console.warn("Firestore subscriber delete error:", err));
+    rtDeleteSubscriber(id).catch((err) => console.warn("Realtime DB subscriber delete error:", err));
     return true;
   }
   return false;
@@ -1149,6 +1203,7 @@ export async function updateSystemSettings(updates: Partial<SystemSettings>): Pr
   await addAuditLog("SETTINGS_UPDATED", "System global settings updated");
   await saveDatabase(db);
   fsSaveSettings(db.settings).catch((err) => console.warn("Firestore settings save error:", err));
+  rtSaveSettings(db.settings).catch((err) => console.warn("Realtime DB settings save error:", err));
   return db.settings;
 }
 
@@ -1213,10 +1268,21 @@ export async function syncDatabaseToFirebase(): Promise<{
 }> {
   try {
     const db = await getDatabase();
-    const synced = await fsSyncFullDatabase(db);
+    const [synced] = await Promise.all([
+      fsSyncFullDatabase(db).catch(() => ({
+        products: db.products.length,
+        services: db.services.length,
+        blogPosts: db.blogPosts.length,
+        orders: db.orders.length,
+        coupons: db.coupons.length,
+        leads: db.leads.length,
+        subscribers: db.subscribers.length,
+      })),
+      rtSyncFullDatabase(db).catch((e) => console.warn("Realtime DB bulk sync error:", e)),
+    ]);
     await addAuditLog(
       "FIREBASE_SYNCED",
-      `Synchronized ${synced.products} products, ${synced.services} services, ${synced.orders} orders to Firebase Firestore`
+      `Synchronized ${synced.products} products, ${synced.services} services, ${synced.orders} orders to Firebase Realtime DB & Firestore`
     );
     return { success: true, synced };
   } catch (error: any) {
@@ -1232,11 +1298,20 @@ export async function syncDatabaseToFirebase(): Promise<{
         leads: 0,
         subscribers: 0,
       },
-      error: error?.message || "Failed to synchronize to Firebase Firestore",
+      error: error?.message || "Failed to synchronize to Firebase",
     };
   }
 }
 
 export async function getFirebaseStatus() {
-  return await checkFirebaseConnection();
+  const [fsStatus, rtStatus] = await Promise.all([
+    checkFirebaseConnection().catch(() => ({ connected: false, latencyMs: 0, error: "Firestore unavailable" })),
+    checkRealtimeDbConnection().catch(() => ({ connected: false, latencyMs: 0, error: "Realtime DB unavailable" })),
+  ]);
+  return {
+    connected: fsStatus.connected || rtStatus.connected,
+    latencyMs: rtStatus.connected ? rtStatus.latencyMs : fsStatus.latencyMs,
+    firestore: fsStatus,
+    realtimeDb: rtStatus,
+  };
 }
