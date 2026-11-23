@@ -2309,5 +2309,16 @@
       "details": "BADARSH Admin Operating System initialized with full digital catalog.",
       "timestamp": "2026-11-22T15:21:10.884Z"
     }
+  ],
+  "users": [
+    {
+      "id": "usr-mwsso61s-83d2da",
+      "name": "Channu Patil",
+      "email": "channupatil299@gmail.com",
+      "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocIb1MGuEsZqf16z1p6sDfAcl4giQXtdWhVvskstIM1stJf4JA=s96-c",
+      "provider": "google",
+      "createdAt": "2026-11-23T04:57:34.624Z",
+      "lastLoginAt": "2026-11-23T04:57:34.624Z"
+    }
   ]
 }
