@@ -260,6 +260,11 @@ export interface UserAccount {
   provider: "email" | "google";
   createdAt: string;
   lastLoginAt: string;
+  dpdpConsent?: {
+    consentedAt: string;
+    version: string;
+    lawfulBasis: string;
+  };
 }
 
 export interface AdminDatabase {

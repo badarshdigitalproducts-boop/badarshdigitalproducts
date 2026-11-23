@@ -43,7 +43,7 @@ export default function OrderFulfillmentPage() {
   useEffect(() => {
     if (!orderId) return;
 
-    fetch(`/api/admin/orders?id=${orderId}`)
+    fetch(`/api/orders/${orderId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.order) {

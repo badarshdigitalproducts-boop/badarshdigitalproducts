@@ -65,6 +65,7 @@ const NAV_ITEMS = [
 
   // SYSTEM
   { label: "CashFree & Settings", href: "/admin/settings", icon: Settings, group: "System" },
+  { label: "DPDP Compliance & Breach", href: "/admin/compliance", icon: ShieldCheck, group: "System" },
 ];
 
 const NAV_GROUPS = [

@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, LogOut, ChevronDown, FolderLock, Sparkles, MessageCircle } from "lucide-react";
+import { User, LogOut, ChevronDown, FolderLock, Sparkles, MessageCircle, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
 import { getWhatsAppUrl } from "@/lib/utils";
 
@@ -115,6 +115,14 @@ export function UserAccountButton() {
 
             {/* Menu links */}
             <div className="py-1">
+              <Link
+                href="/account"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs text-foreground/80 transition-colors hover:bg-muted hover:text-foreground font-medium"
+              >
+                <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
+                <span>Account &amp; DPDP Privacy</span>
+              </Link>
               <Link
                 href="/bundles"
                 onClick={() => setOpen(false)}

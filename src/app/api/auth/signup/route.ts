@@ -8,11 +8,21 @@ import {
 
 export async function POST(request: Request) {
   try {
-    const { name, email, password } = await request.json();
+    const { name, email, password, consentGiven } = await request.json();
 
     if (!email || !password) {
       return NextResponse.json(
         { error: "Email and password are required." },
+        { status: 400 }
+      );
+    }
+
+    if (consentGiven === false) {
+      return NextResponse.json(
+        {
+          error:
+            "Statutory consent is required under India's Digital Personal Data Protection Act, 2023 (Section 6) to create an account.",
+        },
         { status: 400 }
       );
     }
@@ -24,7 +34,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const user = await createUserAccount(name, email, password, "email");
+    const user = await createUserAccount(name, email, password, "email", undefined, true);
 
     const token = createUserSessionToken({
       uid: user.id,

@@ -33,7 +33,7 @@ function SignupForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [agreeTerms, setAgreeTerms] = useState(true);
+  const [agreeTerms, setAgreeTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [googleModalOpen, setGoogleModalOpen] = useState(false);
@@ -80,7 +80,7 @@ function SignupForm() {
       return;
     }
     if (!agreeTerms) {
-      setLocalError("Please agree to the Terms of Service to continue.");
+      setLocalError("Explicit consent is required under India's DPDP Act, 2023. Please check the consent box to continue.");
       return;
     }
 
@@ -257,23 +257,33 @@ function SignupForm() {
               )}
             </div>
 
-            {/* Terms checkbox */}
-            <div className="pt-0.5">
-              <label className="flex items-start gap-2 cursor-pointer select-none">
+            {/* DPDP Act 2023 Explicit Statutory Consent Checkbox */}
+            <div className="pt-0.5 rounded-xl border border-card-border/80 bg-background/50 p-3">
+              <label className="flex items-start gap-2.5 cursor-pointer select-none">
                 <input
                   type="checkbox"
+                  required
                   checked={agreeTerms}
                   onChange={(e) => setAgreeTerms(e.target.checked)}
-                  className="mt-0.5 h-3.5 w-3.5 rounded border-border accent-accent"
+                  className="mt-0.5 h-4 w-4 rounded border-border accent-accent cursor-pointer shrink-0"
                 />
                 <span className="text-[11px] text-muted leading-relaxed">
-                  I accept the{" "}
-                  <Link href="/terms" className="text-foreground underline underline-offset-2 hover:text-accent">
-                    Terms
+                  I give my explicit, informed consent under India&apos;s{" "}
+                  <strong className="text-foreground">DPDP Act, 2023</strong> to the collection and processing of my personal data as described in the{" "}
+                  <Link
+                    href="/privacy-policy"
+                    target="_blank"
+                    className="font-semibold text-accent underline underline-offset-2 hover:text-accent-hover"
+                  >
+                    Privacy Policy
                   </Link>{" "}
                   and{" "}
-                  <Link href="/privacy" className="text-foreground underline underline-offset-2 hover:text-accent">
-                    Privacy Policy
+                  <Link
+                    href="/terms"
+                    target="_blank"
+                    className="font-semibold text-foreground underline underline-offset-2 hover:text-accent"
+                  >
+                    Terms of Service
                   </Link>
                   .
                 </span>
@@ -283,8 +293,8 @@ function SignupForm() {
             {/* Primary Action Button */}
             <button
               type="submit"
-              disabled={loading}
-              className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-accent hover:bg-accent-hover text-white font-semibold text-xs py-2.5 transition-all duration-150 active:scale-[0.98] disabled:opacity-60 cursor-pointer shadow-sm"
+              disabled={loading || !agreeTerms}
+              className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-accent hover:bg-accent-hover text-white font-semibold text-xs py-2.5 transition-all duration-150 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-sm"
             >
               {loading ? (
                 <>
