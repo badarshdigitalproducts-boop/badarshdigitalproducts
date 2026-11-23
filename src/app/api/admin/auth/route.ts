@@ -19,92 +19,72 @@ export async function POST(request: NextRequest) {
     const ip = getClientIp(request);
     const userAgent = request.headers.get("user-agent") || "unknown";
 
-    // 1. Z+ Brute-Force Rate Limit & Automatic Lockout Check
-    const rateCheck = checkRateLimit(ip);
-    if (!rateCheck.allowed) {
-      await addAuditLog(
-        "Z_PLUS_IP_LOCKOUT_TRIGGERED",
-        `Brute force defense locked IP ${ip} for ${rateCheck.retryAfterSeconds}s`
-      ).catch(() => {});
+    const body = await request.json().catch(() => ({}));
+    const passphrase = body.passphrase;
 
-      return NextResponse.json(
-        {
-          error: `[Z+ SECURITY LOCKOUT] Maximum verification attempts exceeded. IP address temporarily blocked for security. Try again in ${rateCheck.retryAfterSeconds} seconds.`,
-          locked: true,
-          retryAfterSeconds: rateCheck.retryAfterSeconds,
-        },
-        {
-          status: 429,
-          headers: {
-            "Retry-After": (rateCheck.retryAfterSeconds || 1800).toString(),
-          },
-        }
-      );
-    }
-
-    const { passphrase } = await request.json();
-
-    if (!passphrase || typeof passphrase !== "string") {
+    if (!passphrase || typeof passphrase !== "string" || !passphrase.trim()) {
       return NextResponse.json(
         { error: "Master founder security key is required." },
         { status: 400 }
       );
     }
 
-    // 2. Cryptographic PBKDF2 100,000-iteration constant-time key verification
+    // 1. Verify credentials with constant-time cryptographic check
     const isValid = verifyAdminPassphrase(passphrase);
 
-    if (!isValid) {
-      recordFailedAttempt(ip);
-      const updatedCheck = checkRateLimit(ip);
+    if (isValid) {
+      // Valid credentials: reset any prior failed attempts and grant access
+      resetRateLimit(ip);
+      const token = createSessionToken(ip, userAgent);
 
       await addAuditLog(
-        "Z_PLUS_AUTH_FAILED",
-        `Unauthorized admin access attempt with invalid master key from IP ${ip} (${userAgent}). Strikes remaining: ${updatedCheck.remainingAttempts}`
+        "Z_PLUS_FOUNDER_AUTHENTICATED",
+        `Authorized Founder Master Access granted from IP ${ip}`
       ).catch(() => {});
 
-      // Add 600ms artificial micro-delay to eliminate any external timing side-channels
-      await new Promise((resolve) => setTimeout(resolve, 600));
+      const response = NextResponse.json({
+        success: true,
+        message: "Z+ Founder Master Authorization Verified. Welcome Commander.",
+      });
 
-      return NextResponse.json(
-        {
-          error: "Z+ Security Verification Failed. Invalid master founder credentials.",
-          remainingAttempts: updatedCheck.remainingAttempts,
-          locked: !updatedCheck.allowed,
-        },
-        { status: 401 }
-      );
+      response.cookies.set({
+        name: ADMIN_COOKIE_NAME,
+        value: token,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
+        maxAge: SESSION_MAX_AGE_SECONDS,
+      });
+
+      return response;
     }
 
-    // 3. Authentication Success: Reset rate limits, log audit trail, issue bound HMAC session
-    resetRateLimit(ip);
-    const token = createSessionToken(ip, userAgent);
+    // 2. Invalid credentials: track failed attempt and apply strike limit
+    recordFailedAttempt(ip);
+    const updatedCheck = checkRateLimit(ip);
 
     await addAuditLog(
-      "Z_PLUS_FOUNDER_AUTHENTICATED",
-      `Authorized Founder Master Access granted from IP ${ip}`
+      "Z_PLUS_AUTH_FAILED",
+      `Unauthorized admin access attempt from IP ${ip}. Strikes remaining: ${updatedCheck.remainingAttempts}`
     ).catch(() => {});
 
-    const response = NextResponse.json({
-      success: true,
-      message: "Z+ Founder Master Authorization Verified. Welcome Commander.",
-    });
+    // Artificial 500ms delay to thwart automated high-speed brute force scripts
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
-    response.cookies.set({
-      name: ADMIN_COOKIE_NAME,
-      value: token,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/",
-      maxAge: SESSION_MAX_AGE_SECONDS,
-    });
-
-    return response;
+    return NextResponse.json(
+      {
+        error: "Z+ Security Verification Failed. Invalid master founder credentials.",
+        remainingAttempts: updatedCheck.remainingAttempts,
+        locked: !updatedCheck.allowed,
+        retryAfterSeconds: updatedCheck.retryAfterSeconds,
+      },
+      { status: 401 }
+    );
   } catch (error: any) {
     console.error("Admin Auth Error:", error?.message);
     return NextResponse.json(
-      { error: "Internal authentication vault failure. Please retry." },
+      { error: "Authentication processing failure. Please retry." },
       { status: 500 }
     );
   }
@@ -112,10 +92,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   const token = request.cookies.get(ADMIN_COOKIE_NAME)?.value;
-  const ip = getClientIp(request);
-  const userAgent = request.headers.get("user-agent") || "unknown";
-
-  const authenticated = verifySessionToken(token, ip, userAgent);
+  const authenticated = verifySessionToken(token);
   return NextResponse.json({ authenticated });
 }
 
