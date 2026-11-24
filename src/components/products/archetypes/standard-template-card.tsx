@@ -9,6 +9,7 @@ import { useCurrency } from "@/context/currency-context";
 import { TemplatePreviewModal } from "../template-preview-modal";
 import { TemplateEditorModal } from "@/components/templates/template-editor-modal";
 import { CheckoutModal } from "../checkout-modal";
+import { useProductAccess } from "@/hooks/use-product-access";
 
 interface StandardTemplateCardProps {
   product: Product;
@@ -18,6 +19,7 @@ interface StandardTemplateCardProps {
 export function StandardTemplateCard({ product }: StandardTemplateCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
+  const { isUnlocked, handleDownload } = useProductAccess(product);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [editorOpen, setEditorOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
@@ -27,6 +29,10 @@ export function StandardTemplateCard({ product }: StandardTemplateCardProps) {
 
   const handleActionClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (isUnlocked) {
+      handleDownload(e);
+      return;
+    }
     if (isFree) {
       if (product.canvaUrl) {
         window.open(product.canvaUrl, "_blank");
@@ -174,22 +180,34 @@ export function StandardTemplateCard({ product }: StandardTemplateCardProps) {
           {/* Footer: Price & CTA */}
           <div className="mt-auto pt-4 border-t border-border flex items-center justify-between">
             <div className="flex items-baseline gap-1.5">
-              <span className="text-base sm:text-lg font-bold text-foreground">
-                {formatCurr(product.price)}
-              </span>
-              {product.originalPrice && product.originalPrice > product.price && (
-                <span className="text-xs text-foreground/40 line-through">
-                  {formatCurr(product.originalPrice)}
+              {isUnlocked ? (
+                <span className="rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 text-xs font-bold text-emerald-600">
+                  Purchased
                 </span>
+              ) : (
+                <>
+                  <span className="text-base sm:text-lg font-bold text-foreground">
+                    {formatCurr(product.price)}
+                  </span>
+                  {product.originalPrice && product.originalPrice > product.price && (
+                    <span className="text-xs text-foreground/40 line-through">
+                      {formatCurr(product.originalPrice)}
+                    </span>
+                  )}
+                </>
               )}
             </div>
 
             <button
               onClick={handleActionClick}
-              className="inline-flex items-center gap-1 rounded-full bg-foreground px-3.5 py-1.5 text-xs font-medium text-background transition-opacity hover:opacity-85 active:scale-95 cursor-pointer"
+              className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium transition-opacity hover:opacity-85 active:scale-95 cursor-pointer ${
+                isUnlocked
+                  ? "bg-emerald-600 text-white"
+                  : "bg-foreground text-background"
+              }`}
             >
-              <span>{isFree ? "Get Free Template" : "Get Template"}</span>
-              <ArrowRight className="h-3 w-3" />
+              <Download className="h-3 w-3" />
+              <span>{isUnlocked ? "Download Files" : isFree ? "Get Free Template" : "Get Template"}</span>
             </button>
           </div>
         </div>

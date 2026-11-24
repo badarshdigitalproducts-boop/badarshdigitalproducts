@@ -19,6 +19,7 @@ import {
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "@/components/products/checkout-modal";
+import { useProductAccess } from "@/hooks/use-product-access";
 
 interface VideoTemplateCardProps {
   product: Product;
@@ -26,6 +27,7 @@ interface VideoTemplateCardProps {
 
 export function VideoTemplateCard({ product }: VideoTemplateCardProps) {
   const { formatPrice: formatCurr } = useCurrency();
+  const { isUnlocked, handleDownload } = useProductAccess(product);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
@@ -63,6 +65,10 @@ export function VideoTemplateCard({ product }: VideoTemplateCardProps) {
 
   const handleAction = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (isUnlocked) {
+      handleDownload(e);
+      return;
+    }
     if (isFree) {
       window.open(product.capcutUrl || "https://www.capcut.com/template", "_blank", "noopener,noreferrer");
     } else {
@@ -116,7 +122,12 @@ export function VideoTemplateCard({ product }: VideoTemplateCardProps) {
 
           {/* Pricing Pill */}
           <div className="absolute top-3 right-3 z-20">
-            {isFree ? (
+            {isUnlocked ? (
+              <span className="rounded-full bg-emerald-500/90 backdrop-blur-md px-2.5 py-0.5 text-[9px] font-bold text-white shadow-xs flex items-center gap-1">
+                <CheckCircle2 className="h-2.5 w-2.5" />
+                Purchased
+              </span>
+            ) : isFree ? (
               <span className="rounded-full bg-emerald-500/90 backdrop-blur-md px-2 py-0.5 text-[9px] font-bold text-white shadow-xs">
                 FREE TEMPLATE
               </span>
@@ -174,9 +185,17 @@ export function VideoTemplateCard({ product }: VideoTemplateCardProps) {
             </p>
           </div>
 
-          {/* Action: Buy if paid, USE if free */}
+          {/* Action: Download if purchased, USE if free, Buy if paid */}
           <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800 flex flex-col gap-2">
-            {isFree ? (
+            {isUnlocked ? (
+              <button
+                onClick={handleAction}
+                className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 text-xs font-bold shadow-md hover:scale-102 active:scale-98 transition-transform cursor-pointer"
+              >
+                <CheckCircle2 className="h-3.5 w-3.5" />
+                <span>Download Master Files (Purchased)</span>
+              </button>
+            ) : isFree ? (
               <button
                 onClick={handleAction}
                 className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 text-xs font-bold shadow-md hover:scale-102 active:scale-98 transition-transform cursor-pointer"

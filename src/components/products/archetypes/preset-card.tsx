@@ -9,6 +9,7 @@ import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "../checkout-modal";
 import { triggerDirectDownload } from "@/lib/download";
+import { useProductAccess } from "@/hooks/use-product-access";
 
 interface PresetCardProps {
   product: Product;
@@ -18,6 +19,7 @@ interface PresetCardProps {
 export function PresetCard({ product }: PresetCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
+  const { isUnlocked, handleDownload } = useProductAccess(product);
   const [sliderPosition, setSliderPosition] = useState(50);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -26,6 +28,10 @@ export function PresetCard({ product }: PresetCardProps) {
 
   const handleActionClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (isUnlocked) {
+      handleDownload(e);
+      return;
+    }
     if (isFree) {
       const targetUrl = product.presetLinkUrl || product.downloadUrl || "https://lightroom.adobe.com/";
       triggerDirectDownload(targetUrl, `${product.title.toLowerCase().replace(/\s+/g, "-")}-preset.dng`);
@@ -154,25 +160,33 @@ export function PresetCard({ product }: PresetCardProps) {
         {/* Action Row */}
         <div className="mt-auto pt-4 flex items-center justify-between border-t border-card-border/60">
           <div>
-            <div className="flex items-baseline gap-2">
-              <span className="font-heading text-lg font-bold text-foreground">
-                {formatCurr(product.price)}
+            {isUnlocked ? (
+              <span className="rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 text-xs font-bold text-emerald-600">
+                Purchased
               </span>
-              {product.originalPrice && product.originalPrice > product.price && (
-                <span className="text-xs text-muted line-through">
-                  {formatCurr(product.originalPrice)}
+            ) : (
+              <div className="flex items-baseline gap-2">
+                <span className="font-heading text-lg font-bold text-foreground">
+                  {formatCurr(product.price)}
                 </span>
-              )}
-            </div>
-            <span className="text-[10px] text-muted">Instant Preset Link</span>
+                {product.originalPrice && product.originalPrice > product.price && (
+                  <span className="text-xs text-muted line-through">
+                    {formatCurr(product.originalPrice)}
+                  </span>
+                )}
+              </div>
+            )}
+            <span className="text-[10px] text-muted block mt-0.5">Instant Master Files</span>
           </div>
 
           <button
             onClick={handleActionClick}
-            className="flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-xs transition-opacity hover:opacity-90 active:scale-95 cursor-pointer"
+            className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold shadow-xs transition-opacity hover:opacity-90 active:scale-95 cursor-pointer ${
+              isUnlocked ? "bg-emerald-600 text-white" : "bg-foreground text-background"
+            }`}
           >
-            <span>{isFree ? "Get Free Preset" : "Get Preset"}</span>
-            <ExternalLink className="h-3 w-3" />
+            <Download className="h-3 w-3" />
+            <span>{isUnlocked ? "Download Presets" : isFree ? "Get Free Preset" : "Get Preset"}</span>
           </button>
         </div>
       </div>

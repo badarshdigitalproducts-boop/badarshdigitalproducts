@@ -21,6 +21,7 @@ import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
 import { triggerDirectDownload } from "@/lib/download";
+import { markProductAsUnlocked } from "@/hooks/use-product-access";
 
 interface CheckoutModalProps {
   product: Product;
@@ -150,11 +151,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
         if (data.orderId) {
           try {
             localStorage.setItem(`badarsh_order_token_${data.orderId}`, data.order?.licenseKey || data.orderId);
-            const unlocked: Record<string, { orderId: string; licenseKey: string }> = JSON.parse(
-              localStorage.getItem("badarsh_unlocked_products") || "{}"
-            );
-            unlocked[product.id] = { orderId: data.orderId, licenseKey: data.order?.licenseKey || data.orderId };
-            localStorage.setItem("badarsh_unlocked_products", JSON.stringify(unlocked));
+            markProductAsUnlocked(product.id, product.slug, data.orderId, data.order?.licenseKey);
           } catch {}
         }
 

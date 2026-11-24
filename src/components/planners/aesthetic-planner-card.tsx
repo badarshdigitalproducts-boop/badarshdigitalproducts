@@ -19,6 +19,7 @@ import { useCurrency } from "@/context/currency-context";
 import { PdfViewerModal } from "@/components/pdf/pdf-viewer-modal";
 import { CheckoutModal } from "@/components/products/checkout-modal";
 import { triggerDirectDownload } from "@/lib/download";
+import { useProductAccess } from "@/hooks/use-product-access";
 
 interface AestheticPlannerCardProps {
   product: Product;
@@ -27,6 +28,7 @@ interface AestheticPlannerCardProps {
 export function AestheticPlannerCard({ product }: AestheticPlannerCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
+  const { isUnlocked, handleDownload } = useProductAccess(product);
   const [activeTab, setActiveTab] = useState<"daily" | "weekly" | "habits" | "budget">("daily");
   const [previewOpen, setPreviewOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
@@ -44,6 +46,10 @@ export function AestheticPlannerCard({ product }: AestheticPlannerCardProps) {
 
   const handleActionClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (isUnlocked) {
+      handleDownload(e);
+      return;
+    }
     if (isFree) {
       if (product.downloadUrl) {
         triggerDirectDownload(product.downloadUrl, `${product.title.toLowerCase().replace(/\s+/g, "-")}-planner.pdf`);
@@ -157,10 +163,16 @@ export function AestheticPlannerCard({ product }: AestheticPlannerCardProps) {
           <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-between">
             <div>
               <span className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider">
-                {isFree ? "Printable PDF" : "Digital System"}
+                {isUnlocked ? "Unlocked Master" : isFree ? "Printable PDF" : "Digital System"}
               </span>
               <div className="text-base font-bold text-neutral-900 dark:text-white">
-                {isFree ? "Free Download" : formatCurr(product.price)}
+                {isUnlocked ? (
+                  <span className="text-emerald-600 font-bold">Purchased</span>
+                ) : isFree ? (
+                  "Free Download"
+                ) : (
+                  formatCurr(product.price)
+                )}
               </div>
             </div>
 
@@ -170,16 +182,20 @@ export function AestheticPlannerCard({ product }: AestheticPlannerCardProps) {
                   e.stopPropagation();
                   setPreviewOpen(true);
                 }}
-                className="rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800/60 px-3 py-2 text-xs font-bold text-neutral-800 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700"
+                className="rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800/60 px-3 py-2 text-xs font-bold text-neutral-800 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer"
               >
                 Look Inside
               </button>
               <button
                 onClick={handleActionClick}
-                className="flex items-center gap-1 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-4 py-2 text-xs font-bold shadow-md hover:scale-102 active:scale-98 transition-transform"
+                className={`flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-bold shadow-md transition-all active:scale-98 cursor-pointer ${
+                  isUnlocked
+                    ? "bg-emerald-600 text-white hover:bg-emerald-700"
+                    : "bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 hover:scale-102"
+                }`}
               >
-                <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-                <span>{isFree ? "Download" : "Get Planner"}</span>
+                <Download className="h-3.5 w-3.5" />
+                <span>{isUnlocked ? "Download Planner" : isFree ? "Download" : "Get Planner"}</span>
               </button>
             </div>
           </div>

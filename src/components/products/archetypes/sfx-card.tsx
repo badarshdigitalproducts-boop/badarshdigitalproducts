@@ -9,6 +9,7 @@ import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { useAudioPlayer } from "@/context/audio-player-context";
 import { CheckoutModal } from "../checkout-modal";
+import { useProductAccess } from "@/hooks/use-product-access";
 
 interface SfxCardProps {
   product: Product;
@@ -19,6 +20,7 @@ export function SfxCard({ product }: SfxCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
   const { currentTrack, isPlaying, playTrack, togglePlay } = useAudioPlayer();
+  const { isUnlocked, handleDownload } = useProductAccess(product);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const isThisPlaying = currentTrack?.id === product.id && isPlaying;
@@ -30,6 +32,10 @@ export function SfxCard({ product }: SfxCardProps) {
 
   const handleActionClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (isUnlocked) {
+      handleDownload(e);
+      return;
+    }
     if (isFree) {
       const a = document.createElement("a");
       a.href = audioSrc;
@@ -153,25 +159,33 @@ export function SfxCard({ product }: SfxCardProps) {
         {/* Action Row */}
         <div className="mt-auto pt-4 flex items-center justify-between border-t border-card-border/60">
           <div>
-            <div className="flex items-baseline gap-2">
-              <span className="font-heading text-lg font-bold text-foreground">
-                {product.price === 0 ? "Free" : formatCurr(product.price)}
+            {isUnlocked ? (
+              <span className="rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 text-xs font-bold text-emerald-600">
+                Purchased
               </span>
-              {product.originalPrice && product.originalPrice > product.price && (
-                <span className="text-xs text-muted line-through">
-                  {formatCurr(product.originalPrice)}
+            ) : (
+              <div className="flex items-baseline gap-2">
+                <span className="font-heading text-lg font-bold text-foreground">
+                  {product.price === 0 ? "Free" : formatCurr(product.price)}
                 </span>
-              )}
-            </div>
-            <span className="text-[10px] text-muted">Instant Cloud Vault</span>
+                {product.originalPrice && product.originalPrice > product.price && (
+                  <span className="text-xs text-muted line-through">
+                    {formatCurr(product.originalPrice)}
+                  </span>
+                )}
+              </div>
+            )}
+            <span className="text-[10px] text-muted block mt-0.5">{isUnlocked ? "Lifetime Audio License" : "Instant Cloud Vault"}</span>
           </div>
 
           <button
             onClick={handleActionClick}
-            className="flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-xs transition-opacity hover:opacity-90 active:scale-95 cursor-pointer"
+            className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold shadow-xs transition-opacity hover:opacity-90 active:scale-95 cursor-pointer ${
+              isUnlocked ? "bg-emerald-600 text-white" : "bg-foreground text-background"
+            }`}
           >
-            <span>{isFree ? "Download Master" : "Get Asset"}</span>
-            {isFree ? <Download className="h-3 w-3" /> : <ExternalLink className="h-3 w-3" />}
+            <Download className="h-3.5 w-3.5" />
+            <span>{isUnlocked ? "Download WAV" : isFree ? "Download Master" : "Get Asset"}</span>
           </button>
         </div>
       </div>

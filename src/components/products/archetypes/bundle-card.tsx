@@ -9,6 +9,7 @@ import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "../checkout-modal";
 import { DrivePreviewModal } from "@/components/bundles/drive-preview-modal";
+import { useProductAccess } from "@/hooks/use-product-access";
 
 interface BundleCardProps {
   product: Product;
@@ -18,6 +19,7 @@ interface BundleCardProps {
 export function BundleCard({ product }: BundleCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
+  const { isUnlocked, handleDownload } = useProductAccess(product);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [drivePreviewOpen, setDrivePreviewOpen] = useState(false);
 
@@ -31,6 +33,10 @@ export function BundleCard({ product }: BundleCardProps) {
 
   const handleActionClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (isUnlocked) {
+      handleDownload(e);
+      return;
+    }
     setCheckoutOpen(true);
   };
 
@@ -111,17 +117,23 @@ export function BundleCard({ product }: BundleCardProps) {
         {/* Price & Action Row */}
         <div className="mt-auto pt-5 flex items-center justify-between border-t border-card-border/60">
           <div>
-            <div className="flex items-baseline gap-2">
-              <span className="font-heading text-xl font-bold text-foreground">
-                {formatCurr(product.price)}
+            {isUnlocked ? (
+              <span className="rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 text-xs font-bold text-emerald-600">
+                Purchased
               </span>
-              {product.originalPrice && product.originalPrice > product.price && (
-                <span className="text-xs text-muted line-through">
-                  {formatCurr(product.originalPrice)}
+            ) : (
+              <div className="flex items-baseline gap-2">
+                <span className="font-heading text-xl font-bold text-foreground">
+                  {formatCurr(product.price)}
                 </span>
-              )}
-            </div>
-            <span className="text-[10px] text-muted">Google Drive Direct Cloud Access</span>
+                {product.originalPrice && product.originalPrice > product.price && (
+                  <span className="text-xs text-muted line-through">
+                    {formatCurr(product.originalPrice)}
+                  </span>
+                )}
+              </div>
+            )}
+            <span className="text-[10px] text-muted block mt-0.5">{isUnlocked ? "Lifetime Drive Access" : "Google Drive Direct Cloud Access"}</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -137,10 +149,14 @@ export function BundleCard({ product }: BundleCardProps) {
             </button>
             <button
               onClick={handleActionClick}
-              className="flex items-center gap-1.5 rounded-full bg-accent px-4 py-1.5 text-xs font-bold text-white shadow-md transition-all hover:bg-accent-hover hover:scale-105 active:scale-95 cursor-pointer"
+              className={`flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-bold shadow-md transition-all active:scale-95 cursor-pointer ${
+                isUnlocked
+                  ? "bg-emerald-600 text-white hover:bg-emerald-700"
+                  : "bg-accent text-white hover:bg-accent-hover hover:scale-105"
+              }`}
             >
-              <span>Unlock</span>
-              <ExternalLink className="h-3 w-3" />
+              <Download className="h-3.5 w-3.5" />
+              <span>{isUnlocked ? "Download Master" : "Unlock"}</span>
             </button>
           </div>
         </div>

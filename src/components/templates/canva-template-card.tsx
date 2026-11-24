@@ -17,6 +17,7 @@ import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "@/components/products/checkout-modal";
 import { triggerDirectDownload } from "@/lib/download";
+import { useProductAccess } from "@/hooks/use-product-access";
 
 interface CanvaTemplateCardProps {
   product: Product;
@@ -26,6 +27,7 @@ interface CanvaTemplateCardProps {
 export function CanvaTemplateCard({ product }: CanvaTemplateCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
+  const { isUnlocked, handleDownload } = useProductAccess(product);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [quickPreviewOpen, setQuickPreviewOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
@@ -80,11 +82,15 @@ export function CanvaTemplateCard({ product }: CanvaTemplateCardProps) {
 
   const handleUseTemplate = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (isUnlocked) {
+      handleDownload(e);
+      return;
+    }
     if (product.price === 0) {
-      if (product.canvaUrl) {
-        window.open(product.canvaUrl, "_blank");
-      } else if (product.downloadUrl) {
+      if (product.downloadUrl) {
         triggerDirectDownload(product.downloadUrl, `${product.title.toLowerCase().replace(/\s+/g, "-")}-template.zip`);
+      } else if (product.canvaUrl) {
+        window.open(product.canvaUrl, "_blank");
       } else {
         router.push(`/templates/${product.slug}`);
       }
@@ -138,7 +144,12 @@ export function CanvaTemplateCard({ product }: CanvaTemplateCardProps) {
 
           {/* Pricing Pill */}
           <div className="absolute top-3 right-3 z-10">
-            {isFree ? (
+            {isUnlocked ? (
+              <span className="rounded-full bg-emerald-500/90 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs flex items-center gap-1">
+                <Check className="h-2.5 w-2.5" />
+                Purchased
+              </span>
+            ) : isFree ? (
               <span className="rounded-full bg-emerald-500/90 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs">
                 FREE TEMPLATE
               </span>
@@ -175,13 +186,23 @@ export function CanvaTemplateCard({ product }: CanvaTemplateCardProps) {
               <Eye className="h-3.5 w-3.5" />
               <span>Preview ({slides.length} Slides)</span>
             </button>
-            <button
-              onClick={handleUseTemplate}
-              className="flex-1 flex items-center justify-center gap-1 rounded-xl bg-neutral-900 dark:bg-white py-2 text-xs font-bold text-white dark:text-neutral-900 shadow-lg hover:scale-102 active:scale-98 transition-transform"
-            >
-              <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-              <span>{isFree ? "Use in Canva" : "Get Template"}</span>
-            </button>
+            {isUnlocked ? (
+              <button
+                onClick={handleDownload}
+                className="flex-1 flex items-center justify-center gap-1 rounded-xl bg-emerald-600 py-2 text-xs font-bold text-white shadow-lg hover:bg-emerald-700 active:scale-98 transition-transform cursor-pointer"
+              >
+                <Download className="h-3.5 w-3.5" />
+                <span>Download Files</span>
+              </button>
+            ) : (
+              <button
+                onClick={handleUseTemplate}
+                className="flex-1 flex items-center justify-center gap-1 rounded-xl bg-neutral-900 dark:bg-white py-2 text-xs font-bold text-white dark:text-neutral-900 shadow-lg hover:scale-102 active:scale-98 transition-transform cursor-pointer"
+              >
+                <Sparkles className="h-3.5 w-3.5 text-amber-400" />
+                <span>{isFree ? "Use Template" : "Get Template"}</span>
+              </button>
+            )}
           </div>
         </div>
 

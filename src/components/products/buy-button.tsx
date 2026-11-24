@@ -7,6 +7,7 @@ import { useCurrency } from "@/context/currency-context";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
 import { CheckoutModal } from "./checkout-modal";
 import { triggerDirectDownload } from "@/lib/download";
+import { useProductAccess } from "@/hooks/use-product-access";
 
 interface BuyButtonProps {
   price: number;
@@ -52,17 +53,7 @@ export function BuyButton({
   };
 
   const isFree = price === 0;
-  const [isUnlocked, setIsUnlocked] = useState(false);
-
-  useEffect(() => {
-    try {
-      const unlocked = JSON.parse(localStorage.getItem("badarsh_unlocked_products") || "{}");
-      const key = productData.id || productData.slug;
-      if (unlocked[key]) {
-        setIsUnlocked(true);
-      }
-    } catch {}
-  }, [productData.id, productData.slug]);
+  const { isUnlocked, handleDownload } = useProductAccess(productData);
 
   const handleFreeDownload = () => {
     const directUrl =
@@ -89,7 +80,7 @@ export function BuyButton({
         {/* Primary Action Button */}
         {isUnlocked ? (
           <button
-            onClick={handleFreeDownload}
+            onClick={handleDownload}
             className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-full bg-emerald-600 px-8 py-4 font-heading text-base font-bold text-white shadow-lg shadow-emerald-600/25 transition-all duration-300 hover:bg-emerald-700 hover:shadow-xl hover:shadow-emerald-600/35 active:scale-[0.98]"
           >
             <CheckCircle2 className="h-5 w-5 text-emerald-200" />

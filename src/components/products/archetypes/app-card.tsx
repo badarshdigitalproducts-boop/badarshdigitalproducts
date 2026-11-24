@@ -9,6 +9,7 @@ import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "../checkout-modal";
 import { AppStoreModal } from "@/components/apps/app-store-modal";
+import { useProductAccess } from "@/hooks/use-product-access";
 
 interface AppCardProps {
   product: Product;
@@ -18,6 +19,7 @@ interface AppCardProps {
 export function AppCard({ product }: AppCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
+  const { isUnlocked, handleDownload } = useProductAccess(product);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [appStoreOpen, setAppStoreOpen] = useState(false);
 
@@ -28,6 +30,10 @@ export function AppCard({ product }: AppCardProps) {
 
   const handleActionClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (isUnlocked) {
+      handleDownload(e);
+      return;
+    }
     setAppStoreOpen(true);
   };
 
@@ -105,17 +111,23 @@ export function AppCard({ product }: AppCardProps) {
       {/* Action Row */}
       <div className="mt-5 flex items-center justify-between border-t border-card-border/60 pt-4">
         <div>
-          <div className="flex items-baseline gap-2">
-            <span className="font-heading text-lg font-bold text-foreground">
-              {isFree ? "Free" : formatCurr(product.price)}
+          {isUnlocked ? (
+            <span className="rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 text-xs font-bold text-emerald-600">
+              Purchased
             </span>
-            {product.originalPrice && product.originalPrice > product.price && (
-              <span className="text-xs text-muted line-through">
-                {formatCurr(product.originalPrice)}
+          ) : (
+            <div className="flex items-baseline gap-2">
+              <span className="font-heading text-lg font-bold text-foreground">
+                {isFree ? "Free" : formatCurr(product.price)}
               </span>
-            )}
-          </div>
-          <span className="text-[10px] text-muted">Direct Mobile App</span>
+              {product.originalPrice && product.originalPrice > product.price && (
+                <span className="text-xs text-muted line-through">
+                  {formatCurr(product.originalPrice)}
+                </span>
+              )}
+            </div>
+          )}
+          <span className="text-[10px] text-muted block mt-0.5">{isUnlocked ? "Lifetime Re-download" : "Direct Mobile App"}</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -128,10 +140,12 @@ export function AppCard({ product }: AppCardProps) {
           </button>
           <button
             onClick={handleActionClick}
-            className="flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-xs transition-opacity hover:opacity-90 active:scale-95 cursor-pointer"
+            className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold shadow-xs transition-opacity hover:opacity-90 active:scale-95 cursor-pointer ${
+              isUnlocked ? "bg-emerald-600 text-white" : "bg-foreground text-background"
+            }`}
           >
             <Download className="h-3.5 w-3.5" />
-            <span>{isFree ? "Install APK" : "Get App"}</span>
+            <span>{isUnlocked ? "Download App" : isFree ? "Install APK" : "Get App"}</span>
           </button>
         </div>
       </div>
