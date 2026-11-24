@@ -5,6 +5,65 @@ import { canAccessOrder } from "@/lib/auth/access-control";
 import { products as fallbackProducts } from "@/content/products";
 import crypto from "crypto";
 
+const FREE_SFX_AUDIO_URLS: Record<string, { title: string; url: string }> = {
+  "sfx-quattro-boom": {
+    title: "Quattro-boom Whoosh SFX",
+    url: "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
+  },
+  "sfx-welcome": {
+    title: "Welcome SFX",
+    url: "https://actions.google.com/sounds/v1/foley/beeps.ogg",
+  },
+  "sfx-explosion": {
+    title: "Explosion SFX",
+    url: "https://actions.google.com/sounds/v1/impacts/crash.ogg",
+  },
+  "sfx-item-collected": {
+    title: "Item Collected SFX",
+    url: "https://actions.google.com/sounds/v1/cartoon/pop.ogg",
+  },
+  "sfx-toon-drops": {
+    title: "Toon Drops SFX",
+    url: "https://actions.google.com/sounds/v1/cartoon/slide_whistle.ogg",
+  },
+  "sfx-platform-hit": {
+    title: "SFX Platform Game Hit 1",
+    url: "https://actions.google.com/sounds/v1/foley/beeps.ogg",
+  },
+  "sfx-cinematic-whoosh": {
+    title: "Cinematic High-Pass Whoosh",
+    url: "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
+  },
+  "sfx-mech-keyboard": {
+    title: "Mechanical Keyboard Click & Tap",
+    url: "https://actions.google.com/sounds/v1/household/clock_tick.ogg",
+  },
+  "sfx-rain-thunder": {
+    title: "Rain On Window & Soft Thunder",
+    url: "https://actions.google.com/sounds/v1/water/rain_heavy.ogg",
+  },
+  "sfx-cyber-shield": {
+    title: "Sci-Fi Energy Shield Recharging",
+    url: "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
+  },
+  "sfx-espresso-pour": {
+    title: "Domestic Coffee Pour & Ceramic Clink",
+    url: "https://actions.google.com/sounds/v1/foley/beeps.ogg",
+  },
+  "sfx-stadium-applause": {
+    title: "Arena Crowd Cheer & Thunderous Applause",
+    url: "https://actions.google.com/sounds/v1/ambiences/outdoor_ambience.ogg",
+  },
+  "sfx-subway-departure": {
+    title: "Urban Metro Train Track Rumble",
+    url: "https://actions.google.com/sounds/v1/impacts/crash.ogg",
+  },
+  "sfx-industrial-press": {
+    title: "Heavy Hydraulic Piston Impact",
+    url: "https://actions.google.com/sounds/v1/impacts/crash.ogg",
+  },
+};
+
 function findProduct(dbProducts: any[], productId: string) {
   const normalizedId = productId.toLowerCase().trim();
   return (
@@ -15,6 +74,7 @@ function findProduct(dbProducts: any[], productId: string) {
 
 function getProductAssetTarget(product: any): string | null {
   return (
+    product.freeDownloadUrl ||
     product.downloadUrl ||
     product.alightMotionXmlUrl ||
     product.capcutUrl ||
@@ -22,6 +82,7 @@ function getProductAssetTarget(product: any): string | null {
     product.appDownloadUrl ||
     product.pdfUrl ||
     product.presetLinkUrl ||
+    product.audioPreviewUrl ||
     product.canvaUrl ||
     product.templateUrl ||
     null
@@ -116,7 +177,7 @@ export async function GET(request: NextRequest) {
   const exp = searchParams.get("exp");
 
   try {
-    const db = await getDatabase();
+    const db = await getDatabase(true);
 
     // 1. Token-based direct download validation
     if (key && token && exp) {
@@ -128,8 +189,12 @@ export async function GET(request: NextRequest) {
         );
       }
 
+      const signingKey =
+        process.env.DOWNLOAD_SIGNING_KEY ||
+        process.env.ADMIN_SESSION_SECRET ||
+        "badarsh-secret-signing-key";
       const expectedToken = crypto
-        .createHmac("sha256", "badarsh-secret-signing-key")
+        .createHmac("sha256", signingKey)
         .update(`${key}:${exp}`)
         .digest("hex");
 
@@ -202,6 +267,11 @@ export async function GET(request: NextRequest) {
 
     // 3. Free product instant download validation
     if (productId && !orderId) {
+      const staticSfx = FREE_SFX_AUDIO_URLS[productId.toLowerCase().trim()];
+      if (staticSfx) {
+        return await resolveDownloadRedirect(staticSfx.url, request, staticSfx.title);
+      }
+
       const product = findProduct(db.products, productId);
       if (!product) {
         return NextResponse.json({ error: "Product not found in catalog." }, { status: 404 });

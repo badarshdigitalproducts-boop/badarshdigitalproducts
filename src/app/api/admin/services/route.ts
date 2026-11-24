@@ -33,8 +33,13 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const services = await getAdminServices();
-  return NextResponse.json({ services });
+  try {
+    const services = await getAdminServices();
+    return NextResponse.json({ services });
+  } catch (error) {
+    console.error("Get Services error:", error);
+    return NextResponse.json({ services: [], error: "Internal error" }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {

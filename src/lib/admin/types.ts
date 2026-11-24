@@ -243,6 +243,7 @@ export interface SystemSettings {
   maintenanceMode: boolean;
   lastBackupAt?: string;
   cashfree?: CashfreeConfig;
+  deletedProductIds?: string[];
 }
 
 export interface AuditLog {

@@ -1,13 +1,79 @@
 import { NextRequest, NextResponse } from "next/server";
-import { saveAdminOrder, getAdminCoupons, saveAdminCoupon, addLead, getAdminProducts } from "@/lib/admin/store";
+import { saveAdminOrder, getAdminCoupons, saveAdminCoupon, addLead, getAdminProducts, getAdminServices } from "@/lib/admin/store";
 import { products as fallbackProducts } from "@/content/products";
+import { services as fallbackServices } from "@/content/services";
 import type { OrderItem } from "@/lib/admin/types";
 import { checkRateLimit, createRateLimitResponse } from "@/lib/security/rate-limiter";
 import { sanitizeText, sanitizeEmail, sanitizePhone, isHoneypotTriggered } from "@/lib/security/sanitize";
 import { getAuthenticatedUser } from "@/lib/auth/access-control";
 import { createCashfreeOrder } from "@/lib/cashfree";
+import { getBaseUrl } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
+
+const BESPOKE_SERVICE_PACKAGES: Record<string, { title: string; price: number }> = {
+  "svc-photo-silver": {
+    title: "Event & Portrait Photography — Silver Coverage (Half-Day)",
+    price: 18000,
+  },
+  "svc-photo-gold": {
+    title: "Event & Portrait Photography — Gold Coverage (Full-Day VIP)",
+    price: 35000,
+  },
+  "svc-photo-platinum": {
+    title: "Event & Portrait Photography — Platinum Suite (Multi-Day Luxury)",
+    price: 65000,
+  },
+  "svc-prewed-teaser": {
+    title: "Cinematic Pre-Wedding Films — The Instagram 4K Teaser",
+    price: 25000,
+  },
+  "svc-prewed-story": {
+    title: "Cinematic Pre-Wedding Films — The Cinematic Story Film",
+    price: 48000,
+  },
+  "svc-prewed-royal": {
+    title: "Cinematic Pre-Wedding Films — The Royal Cinema & Photo Suite",
+    price: 85000,
+  },
+};
+
+function resolveCheckoutOrigin(request: NextRequest): string {
+  const fwdHost = request.headers.get("x-forwarded-host") || request.headers.get("host") || "";
+  const fwdProto = request.headers.get("x-forwarded-proto") || "https";
+  if (
+    fwdHost &&
+    !fwdHost.includes("localhost") &&
+    !fwdHost.includes("127.0.0.1") &&
+    fwdProto.startsWith("https")
+  ) {
+    return `https://${fwdHost}`;
+  }
+  return getBaseUrl();
+}
+
+async function resolveVerifiedServicePackage(productId: string): Promise<{ title: string; price: number } | null> {
+  if (!productId) return null;
+  if (BESPOKE_SERVICE_PACKAGES[productId]) {
+    return BESPOKE_SERVICE_PACKAGES[productId];
+  }
+  const [adminServices] = await Promise.all([getAdminServices().catch(() => [])]);
+  const allServices = [...adminServices, ...fallbackServices];
+  for (const svc of allServices) {
+    const svcKey = svc.title.toLowerCase().replace(/[^a-z0-9]/g, "-");
+    for (const pkg of svc.packages || []) {
+      const pkgKey = pkg.name.toLowerCase().replace(/[^a-z0-9]/g, "-");
+      const expectedId = `svc-${svcKey}-${pkgKey}`;
+      if (productId === expectedId) {
+        return {
+          title: `${svc.title} — ${pkg.name}`,
+          price: pkg.price,
+        };
+      }
+    }
+  }
+  return null;
+}
 
 export async function POST(request: NextRequest) {
   // 1. Rate limiting: Max 10 checkouts per 5 minutes per IP
@@ -47,11 +113,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 4. NEVER TRUST THE FRONTEND: Authoritative Product Verification & Pricing
+    // 4. NEVER TRUST THE FRONTEND: Authoritative Product / Service Verification & Pricing
     const adminProducts = await getAdminProducts().catch(() => []);
     const verifiedProduct =
       adminProducts.find((p) => p.id === productId || p.slug === productId) ||
       fallbackProducts.find((p) => p.id === productId || p.slug === productId);
+
+    const verifiedService = !verifiedProduct ? await resolveVerifiedServicePackage(productId) : null;
+
+    if (!verifiedProduct && !verifiedService) {
+      return NextResponse.json(
+        { error: "Selected product or service package was not found." },
+        { status: 404 }
+      );
+    }
 
     let authoritativeTitle = cleanCustomerName;
     let basePrice = 299;
@@ -73,11 +148,10 @@ export async function POST(request: NextRequest) {
         verifiedProduct.templateUrl ||
         "";
       productType = verifiedProduct.category || "template";
-    } else {
-      // Fallback if product not explicitly in DB: check client provided title safely
-      authoritativeTitle = sanitizeText(body.productTitle, 120) || "Digital Product";
-      // Enforce minimum price floor - never allow 0 or arbitrary client overrides
-      basePrice = Math.max(Number(body.productPrice) || 299, 99);
+    } else if (verifiedService) {
+      authoritativeTitle = verifiedService.title;
+      basePrice = verifiedService.price;
+      productType = "service";
     }
 
     const upsellPrice = includeUpsell ? 199 : 0;
@@ -136,13 +210,20 @@ export async function POST(request: NextRequest) {
     ];
 
     if (includeUpsell) {
+      const upsellPlanner =
+        adminProducts.find((p) => p.category === "planners") ||
+        fallbackProducts.find((p) => p.category === "planners");
       items.push({
-        id: "upsell-planner",
-        title: "30-Day Viral Content Planner Bundle",
+        id: upsellPlanner?.id || "upsell-planner",
+        title: upsellPlanner?.title || "30-Day Viral Content Planner Bundle",
         price: 199,
         quantity: 1,
-        productType: "planner",
-        downloadUrl: "/downloads/30-day-content-planner.zip",
+        productType: "planners",
+        downloadUrl:
+          upsellPlanner?.downloadUrl ||
+          upsellPlanner?.googleDriveUrl ||
+          upsellPlanner?.pdfUrl ||
+          "",
       });
     }
 
@@ -174,6 +255,7 @@ export async function POST(request: NextRequest) {
 
     if (isOnlineCheckout) {
       try {
+        const originUrl = resolveCheckoutOrigin(request);
         const cfResult = await createCashfreeOrder({
           orderId,
           orderAmount: finalAmount,
@@ -181,6 +263,8 @@ export async function POST(request: NextRequest) {
           customerEmail: cleanCustomerEmail,
           customerPhone: cleanCustomerPhone,
           customerId: userId || `cust_${orderId.replace(/[^a-zA-Z0-9]/g, "").slice(-12)}`,
+          returnUrl: `${originUrl}/orders/${orderId}?cf_id={order_id}&token=${orderId}`,
+          notifyUrl: `${originUrl}/api/webhooks/cashfree`,
         });
 
         if (cfResult.success && cfResult.paymentSessionId) {
@@ -259,7 +343,9 @@ export async function POST(request: NextRequest) {
         appliedCoupon: appliedCoupon ? appliedCoupon.code : null,
         licenseKey: order.licenseKey,
         items: order.items,
-        downloadUrl: authoritativeDownloadUrl || `/downloads/${order.id}.zip`,
+        downloadUrl:
+          authoritativeDownloadUrl ||
+          `/api/download?orderId=${encodeURIComponent(order.id)}&productId=${encodeURIComponent(items[0].id)}&key=${encodeURIComponent(order.licenseKey)}`,
         canvaUrl: authoritativeCanvaUrl || null,
         paymentStatus: order.paymentStatus,
         createdAt: order.createdAt,

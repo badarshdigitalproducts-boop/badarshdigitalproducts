@@ -24,6 +24,8 @@ import { useCurrency } from "@/context/currency-context";
 import { ChapterReaderModal } from "@/components/books/chapter-reader-modal";
 import { CheckoutModal } from "@/components/products/checkout-modal";
 import { PdfViewerModal } from "@/components/pdf/pdf-viewer-modal";
+import { triggerDirectDownload } from "@/lib/download";
+import { useProductAccess } from "@/hooks/use-product-access";
 
 interface BookDetailViewProps {
   product: Product;
@@ -31,6 +33,7 @@ interface BookDetailViewProps {
 
 export function BookDetailView({ product }: BookDetailViewProps) {
   const { formatPrice: formatCurr } = useCurrency();
+  const { isUnlocked, handleDownload } = useProductAccess(product);
   const [chapterReaderOpen, setChapterReaderOpen] = useState(false);
   const [pdfModalOpen, setPdfModalOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
@@ -209,11 +212,22 @@ export function BookDetailView({ product }: BookDetailViewProps) {
                   <span>Read Free Chapters 1 &amp; 2</span>
                 </button>
                 <button
-                  onClick={() => setCheckoutOpen(true)}
-                  className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-white py-3.5 text-xs font-bold text-white dark:text-neutral-900 shadow-xl hover:scale-102 active:scale-98 transition-transform"
+                  onClick={() => {
+                    if (isUnlocked) {
+                      handleDownload();
+                    } else if (isFree) {
+                      triggerDirectDownload(
+                        `/api/download?productId=${encodeURIComponent(product.id)}`,
+                        `${product.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-master.pdf`
+                      );
+                    } else {
+                      setCheckoutOpen(true);
+                    }
+                  }}
+                  className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-white py-3.5 text-xs font-bold text-white dark:text-neutral-900 shadow-xl hover:scale-102 active:scale-98 transition-transform cursor-pointer"
                 >
                   <Sparkles className="h-4 w-4 text-amber-400" />
-                  <span>{isFree ? "Download Master PDF" : "Unlock Full Book Now"}</span>
+                  <span>{isUnlocked ? "Download PDF (Purchased)" : isFree ? "Download Master PDF" : "Unlock Full Book Now"}</span>
                 </button>
               </div>
 

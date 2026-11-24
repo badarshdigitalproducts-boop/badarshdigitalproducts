@@ -1248,7 +1248,7 @@
       "deliveryType": "download-url",
       "templateUrl": "/templates/velocity-beat-shake-vol-1",
       "canvaUrl": "/templates/velocity-beat-shake-vol-1",
-      "downloadUrl": "/downloads/velocity-beat-shake-vol-1.zip",
+      "downloadUrl": "",
       "status": "published",
       "updatedAt": "2026-11-24T14:15:11.099Z"
     },
@@ -1292,7 +1292,7 @@
       "deliveryType": "download-url",
       "templateUrl": "/templates/kinetic-3d-typography-lyrics",
       "canvaUrl": "/templates/kinetic-3d-typography-lyrics",
-      "downloadUrl": "/downloads/kinetic-3d-typography-lyrics.zip",
+      "downloadUrl": "",
       "status": "published",
       "updatedAt": "2026-11-24T14:15:20.122Z"
     },
@@ -1335,7 +1335,7 @@
       "deliveryType": "download-url",
       "templateUrl": "/templates/glitch-rgb-split-transition-pack",
       "canvaUrl": "/templates/glitch-rgb-split-transition-pack",
-      "downloadUrl": "/downloads/glitch-rgb-split-transition-pack.zip",
+      "downloadUrl": "",
       "status": "published",
       "updatedAt": "2026-11-24T14:15:25.326Z"
     },
@@ -1379,7 +1379,7 @@
       "deliveryType": "download-url",
       "templateUrl": "/templates/cinematic-slow-mo-luxury-reels",
       "canvaUrl": "/templates/cinematic-slow-mo-luxury-reels",
-      "downloadUrl": "/downloads/cinematic-slow-mo-luxury-reels.zip",
+      "downloadUrl": "",
       "status": "published",
       "updatedAt": "2026-11-24T14:15:33.037Z"
     }
@@ -2089,7 +2089,7 @@
       "author": "BADARSH Editorial",
       "date": "November 18, 2026",
       "readTime": "8 min read",
-      "coverImage": "/images/blog/design-playbook.png",
+      "coverImage": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80",
       "tags": [
         "Digital Products",
         "Design Systems",
@@ -2109,7 +2109,7 @@
       "author": "BADARSH Editorial",
       "date": "November 15, 2026",
       "readTime": "5 min read",
-      "coverImage": "/images/blog/design-hacks.png",
+      "coverImage": "https://images.unsplash.com/photo-1542744094-3a31f272c490?w=1200&q=80",
       "tags": [
         "Design Systems",
         "Productivity",
@@ -2129,7 +2129,7 @@
       "author": "BADARSH Editorial",
       "date": "November 10, 2026",
       "readTime": "7 min read",
-      "coverImage": "/images/blog/instagram-growth.png",
+      "coverImage": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1200&q=80",
       "tags": [
         "Instagram",
         "Organic Reach",
@@ -2149,7 +2149,7 @@
       "author": "BADARSH Editorial",
       "date": "November 04, 2026",
       "readTime": "6 min read",
-      "coverImage": "/images/blog/website-conversions.png",
+      "coverImage": "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80",
       "tags": [
         "Web Design",
         "Conversion Rate",
@@ -2407,7 +2407,7 @@
           "productType": "planner",
           "id": "upsell-planner",
           "price": 199,
-          "downloadUrl": "/downloads/30-day-content-planner.zip",
+          "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
           "title": "30-Day Viral Content Planner Bundle",
           "quantity": 1
         }
@@ -2545,9 +2545,9 @@
     "maintenanceMode": false,
     "lastBackupAt": "2026-11-22T15:21:10.884Z",
     "cashfree": {
-      "enabled": false,
+      "enabled": true,
       "secretKey": "",
-      "appId": "bahubaliugare03@gmail.com",
+      "appId": "",
       "env": "PROD"
     }
   },

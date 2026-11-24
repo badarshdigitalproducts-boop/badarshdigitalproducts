@@ -31,6 +31,8 @@ import { TemplatePreviewModal } from "./template-preview-modal";
 import { CheckoutModal } from "./checkout-modal";
 import { PdfViewerModal } from "@/components/pdf/pdf-viewer-modal";
 import { BookOpen } from "lucide-react";
+import { triggerDirectDownload } from "@/lib/download";
+import { useProductAccess } from "@/hooks/use-product-access";
 
 interface ProductDetailViewProps {
   product: Product;
@@ -42,6 +44,7 @@ export function ProductDetailView({
   relatedProducts,
 }: ProductDetailViewProps) {
   const { formatPrice: formatCurr } = useCurrency();
+  const { isUnlocked, handleDownload } = useProductAccess(product);
   const [activeTab, setActiveTab] = useState<"overview" | "included" | "instructions" | "faq" | "reviews">("overview");
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
   const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
@@ -229,7 +232,7 @@ export function ProductDetailView({
                 </button>
               )}
 
-              {(product.images && product.images.length > 0 ? product.images : ["/images/products/product-1.png"]).map((img, idx) => (
+              {(product.images && product.images.length > 0 ? product.images : ["/images/og/og-default.png"]).map((img, idx) => (
                 <button
                   key={`${img}-${idx}`}
                   type="button"
@@ -700,22 +703,27 @@ export function ProductDetailView({
             </span>
           </div>
 
-          {product.price === 0 ? (
+          {isUnlocked ? (
+            <button
+              onClick={handleDownload}
+              className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-full bg-emerald-600 px-5 py-2.5 font-heading text-xs font-bold text-white shadow-md hover:bg-emerald-700"
+            >
+              <Download className="h-3.5 w-3.5" />
+              <span>Download Files (Purchased)</span>
+            </button>
+          ) : product.price === 0 ? (
             <button
               onClick={() => {
-                const directUrl = product.downloadUrl || product.pdfUrl || product.appDownloadUrl || product.canvaUrl;
-                if (directUrl) {
-                  const a = document.createElement("a");
-                  a.href = directUrl;
-                  a.download = `${product.title.toLowerCase().replace(/\s+/g, "-")}-master`;
-                  a.target = "_blank";
-                  a.rel = "noopener noreferrer";
-                  document.body.appendChild(a);
-                  a.click();
-                  document.body.removeChild(a);
-                } else {
-                  setCheckoutModalOpen(true);
-                }
+                const editorUrl =
+                  product.canvaUrl && (product.canvaUrl.includes("canva.com") || product.canvaUrl.includes("capcut.com/template"))
+                    ? product.canvaUrl
+                    : null;
+                const directTarget =
+                  editorUrl || `/api/download?productId=${encodeURIComponent(product.id)}`;
+                triggerDirectDownload(
+                  directTarget,
+                  `${product.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-master`
+                );
               }}
               className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-full bg-emerald-600 px-5 py-2.5 font-heading text-xs font-bold text-white shadow-md hover:bg-emerald-700"
             >

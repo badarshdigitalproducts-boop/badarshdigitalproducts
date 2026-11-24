@@ -16,6 +16,8 @@ import { WaveformDisplay } from "./waveform-display";
 import { useAudioPlayer } from "@/context/audio-player-context";
 import { useCurrency } from "@/context/currency-context";
 import { triggerDirectDownload } from "@/lib/download";
+import { CheckoutModal } from "@/components/products/checkout-modal";
+import type { Product } from "@/types/product";
 
 export interface SfxTrack {
   id: string;
@@ -361,6 +363,7 @@ export function SoundEffectsCatalog() {
   const [savedTrackIds, setSavedTrackIds] = useState<Set<string>>(new Set());
   const [copiedTrackId, setCopiedTrackId] = useState<string | null>(null);
   const [adminTracks, setAdminTracks] = useState<SfxTrack[]>([]);
+  const [checkoutTrack, setCheckoutTrack] = useState<Product | null>(null);
 
   const { currentTrack, isPlaying, currentTime, duration, playTrack, togglePlay, seek } =
     useAudioPlayer();
@@ -471,15 +474,40 @@ export function SoundEffectsCatalog() {
   // Direct download handler
   const handleDownloadTrack = (track: SfxTrack, e: React.MouseEvent) => {
     e.stopPropagation();
+    if (track.price === 0) {
+      triggerDirectDownload(
+        `/api/download?productId=${encodeURIComponent(track.id)}`,
+        `${track.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-master.ogg`
+      );
+      return;
+    }
     if (track.slug) {
       window.location.href = `/templates/${track.slug}`;
       return;
     }
-    if (track.price > 0) {
-      window.location.href = `/checkout?productId=${track.id}`;
-      return;
-    }
-    triggerDirectDownload(track.audioUrl, `${track.title.toLowerCase().replace(/\s+/g, "-")}-master.ogg`);
+    setCheckoutTrack({
+      id: track.id,
+      slug: track.slug || track.id,
+      title: track.title,
+      description: `${track.category} audio effect by ${track.creator} (${track.clipsCount} clips, ${track.durationLabel}).`,
+      longDescription: "",
+      price: track.price,
+      currency: "INR",
+      category: "sound-effects",
+      tags: ["sfx", track.category],
+      images: ["https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1200&q=80"],
+      features: ["24-Bit Master Audio", "Royalty-Free Commercial License", "Instant Direct Download"],
+      rating: 5,
+      reviewCount: 12,
+      downloads: 120,
+      isFeatured: false,
+      isNew: false,
+      isBestseller: false,
+      format: "WAV / OGG Audio Master",
+      downloadUrl: track.audioUrl,
+      audioPreviewUrl: track.audioUrl,
+      createdAt: "2026-01-01",
+    });
   };
 
   // Filter & Sort tracks
@@ -783,6 +811,14 @@ export function SoundEffectsCatalog() {
           )}
         </div>
       </div>
+
+      {checkoutTrack && (
+        <CheckoutModal
+          product={checkoutTrack}
+          isOpen={true}
+          onClose={() => setCheckoutTrack(null)}
+        />
+      )}
     </div>
   );
 }

@@ -19,6 +19,7 @@ import {
   History,
 } from "lucide-react";
 import type { BreachIncident, DPBIReportPayload, BreachDispatchResult } from "@/lib/compliance/breach-notifier";
+import { safeParseJson } from "@/lib/utils";
 
 export default function AdminCompliancePage() {
   const [loading, setLoading] = useState(true);
@@ -43,9 +44,13 @@ export default function AdminCompliancePage() {
     setLoading(true);
     setErrorMessage(null);
     try {
-      const res = await fetch("/api/admin/compliance/breach");
+      const res = await fetch("/api/admin/compliance/breach", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.replace("/admin/login");
+        return;
+      }
       if (!res.ok) throw new Error("Failed to load DPDP compliance data");
-      const data = await res.json();
+      const data = await safeParseJson<any>(res, {});
       setMetrics(data.metrics);
       setIncident(data.templateIncident);
       setRecentAuditLogs(data.recentAuditLogs || []);

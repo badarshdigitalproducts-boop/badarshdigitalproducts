@@ -10,6 +10,7 @@ import { TemplatePreviewModal } from "../template-preview-modal";
 import { TemplateEditorModal } from "@/components/templates/template-editor-modal";
 import { CheckoutModal } from "../checkout-modal";
 import { useProductAccess } from "@/hooks/use-product-access";
+import { triggerDirectDownload } from "@/lib/download";
 
 interface StandardTemplateCardProps {
   product: Product;
@@ -34,17 +35,20 @@ export function StandardTemplateCard({ product }: StandardTemplateCardProps) {
       return;
     }
     if (isFree) {
-      if (product.canvaUrl) {
-        window.open(product.canvaUrl, "_blank");
-      } else if (product.downloadUrl) {
-        const a = document.createElement("a");
-        a.href = product.downloadUrl;
-        a.download = `${product.title.toLowerCase().replace(/\s+/g, "-")}-template`;
-        a.target = "_blank";
-        a.rel = "noopener noreferrer";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+      if (product.canvaUrl && product.canvaUrl.includes("canva.com")) {
+        window.open(product.canvaUrl, "_blank", "noopener,noreferrer");
+      } else if (
+        product.downloadUrl ||
+        product.googleDriveUrl ||
+        product.pdfUrl ||
+        product.appDownloadUrl
+      ) {
+        triggerDirectDownload(
+          `/api/download?productId=${encodeURIComponent(product.id)}`,
+          `${product.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-template`
+        );
+      } else if (product.canvaUrl) {
+        window.open(product.canvaUrl, "_blank", "noopener,noreferrer");
       } else {
         setEditorOpen(true);
       }

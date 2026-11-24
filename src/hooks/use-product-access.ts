@@ -12,6 +12,64 @@ export interface UnlockedProductRecord {
 
 const STORAGE_KEY = "badarsh_unlocked_products";
 const EVENT_NAME = "badarsh_unlocked_update";
+let lastAccountSyncAt = 0;
+let inflightAccountSync: Promise<void> | null = null;
+
+/**
+ * Syncs completed orders from the signed-in user's account into local unlock state
+ * so paid products stay unlocked across browsers and sessions.
+ */
+export async function syncAccountPurchasedProducts(force = false): Promise<void> {
+  if (typeof window === "undefined") return;
+  const now = Date.now();
+  if (!force && inflightAccountSync) return inflightAccountSync;
+  if (!force && now - lastAccountSyncAt < 30_000) return;
+
+  inflightAccountSync = (async () => {
+    try {
+      const res = await fetch("/api/user/account", { cache: "no-store" });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data?.success || !Array.isArray(data.orders)) return;
+
+      const unlocked: Record<string, UnlockedProductRecord> = JSON.parse(
+        localStorage.getItem(STORAGE_KEY) || "{}"
+      );
+      let changed = false;
+
+      for (const order of data.orders) {
+        if (order?.paymentStatus !== "completed" || !Array.isArray(order.items)) continue;
+        for (const item of order.items) {
+          const record: UnlockedProductRecord = {
+            orderId: order.id,
+            licenseKey: order.licenseKey || `BDRSH-PRO-${order.id}`,
+            timestamp: now,
+          };
+          for (const rawKey of [item.productId, item.productSlug]) {
+            if (!rawKey) continue;
+            const key = String(rawKey).toLowerCase().trim();
+            if (key && (!unlocked[key] || unlocked[key].orderId !== record.orderId)) {
+              unlocked[key] = record;
+              changed = true;
+            }
+          }
+        }
+      }
+
+      if (changed) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(unlocked));
+        window.dispatchEvent(new Event(EVENT_NAME));
+      }
+      lastAccountSyncAt = Date.now();
+    } catch {
+      // Non-blocking sync failure
+    } finally {
+      inflightAccountSync = null;
+    }
+  })();
+
+  return inflightAccountSync;
+}
 
 /**
  * Persistently marks a product as purchased in browser localStorage

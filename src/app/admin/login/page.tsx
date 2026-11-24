@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { safeParseJson } from "@/lib/utils";
 import { motion } from "framer-motion";
 import {
   ShieldAlert,
@@ -15,10 +16,11 @@ import {
   Fingerprint,
 } from "lucide-react";
 
-export default function AdminLoginPage() {
+function AdminLoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const from = searchParams.get("from") || "/admin";
+  const rawFrom = searchParams.get("next") || searchParams.get("from") || "/admin";
+  const from = rawFrom.startsWith("/admin") && !rawFrom.startsWith("/admin/login") ? rawFrom : "/admin";
 
   const [passphrase, setPassphrase] = useState("");
   const [showPassphrase, setShowPassphrase] = useState(false);
@@ -42,7 +44,7 @@ export default function AdminLoginPage() {
         body: JSON.stringify({ passphrase: passphrase.trim() }),
       });
 
-      const data = await res.json();
+      const data = await safeParseJson<any>(res, {});
 
       if (!res.ok) {
         setError(data.error || "Authentication failed. Access denied.");
@@ -203,5 +205,19 @@ export default function AdminLoginPage() {
         </div>
       </motion.div>
     </div>
+  );
+}
+
+export default function AdminLoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-[#06080d]">
+          <div className="h-7 w-7 animate-spin rounded-full border-2 border-[#FF5A36] border-t-transparent" />
+        </div>
+      }
+    >
+      <AdminLoginForm />
+    </Suspense>
   );
 }

@@ -7,6 +7,7 @@
 
 import crypto from "crypto";
 import { getSystemSettings } from "./admin/store";
+import { getBaseUrl } from "./metadata";
 
 export interface CreateCashfreeOrderParams {
   orderId: string;
@@ -16,6 +17,7 @@ export interface CreateCashfreeOrderParams {
   customerEmail: string;
   customerPhone?: string;
   returnUrl?: string;
+  notifyUrl?: string;
   customerId?: string;
 }
 
@@ -99,10 +101,11 @@ export async function createCashfreeOrder(params: CreateCashfreeOrderParams) {
       ? "https://api.cashfree.com/pg/orders"
       : "https://sandbox.cashfree.com/pg/orders";
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://badarsh.com";
+  const siteUrl = getBaseUrl();
   const returnUrl =
     params.returnUrl ||
     `${siteUrl}/orders/${params.orderId}?cf_id={order_id}&token=${params.orderId}`;
+  const notifyUrl = params.notifyUrl || `${siteUrl}/api/webhooks/cashfree`;
 
   const cleanPhone = (params.customerPhone || "9999999999").replace(/\D/g, "").slice(-10) || "9999999999";
   const cleanEmail = params.customerEmail?.trim() || "creator@badarsh.com";
@@ -129,7 +132,7 @@ export async function createCashfreeOrder(params: CreateCashfreeOrderParams) {
         },
         order_meta: {
           return_url: returnUrl,
-          notify_url: `${siteUrl}/api/webhooks/cashfree`,
+          notify_url: notifyUrl,
         },
       }),
     });

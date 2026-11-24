@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import type { AdminProduct } from "@/lib/admin/types";
 import { FileUploader } from "@/components/admin/file-uploader";
+import { safeParseJson } from "@/lib/utils";
 
 export default function PlannersAdminPage() {
   const [products, setProducts] = useState<AdminProduct[]>([]);
@@ -32,8 +33,12 @@ export default function PlannersAdminPage() {
 
   const fetchPlanners = async () => {
     try {
-      const res = await fetch("/api/admin/products");
-      const data = await res.json();
+      const res = await fetch("/api/admin/products", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.replace("/admin/login");
+        return;
+      }
+      const data = await safeParseJson<{ products?: AdminProduct[] }>(res, {});
       const all: AdminProduct[] = data.products || [];
       setProducts(all.filter((p) => p.category === "planners" || p.productType === "planner"));
     } catch (err) {
@@ -202,7 +207,7 @@ export default function PlannersAdminPage() {
                     <div className="flex items-center gap-3">
                       <div className="h-12 w-9 shrink-0 overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900 shadow-sm">
                         <img
-                          src={p.images?.[0] || p.coverImageUrl || "/images/products/planner-1.png"}
+                          src={p.images?.[0] || p.coverImageUrl || "/images/og/og-default.png"}
                           alt={p.title}
                           className="h-full w-full object-cover"
                         />

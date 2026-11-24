@@ -42,6 +42,7 @@ import {
 } from "lucide-react";
 import type { AdminProduct, ProductType, DeliveryType } from "@/lib/admin/types";
 import { CATEGORIES, PRODUCT_TYPES, DELIVERY_TYPES } from "@/lib/constants";
+import { safeParseJson } from "@/lib/utils";
 import { BeforeAfterSlider } from "@/components/shared/before-after-slider";
 import { FileUploader } from "@/components/admin/file-uploader";
 
@@ -147,8 +148,12 @@ export default function AdminProductsPage() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch("/api/admin/products");
-      const data = await res.json();
+      const res = await fetch("/api/admin/products", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.replace("/admin/login");
+        return;
+      }
+      const data = await safeParseJson<{ products?: AdminProduct[] }>(res, {});
       setProducts(data.products || []);
     } catch (err) {
       console.error("Failed to fetch products:", err);

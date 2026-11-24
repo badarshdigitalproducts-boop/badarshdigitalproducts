@@ -37,8 +37,13 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const products = await getAdminProducts();
-  return NextResponse.json({ products });
+  try {
+    const products = await getAdminProducts();
+    return NextResponse.json({ products });
+  } catch (error) {
+    console.error("Get Products error:", error);
+    return NextResponse.json({ products: [], error: "Internal error" }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {

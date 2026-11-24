@@ -37,7 +37,7 @@ import type {
   PortfolioWebsiteItem,
   PortfolioLogoItem,
 } from "@/lib/admin/types";
-import { getWhatsAppUrl } from "@/lib/utils";
+import { getWhatsAppUrl, safeParseJson } from "@/lib/utils";
 import { BeforeAfterSlider } from "@/components/shared/before-after-slider";
 import { FileUploader } from "@/components/admin/file-uploader";
 
@@ -87,8 +87,12 @@ export default function AdminServicesPage() {
 
   const fetchServices = async () => {
     try {
-      const res = await fetch("/api/admin/services");
-      const data = await res.json();
+      const res = await fetch("/api/admin/services", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.replace("/admin/login");
+        return;
+      }
+      const data = await safeParseJson<{ services?: AdminService[] }>(res, {});
       setServices(data.services || []);
     } catch (err) {
       console.error("Failed to fetch services:", err);

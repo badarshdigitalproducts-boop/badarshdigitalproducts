@@ -10,6 +10,7 @@ import { useCurrency } from "@/context/currency-context";
 import { useAudioPlayer } from "@/context/audio-player-context";
 import { CheckoutModal } from "../checkout-modal";
 import { useProductAccess } from "@/hooks/use-product-access";
+import { triggerDirectDownload } from "@/lib/download";
 
 interface SfxCardProps {
   product: Product;
@@ -37,14 +38,10 @@ export function SfxCard({ product }: SfxCardProps) {
       return;
     }
     if (isFree) {
-      const a = document.createElement("a");
-      a.href = audioSrc;
-      a.download = `${product.title.toLowerCase().replace(/\s+/g, "-")}-master.ogg`;
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      triggerDirectDownload(
+        `/api/download?productId=${encodeURIComponent(product.id)}`,
+        `${product.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-master.ogg`
+      );
     } else {
       setCheckoutOpen(true);
     }

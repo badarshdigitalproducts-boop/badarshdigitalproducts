@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { safeParseJson } from "@/lib/utils";
 import {
   LayoutDashboard,
   Users2,
@@ -91,9 +92,10 @@ export default function AdminLayout({
   useEffect(() => {
     if (pathname === "/admin/login") return;
 
-    fetch("/api/admin/auth")
-      .then((res) => {
-        if (!res.ok) {
+    fetch("/api/admin/auth", { cache: "no-store" })
+      .then(async (res) => {
+        const data = await safeParseJson<{ authenticated?: boolean }>(res, {});
+        if (!res.ok || !data.authenticated) {
           router.replace(`/admin/login?next=${encodeURIComponent(pathname)}`);
         } else {
           setCheckingAuth(false);

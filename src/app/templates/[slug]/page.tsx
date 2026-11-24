@@ -67,6 +67,7 @@ export async function generateMetadata({
     return constructMetadata({
       title: "Product Not Found",
       description: "The requested digital product could not be found.",
+      noIndex: true,
     });
   }
 
@@ -74,6 +75,8 @@ export async function generateMetadata({
     title: product.title,
     description: product.description,
     image: product.images?.[0] || "/images/og/og-default.png",
+    canonical: `/templates/${product.slug}`,
+    keywords: product.tags || [],
   });
 }
 

@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import type { AdminProduct } from "@/lib/admin/types";
 import { FileUploader } from "@/components/admin/file-uploader";
+import { safeParseJson } from "@/lib/utils";
 
 export default function BundlesAdminPage() {
   const [products, setProducts] = useState<AdminProduct[]>([]);
@@ -34,8 +35,12 @@ export default function BundlesAdminPage() {
 
   const fetchBundles = async () => {
     try {
-      const res = await fetch("/api/admin/products");
-      const data = await res.json();
+      const res = await fetch("/api/admin/products", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.replace("/admin/login");
+        return;
+      }
+      const data = await safeParseJson<{ products?: AdminProduct[] }>(res, {});
       const all: AdminProduct[] = data.products || [];
       setProducts(
         all.filter(
@@ -199,7 +204,7 @@ export default function BundlesAdminPage() {
                     <div className="flex items-center gap-3">
                       <div className="h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
                         <img
-                          src={b.images?.[0] || b.coverImageUrl || "/images/products/bundle-1.png"}
+                          src={b.images?.[0] || b.coverImageUrl || "/images/og/og-default.png"}
                           alt={b.title}
                           className="h-full w-full object-cover"
                         />

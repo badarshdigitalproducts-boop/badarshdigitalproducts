@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import type { AdminProduct } from "@/lib/admin/types";
 import { FileUploader } from "@/components/admin/file-uploader";
+import { safeParseJson } from "@/lib/utils";
 
 export default function TemplatesAdminPage() {
   const [products, setProducts] = useState<AdminProduct[]>([]);
@@ -32,8 +33,12 @@ export default function TemplatesAdminPage() {
 
   const fetchTemplates = async () => {
     try {
-      const res = await fetch("/api/admin/products");
-      const data = await res.json();
+      const res = await fetch("/api/admin/products", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.replace("/admin/login");
+        return;
+      }
+      const data = await safeParseJson<{ products?: AdminProduct[] }>(res, {});
       const all: AdminProduct[] = data.products || [];
       setProducts(
         all.filter((p) =>
@@ -218,7 +223,7 @@ export default function TemplatesAdminPage() {
                     <div className="flex items-center gap-3">
                       <div className="h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
                         <img
-                          src={t.images?.[0] || t.coverImageUrl || "/images/products/product-1.png"}
+                          src={t.images?.[0] || t.coverImageUrl || "/images/og/og-default.png"}
                           alt={t.title}
                           className="h-full w-full object-cover"
                         />

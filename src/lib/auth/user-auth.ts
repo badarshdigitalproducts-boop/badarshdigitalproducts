@@ -1,5 +1,7 @@
 import crypto from "crypto";
 import { getDatabase, saveDatabase } from "@/lib/admin/store";
+import { fsGetUserById, fsSaveUser } from "@/lib/firebase/db";
+import { rtGetUserById, rtSaveUser } from "@/lib/firebase/rtdb";
 import type { UserAccount } from "@/lib/admin/types";
 
 export const USER_COOKIE_NAME = "badarsh_creator_session";
@@ -100,16 +102,33 @@ export function verifyUserSessionToken(token: string | undefined): {
 /* ---------------- Database User Lookups ---------------- */
 
 export async function findUserByEmail(email: string): Promise<UserAccount | null> {
-  const db = await getDatabase();
   const normalized = email.toLowerCase().trim();
-  const users = db.users || [];
-  return users.find((u) => u.email.toLowerCase() === normalized) || null;
+  const db = await getDatabase();
+  const localMatch = (db.users || []).find((u) => u.email.toLowerCase() === normalized);
+  if (localMatch) return localMatch;
+
+  // Cross-lambda fallback: force refresh from cloud stores
+  const freshDb = await getDatabase(true);
+  return (freshDb.users || []).find((u) => u.email.toLowerCase() === normalized) || null;
 }
 
 export async function findUserById(userId: string): Promise<UserAccount | null> {
   const db = await getDatabase();
-  const users = db.users || [];
-  return users.find((u) => u.id === userId) || null;
+  const localMatch = (db.users || []).find((u) => u.id === userId);
+  if (localMatch) return localMatch;
+
+  const cloudUser = (await fsGetUserById(userId)) || (await rtGetUserById(userId));
+  if (cloudUser) {
+    if (!db.users) db.users = [];
+    if (!db.users.some((u) => u.id === cloudUser.id)) {
+      db.users.unshift(cloudUser);
+      await saveDatabase(db);
+    }
+    return cloudUser;
+  }
+
+  const freshDb = await getDatabase(true);
+  return (freshDb.users || []).find((u) => u.id === userId) || null;
 }
 
 export async function createUserAccount(
@@ -150,6 +169,7 @@ export async function createUserAccount(
 
   db.users.unshift(newUser);
   await saveDatabase(db);
+  await Promise.allSettled([fsSaveUser(newUser), rtSaveUser(newUser)]);
   return newUser;
 }
 
@@ -173,6 +193,7 @@ export async function verifyUserCredentials(
     if (idx >= 0) {
       db.users[idx].lastLoginAt = new Date().toISOString();
       await saveDatabase(db);
+      Promise.allSettled([fsSaveUser(db.users[idx]), rtSaveUser(db.users[idx])]).catch(() => {});
     }
   }
 
@@ -184,7 +205,7 @@ export async function upsertGoogleUser(
   name?: string,
   photoURL?: string
 ): Promise<UserAccount> {
-  const db = await getDatabase();
+  const db = await getDatabase(true);
   if (!db.users) db.users = [];
 
   const normalized = email.toLowerCase().trim();
@@ -196,6 +217,7 @@ export async function upsertGoogleUser(
     if (name && !existing.name) existing.name = name;
     if (photoURL && !existing.photoURL) existing.photoURL = photoURL;
     await saveDatabase(db);
+    await Promise.allSettled([fsSaveUser(existing), rtSaveUser(existing)]);
     return existing;
   }
 
@@ -216,6 +238,7 @@ export async function upsertGoogleUser(
 
   db.users.unshift(newUser);
   await saveDatabase(db);
+  await Promise.allSettled([fsSaveUser(newUser), rtSaveUser(newUser)]);
   return newUser;
 }
 

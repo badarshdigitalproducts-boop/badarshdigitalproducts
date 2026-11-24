@@ -32,3 +32,20 @@ export function slugify(text: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
+/**
+ * Safely parses JSON from a Fetch Response without throwing Unexpected end of JSON input
+ * when the body is empty, truncated, or HTML during dev rebuilds / auth redirects.
+ */
+export async function safeParseJson<T = Record<string, any>>(
+  res: Response,
+  fallback: T = {} as T
+): Promise<T> {
+  try {
+    const text = await res.text();
+    if (!text || !text.trim()) return fallback;
+    return JSON.parse(text) as T;
+  } catch {
+    return fallback;
+  }
+}
+

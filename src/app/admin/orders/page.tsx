@@ -23,6 +23,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import type { OrderRecord, OrderItem, AdminProduct } from "@/lib/admin/types";
+import { safeParseJson } from "@/lib/utils";
 
 const DEFAULT_ORDER: Partial<OrderRecord> = {
   customerName: "",
@@ -74,8 +75,12 @@ export default function AdminOrdersPage() {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/admin/orders");
-      const data = await res.json();
+      const res = await fetch("/api/admin/orders", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.replace("/admin/login");
+        return;
+      }
+      const data = await safeParseJson<{ orders?: OrderRecord[] }>(res, {});
       if (data.orders) {
         setOrders(data.orders);
       }
@@ -88,8 +93,8 @@ export default function AdminOrdersPage() {
 
   const fetchCatalogProducts = async () => {
     try {
-      const res = await fetch("/api/admin/products");
-      const data = await res.json();
+      const res = await fetch("/api/admin/products", { cache: "no-store" });
+      const data = await safeParseJson<{ products?: AdminProduct[] }>(res, {});
       if (data.products) {
         setCatalogProducts(data.products);
       }

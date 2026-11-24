@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import type { AdminProduct } from "@/lib/admin/types";
 import { FileUploader } from "@/components/admin/file-uploader";
+import { safeParseJson } from "@/lib/utils";
 
 export default function VideoTemplatesAdminPage() {
   const [products, setProducts] = useState<AdminProduct[]>([]);
@@ -32,8 +33,12 @@ export default function VideoTemplatesAdminPage() {
 
   const fetchTemplates = async () => {
     try {
-      const res = await fetch("/api/admin/products");
-      const data = await res.json();
+      const res = await fetch("/api/admin/products", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.replace("/admin/login");
+        return;
+      }
+      const data = await safeParseJson<{ products?: AdminProduct[] }>(res, {});
       const all: AdminProduct[] = data.products || [];
       setProducts(
         all.filter(
@@ -134,7 +139,7 @@ export default function VideoTemplatesAdminPage() {
               productType: "video-template" as any,
               videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
               capcutUrl: "https://www.capcut.com/template-detail",
-              alightMotionXmlUrl: "https://badarsh.vercel.app/downloads/alight-motion-preset.xml",
+              alightMotionXmlUrl: "",
               bpm: 128,
               requiredClipsCount: 7,
               status: "published",
@@ -198,7 +203,7 @@ export default function VideoTemplatesAdminPage() {
                     <div className="flex items-center gap-3">
                       <div className="relative h-12 w-9 shrink-0 overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900">
                         <img
-                          src={t.images?.[0] || t.coverImageUrl || "/images/products/product-1.png"}
+                          src={t.images?.[0] || t.coverImageUrl || "/images/og/og-default.png"}
                           alt={t.title}
                           className="h-full w-full object-cover"
                         />

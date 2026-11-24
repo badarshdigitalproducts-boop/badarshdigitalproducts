@@ -23,6 +23,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import type { AdminBlogPost } from "@/lib/admin/types";
+import { safeParseJson } from "@/lib/utils";
 
 const CATEGORIES = [
   "Creative Insights",
@@ -46,7 +47,7 @@ const DEFAULT_POST: Partial<AdminBlogPost> = {
     year: "numeric",
   }),
   readTime: "5 min read",
-  coverImage: "/images/blog/design-hacks.png",
+  coverImage: "/images/og/og-default.png",
   tags: ["Design", "Growth"],
   status: "published",
   views: 0,
@@ -75,10 +76,15 @@ export default function AdminBlogPage() {
   const fetchPosts = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/admin/blog");
-      const data = await res.json();
-      if (data.posts) {
-        setPosts(data.posts);
+      const res = await fetch("/api/admin/blog", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.replace("/admin/login");
+        return;
+      }
+      const data = await safeParseJson<{ posts?: AdminBlogPost[]; blogPosts?: AdminBlogPost[] }>(res, {});
+      const list = data.posts || data.blogPosts;
+      if (list) {
+        setPosts(list);
       }
     } catch {
       showFeedback("error", "Failed to load blog posts");
@@ -629,7 +635,7 @@ export default function AdminBlogPage() {
                   </label>
                   <input
                     type="text"
-                    placeholder="/images/blog/design-hacks.png"
+                    placeholder="https://images.unsplash.com/..."
                     value={editingPost.coverImage || ""}
                     onChange={(e) =>
                       setEditingPost((prev) => ({ ...prev, coverImage: e.target.value }))

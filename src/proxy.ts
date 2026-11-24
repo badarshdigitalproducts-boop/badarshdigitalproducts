@@ -5,7 +5,12 @@ const ADMIN_COOKIE_NAME = "badarsh_admin_session";
 const DEFAULT_SESSION_SECRET = "badarsh_zplus_hmac_secret_4a91f82c7e034b568392019a847321ee";
 
 function getSessionSecret(): string {
-  return process.env.ADMIN_SESSION_SECRET || DEFAULT_SESSION_SECRET;
+  const envVal = process.env.ADMIN_SESSION_SECRET;
+  if (envVal) {
+    const cleaned = envVal.trim().replace(/^["']|["']$/g, "");
+    if (cleaned) return cleaned;
+  }
+  return DEFAULT_SESSION_SECRET;
 }
 
 /**

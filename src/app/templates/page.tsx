@@ -92,7 +92,7 @@ function TemplatesContent() {
         }
         return (b.downloads || 0) - (a.downloads || 0);
       });
-  }, [productList, selectedCategory, searchQuery, sortBy]);
+  }, [productList, selectedCategory, searchQuery, sortBy, selectedAspectRatio]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-14">

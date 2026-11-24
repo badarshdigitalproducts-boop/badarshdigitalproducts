@@ -25,7 +25,14 @@ const VIDEO_CATEGORIES = [
 ];
 
 export default function VideoTemplatesPage() {
-  const [productList, setProductList] = useState<Product[]>([]);
+  const [productList, setProductList] = useState<Product[]>(() =>
+    fallbackProducts.filter(
+      (p) =>
+        p.category === "video-templates" ||
+        (p as any).productType === "video-template" ||
+        (p as any).productType === "video"
+    )
+  );
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");

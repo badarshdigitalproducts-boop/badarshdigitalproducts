@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
+import { useState, useEffect, useMemo, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,21 +13,35 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
 import { GoogleIcon } from "@/components/auth/google-icon";
-import { GoogleAuthModal } from "@/components/auth/google-auth-modal";
 import { BrandLogo } from "@/components/layout/brand-logo";
+
+function getSafeRedirectUrl(raw: string | null): string {
+  if (!raw || !raw.startsWith("/") || raw.startsWith("//")) return "/";
+  if (raw.startsWith("/login") || raw.startsWith("/signup")) return "/";
+  return raw;
+}
 
 function SignupForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get("redirect") || "/bundles";
+  const redirectUrl = getSafeRedirectUrl(searchParams.get("redirect"));
 
   const {
     signInWithGoogle,
-    signInWithGoogleEmail,
     signUpWithEmail,
+    user,
+    loading: authLoading,
     error,
     clearError,
   } = useAuth();
+
+  // Redirect as soon as Firebase/server session resolves (handles popup + redirect + cookie flows)
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.replace(redirectUrl);
+      router.refresh();
+    }
+  }, [user, authLoading, router, redirectUrl]);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -36,7 +50,6 @@ function SignupForm() {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [googleModalOpen, setGoogleModalOpen] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
 
   // Clean, subtle password strength
@@ -89,7 +102,8 @@ function SignupForm() {
     setLoading(false);
 
     if (res.success) {
-      router.push(redirectUrl);
+      router.replace(redirectUrl);
+      router.refresh();
     }
   };
 
@@ -98,18 +112,22 @@ function SignupForm() {
     setLocalError(null);
     setGoogleLoading(true);
     const res = await signInWithGoogle();
-    setGoogleLoading(false);
+    if (!res.redirectTriggered) setGoogleLoading(false);
 
-    if (res.success) {
-      router.push(redirectUrl);
-    } else if (
-      res.code?.includes("permission-denied") ||
-      res.code === "auth/unauthorized-domain" ||
-      res.error?.includes("Identity Toolkit")
-    ) {
-      setGoogleModalOpen(true);
+    if (res.success && !res.redirectTriggered) {
+      router.replace(redirectUrl);
+      router.refresh();
     }
   };
+
+  if (!authLoading && user) {
+    return (
+      <div className="min-h-[calc(100vh-4.5rem)] flex flex-col items-center justify-center gap-3 px-4 py-10 bg-background">
+        <Loader2 className="h-7 w-7 animate-spin text-accent" />
+        <p className="text-sm font-medium text-foreground">Account ready! Redirecting...</p>
+      </div>
+    );
+  }
 
   const activeError = localError || error;
 
@@ -325,13 +343,6 @@ function SignupForm() {
           Protected by BADARSH Studio Vault &bull; 256-bit SSL
         </p>
       </motion.div>
-
-      <GoogleAuthModal
-        isOpen={googleModalOpen}
-        onClose={() => setGoogleModalOpen(false)}
-        onSubmit={signInWithGoogleEmail}
-        onSuccess={() => router.push(redirectUrl)}
-      />
     </div>
   );
 }

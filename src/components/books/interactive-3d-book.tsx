@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { BookOpen, Star, Eye, Sparkles, Lock, ArrowRight, ShieldCheck } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
+import { useProductAccess } from "@/hooks/use-product-access";
 
 interface Interactive3dBookProps {
   product: Product;
@@ -14,6 +15,7 @@ interface Interactive3dBookProps {
 
 export function Interactive3dBook({ product, onReadPreview, onBuy }: Interactive3dBookProps) {
   const { formatPrice: formatCurr } = useCurrency();
+  const { isUnlocked, handleDownload } = useProductAccess(product);
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -171,11 +173,11 @@ export function Interactive3dBook({ product, onReadPreview, onBuy }: Interactive
               Look Inside
             </button>
             <button
-              onClick={() => onBuy(product)}
-              className="flex items-center gap-1 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-4 py-2 text-xs font-bold shadow-md hover:scale-102 active:scale-98 transition-transform"
+              onClick={() => (isUnlocked ? handleDownload() : onBuy(product))}
+              className="flex items-center gap-1 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-4 py-2 text-xs font-bold shadow-md hover:scale-102 active:scale-98 transition-transform cursor-pointer"
             >
               <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-              <span>{isFree ? "Download" : "Unlock Book"}</span>
+              <span>{isUnlocked ? "Download PDF" : isFree ? "Download" : "Unlock Book"}</span>
             </button>
           </div>
         </div>

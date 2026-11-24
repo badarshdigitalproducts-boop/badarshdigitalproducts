@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import type { AdminProduct } from "@/lib/admin/types";
 import { FileUploader } from "@/components/admin/file-uploader";
+import { safeParseJson } from "@/lib/utils";
 
 export default function SoundEffectsAdminPage() {
   const [products, setProducts] = useState<AdminProduct[]>([]);
@@ -37,8 +38,12 @@ export default function SoundEffectsAdminPage() {
 
   const fetchTracks = async () => {
     try {
-      const res = await fetch("/api/admin/products");
-      const data = await res.json();
+      const res = await fetch("/api/admin/products", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.replace("/admin/login");
+        return;
+      }
+      const data = await safeParseJson<{ products?: AdminProduct[] }>(res, {});
       const all: AdminProduct[] = data.products || [];
       setProducts(
         all.filter(

@@ -106,11 +106,10 @@ export default function OrderFulfillmentPage() {
     setDownloadingId(item.id);
     const keyParam = order?.licenseKey ? `&key=${encodeURIComponent(order.licenseKey)}` : "";
     const directTarget =
-      item.downloadUrl ||
-      item.googleDriveUrl ||
-      item.pdfUrl ||
-      item.appDownloadUrl ||
-      `/api/download?orderId=${encodeURIComponent(orderId)}&productId=${encodeURIComponent(item.id)}${keyParam}`;
+      item.downloadUrl &&
+      (item.downloadUrl.includes("canva.com") || item.downloadUrl.includes("capcut.com/template"))
+        ? item.downloadUrl
+        : `/api/download?orderId=${encodeURIComponent(orderId)}&productId=${encodeURIComponent(item.id)}${keyParam}`;
     const filename = `${item.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-master`;
     triggerDirectDownload(directTarget, filename);
     setTimeout(() => setDownloadingId(null), 2500);

@@ -17,6 +17,7 @@ import {
 import type { AdminProduct } from "@/lib/admin/types";
 import { FileUploader } from "@/components/admin/file-uploader";
 import { BeforeAfterSlider } from "@/components/shared/before-after-slider";
+import { safeParseJson } from "@/lib/utils";
 
 export default function PresetsAdminPage() {
   const [products, setProducts] = useState<AdminProduct[]>([]);
@@ -32,8 +33,12 @@ export default function PresetsAdminPage() {
 
   const fetchPresets = async () => {
     try {
-      const res = await fetch("/api/admin/products");
-      const data = await res.json();
+      const res = await fetch("/api/admin/products", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.replace("/admin/login");
+        return;
+      }
+      const data = await safeParseJson<{ products?: AdminProduct[] }>(res, {});
       const all: AdminProduct[] = data.products || [];
       setProducts(all.filter((p) => p.category === "photo-presets" || p.productType === "photo-preset"));
     } catch (err) {
@@ -198,7 +203,7 @@ export default function PresetsAdminPage() {
                     <div className="flex items-center gap-3">
                       <div className="h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
                         <img
-                          src={p.images?.[0] || p.coverImageUrl || p.afterImage || "/images/products/preset-1.png"}
+                          src={p.images?.[0] || p.coverImageUrl || p.afterImage || "/images/og/og-default.png"}
                           alt={p.title}
                           className="h-full w-full object-cover"
                         />

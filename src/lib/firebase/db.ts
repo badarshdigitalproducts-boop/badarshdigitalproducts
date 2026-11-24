@@ -21,6 +21,7 @@ import type {
   SystemSettings,
   AuditLog,
   AdminDatabase,
+  UserAccount,
 } from "@/lib/admin/types";
 
 export const COLLECTIONS = {
@@ -33,6 +34,7 @@ export const COLLECTIONS = {
   SUBSCRIBERS: "subscribers",
   SETTINGS: "settings",
   AUDIT_LOGS: "audit_logs",
+  USERS: "users",
 } as const;
 
 /**
@@ -444,6 +446,54 @@ export async function fsGetAuditLogs(max = 50): Promise<AuditLog[]> {
   }
 }
 
+/* ---------------- Users ---------------- */
+
+export async function fsGetUsers(): Promise<UserAccount[]> {
+  try {
+    const db = getFirestoreDb();
+    const snapshot = await withTimeout(getDocs(collection(db, COLLECTIONS.USERS)), 3500, null);
+    if (!snapshot) return [];
+    const users: UserAccount[] = [];
+    snapshot.forEach((d) => {
+      users.push(d.data() as UserAccount);
+    });
+    return users;
+  } catch (err) {
+    console.warn("fsGetUsers warning:", err);
+    return [];
+  }
+}
+
+export async function fsGetUserById(id: string): Promise<UserAccount | null> {
+  try {
+    const db = getFirestoreDb();
+    const snap = await withTimeout(getDoc(doc(db, COLLECTIONS.USERS, id)), 3500, null);
+    if (!snap || !snap.exists()) return null;
+    return snap.data() as UserAccount;
+  } catch (err) {
+    console.warn("fsGetUserById warning:", err);
+    return null;
+  }
+}
+
+export async function fsSaveUser(user: UserAccount): Promise<void> {
+  try {
+    const db = getFirestoreDb();
+    await withTimeout(setDoc(doc(db, COLLECTIONS.USERS, user.id), user, { merge: true }), 4000, undefined);
+  } catch (err) {
+    console.warn("fsSaveUser warning:", err);
+  }
+}
+
+export async function fsDeleteUser(id: string): Promise<void> {
+  try {
+    const db = getFirestoreDb();
+    await withTimeout(deleteDoc(doc(db, COLLECTIONS.USERS, id)), 4000, undefined);
+  } catch (err) {
+    console.warn("fsDeleteUser warning:", err);
+  }
+}
+
 /**
  * Sync entire local database to Firebase Firestore in bulk
  */
@@ -493,7 +543,12 @@ export async function fsSyncFullDatabase(database: AdminDatabase): Promise<{
     await setDoc(doc(db, COLLECTIONS.SUBSCRIBERS, sub.id), sub, { merge: true });
   }
 
-  // 8. Settings
+  // 8. Users
+  for (const user of database.users || []) {
+    await setDoc(doc(db, COLLECTIONS.USERS, user.id), user, { merge: true });
+  }
+
+  // 9. Settings
   if (database.settings) {
     await setDoc(doc(db, COLLECTIONS.SETTINGS, "system"), database.settings, { merge: true });
   }

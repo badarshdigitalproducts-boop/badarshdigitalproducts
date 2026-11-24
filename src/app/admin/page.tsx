@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { safeParseJson } from "@/lib/utils";
 import {
   IndianRupee,
   DollarSign,
@@ -226,6 +227,22 @@ export default function AdminDashboardPage() {
   const fetchData = async () => {
     try {
       setLoading(true);
+      const responses = await Promise.all([
+        fetch("/api/admin/leads", { cache: "no-store" }),
+        fetch("/api/admin/products", { cache: "no-store" }),
+        fetch("/api/admin/services", { cache: "no-store" }),
+        fetch("/api/admin/blog", { cache: "no-store" }),
+        fetch("/api/admin/orders", { cache: "no-store" }),
+        fetch("/api/admin/coupons", { cache: "no-store" }),
+        fetch("/api/admin/subscribers", { cache: "no-store" }),
+        fetch("/api/admin/settings", { cache: "no-store" }),
+      ]);
+
+      if (responses.some((r) => r.status === 401)) {
+        window.location.replace("/admin/login");
+        return;
+      }
+
       const [
         leadsRes,
         prodsRes,
@@ -235,30 +252,32 @@ export default function AdminDashboardPage() {
         couponsRes,
         subsRes,
         settingsRes,
-      ] = await Promise.all([
-        fetch("/api/admin/leads"),
-        fetch("/api/admin/products"),
-        fetch("/api/admin/services"),
-        fetch("/api/admin/blog"),
-        fetch("/api/admin/orders"),
-        fetch("/api/admin/coupons"),
-        fetch("/api/admin/subscribers"),
-        fetch("/api/admin/settings"),
-      ]);
+      ] = responses;
 
-      const leadsData = await leadsRes.json();
-      const prodsData = await prodsRes.json();
-      const servicesData = await servicesRes.json();
-      const blogData = await blogRes.json();
-      const ordersData = await ordersRes.json();
-      const couponsData = await couponsRes.json();
-      const subsData = await subsRes.json();
-      const settingsData = await settingsRes.json();
+      const [
+        leadsData,
+        prodsData,
+        servicesData,
+        blogData,
+        ordersData,
+        couponsData,
+        subsData,
+        settingsData,
+      ] = await Promise.all([
+        safeParseJson<{ leads?: LeadInquiry[] }>(leadsRes, {}),
+        safeParseJson<{ products?: AdminProduct[] }>(prodsRes, {}),
+        safeParseJson<{ services?: AdminService[] }>(servicesRes, {}),
+        safeParseJson<{ blogPosts?: AdminBlogPost[]; posts?: AdminBlogPost[] }>(blogRes, {}),
+        safeParseJson<{ orders?: OrderRecord[] }>(ordersRes, {}),
+        safeParseJson<{ coupons?: AdminCoupon[] }>(couponsRes, {}),
+        safeParseJson<{ subscribers?: any[] }>(subsRes, {}),
+        safeParseJson<{ settings?: SystemSettings | null }>(settingsRes, {}),
+      ]);
 
       const leads: LeadInquiry[] = leadsData.leads || [];
       const prods: AdminProduct[] = prodsData.products || [];
       const servs: AdminService[] = servicesData.services || [];
-      const blogPosts: AdminBlogPost[] = blogData.posts || [];
+      const blogPosts: AdminBlogPost[] = blogData.blogPosts || blogData.posts || [];
       const orders: OrderRecord[] = ordersData.orders || [];
       const coupons: AdminCoupon[] = couponsData.coupons || [];
       const subscribers = subsData.subscribers || [];

@@ -5,19 +5,61 @@ import {
   USER_COOKIE_NAME,
   USER_SESSION_MAX_AGE_SECONDS,
 } from "@/lib/auth/user-auth";
+import { firebaseConfig } from "@/lib/firebase/config";
+
+interface FirebaseLookupUser {
+  localId?: string;
+  email?: string;
+  emailVerified?: boolean;
+  displayName?: string;
+  photoUrl?: string;
+}
 
 export async function POST(request: Request) {
   try {
-    const { email, name, photoURL } = await request.json();
+    const body = await request.json();
+    const { idToken, name, photoURL } = body || {};
 
-    if (!email) {
+    if (!idToken || typeof idToken !== "string") {
       return NextResponse.json(
-        { error: "Google account email is required." },
-        { status: 400 }
+        { error: "Verified Google authentication token is required." },
+        { status: 401 }
       );
     }
 
-    const user = await upsertGoogleUser(email, name, photoURL);
+    // Cryptographically verify Firebase Auth ID token via Identity Toolkit lookup
+    const verifyRes = await fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${encodeURIComponent(firebaseConfig.apiKey)}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idToken }),
+        cache: "no-store",
+      }
+    );
+
+    if (!verifyRes.ok) {
+      return NextResponse.json(
+        { error: "Invalid or expired Google sign-in token. Please try again." },
+        { status: 401 }
+      );
+    }
+
+    const verifyData = (await verifyRes.json()) as { users?: FirebaseLookupUser[] };
+    const verifiedUser = verifyData?.users?.[0];
+
+    if (!verifiedUser?.email) {
+      return NextResponse.json(
+        { error: "Could not verify Google account email." },
+        { status: 401 }
+      );
+    }
+
+    const verifiedEmail = verifiedUser.email.toLowerCase().trim();
+    const resolvedName = verifiedUser.displayName || name || verifiedEmail.split("@")[0];
+    const resolvedPhoto = verifiedUser.photoUrl || photoURL || undefined;
+
+    const user = await upsertGoogleUser(verifiedEmail, resolvedName, resolvedPhoto);
 
     const token = createUserSessionToken({
       uid: user.id,

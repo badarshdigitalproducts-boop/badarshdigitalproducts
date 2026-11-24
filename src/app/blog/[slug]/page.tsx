@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { ArrowLeft, Clock, Calendar, User, Share2, Sparkles, BookOpen } from "lucide-react";
 import { blogPosts } from "@/content/blog";
-import { constructMetadata } from "@/lib/metadata";
+import { constructMetadata, getBaseUrl } from "@/lib/metadata";
 import { BlogViewTracker } from "@/components/blog/blog-view-tracker";
 import { getAdminBlogPosts } from "@/lib/admin/store";
 
@@ -92,13 +92,16 @@ export async function generateMetadata({
     return constructMetadata({
       title: "Article Not Found",
       description: "The requested blog article could not be found.",
+      noIndex: true,
     });
   }
 
   return constructMetadata({
     title: post.title,
     description: post.excerpt,
-    image: post.coverImage,
+    image: post.coverImage || "/images/og/og-default.png",
+    canonical: `/blog/${post.slug}`,
+    keywords: post.tags || [],
   });
 }
 
@@ -109,6 +112,32 @@ async function BlogPostContent({ params }: BlogPostPageProps) {
   if (!post) {
     notFound();
   }
+
+  const baseUrl = getBaseUrl();
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    image: post.coverImage?.startsWith("http")
+      ? post.coverImage
+      : `${baseUrl}${post.coverImage || "/images/og/og-default.png"}`,
+    author: {
+      "@type": "Organization",
+      name: post.author || "BADARSH Editorial",
+      url: baseUrl,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "BADARSH Digital Products",
+      logo: {
+        "@type": "ImageObject",
+        url: `${baseUrl}/logo-icon.png`,
+      },
+    },
+    mainEntityOfPage: `${baseUrl}/blog/${post.slug}`,
+    keywords: (post.tags || []).join(", "),
+  };
 
   const all = await getAllPosts();
   const related = all.filter((p) => p.slug !== post.slug).slice(0, 2);
@@ -163,6 +192,10 @@ async function BlogPostContent({ params }: BlogPostPageProps) {
 
   return (
     <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <BlogViewTracker slug={post.slug} />
       {/* Back to Blog */}
       <Link

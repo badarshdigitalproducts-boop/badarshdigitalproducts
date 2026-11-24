@@ -13,8 +13,13 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const blogPosts = await getAdminBlogPosts();
-  return NextResponse.json({ blogPosts });
+  try {
+    const blogPosts = await getAdminBlogPosts();
+    return NextResponse.json({ blogPosts, posts: blogPosts });
+  } catch (error) {
+    console.error("Get Blog error:", error);
+    return NextResponse.json({ blogPosts: [], posts: [], error: "Internal error" }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {

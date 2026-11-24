@@ -36,8 +36,13 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const settings = await getSystemSettings();
-  return NextResponse.json({ settings: sanitizeSettings(settings) });
+  try {
+    const settings = await getSystemSettings();
+    return NextResponse.json({ settings: sanitizeSettings(settings) });
+  } catch (error) {
+    console.error("Get Settings error:", error);
+    return NextResponse.json({ settings: null, error: "Internal error" }, { status: 500 });
+  }
 }
 
 export async function PATCH(request: Request) {

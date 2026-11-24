@@ -25,6 +25,7 @@ import type {
   SystemSettings,
   AuditLog,
   AdminDatabase,
+  UserAccount,
 } from "@/lib/admin/types";
 
 export const RT_PATHS = {
@@ -37,6 +38,7 @@ export const RT_PATHS = {
   SUBSCRIBERS: "subscribers",
   SETTINGS: "settings",
   AUDIT_LOGS: "audit_logs",
+  USERS: "users",
 } as const;
 
 function withTimeout<T>(promise: Promise<T>, ms = 3500, fallback: T): Promise<T> {
@@ -355,6 +357,52 @@ export async function rtSaveSettings(settings: SystemSettings): Promise<void> {
   }
 }
 
+/* ---------------- Users ---------------- */
+
+export async function rtGetUsers(): Promise<UserAccount[]> {
+  try {
+    const db = getRealtimeDb();
+    const snap = await withTimeout(get(ref(db, RT_PATHS.USERS)), 3500, null);
+    if (!snap || !snap.exists()) return [];
+    const val = snap.val();
+    if (!val || typeof val !== "object") return [];
+    return Object.values(val) as UserAccount[];
+  } catch (err) {
+    console.warn("rtGetUsers warning:", err);
+    return [];
+  }
+}
+
+export async function rtGetUserById(id: string): Promise<UserAccount | null> {
+  try {
+    const db = getRealtimeDb();
+    const snap = await withTimeout(get(ref(db, `${RT_PATHS.USERS}/${id}`)), 3500, null);
+    if (!snap || !snap.exists()) return null;
+    return snap.val() as UserAccount;
+  } catch (err) {
+    console.warn("rtGetUserById warning:", err);
+    return null;
+  }
+}
+
+export async function rtSaveUser(user: UserAccount): Promise<void> {
+  try {
+    const db = getRealtimeDb();
+    await withTimeout(set(ref(db, `${RT_PATHS.USERS}/${user.id}`), user), 4000, undefined);
+  } catch (err) {
+    console.warn("rtSaveUser warning:", err);
+  }
+}
+
+export async function rtDeleteUser(id: string): Promise<void> {
+  try {
+    const db = getRealtimeDb();
+    await withTimeout(remove(ref(db, `${RT_PATHS.USERS}/${id}`)), 4000, undefined);
+  } catch (err) {
+    console.warn("rtDeleteUser warning:", err);
+  }
+}
+
 /* ---------------- Bulk Sync ---------------- */
 
 export async function rtSyncFullDatabase(database: AdminDatabase): Promise<void> {
@@ -382,6 +430,9 @@ export async function rtSyncFullDatabase(database: AdminDatabase): Promise<void>
     }
     for (const sub of database.subscribers) {
       updates[`${RT_PATHS.SUBSCRIBERS}/${sub.id}`] = sub;
+    }
+    for (const user of database.users || []) {
+      updates[`${RT_PATHS.USERS}/${user.id}`] = user;
     }
     if (database.settings) {
       updates[RT_PATHS.SETTINGS] = database.settings;

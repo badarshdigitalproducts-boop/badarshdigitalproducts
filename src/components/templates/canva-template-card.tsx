@@ -87,10 +87,15 @@ export function CanvaTemplateCard({ product }: CanvaTemplateCardProps) {
       return;
     }
     if (product.price === 0) {
-      if (product.downloadUrl) {
-        triggerDirectDownload(product.downloadUrl, `${product.title.toLowerCase().replace(/\s+/g, "-")}-template.zip`);
+      if (product.canvaUrl && product.canvaUrl.includes("canva.com")) {
+        window.open(product.canvaUrl, "_blank", "noopener,noreferrer");
+      } else if (product.downloadUrl) {
+        triggerDirectDownload(
+          `/api/download?productId=${encodeURIComponent(product.id)}`,
+          `${product.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-template`
+        );
       } else if (product.canvaUrl) {
-        window.open(product.canvaUrl, "_blank");
+        window.open(product.canvaUrl, "_blank", "noopener,noreferrer");
       } else {
         router.push(`/templates/${product.slug}`);
       }

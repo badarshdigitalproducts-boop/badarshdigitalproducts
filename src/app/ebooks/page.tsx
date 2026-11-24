@@ -20,6 +20,7 @@ import { useCurrency } from "@/context/currency-context";
 import { Interactive3dBook } from "@/components/books/interactive-3d-book";
 import { ChapterReaderModal } from "@/components/books/chapter-reader-modal";
 import { CheckoutModal } from "@/components/products/checkout-modal";
+import { triggerDirectDownload } from "@/lib/download";
 import type { Product } from "@/types";
 
 const EBOOK_CATEGORIES = [
@@ -157,7 +158,16 @@ export default function EbooksPage() {
             key={ebook.id}
             product={ebook}
             onReadPreview={(prod) => setReaderProduct(prod)}
-            onBuy={(prod) => setCheckoutProduct(prod)}
+            onBuy={(prod) => {
+              if (prod.price === 0) {
+                triggerDirectDownload(
+                  `/api/download?productId=${encodeURIComponent(prod.id)}`,
+                  `${prod.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-master.pdf`
+                );
+              } else {
+                setCheckoutProduct(prod);
+              }
+            }}
           />
         ))}
       </div>

@@ -13,8 +13,13 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const leads = await getLeads();
-  return NextResponse.json({ leads });
+  try {
+    const leads = await getLeads();
+    return NextResponse.json({ leads });
+  } catch (error) {
+    console.error("Get Leads error:", error);
+    return NextResponse.json({ leads: [], error: "Internal error" }, { status: 500 });
+  }
 }
 
 export async function PATCH(request: Request) {

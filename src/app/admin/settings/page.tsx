@@ -25,6 +25,7 @@ import {
   ShieldAlert,
 } from "lucide-react";
 import type { SystemSettings, CashfreeConfig } from "@/lib/admin/types";
+import { safeParseJson } from "@/lib/utils";
 
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState<SystemSettings | null>(null);
@@ -59,8 +60,12 @@ export default function AdminSettingsPage() {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch("/api/admin/settings");
-      const data = await res.json();
+      const res = await fetch("/api/admin/settings", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.replace("/admin/login");
+        return;
+      }
+      const data = await safeParseJson<{ settings?: SystemSettings }>(res, {});
       if (data.settings) {
         // Ensure cashfree object is initialized
         const s: SystemSettings = {
@@ -84,8 +89,8 @@ export default function AdminSettingsPage() {
   const testFirebase = async () => {
     try {
       setTestingFirebase(true);
-      const res = await fetch("/api/admin/firebase/status");
-      const data = await res.json();
+      const res = await fetch("/api/admin/firebase/status", { cache: "no-store" });
+      const data = await safeParseJson<{ status?: any }>(res, {});
       if (data.status) {
         setFirebaseStatus(data.status);
       }

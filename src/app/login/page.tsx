@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,22 +16,36 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
 import { GoogleIcon } from "@/components/auth/google-icon";
-import { GoogleAuthModal } from "@/components/auth/google-auth-modal";
 import { ForgotPasswordModal } from "@/components/auth/forgot-password-modal";
 import { BrandLogo } from "@/components/layout/brand-logo";
+
+function getSafeRedirectUrl(raw: string | null): string {
+  if (!raw || !raw.startsWith("/") || raw.startsWith("//")) return "/";
+  if (raw.startsWith("/login") || raw.startsWith("/signup")) return "/";
+  return raw;
+}
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get("redirect") || "/bundles";
+  const redirectUrl = getSafeRedirectUrl(searchParams.get("redirect"));
 
   const {
     signInWithGoogle,
-    signInWithGoogleEmail,
     signInWithEmail,
+    user,
+    loading: authLoading,
     error,
     clearError,
   } = useAuth();
+
+  // Redirect as soon as Firebase/server session resolves (handles popup + redirect + cookie flows)
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.replace(redirectUrl);
+      router.refresh();
+    }
+  }, [user, authLoading, router, redirectUrl]);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +53,6 @@ function LoginForm() {
   const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [googleModalOpen, setGoogleModalOpen] = useState(false);
   const [forgotModalOpen, setForgotModalOpen] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
 
@@ -58,7 +71,8 @@ function LoginForm() {
     setLoading(false);
 
     if (res.success) {
-      router.push(redirectUrl);
+      router.replace(redirectUrl);
+      router.refresh();
     }
   };
 
@@ -67,14 +81,23 @@ function LoginForm() {
     setLocalError(null);
     setGoogleLoading(true);
     const res = await signInWithGoogle();
-    setGoogleLoading(false);
+    // Don't set loading(false) if redirect flow was triggered — browser navigates away
+    if (!res.redirectTriggered) setGoogleLoading(false);
 
-    if (res.success) {
-      router.push(redirectUrl);
-    } else if (res.code !== "auth/popup-closed-by-user") {
-      setGoogleModalOpen(true);
+    if (res.success && !res.redirectTriggered) {
+      router.replace(redirectUrl);
+      router.refresh();
     }
   };
+
+  if (!authLoading && user) {
+    return (
+      <div className="min-h-[calc(100vh-4.5rem)] flex flex-col items-center justify-center gap-3 px-4 py-10 bg-background">
+        <Loader2 className="h-7 w-7 animate-spin text-accent" />
+        <p className="text-sm font-medium text-foreground">Signed in! Redirecting...</p>
+      </div>
+    );
+  }
 
   const activeError = localError || error;
 
@@ -249,13 +272,6 @@ function LoginForm() {
         isOpen={forgotModalOpen}
         onClose={() => setForgotModalOpen(false)}
         initialEmail={email}
-      />
-
-      <GoogleAuthModal
-        isOpen={googleModalOpen}
-        onClose={() => setGoogleModalOpen(false)}
-        onSubmit={signInWithGoogleEmail}
-        onSuccess={() => router.push(redirectUrl)}
       />
     </>
   );

@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   const token = request.cookies.get(ADMIN_COOKIE_NAME)?.value;
   const authenticated = verifySessionToken(token);
-  return NextResponse.json({ authenticated });
+  return NextResponse.json({ authenticated }, { status: authenticated ? 200 : 401 });
 }
 
 export async function DELETE() {

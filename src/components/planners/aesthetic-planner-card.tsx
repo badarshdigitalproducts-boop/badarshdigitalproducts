@@ -51,11 +51,10 @@ export function AestheticPlannerCard({ product }: AestheticPlannerCardProps) {
       return;
     }
     if (isFree) {
-      if (product.downloadUrl) {
-        triggerDirectDownload(product.downloadUrl, `${product.title.toLowerCase().replace(/\s+/g, "-")}-planner.pdf`);
-      } else {
-        setPreviewOpen(true);
-      }
+      triggerDirectDownload(
+        `/api/download?productId=${encodeURIComponent(product.id)}`,
+        `${product.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-planner.pdf`
+      );
     } else {
       setCheckoutOpen(true);
     }

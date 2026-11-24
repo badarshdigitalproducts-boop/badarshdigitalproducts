@@ -18,7 +18,7 @@ export const getBaseUrl = (): string => {
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL.replace(/\/$/, "")}`;
   }
-  return "https://badarsh.vercel.app";
+  return "https://badarshdigitalproducts.vercel.app";
 };
 
 export function constructMetadata({

@@ -56,15 +56,16 @@ export function BuyButton({
   const { isUnlocked, handleDownload } = useProductAccess(productData);
 
   const handleFreeDownload = () => {
+    const editorUrl =
+      productData.canvaUrl && (productData.canvaUrl.includes("canva.com") || productData.canvaUrl.includes("capcut.com/template"))
+        ? productData.canvaUrl
+        : productData.templateUrl && (productData.templateUrl.includes("canva.com") || productData.templateUrl.includes("capcut.com/template"))
+        ? productData.templateUrl
+        : null;
     const directUrl =
-      productData.downloadUrl ||
-      productData.googleDriveUrl ||
-      productData.pdfUrl ||
-      productData.appDownloadUrl ||
-      productData.canvaUrl ||
-      productData.templateUrl ||
+      editorUrl ||
       `/api/download?productId=${encodeURIComponent(productData.id || productData.slug)}`;
-    triggerDirectDownload(directUrl, `${productTitle.toLowerCase().replace(/\s+/g, "-")}-master`);
+    triggerDirectDownload(directUrl, `${productTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-master`);
   };
 
   const handleWhatsAppQuick = () => {

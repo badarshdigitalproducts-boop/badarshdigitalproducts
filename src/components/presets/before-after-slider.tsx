@@ -17,6 +17,7 @@ import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "@/components/products/checkout-modal";
 import { triggerDirectDownload } from "@/lib/download";
+import { useProductAccess } from "@/hooks/use-product-access";
 
 interface BeforeAfterSliderProps {
   product: Product;
@@ -24,6 +25,7 @@ interface BeforeAfterSliderProps {
 
 export function BeforeAfterSlider({ product }: BeforeAfterSliderProps) {
   const { formatPrice: formatCurr } = useCurrency();
+  const { isUnlocked, handleDownload: accessHandleDownload } = useProductAccess(product);
   const [sliderPosition, setSliderPosition] = useState<number>(50); // percentage 0 to 100
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [guideModalOpen, setGuideModalOpen] = useState<boolean>(false);
@@ -72,11 +74,18 @@ export function BeforeAfterSlider({ product }: BeforeAfterSliderProps) {
 
   const handleDownload = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (isUnlocked) {
+      accessHandleDownload(e);
+      return;
+    }
     if (isFree) {
       const presetTarget =
         product.presetLinkUrl || product.downloadUrl || (product as any).googleDriveUrl;
       if (presetTarget) {
-        triggerDirectDownload(presetTarget, `${product.title.toLowerCase().replace(/\s+/g, "-")}-preset.dng`);
+        triggerDirectDownload(
+          `/api/download?productId=${encodeURIComponent(product.id)}`,
+          `${product.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-preset.dng`
+        );
       } else {
         setGuideModalOpen(true);
       }
@@ -164,27 +173,37 @@ export function BeforeAfterSlider({ product }: BeforeAfterSliderProps) {
           <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-between">
             <div>
               <span className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider">
-                {isFree ? "Free Preset" : "Mobile & Desktop"}
+                {isUnlocked ? "Unlocked Preset" : isFree ? "Free Preset" : "Mobile & Desktop"}
               </span>
               <div className="text-base font-bold text-neutral-900 dark:text-white">
-                {isFree ? "Free" : formatCurr(product.price)}
+                {isUnlocked ? (
+                  <span className="text-emerald-600 dark:text-emerald-400">Purchased</span>
+                ) : isFree ? (
+                  "Free"
+                ) : (
+                  formatCurr(product.price)
+                )}
               </div>
             </div>
 
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setGuideModalOpen(true)}
-                className="flex items-center gap-1 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800/60 px-3 py-2 text-xs font-semibold text-neutral-800 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700"
+                className="flex items-center gap-1 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800/60 px-3 py-2 text-xs font-semibold text-neutral-800 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer"
               >
                 <Smartphone className="h-3.5 w-3.5 text-amber-500" />
                 <span>How to Use</span>
               </button>
               <button
                 onClick={handleDownload}
-                className="flex items-center gap-1.5 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-4 py-2 text-xs font-bold shadow-md hover:scale-102 active:scale-98 transition-transform"
+                className={`flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-bold shadow-md hover:scale-102 active:scale-98 transition-transform cursor-pointer ${
+                  isUnlocked
+                    ? "bg-emerald-600 text-white"
+                    : "bg-neutral-900 dark:bg-white text-white dark:text-neutral-900"
+                }`}
               >
                 <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-                <span>{isFree ? "Download .DNG" : "Get Preset"}</span>
+                <span>{isUnlocked ? "Download .DNG" : isFree ? "Download .DNG" : "Get Preset"}</span>
               </button>
             </div>
           </div>

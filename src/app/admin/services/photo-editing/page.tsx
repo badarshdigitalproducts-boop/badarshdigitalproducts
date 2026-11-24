@@ -14,6 +14,7 @@ import {
 import type { AdminService, AdminServicePackage } from "@/lib/admin/types";
 import { FileUploader } from "@/components/admin/file-uploader";
 import { BeforeAfterSlider } from "@/components/shared/before-after-slider";
+import { safeParseJson } from "@/lib/utils";
 
 export default function PhotoEditingAdminPage() {
   const [service, setService] = useState<AdminService | null>(null);
@@ -32,8 +33,12 @@ export default function PhotoEditingAdminPage() {
 
   const fetchService = async () => {
     try {
-      const res = await fetch("/api/admin/services");
-      const data = await res.json();
+      const res = await fetch("/api/admin/services", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.replace("/admin/login");
+        return;
+      }
+      const data = await safeParseJson<{ services?: AdminService[] }>(res, {});
       const all: AdminService[] = data.services || [];
       const matched = all.find((s) => s.slug === "photo-editing" || s.id === "svc-002");
       if (matched) setService(matched);

@@ -16,6 +16,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import type { LeadInquiry, LeadStatus } from "@/lib/admin/types";
+import { safeParseJson } from "@/lib/utils";
 
 export default function AdminLeadsPage() {
   const [leads, setLeads] = useState<LeadInquiry[]>([]);
@@ -30,8 +31,12 @@ export default function AdminLeadsPage() {
 
   const fetchLeads = async () => {
     try {
-      const res = await fetch("/api/admin/leads");
-      const data = await res.json();
+      const res = await fetch("/api/admin/leads", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.replace("/admin/login");
+        return;
+      }
+      const data = await safeParseJson<{ leads?: LeadInquiry[] }>(res, {});
       setLeads(data.leads || []);
     } catch (err) {
       console.error("Failed to fetch leads:", err);

@@ -87,7 +87,7 @@ export default function WebsiteDesignPage() {
               type: "E-Commerce & Digital Store",
               desc: "Full Next.js 16 e-commerce suite with dynamic cart, real-time currency conversion, and sub-second page transitions.",
               image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80",
-              link: "https://badarsh.vercel.app",
+              link: "https://badarshdigitalproducts.vercel.app",
               tags: ["Next.js 16", "Tailwind", "Framer Motion"],
             },
             {
@@ -95,7 +95,7 @@ export default function WebsiteDesignPage() {
               type: "High-End Agency Platform",
               desc: "Apple-level typography hierarchy, fluid physics animations, dynamic lead engine, and dark/light mode toggle.",
               image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80",
-              link: "https://badarsh.vercel.app/about",
+              link: "https://badarshdigitalproducts.vercel.app/about",
               tags: ["TypeScript", "Bespoke CSS", "SEO Dominance"],
             },
             {
@@ -103,7 +103,7 @@ export default function WebsiteDesignPage() {
               type: "Media Streaming App",
               desc: "Spotify-style background audio engine with real-time waveform bars and one-click cloud asset delivery.",
               image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&q=80",
-              link: "https://badarsh.vercel.app/editing-bundles",
+              link: "https://badarshdigitalproducts.vercel.app/editing-bundles",
               tags: ["Web Audio API", "Instant Streaming", "Cloudflare"],
             },
           ].map((project, idx) => (

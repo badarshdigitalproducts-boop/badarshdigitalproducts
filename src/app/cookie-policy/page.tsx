@@ -13,6 +13,7 @@ export const metadata = constructMetadata({
   title: "Cookie Policy",
   description:
     "Learn about how BADARSH uses essential, functional, and performance cookies to provide secure browsing and seamless digital product delivery.",
+  canonical: "/cookie-policy",
 });
 
 export default function CookiePolicyPage() {

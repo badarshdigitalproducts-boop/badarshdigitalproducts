@@ -29,6 +29,7 @@ import {
   fsDeleteSubscriber,
   fsGetSettings,
   fsSaveSettings,
+  fsGetUsers,
   fsSyncFullDatabase,
   checkFirebaseConnection,
 } from "@/lib/firebase/db";
@@ -56,6 +57,7 @@ import {
   rtDeleteSubscriber,
   rtGetSettings,
   rtSaveSettings,
+  rtGetUsers,
   rtSyncFullDatabase,
   checkRealtimeDbConnection,
 } from "@/lib/firebase/rtdb";
@@ -70,6 +72,7 @@ import type {
   OrderRecord,
   SystemSettings,
   AuditLog,
+  UserAccount,
 } from "./types";
 
 const cwd = typeof process !== "undefined" && typeof process.cwd === "function" ? process.cwd() : "";
@@ -78,8 +81,15 @@ const STORE_PATH = DATA_DIR ? path.join(DATA_DIR, "admin-store.json") : "";
 const TMP_DIR = "/tmp";
 const TMP_STORE_PATH = path.join(TMP_DIR, "admin-store.json");
 
-// In-memory cache for ultra-fast response & edge fallback
+// Short-TTL in-memory cache so serverless lambdas stay fresh across webhooks & admin mutations
 let cachedDb: AdminDatabase | null = null;
+let cachedDbAt = 0;
+const DB_CACHE_TTL_MS = 10_000;
+
+export function invalidateDbCache(): void {
+  cachedDb = null;
+  cachedDbAt = 0;
+}
 
 function getDefaultSettings(): SystemSettings {
   return {
@@ -105,7 +115,7 @@ function getSeedDatabase(): AdminDatabase {
     deliveryType: p.deliveryType || "download-url",
     templateUrl: (p as any).templateUrl || p.canvaUrl || `/templates/${p.slug}`,
     canvaUrl: p.canvaUrl || `/templates/${p.slug}`,
-    downloadUrl: p.downloadUrl || `/downloads/${p.slug}.zip`,
+    downloadUrl: p.downloadUrl || p.googleDriveUrl || p.pdfUrl || p.appDownloadUrl || "",
     status: "published",
     updatedAt: new Date().toISOString(),
   }));
@@ -224,8 +234,10 @@ function getSeedDatabase(): AdminDatabase {
   };
 }
 
-export async function getDatabase(): Promise<AdminDatabase> {
-  if (cachedDb) return cachedDb;
+export async function getDatabase(forceRefresh = false): Promise<AdminDatabase> {
+  if (!forceRefresh && cachedDb && Date.now() - cachedDbAt < DB_CACHE_TTL_MS) {
+    return cachedDb;
+  }
 
   let localDb: AdminDatabase;
 
@@ -275,10 +287,13 @@ export async function getDatabase(): Promise<AdminDatabase> {
     }
 
     if (!parsed.products || !parsed.products.length) {
-      parsed.products = seed.products;
+      const deletedSet = new Set<string>(Array.isArray(parsed.deletedProductIds) ? parsed.deletedProductIds : []);
+      parsed.products = seed.products.filter((sp) => !deletedSet.has(sp.id));
       modified = true;
     } else {
+      const deletedSet = new Set<string>(Array.isArray(parsed.deletedProductIds) ? parsed.deletedProductIds : []);
       seed.products.forEach((sp) => {
+        if (deletedSet.has(sp.id)) return;
         const existing = parsed.products.find((p: any) => p.id === sp.id || p.slug === sp.slug);
         if (existing) {
           if (!existing.videoUrl && sp.videoUrl) {
@@ -369,7 +384,7 @@ export async function getDatabase(): Promise<AdminDatabase> {
             existing.deliveryType = sp.deliveryType;
             modified = true;
           }
-        } else {
+        } else if (!deletedSet.has(sp.id)) {
           parsed.products.push(sp);
           modified = true;
         }
@@ -426,8 +441,8 @@ export async function getDatabase(): Promise<AdminDatabase> {
   // Attempt live Realtime Database & Firestore sync if cloud collections are populated
   try {
     const [
-      fsProds, fsServices, fsPosts, fsOrders, fsCoupons, fsLeads, fsSubs, fsSettings,
-      rtProds, rtServices, rtOrders, rtLeads, rtSettings
+      fsProds, fsServices, fsPosts, fsOrders, fsCoupons, fsLeads, fsSubs, fsSettings, fsUsers,
+      rtProds, rtServices, rtOrders, rtLeads, rtSettings, rtUsers
     ] = await Promise.all([
       fsGetProducts().catch(() => []),
       fsGetServices().catch(() => []),
@@ -437,18 +452,33 @@ export async function getDatabase(): Promise<AdminDatabase> {
       fsGetLeads().catch(() => []),
       fsGetSubscribers().catch(() => []),
       fsGetSettings().catch(() => null),
+      fsGetUsers().catch(() => []),
       rtGetProducts().catch(() => []),
       rtGetServices().catch(() => []),
       rtGetOrders().catch(() => []),
       rtGetLeads().catch(() => []),
       rtGetSettings().catch(() => null),
+      rtGetUsers().catch(() => []),
     ]);
+
+    const deletedSet = new Set<string>([
+      ...(Array.isArray(localDb.deletedProductIds) ? localDb.deletedProductIds : []),
+      ...(Array.isArray(fsSettings?.deletedProductIds) ? fsSettings.deletedProductIds : []),
+      ...(Array.isArray(rtSettings?.deletedProductIds) ? rtSettings.deletedProductIds : []),
+    ]);
+    if (deletedSet.size > 0) {
+      localDb.deletedProductIds = Array.from(deletedSet);
+    }
 
     const cloudProds = fsProds.length > 0 ? fsProds : rtProds;
     if (cloudProds && cloudProds.length > 0) {
       const prodMap = new Map<string, AdminProduct>();
-      localDb.products.forEach((p) => prodMap.set(p.id, p));
-      cloudProds.forEach((p) => prodMap.set(p.id, p));
+      localDb.products.forEach((p) => {
+        if (!deletedSet.has(p.id)) prodMap.set(p.id, p);
+      });
+      cloudProds.forEach((p) => {
+        if (!deletedSet.has(p.id)) prodMap.set(p.id, p);
+      });
       localDb.products = Array.from(prodMap.values());
     }
     const cloudServices = fsServices.length > 0 ? fsServices : rtServices;
@@ -490,6 +520,15 @@ export async function getDatabase(): Promise<AdminDatabase> {
       fsSubs.forEach((s) => subMap.set(s.id, s));
       localDb.subscribers = Array.from(subMap.values());
     }
+    const cloudUsers = [...(rtUsers || []), ...(fsUsers || [])];
+    if (cloudUsers.length > 0) {
+      const userMap = new Map<string, UserAccount>();
+      (localDb.users || []).forEach((u) => userMap.set(u.id, u));
+      cloudUsers.forEach((u) => {
+        if (u?.id) userMap.set(u.id, u);
+      });
+      localDb.users = Array.from(userMap.values());
+    }
     const activeSettings = fsSettings || rtSettings;
     if (activeSettings) {
       localDb.settings = { ...localDb.settings, ...activeSettings };
@@ -503,6 +542,7 @@ export async function getDatabase(): Promise<AdminDatabase> {
   }
 
   cachedDb = localDb;
+  cachedDbAt = Date.now();
   return cachedDb;
 }
 
@@ -512,6 +552,7 @@ export async function saveDatabase(db: AdminDatabase): Promise<void> {
     db.settings.cashfree.secretKey = "";
   }
   cachedDb = db;
+  cachedDbAt = Date.now();
 
   // 1. Persist to /tmp (guaranteed writable on Vercel lambda if available)
   try {
@@ -586,7 +627,7 @@ export async function saveAdminProduct(productData: Partial<AdminProduct> & { ti
         currency: productData.currency || "INR",
         category: productData.category || "social-media",
         tags: productData.tags || [],
-        images: productData.images || ["/images/products/product-1.png"],
+        images: productData.images || ["/images/og/og-default.png"],
         features: productData.features || ["100% customizable ready-to-edit template"],
         rating: productData.rating || 5.0,
         reviewCount: productData.reviewCount || 1,
@@ -654,30 +695,53 @@ export async function saveAdminProduct(productData: Partial<AdminProduct> & { ti
     db.products.unshift(product);
   }
 
+  const deletedSet = new Set<string>([
+    ...(Array.isArray(db.deletedProductIds) ? db.deletedProductIds : []),
+    ...(Array.isArray(db.settings?.deletedProductIds) ? db.settings.deletedProductIds : []),
+  ]);
+  if (deletedSet.delete(product.id)) {
+    db.deletedProductIds = Array.from(deletedSet);
+    if (db.settings) {
+      db.settings.deletedProductIds = db.deletedProductIds;
+    }
+  }
   await addAuditLog(
     productData.id ? "PRODUCT_UPDATED" : "PRODUCT_CREATED",
     `Product "${product.title}" saved with price ₹${product.price}`
   );
   await saveDatabase(db);
-  fsSaveProduct(product).catch((err) => console.warn("Firestore product save error:", err));
-  rtSaveProduct(product).catch((err) => console.warn("Realtime DB product save error:", err));
+  await Promise.allSettled([
+    fsSaveProduct(product).catch((err) => console.warn("Firestore product save error:", err)),
+    rtSaveProduct(product).catch((err) => console.warn("Realtime DB product save error:", err)),
+    db.settings ? fsSaveSettings(db.settings).catch(() => {}) : Promise.resolve(),
+    db.settings ? rtSaveSettings(db.settings).catch(() => {}) : Promise.resolve(),
+  ]);
   return product;
 }
 
 export async function deleteAdminProduct(id: string): Promise<boolean> {
-  const db = await getDatabase();
+  const db = await getDatabase(true);
   const initialLength = db.products.length;
   const target = db.products.find((p) => p.id === id);
   db.products = db.products.filter((p) => p.id !== id);
-  if (!db.deletedProductIds) db.deletedProductIds = [];
-  if (!db.deletedProductIds.includes(id)) {
-    db.deletedProductIds.push(id);
+  const deletedSet = new Set<string>([
+    ...(Array.isArray(db.deletedProductIds) ? db.deletedProductIds : []),
+    ...(Array.isArray(db.settings?.deletedProductIds) ? db.settings.deletedProductIds : []),
+  ]);
+  deletedSet.add(id);
+  db.deletedProductIds = Array.from(deletedSet);
+  if (db.settings) {
+    db.settings.deletedProductIds = db.deletedProductIds;
   }
   if (db.products.length !== initialLength) {
     await addAuditLog("PRODUCT_DELETED", `Product "${target?.title || id}" deleted`);
     await saveDatabase(db);
-    fsDeleteProduct(id).catch((err) => console.warn("Firestore product delete error:", err));
-    rtDeleteProduct(id).catch((err) => console.warn("Realtime DB product delete error:", err));
+    await Promise.allSettled([
+      fsDeleteProduct(id).catch((err) => console.warn("Firestore product delete error:", err)),
+      rtDeleteProduct(id).catch((err) => console.warn("Realtime DB product delete error:", err)),
+      db.settings ? fsSaveSettings(db.settings).catch(() => {}) : Promise.resolve(),
+      db.settings ? rtSaveSettings(db.settings).catch(() => {}) : Promise.resolve(),
+    ]);
     return true;
   }
   return false;
@@ -799,7 +863,7 @@ export async function saveAdminBlogPost(postData: Partial<AdminBlogPost> & { tit
       author: postData.author || "BADARSH Editorial",
       date: postData.date || new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
       readTime: postData.readTime || "5 min read",
-      coverImage: postData.coverImage || "/images/blog/design-hacks.png",
+      coverImage: postData.coverImage || "/images/og/og-default.png",
       tags: postData.tags || ["Business", "Growth"],
       status: postData.status || "published",
       views: postData.views || 0,
@@ -832,7 +896,7 @@ export async function deleteAdminBlogPost(slug: string): Promise<boolean> {
 /* ---------------- Orders ---------------- */
 
 export async function getAdminOrders(): Promise<OrderRecord[]> {
-  const db = await getDatabase();
+  const db = await getDatabase(true);
   return db.orders || [];
 }
 
@@ -890,8 +954,10 @@ export async function saveAdminOrder(orderData: Partial<OrderRecord> & { custome
 
   await addAuditLog("ORDER_SAVED", `Order ${order.id} for ${order.customerName} (₹${order.totalAmount}) saved`);
   await saveDatabase(db);
-  fsSaveOrder(order).catch((err) => console.warn("Firestore order save error:", err));
-  rtSaveOrder(order).catch((err) => console.warn("Realtime DB order save error:", err));
+  await Promise.allSettled([
+    fsSaveOrder(order).catch((err) => console.warn("Firestore order save error:", err)),
+    rtSaveOrder(order).catch((err) => console.warn("Realtime DB order save error:", err)),
+  ]);
   return order;
 }
 

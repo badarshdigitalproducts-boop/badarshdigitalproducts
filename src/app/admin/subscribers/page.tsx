@@ -11,6 +11,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import type { Subscriber } from "@/lib/admin/types";
+import { safeParseJson } from "@/lib/utils";
 
 export default function AdminSubscribersPage() {
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
@@ -23,8 +24,12 @@ export default function AdminSubscribersPage() {
 
   const fetchSubscribers = async () => {
     try {
-      const res = await fetch("/api/admin/subscribers");
-      const data = await res.json();
+      const res = await fetch("/api/admin/subscribers", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.replace("/admin/login");
+        return;
+      }
+      const data = await safeParseJson<{ subscribers?: Subscriber[] }>(res, {});
       setSubscribers(data.subscribers || []);
     } catch (err) {
       console.error("Failed to fetch subscribers:", err);

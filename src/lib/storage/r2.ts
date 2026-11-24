@@ -68,11 +68,16 @@ export async function generateR2DownloadUrl(
 ): Promise<string> {
   if (!isR2Configured()) {
     // Graceful fallback token if R2 credentials are not yet configured
+    const signingKey =
+      process.env.DOWNLOAD_SIGNING_KEY ||
+      process.env.ADMIN_SESSION_SECRET ||
+      "badarsh-secret-signing-key";
+    const expiresAt = Math.floor(Date.now() / 1000) + expiresInSeconds;
     const token = crypto
-      .createHmac("sha256", "badarsh-secret-signing-key")
-      .update(`${key}:${Math.floor(Date.now() / 1000) + expiresInSeconds}`)
+      .createHmac("sha256", signingKey)
+      .update(`${key}:${expiresAt}`)
       .digest("hex");
-    return `/api/download?key=${encodeURIComponent(key)}&token=${token}&exp=${Math.floor(Date.now() / 1000) + expiresInSeconds}`;
+    return `/api/download?key=${encodeURIComponent(key)}&token=${token}&exp=${expiresAt}`;
   }
 
   const client = getR2Client();

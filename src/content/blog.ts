@@ -10,7 +10,7 @@ export const blogPosts: BlogPost[] = [
     author: "BADARSH Editorial",
     date: "November 18, 2026",
     readTime: "8 min read",
-    coverImage: "/images/blog/design-playbook.png",
+    coverImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80",
     tags: ["Digital Products", "Design Systems", "Passive Income", "Creator Economy"],
     content: `
 ## Why Digital Products are the Highest-Leverage Asset in 2026
@@ -57,7 +57,7 @@ By combining well-crafted BADARSH studio assets with instant digital delivery, y
     author: "BADARSH Editorial",
     date: "November 15, 2026",
     readTime: "5 min read",
-    coverImage: "/images/blog/design-hacks.png",
+    coverImage: "https://images.unsplash.com/photo-1542744094-3a31f272c490?w=1200&q=80",
     tags: ["Design Systems", "Productivity", "Graphic Design", "Small Business"],
     content: `
 ## Why Design Speed Matters for Modern Businesses
@@ -104,7 +104,7 @@ Turn on rulers and guides to ensure critical headline text doesn't get covered b
     author: "BADARSH Editorial",
     date: "November 10, 2026",
     readTime: "7 min read",
-    coverImage: "/images/blog/instagram-growth.png",
+    coverImage: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1200&q=80",
     tags: ["Instagram", "Organic Reach", "Reels", "Social Selling"],
     content: `
 ## The New Rules of Social Selling in India
@@ -141,7 +141,7 @@ Make it effortless for followers to buy from you. In India, trust closes on What
     author: "BADARSH Editorial",
     date: "November 04, 2026",
     readTime: "6 min read",
-    coverImage: "/images/blog/website-conversions.png",
+    coverImage: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80",
     tags: ["Web Design", "Conversion Rate", "Landing Pages", "UX"],
     content: `
 ## Your Website is Your 24/7 Digital Salesperson

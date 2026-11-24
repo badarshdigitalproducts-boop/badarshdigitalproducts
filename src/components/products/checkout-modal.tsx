@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
+import { useAuth } from "@/context/auth-context";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
 import { triggerDirectDownload } from "@/lib/download";
 import { markProductAsUnlocked } from "@/hooks/use-product-access";
@@ -31,11 +32,19 @@ interface CheckoutModalProps {
 
 export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) {
   const { currency, formatPrice: formatCurr } = useCurrency();
+  const { user } = useAuth();
 
   // Form State
   const [customerName, setCustomerName] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
+
+  useEffect(() => {
+    if (isOpen && user) {
+      if (!customerName && user.displayName) setCustomerName(user.displayName);
+      if (!customerEmail && user.email) setCustomerEmail(user.email);
+    }
+  }, [isOpen, user]);
 
   // Coupon State
   const [couponCode, setCouponCode] = useState("");
@@ -120,9 +129,15 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
       return;
     }
 
+    const trimmedEmail = customerEmail.trim();
+    if (finalTotal > 0 && (!trimmedEmail || !trimmedEmail.includes("@"))) {
+      setErrorMessage("Please enter a valid email address for your receipt and lifetime access.");
+      return;
+    }
+
     const cleanPhone = customerPhone.replace(/\D/g, "");
-    if (customerPhone.trim() && cleanPhone.length !== 10) {
-      setErrorMessage("Please enter a valid 10-digit mobile number (e.g. 9876543210).");
+    if (finalTotal > 0 && cleanPhone.length !== 10) {
+      setErrorMessage("Please enter a valid 10-digit WhatsApp/mobile number (e.g. 9876543210).");
       return;
     }
 
@@ -133,7 +148,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           customerName: customerName.trim(),
-          customerEmail: customerEmail.trim(),
+          customerEmail: trimmedEmail,
           customerPhone: cleanPhone || customerPhone.trim(),
           productId: product.id,
           productTitle: product.title,
@@ -151,7 +166,10 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
         if (data.orderId) {
           try {
             localStorage.setItem(`badarsh_order_token_${data.orderId}`, data.order?.licenseKey || data.orderId);
-            markProductAsUnlocked(product.id, product.slug, data.orderId, data.order?.licenseKey);
+            // Unlock immediately ONLY when payment is already completed (₹0 / 100% coupon)
+            if (!data.paymentRequired && data.order?.paymentStatus === "completed") {
+              markProductAsUnlocked(product.id, product.slug, data.orderId, data.order?.licenseKey);
+            }
           } catch {}
         }
 
@@ -536,14 +554,18 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                   <button
                     type="button"
                     onClick={() => {
-                      const directUrl =
+                      const rawTarget =
                         product.freeDownloadUrl ||
                         product.downloadUrl ||
                         product.googleDriveUrl ||
                         product.pdfUrl ||
                         product.appDownloadUrl ||
-                        `/api/download?productId=${encodeURIComponent(product.id)}`;
-                      triggerDirectDownload(directUrl, `${product.title.toLowerCase().replace(/\s+/g, "-")}-master`);
+                        "";
+                      const directUrl =
+                        rawTarget && (rawTarget.includes("canva.com") || rawTarget.includes("capcut.com/template"))
+                          ? rawTarget
+                          : `/api/download?productId=${encodeURIComponent(product.id)}`;
+                      triggerDirectDownload(directUrl, `${product.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-master`);
                       setTimeout(handleModalClose, 800);
                     }}
                     className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-emerald-600 py-4 font-heading text-xs font-bold text-white shadow-lg transition-all hover:bg-emerald-700 active:scale-[0.98]"

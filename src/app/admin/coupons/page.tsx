@@ -19,6 +19,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import type { AdminCoupon } from "@/lib/admin/types";
+import { safeParseJson } from "@/lib/utils";
 
 const DEFAULT_COUPON: Partial<AdminCoupon> = {
   code: "",
@@ -54,8 +55,12 @@ export default function AdminCouponsPage() {
   const fetchCoupons = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/admin/coupons");
-      const data = await res.json();
+      const res = await fetch("/api/admin/coupons", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.replace("/admin/login");
+        return;
+      }
+      const data = await safeParseJson<{ coupons?: AdminCoupon[] }>(res, {});
       if (data.coupons) {
         setCoupons(data.coupons);
       }
