@@ -4,6 +4,8 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import {
   onAuthStateChanged,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -75,7 +77,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // Fallback
       }
 
-      // 2. Listen to live Firebase Auth state
+      // 2. Check for returning Google Redirect sign-in result
+      try {
+        const auth = getFirebaseAuth();
+        const redirectRes = await getRedirectResult(auth);
+        if (redirectRes && redirectRes.user && redirectRes.user.email && mounted) {
+          const fbUser = redirectRes.user;
+          const authUser: AuthUser = {
+            uid: fbUser.uid,
+            email: fbUser.email,
+            displayName: fbUser.displayName || (fbUser.email ? fbUser.email.split("@")[0] : "Google User"),
+            photoURL: fbUser.photoURL || null,
+          };
+          setUser(authUser);
+          try {
+            await fetch("/api/auth/google", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: authUser.email,
+                name: authUser.displayName,
+                photoURL: authUser.photoURL,
+              }),
+            });
+          } catch {}
+          setLoading(false);
+          return;
+        }
+      } catch (redirectErr) {
+        console.warn("Google redirect handler notice:", redirectErr);
+      }
+
+      // 3. Listen to live Firebase Auth state
       try {
         const auth = getFirebaseAuth();
         const unsubscribe = onAuthStateChanged(
@@ -86,7 +119,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               const authUser: AuthUser = {
                 uid: fbUser.uid,
                 email: fbUser.email,
-                displayName: fbUser.displayName || fbUser.email.split("@")[0],
+                displayName: fbUser.displayName || (fbUser.email ? fbUser.email.split("@")[0] : "Google User"),
                 photoURL: fbUser.photoURL || null,
               };
               setUser(authUser);
@@ -137,71 +170,64 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const auth = getFirebaseAuth();
       const provider = getGoogleAuthProvider();
-      // Ensure Google forces account selection so user picks their real Gmail
       provider.setCustomParameters({ prompt: "select_account" });
 
-      const result = await signInWithPopup(auth, provider);
-      const fbUser = result.user;
+      // First attempt: Interactive Google popup
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const fbUser = result.user;
 
-      if (!fbUser || !fbUser.email) {
-        throw new Error("No Google account was returned. Please try again.");
-      }
+        if (!fbUser || !fbUser.email) {
+          throw new Error("No Google account was returned. Please try again.");
+        }
 
-      const authUser: AuthUser = {
-        uid: fbUser.uid,
-        email: fbUser.email,
-        displayName: fbUser.displayName || fbUser.email.split("@")[0],
-        photoURL: fbUser.photoURL || null,
-      };
-
-      // Persist real Google user session to server cookie and database
-      await fetch("/api/auth/google", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: authUser.email,
-          name: authUser.displayName,
-          photoURL: authUser.photoURL,
-        }),
-      });
-
-      setUser(authUser);
-      return { success: true };
-    } catch (fbErr: any) {
-      console.warn("Firebase Google popup notice:", fbErr?.code || fbErr?.message);
-
-      const code = fbErr?.code || "";
-      const rawMsg = fbErr?.message || "";
-
-      // Popup closed by user: silent cancel
-      if (code === "auth/popup-closed-by-user") {
-        return { success: false, code };
-      }
-
-      // Domain unauthorized, permission-denied, or restricted API:
-      // Gracefully signal modal fallback without displaying developer-facing error banners
-      if (
-        code === "auth/unauthorized-domain" ||
-        code === "auth/operation-not-allowed" ||
-        code.includes("permission-denied") ||
-        rawMsg.includes("permission-denied") ||
-        rawMsg.includes("ACCESS_DENIED") ||
-        rawMsg.includes("Identity Toolkit")
-      ) {
-        return {
-          success: false,
-          code: "FALLBACK_REQUIRED",
-          error: undefined,
+        const authUser: AuthUser = {
+          uid: fbUser.uid,
+          email: fbUser.email,
+          displayName: fbUser.displayName || fbUser.email.split("@")[0],
+          photoURL: fbUser.photoURL || null,
         };
-      }
 
-      const userFriendlyMsg = "Unable to connect with Google popup. Please enter your email below.";
-      setError(userFriendlyMsg);
-      return {
-        success: false,
-        error: userFriendlyMsg,
-        code: "FALLBACK_REQUIRED",
-      };
+        // Persist real Google user session to server cookie and database
+        await fetch("/api/auth/google", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: authUser.email,
+            name: authUser.displayName,
+            photoURL: authUser.photoURL,
+          }),
+        });
+
+        setUser(authUser);
+        return { success: true };
+      } catch (popupErr: any) {
+        // If user manually closed popup, cancel silently
+        if (popupErr?.code === "auth/popup-closed-by-user") {
+          return { success: false, code: popupErr.code };
+        }
+
+        // If domain is unauthorized in Firebase, provide precise notice
+        if (popupErr?.code === "auth/unauthorized-domain") {
+          const domainMsg = "To sign in with Google on Vercel, please add 'badarshdigitalproducts.vercel.app' in Firebase Console -> Authentication -> Settings -> Authorized Domains.";
+          setError(domainMsg);
+          return { success: false, error: domainMsg, code: popupErr.code };
+        }
+
+        // If popup was blocked by browser or failed, seamlessly fall back to Google Redirect sign-in
+        console.log("Popup blocked or unavailable, switching to Google redirect flow...");
+        await signInWithRedirect(auth, provider);
+        return { success: true };
+      }
+    } catch (fbErr: any) {
+      console.warn("Google sign-in notice:", fbErr?.code || fbErr?.message);
+      const code = fbErr?.code || "";
+      let msg = "Google sign-in could not be completed. Please try again.";
+      if (code === "auth/unauthorized-domain") {
+        msg = "To sign in with Google on Vercel, please add 'badarshdigitalproducts.vercel.app' in Firebase Console -> Authentication -> Settings -> Authorized Domains.";
+      }
+      setError(msg);
+      return { success: false, error: msg, code };
     }
   };
 
