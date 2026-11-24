@@ -71,11 +71,7 @@ function LoginForm() {
 
     if (res.success) {
       router.push(redirectUrl);
-    } else if (
-      res.code?.includes("permission-denied") ||
-      res.code === "auth/unauthorized-domain" ||
-      res.error?.includes("Identity Toolkit")
-    ) {
+    } else if (res.code !== "auth/popup-closed-by-user") {
       setGoogleModalOpen(true);
     }
   };

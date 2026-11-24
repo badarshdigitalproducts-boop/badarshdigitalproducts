@@ -36,9 +36,9 @@ export function ServicesPreview() {
     <section className="py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          badge="Done-For-You Studio"
-          title="Need Us To Build It For You?"
-          subtitle="Don't have time to design? Our in-house team handles high-impact video editing, custom websites, and growth management."
+          badge="Studio Services"
+          title="Hire Our In-House Creative Team"
+          subtitle="Need custom execution? We handle short-form video editing, custom Next.js websites, and brand design systems for independent businesses."
         />
 
         <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none px-4 -mx-4 pb-4 lg:grid lg:grid-cols-3 lg:px-0 lg:mx-0">

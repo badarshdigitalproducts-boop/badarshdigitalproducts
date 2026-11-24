@@ -33,9 +33,9 @@ export function FeaturedProducts() {
     <section className="py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          badge="Production Ready"
-          title="Flagship Studio Assets"
-          subtitle="Directly from the BADARSH master vault: sound effects & BG music, 4K motion overlays, verified creator apps, and 1-click Lightroom color grades."
+          badge="Featured Releases"
+          title="Essential Creative Assets"
+          subtitle="Our most trusted video packs, sound design libraries, color grades, and creator tools. Built for editors, designers, and creators."
         />
 
         {/* Apple Horizontal Inertial Snap Carousel on Mobile / Clean Grid on Desktop */}
@@ -56,7 +56,7 @@ export function FeaturedProducts() {
             href="/bundles"
             className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background hover:bg-muted px-6 py-2.5 text-xs sm:text-sm font-medium text-foreground shadow-xs transition-all active:scale-95"
           >
-            <span>Explore All Master Bundles</span>
+            <span>Explore Full Catalog</span>
             <ChevronRight className="h-4 w-4" />
           </Link>
         </div>

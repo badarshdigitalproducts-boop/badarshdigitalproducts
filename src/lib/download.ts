@@ -1,11 +1,12 @@
 /**
  * Direct file download helper that triggers browser downloads directly into
  * the user's Downloads tray without opening an extra tab or navigating away.
+ * Never uses iframes (which cause "This content is blocked" browser security errors).
  */
 export async function triggerDirectDownload(url: string, filename?: string): Promise<void> {
   if (!url || typeof window === "undefined") return;
 
-  // For interactive web editor services (Canva / CapCut), open in a new tab to edit
+  // For interactive web editor services (Canva / CapCut web), open in a new tab to edit
   if (url.includes("canva.com") || url.includes("capcut.com/template")) {
     window.open(url, "_blank", "noopener,noreferrer");
     return;
@@ -13,7 +14,7 @@ export async function triggerDirectDownload(url: string, filename?: string): Pro
 
   const safeFilename = filename || "download";
 
-  // Try background blob fetch for same-origin or CORS-enabled endpoints
+  // 1. Try background blob fetch for same-origin or CORS-enabled endpoints
   try {
     const res = await fetch(url, { method: "GET" });
     if (res.ok) {
@@ -27,37 +28,33 @@ export async function triggerDirectDownload(url: string, filename?: string): Pro
       a.click();
       setTimeout(() => {
         window.URL.revokeObjectURL(blobUrl);
-        document.body.removeChild(a);
-      }, 1000);
+        try {
+          document.body.removeChild(a);
+        } catch {}
+      }, 1500);
       return;
     }
   } catch {
-    // If fetch fails (e.g. cross-origin blocking), fall through to hidden iframe / direct anchor
+    // If fetch throws (e.g. cross-origin blocking on redirect), proceed to native anchor dispatch
   }
 
-  // Fallback: hidden iframe triggers download without opening a new tab or leaving the page
+  // 2. Clean anchor dispatch with download attribute (No iframes)
   try {
-    const iframe = document.createElement("iframe");
-    iframe.style.display = "none";
-    iframe.src = url;
-    document.body.appendChild(iframe);
-    setTimeout(() => {
-      try {
-        document.body.removeChild(iframe);
-      } catch {}
-    }, 15000);
-  } catch {
-    // Ultimate fallback: direct anchor with download attribute
     const a = document.createElement("a");
     a.style.display = "none";
     a.href = url;
     a.download = safeFilename;
+    a.target = "_self";
     document.body.appendChild(a);
     a.click();
     setTimeout(() => {
       try {
         document.body.removeChild(a);
       } catch {}
-    }, 500);
+    }, 1000);
+  } catch {
+    // 3. Fallback: window assign for attachment endpoints
+    window.location.assign(url);
   }
 }
+

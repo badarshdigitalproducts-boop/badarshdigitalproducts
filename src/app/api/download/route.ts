@@ -28,7 +28,12 @@ function getProductAssetTarget(product: any): string | null {
   );
 }
 
-async function resolveDownloadRedirect(fileTarget: string, request: NextRequest) {
+async function resolveDownloadRedirect(fileTarget: string, request: NextRequest, productTitle?: string) {
+  // If Canva or CapCut web template, direct redirect to editor
+  if (fileTarget.includes("canva.com") || fileTarget.includes("capcut.com/template")) {
+    return NextResponse.redirect(fileTarget, 307);
+  }
+
   // If stored in R2 (or starts with "r2://" or "uploads/")
   if (fileTarget.startsWith("r2://") || (!fileTarget.startsWith("http") && !fileTarget.startsWith("/"))) {
     const cleanKey = fileTarget.replace(/^r2:\/\/[^/]+\//, "");
@@ -45,6 +50,54 @@ async function resolveDownloadRedirect(fileTarget: string, request: NextRequest)
       const directDriveUrl = `https://docs.google.com/uc?export=download&id=${idMatch[1]}`;
       return NextResponse.redirect(directDriveUrl, 307);
     }
+  }
+
+  // For remote HTTP/HTTPS files (PDFs, raw files, XMLs, audio, etc.):
+  // Stream directly through the Badarsh API with attachment headers.
+  // This completely eliminates CORS errors, "This content is blocked", and unwanted new tab jumps!
+  if (fileTarget.startsWith("http://") || fileTarget.startsWith("https://")) {
+    try {
+      const upstreamRes = await fetch(fileTarget, {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        },
+      });
+
+      if (upstreamRes.ok) {
+        let safeName = "badarsh-download";
+        try {
+          const urlObj = new URL(fileTarget);
+          const rawName = urlObj.pathname.split("/").pop();
+          if (rawName && rawName.includes(".")) {
+            safeName = decodeURIComponent(rawName);
+          } else if (productTitle) {
+            safeName = `${productTitle.toLowerCase().replace(/[^a-z0-9_-]+/g, "-")}-master.pdf`;
+          }
+        } catch {
+          if (productTitle) {
+            safeName = `${productTitle.toLowerCase().replace(/[^a-z0-9_-]+/g, "-")}.bin`;
+          }
+        }
+
+        const contentType = upstreamRes.headers.get("content-type") || "application/octet-stream";
+        const arrayBuffer = await upstreamRes.arrayBuffer();
+
+        return new NextResponse(arrayBuffer, {
+          status: 200,
+          headers: {
+            "Content-Type": contentType,
+            "Content-Disposition": `attachment; filename="${safeName}"`,
+            "Access-Control-Allow-Origin": "*",
+            "Cache-Control": "public, max-age=3600",
+          },
+        });
+      }
+    } catch (streamErr) {
+      console.warn("Direct stream fetch failed, falling back to redirect:", streamErr);
+    }
+
+    return NextResponse.redirect(fileTarget, 307);
   }
 
   // Standard direct download redirect
@@ -144,7 +197,7 @@ export async function GET(request: NextRequest) {
         );
       }
 
-      return await resolveDownloadRedirect(fileTarget, request);
+      return await resolveDownloadRedirect(fileTarget, request, orderItem?.title);
     }
 
     // 3. Free product instant download validation
@@ -163,7 +216,7 @@ export async function GET(request: NextRequest) {
 
       const freeTarget = getProductAssetTarget(product);
       if (freeTarget) {
-        return await resolveDownloadRedirect(freeTarget, request);
+        return await resolveDownloadRedirect(freeTarget, request, product.title);
       }
 
       return NextResponse.json(

@@ -9,7 +9,7 @@ const DEFAULT_SITE_URL =
 export const siteConfig: SiteConfig = {
   name: "BADARSH",
   description:
-    "High-impact design templates, creator software tools, video vaults & done-for-you creative services. Built for ambitious founders and creators to scale their brand online.",
+    "Handcrafted video assets, color presets, sound design collections, and bespoke creative services for independent creators, editors, and modern businesses.",
   url: DEFAULT_SITE_URL,
   ogImage: "/images/og/og-default.png",
   links: {

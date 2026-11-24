@@ -44,9 +44,9 @@ export function FaqSection() {
     <section className="py-20 md:py-28 border-t border-card-border/60 bg-secondary/20">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          badge="Got Questions?"
+          badge="Common Questions"
           title="Frequently Asked Questions"
-          subtitle="Everything you need to know about our design templates, commercial licensing, and instant delivery guarantee."
+          subtitle="Clear answers about file formats, commercial licenses, instant downloads, and founder support."
         />
 
         {/* Purchase Confidence Cues Banner */}
@@ -54,16 +54,16 @@ export function FaqSection() {
           <div className="flex items-center gap-2.5 rounded-2xl border border-card-border bg-card p-3.5 shadow-xs">
             <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0" />
             <div>
-              <span className="font-heading text-xs font-bold text-foreground block">Verified Assets</span>
-              <span className="text-[10px] text-muted block">4K &bull; WAV &bull; APKs</span>
+              <span className="font-heading text-xs font-bold text-foreground block">Master Files</span>
+              <span className="text-[10px] text-muted block">4K &bull; WAV &bull; Presets</span>
             </div>
           </div>
 
           <div className="flex items-center gap-2.5 rounded-2xl border border-card-border bg-card p-3.5 shadow-xs">
             <Zap className="h-5 w-5 text-amber-400 shrink-0" />
             <div>
-              <span className="font-heading text-xs font-bold text-foreground block">Instant Delivery</span>
-              <span className="text-[10px] text-muted block">Cloud Drive Direct</span>
+              <span className="font-heading text-xs font-bold text-foreground block">Direct Download</span>
+              <span className="text-[10px] text-muted block">Instant into your tray</span>
             </div>
           </div>
 
@@ -71,7 +71,7 @@ export function FaqSection() {
             <ShieldCheck className="h-5 w-5 text-blue-400 shrink-0" />
             <div>
               <span className="font-heading text-xs font-bold text-foreground block">Commercial License</span>
-              <span className="text-[10px] text-muted block">Monetize client work</span>
+              <span className="text-[10px] text-muted block">Use on client projects</span>
             </div>
           </div>
 

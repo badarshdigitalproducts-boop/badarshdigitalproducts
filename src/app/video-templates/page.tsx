@@ -75,28 +75,28 @@ export default function VideoTemplatesPage() {
       <div className="text-center max-w-3xl mx-auto">
         <span className="inline-flex items-center gap-1.5 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-4 py-1.5 text-xs font-bold text-indigo-600 dark:text-indigo-400">
           <Film className="h-3.5 w-3.5" />
-          Short-Form Video Architecture
+          Short-Form Video Edits
         </span>
         <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white sm:text-5xl md:text-6xl">
           Beat-Synced <span className="text-indigo-600 dark:text-indigo-400">Video Templates</span>
         </h1>
         <p className="mt-4 text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg">
-          Pre-timed velocity edits, lyrical typography animations, and beat shakes. Directly open in CapCut or download the raw XML project file for Alight Motion.
+          Hover or tap any template below to preview with sound. Free templates open with 1-tap &ldquo;USE&rdquo;, and paid templates include uncompressed master project files.
         </p>
 
         {/* Feature Highlights */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <div className="flex items-center gap-2 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-1.5 text-xs font-medium text-neutral-800 dark:text-neutral-200 shadow-xs">
-            <Zap className="h-3.5 w-3.5 text-amber-500" />
-            <span>1-Click &ldquo;Use in CapCut&rdquo; Deep-Links</span>
+            <Play className="h-3.5 w-3.5 text-indigo-500" />
+            <span>Interactive On-Page Video Preview</span>
           </div>
           <div className="flex items-center gap-2 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-1.5 text-xs font-medium text-neutral-800 dark:text-neutral-200 shadow-xs">
-            <Download className="h-3.5 w-3.5 text-indigo-500" />
-            <span>Alight Motion XML Project Downloads</span>
+            <Sparkles className="h-3.5 w-3.5 text-emerald-500" />
+            <span>Instant &ldquo;USE&rdquo; on Free Templates</span>
           </div>
           <div className="flex items-center gap-2 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-1.5 text-xs font-medium text-neutral-800 dark:text-neutral-200 shadow-xs">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-            <span>Auto-Beat Synced to Trending Sounds</span>
+            <CheckCircle2 className="h-3.5 w-3.5 text-amber-500" />
+            <span>Commercial Master Files on Paid</span>
           </div>
         </div>
       </div>

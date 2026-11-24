@@ -19,31 +19,31 @@ const shopCategories = [
   {
     slug: "bundles",
     name: "Bundles",
-    desc: "Complete 2026 video editing vaults: 500+ sound effects, 100 transitions, 50 LUTs, and green screens.",
+    desc: "Complete video editing master packs: 500+ sound effects, 100 transitions, 50 LUTs, and film overlays.",
     icon: Package,
     href: "/bundles",
-    tag: "Studio Vault",
+    tag: "Master Packs",
   },
   {
     slug: "editing-apps",
     name: "Apps",
-    desc: "Verified CapCut Pro & creator tools with VIP features unlocked and direct high-speed downloads.",
+    desc: "Tested mobile editing software configurations, 4K export presets, and creator workflow guides.",
     icon: Smartphone,
     href: "/editing-apps",
-    tag: "Mobile Apps",
+    tag: "Mobile Tools",
   },
   {
     slug: "photo-presets",
     name: "Lightroom Presets",
-    desc: "1-Click Adobe Lightroom Mobile (.DNG) and Desktop (.XMP) presets for cinematic skin and mood.",
+    desc: "1-Click Adobe Lightroom Mobile (.DNG) and Desktop (.XMP) presets for natural skin tones and cinematic color.",
     icon: Sliders,
     href: "/photo-presets",
     tag: "1-Click DNG",
   },
   {
     slug: "editing-bundles",
-    name: "Sound Effects & BG Music",
-    desc: "Master 24-bit WAV sound effects, background music, and 4K transparent motion overlays.",
+    name: "Sound Effects & Audio",
+    desc: "Master 24-bit WAV audio: Hollywood whooshes, impacts, ambient textures, and 4K motion overlays.",
     icon: Video,
     href: "/editing-bundles",
     tag: "Master Audio",
@@ -51,7 +51,7 @@ const shopCategories = [
   {
     slug: "ebooks",
     name: "E-Books",
-    desc: "Battle-tested founder playbooks, organic growth blueprints, and monetization roadmaps.",
+    desc: "Practical founder playbooks, organic audience growth blueprints, and digital monetization guides.",
     icon: BookOpen,
     href: "/ebooks",
     tag: "Instant PDF",
@@ -59,7 +59,7 @@ const shopCategories = [
   {
     slug: "planners",
     name: "Planners",
-    desc: "Life operating systems: career milestones, gym workout splits, nutrition logs, and habit trackers.",
+    desc: "Personal operating systems: annual goals, workout tracking, nutrition logs, and daily habit systems.",
     icon: CalendarCheck,
     href: "/planners",
     tag: "Interactive PDF",
@@ -67,10 +67,10 @@ const shopCategories = [
   {
     slug: "templates",
     name: "Templates",
-    desc: "Studio design templates: Instagram Reels, carousels, pitch decks, and brand identity kits.",
+    desc: "Clean design templates: Instagram Reels, carousel slide decks, pitch presentations, and brand kits.",
     icon: LayoutGrid,
     href: "/templates",
-    tag: "Studio Design",
+    tag: "Design Files",
   },
 ];
 
@@ -79,9 +79,9 @@ export function Categories() {
     <section className="border-t border-card-border/60 bg-secondary/30 py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          badge="Creator Ecosystem"
-          title="Dedicated Shop Collections"
-          subtitle="Explore purpose-built creative assets, mobile software packages, and high-performance digital blueprints."
+          badge="Shop by Category"
+          title="Curated Creative Toolkit"
+          subtitle="Explore purpose-built assets for video editing, color grading, sound design, and creator business operations."
         />
 
         {/* Apple Horizontal Inertial Snap Carousel on Mobile / Clean Grid on Desktop */}

@@ -168,35 +168,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(authUser);
       return { success: true };
     } catch (fbErr: any) {
-      console.error("Firebase Google sign-in error:", fbErr);
+      console.warn("Firebase Google popup notice:", fbErr?.code || fbErr?.message);
 
-      let msg = "Google sign-in could not be completed.";
       const code = fbErr?.code || "";
       const rawMsg = fbErr?.message || "";
 
+      // Popup closed by user: silent cancel
       if (code === "auth/popup-closed-by-user") {
-        msg = "Sign-in cancelled. The Google window was closed before selecting an account.";
-      } else if (code === "auth/unauthorized-domain") {
-        msg = "Domain not authorized: Please add 'badarshdigitalproducts.vercel.app' in Firebase Console -> Authentication -> Settings -> Authorized Domains.";
-      } else if (code === "auth/operation-not-allowed") {
-        msg = "Google sign-in is disabled in Firebase Console -> Authentication -> Sign-in method. Please enable Google provider.";
-      } else if (
-        code.includes("permission-denied") ||
-        rawMsg.includes("permission-denied") ||
-        rawMsg.includes("ACCESS_DENIED")
-      ) {
-        msg = "Firebase Identity Toolkit API is awaiting activation in Google Cloud Console. Enter your Google email to sign in directly.";
-      } else if (rawMsg.includes("suspended") || rawMsg.includes("CONSUMER_SUSPENDED")) {
-        msg = "Firebase project is suspended in Google Cloud Console. Please resume project or sign in with your Gmail and password below.";
-      } else if (rawMsg) {
-        msg = rawMsg;
+        return { success: false, code };
       }
 
-      setError(msg);
+      // Domain unauthorized, permission-denied, or restricted API:
+      // Gracefully signal modal fallback without displaying developer-facing error banners
+      if (
+        code === "auth/unauthorized-domain" ||
+        code === "auth/operation-not-allowed" ||
+        code.includes("permission-denied") ||
+        rawMsg.includes("permission-denied") ||
+        rawMsg.includes("ACCESS_DENIED") ||
+        rawMsg.includes("Identity Toolkit")
+      ) {
+        return {
+          success: false,
+          code: "FALLBACK_REQUIRED",
+          error: undefined,
+        };
+      }
+
+      const userFriendlyMsg = "Unable to connect with Google popup. Please enter your email below.";
+      setError(userFriendlyMsg);
       return {
         success: false,
-        error: msg,
-        code: code || (rawMsg.includes("permission-denied") ? "auth/permission-denied-on-the-service" : undefined),
+        error: userFriendlyMsg,
+        code: "FALLBACK_REQUIRED",
       };
     }
   };

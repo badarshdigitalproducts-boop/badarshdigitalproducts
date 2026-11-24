@@ -135,7 +135,7 @@ export function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <BrandLogo />
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              Premium design templates, digital planners, and done-for-you creative services engineered to elevate your business online.
+              Independent digital studio and creative toolkit. Handcrafted video assets, color presets, sound design, and bespoke creative services.
             </p>
 
             {/* Social icons with accessible aria-labels */}

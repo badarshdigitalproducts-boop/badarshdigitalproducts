@@ -108,18 +108,22 @@ export function useProductAccess(product?: Product | null) {
       if (e) e.stopPropagation();
       if (!product) return;
 
+      // For free products or verified orders, route through /api/download
+      // so the server streams with Content-Disposition: attachment directly into the downloads tray!
       const directTarget =
-        product.downloadUrl ||
-        product.googleDriveUrl ||
-        product.pdfUrl ||
-        product.appDownloadUrl ||
-        product.presetLinkUrl ||
-        product.freeDownloadUrl ||
-        (accessData?.orderId
+        accessData?.orderId
           ? `/api/download?orderId=${encodeURIComponent(accessData.orderId)}&productId=${encodeURIComponent(product.id)}${
               accessData.licenseKey ? `&key=${encodeURIComponent(accessData.licenseKey)}` : ""
             }`
-          : `/api/download?productId=${encodeURIComponent(product.id)}`);
+          : product.price === 0
+          ? `/api/download?productId=${encodeURIComponent(product.id)}`
+          : product.downloadUrl ||
+            product.googleDriveUrl ||
+            product.pdfUrl ||
+            product.appDownloadUrl ||
+            product.presetLinkUrl ||
+            product.freeDownloadUrl ||
+            `/api/download?productId=${encodeURIComponent(product.id)}`;
 
       const filename = `${product.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-master`;
       triggerDirectDownload(directTarget, filename);

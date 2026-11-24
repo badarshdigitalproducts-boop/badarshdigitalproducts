@@ -29,9 +29,9 @@ export function BlogPreview() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
           <SectionHeader
-            badge="Insights &amp; Guides"
-            title="Latest from the BADARSH Blog"
-            subtitle="Actionable tactics on creative design, high-converting social media, and digital marketing."
+            badge="Articles &amp; Guides"
+            title="Notes on Craft &amp; Editing"
+            subtitle="Field guides on video pacing, color grading workflows, and building an independent creative business."
             align="left"
             className="mb-0 md:mb-0"
           />

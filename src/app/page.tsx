@@ -9,16 +9,16 @@ import { FaqSection } from "@/components/home/faq-section";
 import { BlogPreview } from "@/components/home/blog-preview";
 
 export const metadata: Metadata = constructMetadata({
-  title: "BADARSH — Premium Digital Templates & Creative Services",
+  title: "BADARSH — Independent Creative Studio & Digital Toolkit",
   description:
-    "High-impact Canva & Figma design templates, creator software tools, video vaults & done-for-you creative services. Built for ambitious founders and creators to scale their brand online.",
+    "Handcrafted video editing vaults, Lightroom presets, sound design collections, and bespoke creative services. Instant downloads, lifetime commercial licenses.",
   canonical: "/",
   keywords: [
-    "digital templates India",
-    "canva templates download",
+    "video editing assets India",
+    "lightroom presets download",
+    "sound effects WAV",
     "video editing services Bengaluru",
-    "creator software tools",
-    "creative agency services",
+    "creative studio services",
   ],
 });
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ArrowRight, Loader2, AlertCircle, ExternalLink, ShieldCheck } from "lucide-react";
+import { X, ArrowRight, Loader2, AlertCircle, ShieldCheck } from "lucide-react";
 import { GoogleIcon } from "@/components/auth/google-icon";
 
 interface GoogleAuthModalProps {
@@ -83,16 +83,16 @@ export function GoogleAuthModal({
             </div>
             <div>
               <h3 className="apple-display text-base font-bold text-foreground">
-                Continue with Google
+                Sign in with Google
               </h3>
               <p className="text-xs text-muted">
-                Authenticate with your genuine Google account
+                Fast, secure account access
               </p>
             </div>
           </div>
 
           <p className="text-xs text-muted leading-relaxed mb-4">
-            Firebase Google Cloud services are currently restricted on this domain. Enter your real Gmail address below to sign in immediately:
+            Enter your Google / Gmail address to access your purchases, licenses, and direct file downloads:
           </p>
 
           {error && (
@@ -133,38 +133,27 @@ export function GoogleAuthModal({
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-accent hover:bg-accent-hover text-accent-foreground px-4 py-2.5 text-xs font-semibold transition-all duration-150 disabled:opacity-60 cursor-pointer shadow-sm active:scale-[0.99] mt-2"
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-foreground hover:opacity-90 text-background px-4 py-2.5 text-xs font-semibold transition-all duration-150 disabled:opacity-60 cursor-pointer shadow-sm active:scale-[0.99] mt-2"
             >
               {loading ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  <span>Signing In...</span>
+                  <span>Connecting...</span>
                 </>
               ) : (
                 <>
-                  <span>Sign In with Google Account</span>
+                  <span>Continue to Account</span>
                   <ArrowRight className="h-4 w-4" />
                 </>
               )}
             </button>
           </form>
 
-          {/* Cloud Console Direct Link Notice */}
+          {/* Clean Security Notice */}
           <div className="mt-5 pt-4 border-t border-border/60">
-            <div className="flex items-start gap-2 text-[11px] text-muted">
-              <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-accent mt-0.5" />
-              <div>
-                <span>To enable 1-click Google popup window, enable Identity Toolkit API in Google Cloud Console:</span>
-                <a
-                  href="https://console.cloud.google.com/apis/library/identitytoolkit.googleapis.com?project=badarshdigiitalproducts"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-1 inline-flex items-center gap-1 text-accent hover:underline font-medium"
-                >
-                  <span>Enable Identity Toolkit API</span>
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-              </div>
+            <div className="flex items-center gap-2 text-[11px] text-muted">
+              <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-emerald-500" />
+              <span>Encrypted connection. Your downloads and purchases are saved to this email.</span>
             </div>
           </div>
         </motion.div>

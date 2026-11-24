@@ -4,12 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { BookOpen, Download, Star, Eye, ChevronRight, Lock } from "lucide-react";
+import { BookOpen, Download, Star, CheckCircle2, Lock } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
-import { PdfViewerModal } from "@/components/pdf/pdf-viewer-modal";
 import { CheckoutModal } from "../checkout-modal";
 import { useProductAccess } from "@/hooks/use-product-access";
+import { triggerDirectDownload } from "@/lib/download";
 
 interface BookCardProps {
   product: Product;
@@ -20,12 +20,9 @@ export function BookCard({ product }: BookCardProps) {
   const router = useRouter();
   const { formatPrice: formatCurr } = useCurrency();
   const { isUnlocked, handleDownload } = useProductAccess(product);
-  const [readerOpen, setReaderOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const pageCount = product.pageCount ? `${product.pageCount} Pages` : product.specs?.count || "120+ Pages";
-  const pdfUrl = product.pdfUrl || product.downloadUrl || "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf";
-  const previewPdfUrl = product.previewPdfUrl || pdfUrl;
   const isFree = product.price === 0;
 
   const handleActionClick = (e: React.MouseEvent) => {
@@ -35,18 +32,10 @@ export function BookCard({ product }: BookCardProps) {
       return;
     }
     if (isFree) {
-      if (pdfUrl && pdfUrl !== "#") {
-        const a = document.createElement("a");
-        a.href = pdfUrl;
-        a.download = `${product.title.toLowerCase().replace(/\s+/g, "-")}-master.pdf`;
-        a.target = "_blank";
-        a.rel = "noopener noreferrer";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      } else {
-        setReaderOpen(true);
-      }
+      triggerDirectDownload(
+        `/api/download?productId=${encodeURIComponent(product.id)}`,
+        `${product.title.toLowerCase().replace(/[^a-z0-9_-]+/g, "-")}-master.pdf`
+      );
     } else {
       setCheckoutOpen(true);
     }
@@ -76,21 +65,7 @@ export function BookCard({ product }: BookCardProps) {
 
           {/* Top Format Badge */}
           <div className="absolute top-3 right-3 z-20 rounded-full bg-black/90 px-2.5 py-0.5 text-[10px] font-semibold text-white border border-white/15">
-            {isFree ? "Free PDF" : "Digital Master PDF"}
-          </div>
-
-          {/* Interactive Look Inside Hover Pill */}
-          <div className="absolute inset-x-3 bottom-3 z-20 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setReaderOpen(true);
-              }}
-              className="flex w-full items-center justify-center gap-1.5 rounded-full bg-white py-2 text-xs font-bold text-neutral-900 shadow-md transition-transform hover:scale-[1.02] active:scale-95 border border-black/10"
-            >
-              <Eye className="h-3.5 w-3.5" />
-              <span>Read In-Browser (PDF)</span>
-            </button>
+            {isUnlocked ? "Purchased" : isFree ? "Free PDF" : "Digital Master PDF"}
           </div>
         </div>
 
@@ -157,20 +132,6 @@ export function BookCard({ product }: BookCardProps) {
           </div>
         </div>
       </motion.div>
-
-      {/* In-Browser PDF Reader Modal */}
-      <PdfViewerModal
-        isOpen={readerOpen}
-        onClose={() => setReaderOpen(false)}
-        title={product.title}
-        pdfUrl={pdfUrl}
-        previewPdfUrl={previewPdfUrl}
-        price={product.price}
-        isFree={isFree}
-        authorOrCategory={product.authorName || "BADARSH Publishing"}
-        isCopyProtected={!isFree}
-        slug={product.slug}
-      />
 
       {/* Instant Checkout Modal */}
       <CheckoutModal
