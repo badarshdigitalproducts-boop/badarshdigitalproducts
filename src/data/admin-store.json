@@ -2156,6 +2156,18 @@
   ],
   "leads": [
     {
+      "id": "lead-mwur0m49",
+      "name": "Channabasav Bhimappa B Patil",
+      "email": "channupatil299@gmail.com",
+      "phone": "",
+      "interest": "Purchased: Rich Dad Poor Dad",
+      "message": "Purchased order ord_1795527999645_8o4l for ₹2 with license BDRSH-8O4L-6O0F",
+      "budget": "₹2",
+      "status": "new",
+      "createdAt": "2026-11-24T13:46:48.441Z",
+      "updatedAt": "2026-11-24T13:46:48.441Z"
+    },
+    {
       "id": "lead-mwt2iov6",
       "name": "Channabasav Bhimappa B Patil",
       "email": "channupatil299@gmail.com",
@@ -2218,6 +2230,33 @@
   ],
   "subscribers": [],
   "orders": [
+    {
+      "id": "ord_1795527999645_8o4l",
+      "customerName": "Channabasav Bhimappa B Patil",
+      "customerEmail": "channupatil299@gmail.com",
+      "customerPhone": "",
+      "items": [
+        {
+          "id": "prod-009",
+          "title": "Rich Dad Poor Dad",
+          "price": 2,
+          "quantity": 1,
+          "productType": "ebooks",
+          "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf",
+          "templateUrl": "/templates/rich-dad-poor-dad",
+          "canvaUrl": "/templates/rich-dad-poor-dad"
+        }
+      ],
+      "totalAmount": 2,
+      "currency": "INR",
+      "paymentMethod": "Cashfree",
+      "paymentStatus": "pending",
+      "licenseKey": "BDRSH-8O4L-6O0F",
+      "canvaAccessDelivered": false,
+      "deliveryNotes": "Online checkout  [Cashfree Session: session_bRUb2QoA...]",
+      "createdAt": "2026-11-24T13:46:47.024Z",
+      "updatedAt": "2026-11-24T13:46:47.024Z"
+    },
     {
       "id": "ord_1795426392582_6hoj",
       "customerName": "Channabasav Bhimappa B Patil",
@@ -2354,6 +2393,18 @@
     }
   },
   "auditLogs": [
+    {
+      "id": "log-mwur0m4g",
+      "action": "LEAD_RECEIVED",
+      "details": "Inbound lead from Channabasav Bhimappa B Patil for Purchased: Rich Dad Poor Dad",
+      "timestamp": "2026-11-24T13:46:48.448Z"
+    },
+    {
+      "id": "log-mwur0l0w",
+      "action": "ORDER_SAVED",
+      "details": "Order ord_1795527999645_8o4l for Channabasav Bhimappa B Patil (₹2) saved",
+      "timestamp": "2026-11-24T13:46:47.024Z"
+    },
     {
       "id": "log-mwt2iovh",
       "action": "LEAD_RECEIVED",

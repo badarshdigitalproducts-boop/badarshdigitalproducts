@@ -49,6 +49,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
 
   // Submission State
   const [submitting, setSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [orderConfirmed, setOrderConfirmed] = useState<any | null>(null);
   const [copiedLicense, setCopiedLicense] = useState(false);
 
@@ -111,8 +112,16 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
 
   const handleCompleteOrder = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
+    setErrorMessage(null);
+
     if (!customerName.trim()) {
-      alert("Please enter your name");
+      setErrorMessage("Please enter your name to proceed.");
+      return;
+    }
+
+    const cleanPhone = customerPhone.replace(/\D/g, "");
+    if (customerPhone.trim() && cleanPhone.length !== 10) {
+      setErrorMessage("Please enter a valid 10-digit mobile number (e.g. 9876543210).");
       return;
     }
 
@@ -122,9 +131,9 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          customerName,
-          customerEmail,
-          customerPhone,
+          customerName: customerName.trim(),
+          customerEmail: customerEmail.trim(),
+          customerPhone: cleanPhone || customerPhone.trim(),
           productId: product.id,
           productTitle: product.title,
           productPrice: product.price,
@@ -138,18 +147,27 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
 
       const data = await res.json();
       if (res.ok && data.success) {
-        if (data.order) {
+        if (data.orderId) {
           try {
+            localStorage.setItem(`badarsh_order_token_${data.orderId}`, data.order?.licenseKey || data.orderId);
             const unlocked: Record<string, { orderId: string; licenseKey: string }> = JSON.parse(
               localStorage.getItem("badarsh_unlocked_products") || "{}"
             );
-            unlocked[product.id] = { orderId: data.order.id, licenseKey: data.order.licenseKey };
+            unlocked[product.id] = { orderId: data.orderId, licenseKey: data.order?.licenseKey || data.orderId };
             localStorage.setItem("badarsh_unlocked_products", JSON.stringify(unlocked));
           } catch {}
         }
+
         if (data.paymentRequired && data.paymentSessionId) {
+          const cfUrl =
+            data.cfEnv === "TEST"
+              ? `https://sandbox.cashfree.com/order/#${data.paymentSessionId}`
+              : `https://payments.cashfree.com/order/#${data.paymentSessionId}`;
+
           try {
-            const Cashfree = await loadCashfreeSdk();
+            const sdkPromise = loadCashfreeSdk();
+            const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve(null), 1800));
+            const Cashfree = await Promise.race([sdkPromise, timeoutPromise]);
             if (Cashfree) {
               const cf = Cashfree({
                 mode: data.cfEnv === "TEST" ? "sandbox" : "production",
@@ -161,23 +179,19 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
               return;
             }
           } catch (cfErr) {
-            console.warn("Cashfree SDK checkout fallback:", cfErr);
+            console.warn("Cashfree SDK fallback to direct URL:", cfErr);
           }
 
-          const cfUrl =
-            data.cfEnv === "TEST"
-              ? `https://sandbox.cashfree.com/order/#${data.paymentSessionId}`
-              : `https://payments.cashfree.com/order/#${data.paymentSessionId}`;
           window.location.href = cfUrl;
           return;
         }
 
         setOrderConfirmed(data.order);
       } else {
-        alert(data.error || "Failed to process order");
+        setErrorMessage(data.error || "Unable to initiate payment session. Please try again or complete order via WhatsApp.");
       }
     } catch {
-      alert("Error connecting to checkout service");
+      setErrorMessage("Connection to checkout gateway failed. Please check your network and try again.");
     } finally {
       setSubmitting(false);
     }
@@ -204,6 +218,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
     setOrderConfirmed(null);
     setAppliedCoupon(null);
     setCouponCode("");
+    setErrorMessage(null);
     onClose();
   };
 
@@ -456,7 +471,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                   />
                   <input
                     type="tel"
-                    placeholder="WhatsApp Phone Number"
+                    placeholder="10-digit WhatsApp Number (e.g. 9876543210)"
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
                     className="w-full rounded-xl border border-card-border bg-background px-3.5 py-2 text-xs text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
@@ -559,6 +574,33 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                       <span className="rounded-md bg-secondary px-2.5 py-1">NetBanking</span>
                     </div>
                   </div>
+
+                  {/* Inline Error Banner */}
+                  {errorMessage && (
+                    <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-xs text-red-500 space-y-2">
+                      <div className="flex items-start gap-2 font-medium">
+                        <X className="h-4 w-4 shrink-0 mt-0.5" />
+                        <span>{errorMessage}</span>
+                      </div>
+                      <div className="flex items-center gap-2 pt-1">
+                        <button
+                          type="button"
+                          onClick={() => setErrorMessage(null)}
+                          className="rounded-lg bg-red-500/20 px-3 py-1 text-[11px] font-bold text-red-400 hover:bg-red-500/30 transition-colors"
+                        >
+                          Dismiss
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleWhatsAppCheckout}
+                          className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1 text-[11px] font-bold text-white hover:bg-emerald-700 transition-colors"
+                        >
+                          <MessageCircle className="h-3.5 w-3.5" />
+                          <span>Order via WhatsApp</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
                   <button
                     type="button"

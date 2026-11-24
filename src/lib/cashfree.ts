@@ -102,7 +102,7 @@ export async function createCashfreeOrder(params: CreateCashfreeOrderParams) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://badarsh.com";
   const returnUrl =
     params.returnUrl ||
-    `${siteUrl}/orders/${params.orderId}?cf_id={order_id}`;
+    `${siteUrl}/orders/${params.orderId}?cf_id={order_id}&token=${params.orderId}`;
 
   const cleanPhone = (params.customerPhone || "9999999999").replace(/\D/g, "").slice(-10) || "9999999999";
   const cleanEmail = params.customerEmail?.trim() || "creator@badarsh.com";

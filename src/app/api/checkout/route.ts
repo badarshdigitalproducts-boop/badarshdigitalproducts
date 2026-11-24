@@ -170,6 +170,7 @@ export async function POST(request: NextRequest) {
 
     let paymentSessionId: string | undefined = undefined;
     let cfEnv: string = "PROD";
+    let cfErrorMessage: string | undefined = undefined;
 
     if (isOnlineCheckout) {
       try {
@@ -186,10 +187,24 @@ export async function POST(request: NextRequest) {
           paymentSessionId = cfResult.paymentSessionId;
           cfEnv = cfResult.env || "PROD";
         } else {
+          cfErrorMessage = cfResult.error || "Payment session could not be created.";
           console.error("Cashfree order creation failed:", cfResult.error);
         }
-      } catch (cfErr) {
+      } catch (cfErr: any) {
+        cfErrorMessage = cfErr?.message || "Cashfree connection error.";
         console.warn("Cashfree session creation warning:", cfErr);
+      }
+
+      if (!paymentSessionId) {
+        return NextResponse.json(
+          {
+            success: false,
+            error:
+              cfErrorMessage ||
+              "Unable to initialize Cashfree payment gateway. Please verify your phone number and try again.",
+          },
+          { status: 502 }
+        );
       }
     }
 

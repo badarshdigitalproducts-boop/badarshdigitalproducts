@@ -37,83 +37,67 @@ export default function OrderFulfillmentPage() {
 
   const [order, setOrder] = useState<OrderRecord | null>(null);
   const [loading, setLoading] = useState(true);
+  const [verifying, setVerifying] = useState(false);
   const [copiedKey, setCopiedKey] = useState(false);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
 
-  useEffect(() => {
+  const fetchOrderData = async () => {
     if (!orderId) return;
+    setVerifying(true);
 
-    const query = typeof window !== "undefined" ? window.location.search : "";
-    fetch(`/api/orders/${orderId}${query}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.order) {
-          setOrder(data.order);
-          if (data.order.paymentStatus === "completed") {
-            try {
-              const unlocked: Record<string, { orderId: string; licenseKey: string }> = JSON.parse(
-                localStorage.getItem("badarsh_unlocked_products") || "{}"
-              );
-              data.order.items?.forEach((item: any) => {
-                unlocked[item.id] = { orderId: data.order.id, licenseKey: data.order.licenseKey };
-              });
-              localStorage.setItem("badarsh_unlocked_products", JSON.stringify(unlocked));
-            } catch {}
-          }
-        } else {
-          // If not in database yet (e.g. mock test checkout), synthesize active order
-          setOrder({
-            id: orderId,
-            customerName: "Valued Creator",
-            customerEmail: "creator@badarsh.com",
-            customerPhone: "+91 97401 55667",
-            items: [
-              {
-                id: "prod-001",
-                title: "Instagram Reels Mega Template Pack",
-                price: 499,
-                quantity: 1,
-                productType: "canva-template",
-                templateUrl: "https://www.canva.com/design/DAGX...",
-              },
-            ],
-            totalAmount: 499,
-            currency: "INR",
-            paymentMethod: "UPI / Cashfree",
-            paymentStatus: "completed",
-            licenseKey: `BDRSH-${orderId.slice(-6).toUpperCase()}-PRO`,
-            canvaAccessDelivered: true,
-            createdAt: new Date().toISOString(),
-          });
+    try {
+      const localToken = typeof window !== "undefined" ? localStorage.getItem(`badarsh_order_token_${orderId}`) : null;
+      const search = typeof window !== "undefined" ? window.location.search : "";
+      const baseParams = search ? search : `?token=${encodeURIComponent(localToken || orderId)}`;
+      const query = localToken && !baseParams.includes("token=")
+        ? `${baseParams}&token=${encodeURIComponent(localToken)}`
+        : baseParams;
+
+      const res = await fetch(`/api/orders/${orderId}${query}`);
+      const data = await res.json();
+
+      if (data.order) {
+        setOrder(data.order);
+        if (data.order.paymentStatus === "completed") {
+          try {
+            const unlocked: Record<string, { orderId: string; licenseKey: string }> = JSON.parse(
+              localStorage.getItem("badarsh_unlocked_products") || "{}"
+            );
+            data.order.items?.forEach((item: any) => {
+              unlocked[item.id] = { orderId: data.order.id, licenseKey: data.order.licenseKey };
+            });
+            localStorage.setItem("badarsh_unlocked_products", JSON.stringify(unlocked));
+          } catch {}
         }
-      })
-      .catch((err) => {
-        console.error("Error loading order:", err);
-        setOrder({
-          id: orderId,
-          customerName: "Valued Creator",
-          customerEmail: "creator@badarsh.com",
-          customerPhone: "+91 97401 55667",
-          items: [
-            {
-              id: "prod-001",
-              title: "Instagram Reels Mega Template Pack",
-              price: 499,
-              quantity: 1,
-              productType: "canva-template",
-            },
-          ],
-          totalAmount: 499,
-          currency: "INR",
-          paymentMethod: "UPI",
-          paymentStatus: "completed",
-          licenseKey: `BDRSH-${Date.now().toString(36).slice(-6).toUpperCase()}-PRO`,
-          canvaAccessDelivered: true,
-          createdAt: new Date().toISOString(),
-        });
-      })
-      .finally(() => setLoading(false));
+      }
+    } catch (err) {
+      console.error("Error loading order:", err);
+    } finally {
+      setLoading(false);
+      setVerifying(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrderData();
   }, [orderId]);
+
+  // Smart Auto-Polling: if payment is pending, check every 2.5s up to 4 times
+  useEffect(() => {
+    if (!order || order.paymentStatus === "completed") return;
+
+    let pollAttempts = 0;
+    const interval = setInterval(() => {
+      pollAttempts++;
+      if (pollAttempts > 4) {
+        clearInterval(interval);
+        return;
+      }
+      fetchOrderData();
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, [order?.paymentStatus]);
 
   const handleCopyLicense = (key: string) => {
     navigator.clipboard.writeText(key).then(() => {
@@ -137,6 +121,40 @@ export default function OrderFulfillmentPage() {
     );
   }
 
+  if (!order) {
+    return (
+      <div className="mx-auto max-w-lg px-4 py-20 text-center">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-amber-500/10 text-amber-500 border border-amber-500/20">
+          <Clock className="h-7 w-7 animate-pulse" />
+        </div>
+        <h2 className="mt-4 font-heading text-xl font-bold text-foreground">
+          Order Record Syncing
+        </h2>
+        <p className="mt-2 text-xs text-muted">
+          Your order <span className="font-mono font-bold text-foreground">#{orderId}</span> is being processed by the payment gateway and synced to our database.
+        </p>
+        <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:justify-center">
+          <button
+            onClick={fetchOrderData}
+            disabled={verifying}
+            className="cursor-pointer rounded-full bg-foreground px-6 py-3 text-xs font-bold text-background transition-all hover:opacity-90 active:scale-95 disabled:opacity-50"
+          >
+            {verifying ? "Checking Status..." : "Re-check Payment Status"}
+          </button>
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hi%20BADARSH%20Support,%20checking%20my%20order%20%23${orderId}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-1.5 rounded-full border border-card-border bg-card px-6 py-3 text-xs font-semibold text-foreground hover:bg-secondary"
+          >
+            <MessageCircle className="h-4 w-4 text-emerald-500" />
+            <span>WhatsApp Support</span>
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   const isCompleted = order?.paymentStatus === "completed";
 
   return (
@@ -147,23 +165,56 @@ export default function OrderFulfillmentPage() {
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", duration: 0.5 }}
-          className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 shadow-lg"
+          className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full border shadow-lg ${
+            isCompleted
+              ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+              : "bg-amber-500/10 text-amber-500 border-amber-500/20"
+          }`}
         >
-          <CheckCircle2 className="h-8 w-8" />
+          {isCompleted ? <CheckCircle2 className="h-8 w-8" /> : <Clock className="h-8 w-8 animate-spin" />}
         </motion.div>
 
-        <span className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-          <ShieldCheck className="h-3.5 w-3.5" />
-          {isCompleted ? "Payment Verified • Instant Access Granted" : "Payment In Verification"}
+        <span
+          className={`mt-4 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold ${
+            isCompleted
+              ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+              : "border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400"
+          }`}
+        >
+          {isCompleted ? (
+            <>
+              <ShieldCheck className="h-3.5 w-3.5" />
+              <span>Payment Verified &bull; Instant Access Granted</span>
+            </>
+          ) : (
+            <>
+              <Clock className="h-3.5 w-3.5 animate-spin" />
+              <span>Payment In Verification with Bank</span>
+            </>
+          )}
         </span>
 
         <h1 className="mt-3 apple-display text-3xl font-extrabold text-foreground sm:text-4xl">
-          Thank you for your purchase!
+          {isCompleted ? "Thank you for your purchase!" : "Confirming Your Payment..."}
         </h1>
         <p className="mt-2 text-sm text-muted">
           Your order ID is <span className="font-mono font-bold text-foreground">#{order?.id}</span>.
-          A copy of your license key and download links has been dispatched.
+          {isCompleted
+            ? " A copy of your license key and download links has been dispatched."
+            : " We are checking with your payment provider. This page will update automatically."}
         </p>
+
+        {!isCompleted && (
+          <div className="mt-4 flex items-center justify-center gap-3">
+            <button
+              onClick={fetchOrderData}
+              disabled={verifying}
+              className="cursor-pointer inline-flex items-center gap-1.5 rounded-full bg-accent px-5 py-2 text-xs font-bold text-white shadow hover:bg-accent-hover transition-colors disabled:opacity-50"
+            >
+              {verifying ? "Checking Bank Status..." : "Re-check Status Now"}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Main Order Card */}
@@ -277,14 +328,25 @@ export default function OrderFulfillmentPage() {
                   </a>
                 )}
 
-                <button
-                  onClick={() => handleDownload(item.id)}
-                  disabled={downloadingId === item.id}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-5 py-2 text-xs font-bold text-background shadow-md hover:opacity-90 active:scale-95 transition-all cursor-pointer"
-                >
-                  <Download className="h-3.5 w-3.5" />
-                  <span>{downloadingId === item.id ? "Preparing Download..." : "Download Master File"}</span>
-                </button>
+                {isCompleted ? (
+                  <button
+                    onClick={() => handleDownload(item.id)}
+                    disabled={downloadingId === item.id}
+                    className="cursor-pointer inline-flex items-center gap-1.5 rounded-full bg-foreground px-5 py-2 text-xs font-bold text-background shadow-md hover:opacity-90 active:scale-95 transition-all"
+                  >
+                    <Download className="h-3.5 w-3.5" />
+                    <span>{downloadingId === item.id ? "Preparing Download..." : "Download Master File"}</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={fetchOrderData}
+                    disabled={verifying}
+                    className="cursor-pointer inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 px-4 py-2 text-xs font-semibold text-amber-500 hover:bg-amber-500/20 transition-all"
+                  >
+                    <Clock className="h-3.5 w-3.5 animate-spin" />
+                    <span>{verifying ? "Checking..." : "Awaiting Bank Confirmation"}</span>
+                  </button>
+                )}
               </div>
             </div>
           ))}
