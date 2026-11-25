@@ -141,7 +141,7 @@ export function FloatingAudioPlayer() {
             </a>
           ) : (
             <Link
-              href={currentTrack.slug ? `/templates/${currentTrack.slug}` : "/editing-bundles"}
+              href={currentTrack.slug ? `/templates/${currentTrack.slug}` : "/sound-effects"}
               className="flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-1.5 text-xs font-semibold text-background hover:opacity-90 transition-opacity active:scale-95"
             >
               <span>{formatPrice(currentTrack.price)}</span>

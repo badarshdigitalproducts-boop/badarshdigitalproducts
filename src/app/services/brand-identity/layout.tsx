@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
+import { buildServiceSchemas } from "@/lib/seo-schema";
 
 export const metadata: Metadata = constructMetadata({
-  title: "Brand Identity Design & Logo Creation Services",
+  title: "Brand Identity & Logo Design Bengaluru",
   description:
-    "Cohesive brand identity packages: logo design, brand guideline book, typography hierarchy, color palette, and social media branding kits.",
+    "Complete brand identity systems in Bengaluru: custom logo design, typography pairing, color palettes, brand guidelines, and social media launch kits.",
   canonical: "/services/brand-identity",
-  keywords: [
-    "brand identity design",
-    "logo design services",
-    "brand guidelines",
-    "corporate visual identity",
-    "startup branding package",
-  ],
+});
+
+const { professionalServiceJsonLd, serviceJsonLd } = buildServiceSchemas({
+  name: "Brand Identity & Logo Design Service",
+  description:
+    "Logo design, typography systems, color guidelines, and launch assets tailored for startups and creator brands in Bengaluru.",
+  urlPath: "/services/brand-identity",
+  serviceType: "Branding & Graphic Design Service",
+  offers: [{ name: "Complete Brand Identity Suite", price: 4999 }],
 });
 
 export default function BrandIdentityLayout({
@@ -20,5 +23,17 @@ export default function BrandIdentityLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
+      {children}
+    </>
+  );
 }

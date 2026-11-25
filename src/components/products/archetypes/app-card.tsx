@@ -10,6 +10,7 @@ import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "../checkout-modal";
 import { AppStoreModal } from "@/components/apps/app-store-modal";
 import { useProductAccess } from "@/hooks/use-product-access";
+import { SmartImage } from "@/components/shared/smart-image";
 
 interface AppCardProps {
   product: Product;
@@ -23,9 +24,9 @@ export function AppCard({ product }: AppCardProps) {
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [appStoreOpen, setAppStoreOpen] = useState(false);
 
-  const appVersion = product.appVersion || (product as any).apkVersion || "v12.2 Pro Unlocked";
-  const appSize = product.fileSize || "185 MB";
-  const appPlatform = product.appPlatform || (product as any).apkArchitecture || "Android 9.0+ / Mobile";
+  const appVersion = product.appVersion || "Workflow v2.0";
+  const appSize = product.fileSize || "45 MB";
+  const appPlatform = product.appPlatform || "iOS, Android & Desktop";
   const isFree = product.price === 0;
 
   const handleActionClick = (e: React.MouseEvent) => {
@@ -50,19 +51,21 @@ export function AppCard({ product }: AppCardProps) {
       <div className="flex items-start gap-4">
         {/* App Squircle Icon (Apple App Store standard) */}
         <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-[22%] border border-card-border bg-neutral-900 shadow-md transition-transform duration-300 group-hover:scale-105">
-          <img
+          <SmartImage
             src={product.images[0] || "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80"}
             alt={product.title}
-            className="h-full w-full object-cover"
+            fill
+            sizes="80px"
+            className="object-cover"
           />
           <div className="absolute inset-0 rounded-[22%] ring-1 ring-inset ring-white/10" />
         </div>
 
-        {/* Title, Category & Ratings */}
+        {/* Title, Category & Format */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="rounded-md bg-accent/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-accent">
-              Pro App
+              Workflow Suite
             </span>
             <span className="text-[11px] font-mono text-muted">{appVersion}</span>
           </div>
@@ -72,15 +75,11 @@ export function AppCard({ product }: AppCardProps) {
           </h3>
 
           <div className="mt-1.5 flex items-center gap-2 text-xs text-muted">
-            <div className="flex items-center gap-0.5">
-              <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-              <span className="font-semibold text-foreground">{product.rating}</span>
-            </div>
-            <span>&bull;</span>
-            <span className="flex items-center gap-1">
-              <Download className="h-3 w-3" />
-              {product.downloads.toLocaleString()}+ installs
+            <span className="font-medium text-foreground/80">
+              {product.format || "Configs & PDF Guide"}
             </span>
+            <span>&bull;</span>
+            <span>Commercial License</span>
           </div>
         </div>
       </div>
@@ -102,10 +101,10 @@ export function AppCard({ product }: AppCardProps) {
         </div>
       </div>
 
-      {/* Verified Clean Badge */}
+      {/* Verified Studio Asset Badge */}
       <div className="mt-3 flex items-center gap-1.5 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
         <ShieldCheck className="h-3.5 w-3.5" />
-        <span>BADARSH Verified &bull; Premium Unlocked &bull; 100% Virus-Free</span>
+        <span>BADARSH Original &bull; Commercial License &bull; Instant Access</span>
       </div>
 
       {/* Action Row */}
@@ -127,7 +126,7 @@ export function AppCard({ product }: AppCardProps) {
               )}
             </div>
           )}
-          <span className="text-[10px] text-muted block mt-0.5">{isUnlocked ? "Lifetime Re-download" : "Direct Mobile App"}</span>
+          <span className="text-[10px] text-muted block mt-0.5">{isUnlocked ? "Lifetime Re-download" : "Configs & Workflow Guide"}</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -136,7 +135,7 @@ export function AppCard({ product }: AppCardProps) {
             className="flex items-center gap-1 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted"
           >
             <Eye className="h-3.5 w-3.5 text-indigo-500" />
-            <span>Store View</span>
+            <span>Preview</span>
           </button>
           <button
             onClick={handleActionClick}
@@ -145,7 +144,7 @@ export function AppCard({ product }: AppCardProps) {
             }`}
           >
             <Download className="h-3.5 w-3.5" />
-            <span>{isUnlocked ? "Download App" : isFree ? "Install APK" : "Get App"}</span>
+            <span>{isUnlocked ? "Download Files" : isFree ? "Get Free Guide" : "Get Toolkit"}</span>
           </button>
         </div>
       </div>

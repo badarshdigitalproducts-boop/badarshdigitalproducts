@@ -7,13 +7,13 @@ Your personality: Apple-caliber elegance, concise (2-4 sentences max unless deta
 
 Key knowledge:
 - 2026 Video Mega Bundle & SFX (/bundles): 500+ master 24-bit WAV sound effects, 100 transitions, 50 LUTs, 4K alpha VFX overlays.
-- CapCut Pro Mobile (/editing-apps): Verified creator mobile app, watermark-free, VIP transitions, 4K 60fps export, AI cutout unlocked. Direct safe download.
+- Creator Tools & Export Configs (/editing-apps): Original 4K mobile export configs, Premiere/DaVinci shortcut maps, and editing workflow guides.
 - Lightroom Presets (/photo-presets): 1-click .DNG (Free Lightroom Mobile) and .XMP (Desktop) cinematic color grades.
-- Video SFX & Motion Overlays (/editing-bundles): 350+ master sounds, 4K transparent alpha overlays.
-- Next.js Web Development (/services/website-design): Starter ₹3k–₹6k, Growth 5-8 pages ₹9k–₹11k, Scalable 15-20+ pages ₹15k+. High performance, mobile-first, SEO included.
+- Sound Effects & Audio Library (/sound-effects): 24-bit master WAV sound effects, transitions, and studio BGM.
+- Next.js Web Development (/services/website-building): Starter ₹3k–₹6k, Growth 5-8 pages ₹9k–₹11k, Scalable 15-20+ pages ₹15k+. High performance, mobile-first, SEO included.
 - Other Services: Mobile Apps (/services/app-development), Video Editing (/services/video-editing), Photo Retouching (/services/photo-editing), Brand Logos (/services/brand-identity).
 - Business E-Books (/ebooks) & Productivity Planners (/planners): Instant PDF download.
-- Design Templates (/templates): In-house proprietary ready-to-edit templates for social media, carousels, and pitch decks. We design everything in-house. Never mention Canva.
+- Design Templates (/templates): In-house proprietary ready-to-edit templates for social media, carousels, and pitch decks. We design everything in-house.
 - Licensing: Full commercial client rights included. Reselling raw assets prohibited.
 - Delivery: Instant on screen + email backup. 100% replacement guarantee.
 - Rules: Never mention raw phone numbers. Do not mention WhatsApp. Link to pages using markdown [Page Name](/path). Answer the user's specific problem directly.`;
@@ -31,15 +31,12 @@ function generateIntelligentResponse(userMessage: string, history: Array<{ role:
     return "I am the BADARSH Studio Concierge — your 24/7 intelligent guide to our digital tools, video assets, Lightroom presets, and custom Next.js development services. Ask me anything about our software, pricing, or custom projects!";
   }
 
-  // 2. CapCut Pro & Editing Apps
-  if (query.includes("capcut") || query.includes("editing app") || (query.includes("editing") && query.includes("app"))) {
+  // 2. Creator Configs & Workflow Tools
+  if (query.includes("editing app") || query.includes("config") || query.includes("export preset") || (query.includes("editing") && query.includes("tool"))) {
     if (query.includes("safe") || query.includes("virus") || query.includes("malware") || query.includes("secure")) {
-      return "Yes, 100% safe. Every mobile app hosted in our [Editing Apps Store](/editing-apps) is scanned, clean, and tested across multiple device versions. No spyware or sketchy redirects — just clean direct downloads.";
+      return "Yes, 100% original and safe. Every workflow preset, shortcut map, and export profile in our [Creator Editing Tools](/editing-apps) catalog is built in-house for mobile and desktop editors.";
     }
-    if (query.includes("watermark") || query.includes("4k") || query.includes("vip") || query.includes("feature") || query.includes("pro")) {
-      return "Our CapCut Pro Mobile app unlocks all VIP features: watermark-free exports, 4K at 60fps, unlocked curves and velocity graphs, and full AI cutout capabilities. You can get it directly on our [Editing Apps Store](/editing-apps).";
-    }
-    return "We host verified mobile editing tools, including **CapCut Pro Mobile** with all VIP transitions, curves, and 4K export unlocked without watermarks. Download it directly from our [Editing Apps Store](/editing-apps).";
+    return "Our [Creator Editing Tools](/editing-apps) vault includes 4K high-bitrate mobile export configs, Premiere & DaVinci shortcut maps, baseline LUT recipes, and step-by-step PDF workflow guides.";
   }
 
   // 3. Website Design & Development Pricing & Stack
@@ -51,12 +48,12 @@ function generateIntelligentResponse(userMessage: string, history: Array<{ role:
 • **Multi-Page Growth (5–8 Pages)**: **₹9,000 – ₹11,000** (Full brand website, service catalog, CMS)
 • **Enterprise Platform (15–20+ Pages)**: **₹15,000+** (Complex custom web applications)
 
-Every project is built for speed (95+ Google Web Vitals), fully responsive, and SEO-ready. Check out packages on our [Website Design Page](/services/website-design) or [submit your brief here](/about#contact).`;
+Every project is built for speed (95+ Google Web Vitals), fully responsive, and SEO-ready. Check out packages on our [Website Building Page](/services/website-building) or [submit your brief here](/about#contact).`;
     }
     if (query.includes("tech") || query.includes("stack") || query.includes("framework") || query.includes("next")) {
-      return "We build with Next.js 16, TypeScript, Tailwind CSS, and Framer Motion. Your website gets sub-second load times, dynamic caching, and mobile-first responsiveness. View our [Website Development Services](/services/website-design).";
+      return "We build with Next.js 16, TypeScript, Tailwind CSS, and Framer Motion. Your website gets sub-second load times, dynamic caching, and mobile-first responsiveness. View our [Website Development Services](/services/website-building).";
     }
-    return "We design and engineer bespoke, ultra-fast Next.js websites starting from ₹3,000 for single pages up to ₹15,000+ for large multi-page platforms. Explore our [Website Design Service](/services/website-design) or [submit your project brief](/about#contact).";
+    return "We design and engineer bespoke, ultra-fast Next.js websites starting from ₹3,000 for single pages up to ₹15,000+ for large multi-page platforms. Explore our [Website Building Service](/services/website-building) or [submit your project brief](/about#contact).";
   }
 
   // 4. 2026 Video Mega Bundle & SFX
@@ -118,10 +115,10 @@ You get instant Google Drive cloud access with lifetime updates. Check it out on
   // Contextual fallback based on previous messages
   const lastUserMessages = history.filter((m) => m.role === "user");
   if (lastUserMessages.length > 1) {
-    return "Got it! To give you the exact details: are you looking to purchase digital assets (like our [Video Bundles](/bundles) or [CapCut Pro Mobile](/editing-apps)), or are you interested in custom [Website Development](/services/website-design)? Let me know and I'll guide you directly!";
+    return "Got it! To give you the exact details: are you looking to purchase digital assets (like our [Video Bundles](/bundles) or [Creator Tools & Configs](/editing-apps)), or are you interested in custom [Website Development](/services/website-building)? Let me know and I'll guide you directly!";
   }
 
-  return "I'm here to help! You can ask me about our [2026 Video Mega Bundle](/bundles), [CapCut Pro Mobile](/editing-apps), [1-Click Lightroom Presets](/photo-presets), or [Custom Next.js Website Pricing](/services/website-design). What would you like to explore?";
+  return "I'm here to help! You can ask me about our [2026 Video Mega Bundle](/bundles), [Creator Export Configs](/editing-apps), [1-Click Lightroom Presets](/photo-presets), or [Custom Next.js Website Pricing](/services/website-building). What would you like to explore?";
 }
 
 export async function POST(req: Request) {
@@ -185,7 +182,7 @@ export async function POST(req: Request) {
     console.error("Support agent error:", error);
     return NextResponse.json(
       {
-        reply: "I'm here to help! Ask me about our [2026 Video Bundles](/bundles), [CapCut Pro Mobile](/editing-apps), [Presets](/photo-presets), or [Web Development (₹3k–₹15k)](/services/website-design).",
+        reply: "I'm here to help! Ask me about our [2026 Video Bundles](/bundles), [Creator Tools & Configs](/editing-apps), [Presets](/photo-presets), or [Web Development (₹3k–₹15k)](/services/website-building).",
         source: "badarsh-intelligence",
       },
       { status: 200 }

@@ -6,7 +6,8 @@ import { SUPPORT_EMAIL } from "@/lib/constants";
 export const metadata = constructMetadata({
   title: "Commercial License Agreement",
   description:
-    "Review BADARSH's Standard Commercial License terms for digital design templates, client work permissions, and digital usage guidelines.",
+    "Review BADARSH Standard Commercial License terms covering client project rights, commercial campaign usage, and template redistribution limits.",
+  canonical: "/license",
 });
 
 export default function LicensePage() {

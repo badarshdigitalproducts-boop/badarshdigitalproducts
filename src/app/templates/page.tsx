@@ -6,6 +6,7 @@ import { ProductFilter } from "@/components/products/product-filter";
 import { ProductGrid } from "@/components/products/product-grid";
 import { products as initialProducts } from "@/content/products";
 import { CATEGORIES } from "@/lib/constants";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import type { Product } from "@/types";
 
 function TemplatesContent() {
@@ -72,17 +73,7 @@ function TemplatesContent() {
   }, [productList, selectedCategory, searchQuery, sortBy, selectedAspectRatio]);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
-      {/* Compact Canva-Style Marketplace Header */}
-      <div className="mb-7">
-        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-          Templates &amp; Design Systems
-        </h1>
-        <p className="mt-1 text-sm text-muted">
-          Clean, customizable Canva &amp; Figma layouts built for instant creator deployment.
-        </p>
-      </div>
-
+    <>
       {/* Unified Filter & Search Bar */}
       <div className="mb-8">
         <ProductFilter
@@ -107,20 +98,32 @@ function TemplatesContent() {
         products={filteredProducts}
         emptyMessage={`No templates found${searchQuery ? ` matching "${searchQuery}"` : ""}. Try selecting "All Products" or clearing your filters.`}
       />
-    </div>
+    </>
   );
 }
 
 export default function TemplatesPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-[60vh] items-center justify-center">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-foreground border-t-transparent" />
-        </div>
-      }
-    >
-      <TemplatesContent />
-    </Suspense>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      <Breadcrumbs items={[{ label: "Templates", href: "/templates" }]} />
+      <div className="mb-7">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          Templates &amp; Design Systems
+        </h1>
+        <p className="mt-1 text-sm text-muted">
+          Clean, customizable Canva &amp; Figma layouts built for instant creator deployment.
+        </p>
+      </div>
+
+      <Suspense
+        fallback={
+          <div className="flex min-h-[40vh] items-center justify-center">
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-foreground border-t-transparent" />
+          </div>
+        }
+      >
+        <TemplatesContent />
+      </Suspense>
+    </div>
   );
 }

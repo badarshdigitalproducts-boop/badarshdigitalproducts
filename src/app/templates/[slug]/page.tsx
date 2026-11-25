@@ -1,10 +1,9 @@
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import { products as staticProducts } from "@/content/products";
 import { getAdminProducts } from "@/lib/admin/store";
-import { constructMetadata } from "@/lib/metadata";
-import { siteConfig, BUSINESS_LEGAL_NAME } from "@/lib/constants";
+import { constructMetadata, SITE_URL } from "@/lib/metadata";
+import { BUSINESS_LEGAL_NAME } from "@/lib/constants";
 import { ProductDetailView } from "@/components/products/product-detail-view";
 import type { Product } from "@/types";
 
@@ -72,15 +71,17 @@ export async function generateMetadata({
   }
 
   return constructMetadata({
-    title: product.title,
-    description: product.description,
+    title: product.title.length > 49 ? `${product.title.slice(0, 46).trimEnd()}...` : product.title,
+    description:
+      product.description.length >= 150
+        ? product.description.slice(0, 160)
+        : `${product.description} Instant digital download with commercial license from BADARSH.`.slice(0, 160),
     image: product.images?.[0] || "/images/og/og-default.png",
     canonical: `/templates/${product.slug}`,
-    keywords: product.tags || [],
   });
 }
 
-async function ProductDetailContent({ params }: ProductPageProps) {
+export default async function ProductDetailPage({ params }: ProductPageProps) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
 
@@ -113,7 +114,7 @@ async function ProductDetailContent({ params }: ProductPageProps) {
     name: product.title,
     description: product.description,
     image: (product.images || []).map((img) =>
-      img.startsWith("http") ? img : `${siteConfig.url}${img}`
+      img.startsWith("http") ? img : `${SITE_URL}${img}`
     ),
     brand: {
       "@type": "Brand",
@@ -124,16 +125,11 @@ async function ProductDetailContent({ params }: ProductPageProps) {
       priceCurrency: product.currency || "INR",
       price: product.price,
       availability: "https://schema.org/InStock",
-      url: `${siteConfig.url}/templates/${product.slug}`,
+      url: `${SITE_URL}/templates/${product.slug}`,
       seller: {
         "@type": "Organization",
         name: BUSINESS_LEGAL_NAME,
       },
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: product.rating || 5,
-      reviewCount: product.reviewCount || 1,
     },
   };
 
@@ -191,19 +187,5 @@ async function ProductDetailContent({ params }: ProductPageProps) {
         relatedProducts={fallbackRelated}
       />
     </>
-  );
-}
-
-export default function ProductDetailPage(props: ProductPageProps) {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-[60vh] items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent border-t-transparent" />
-        </div>
-      }
-    >
-      <ProductDetailContent params={props.params} />
-    </Suspense>
   );
 }

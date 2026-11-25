@@ -33,6 +33,8 @@ import { PdfViewerModal } from "@/components/pdf/pdf-viewer-modal";
 import { BookOpen } from "lucide-react";
 import { triggerDirectDownload } from "@/lib/download";
 import { useProductAccess } from "@/hooks/use-product-access";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
+import { SmartImage } from "@/components/shared/smart-image";
 
 interface ProductDetailViewProps {
   product: Product;
@@ -45,7 +47,7 @@ export function ProductDetailView({
 }: ProductDetailViewProps) {
   const { formatPrice: formatCurr } = useCurrency();
   const { isUnlocked, handleDownload } = useProductAccess(product);
-  const [activeTab, setActiveTab] = useState<"overview" | "included" | "instructions" | "faq" | "reviews">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "included" | "instructions" | "faq">("overview");
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
   const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
   const [pdfReaderOpen, setPdfReaderOpen] = useState(false);
@@ -88,49 +90,15 @@ export function ProductDetailView({
     },
   ];
 
-  const sampleReviews = [
-    {
-      author: "Pooja V.",
-      role: "E-Commerce Founder",
-      date: "2 days ago",
-      rating: 5,
-      content:
-        "These templates completely elevated our social media aesthetics. Our reel view counts doubled in the first week. Drag and drop customization makes it so easy!",
-    },
-    {
-      author: "Kunal M.",
-      role: "Digital Consultant",
-      date: "1 week ago",
-      rating: 5,
-      content:
-        "Best investment for my personal brand. Super clean typography, premium layouts, and saved me days of design work. 10/10 recommended.",
-    },
-    {
-      author: "Deepika R.",
-      role: "Boutique Owner",
-      date: "2 weeks ago",
-      rating: 5,
-      content:
-        "Got the link immediately after payment. Everything was editable right away without any subscription issues. Amazing quality!",
-    },
-  ];
-
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-16">
-      {/* Breadcrumbs */}
-      <nav className="mb-8 flex items-center gap-2 text-xs text-muted">
-        <Link href="/" className="hover:text-foreground">
-          Home
-        </Link>
-        <span>/</span>
-        <Link href="/templates" className="hover:text-foreground">
-          Templates
-        </Link>
-        <span>/</span>
-        <span className="truncate text-foreground font-medium">
-          {product.title}
-        </span>
-      </nav>
+      <Breadcrumbs
+        className="mb-8"
+        items={[
+          { label: "Templates", href: "/templates" },
+          { label: product.title, href: `/templates/${product.slug}` },
+        ]}
+      />
 
       {/* Main Product Showcase Grid */}
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
@@ -167,11 +135,14 @@ export function ProductDetailView({
                   const currentImg = product.images?.[currentIdx];
                   if (currentImg && !imgLoadError[currentIdx]) {
                     return (
-                      <img
+                      <SmartImage
                         src={currentImg}
                         alt={`${product.title} view ${currentIdx + 1}`}
+                        fill
+                        priority
+                        sizes="(max-width: 1024px) 100vw, 58vw"
                         onError={() => setImgLoadError((prev) => ({ ...prev, [currentIdx]: true }))}
-                        className="h-full w-full object-cover"
+                        className="object-cover"
                       />
                     );
                   }
@@ -243,10 +214,12 @@ export function ProductDetailView({
                       : "border-card-border bg-card opacity-70 hover:opacity-100"
                   }`}
                 >
-                  <img
+                  <SmartImage
                     src={img}
                     alt={`Thumb ${idx + 1}`}
-                    className="h-full w-full object-cover"
+                    fill
+                    sizes="104px"
+                    className="object-cover"
                     onError={(e) => {
                       (e.target as HTMLElement).style.display = "none";
                     }}
@@ -342,11 +315,9 @@ export function ProductDetailView({
                 {product.category.replace("-", " ")}
               </span>
 
-              <div className="flex items-center gap-1.5 text-xs text-muted">
-                <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                <span className="font-bold text-foreground">{product.rating}</span>
-                <span>({product.reviewCount} verified reviews)</span>
-              </div>
+              <span className="text-xs font-medium text-muted">
+                Instant Digital Access
+              </span>
             </div>
 
             <h1 className="mt-4 font-heading text-3xl font-extrabold text-foreground sm:text-4xl">
@@ -453,7 +424,6 @@ export function ProductDetailView({
             { id: "included", label: "What's Included" },
             { id: "instructions", label: "How to Use" },
             { id: "faq", label: "FAQs" },
-            { id: "reviews", label: `Reviews (${product.reviewCount})` },
           ].map((tab) => {
             const isActive = activeTab === tab.id;
             return (
@@ -607,59 +577,6 @@ export function ProductDetailView({
               ))}
             </div>
           )}
-
-          {activeTab === "reviews" && (
-            <div className="space-y-6">
-              <div className="flex items-center gap-4 rounded-2xl border border-card-border bg-background p-5">
-                <div className="text-center">
-                  <span className="font-heading text-4xl font-extrabold text-foreground">
-                    {product.rating}
-                  </span>
-                  <div className="mt-1 flex justify-center gap-0.5">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
-                  <span className="mt-1 block text-[10px] text-muted">
-                    Based on {product.reviewCount} customer reviews
-                  </span>
-                </div>
-                <div className="h-12 w-px bg-card-border/60" />
-                <div className="flex-1 text-xs text-muted">
-                  <p className="font-semibold text-foreground">
-                    100% Verified Purchases
-                  </p>
-                  <p className="mt-0.5">
-                    All reviews come from verified buyers across India &amp; international creators.
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                {sampleReviews.map((rev, idx) => (
-                  <div
-                    key={idx}
-                    className="rounded-2xl border border-card-border bg-background p-5"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex gap-0.5">
-                        {Array.from({ length: rev.rating }).map((_, i) => (
-                          <Star key={i} className="h-3 w-3 fill-amber-400 text-amber-400" />
-                        ))}
-                      </div>
-                      <span className="text-[10px] text-muted">{rev.date}</span>
-                    </div>
-                    <p className="mt-3 text-xs italic text-foreground/90">
-                      "{rev.content}"
-                    </p>
-                    <p className="mt-4 text-[11px] font-bold text-foreground">
-                      {rev.author} &bull; <span className="text-accent">{rev.role}</span>
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -755,7 +672,7 @@ export function ProductDetailView({
         isOpen={pdfReaderOpen}
         onClose={() => setPdfReaderOpen(false)}
         title={product.title}
-        pdfUrl={product.pdfUrl || product.downloadUrl || "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf"}
+        pdfUrl={product.pdfUrl || product.downloadUrl || ""}
         price={product.price}
         isFree={product.price === 0}
         authorOrCategory={product.authorName || product.category}

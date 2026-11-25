@@ -18,6 +18,7 @@ import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "@/components/products/checkout-modal";
 import { triggerDirectDownload } from "@/lib/download";
 import { useProductAccess } from "@/hooks/use-product-access";
+import { SmartImage } from "@/components/shared/smart-image";
 
 interface CanvaTemplateCardProps {
   product: Product;
@@ -129,10 +130,12 @@ export function CanvaTemplateCard({ product }: CanvaTemplateCardProps) {
           className={`relative w-full ${aspectRatioClass} overflow-hidden bg-neutral-100 dark:bg-neutral-950`}
         >
           {/* Active Slide Image */}
-          <img
+          <SmartImage
             src={slides[activeSlideIndex]}
             alt={`${product.title} - Slide ${activeSlideIndex + 1}`}
-            className="h-full w-full object-cover transition-all duration-300 group-hover:scale-105"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover transition-all duration-300 group-hover:scale-105"
           />
 
           {/* Canva Badge & Format Pill */}
@@ -219,11 +222,7 @@ export function CanvaTemplateCard({ product }: CanvaTemplateCardProps) {
                 <Layers className="h-3 w-3 text-neutral-400" />
                 {product.specs?.count || `${slides.length} Customizable Slides`}
               </span>
-              <div className="flex items-center gap-1">
-                <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                <span className="font-semibold text-neutral-900 dark:text-white">{product.rating}</span>
-                <span>({product.reviewCount})</span>
-              </div>
+              <span className="text-[11px] font-medium text-neutral-400">Editable Link</span>
             </div>
 
             <h3 className="font-heading text-sm font-bold text-neutral-900 dark:text-white line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
@@ -306,12 +305,14 @@ export function CanvaTemplateCard({ product }: CanvaTemplateCardProps) {
                   {slides.map((slideUrl, idx) => (
                     <div
                       key={idx}
-                      className="group/slide relative rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-950 shadow-xs"
+                      className="group/slide relative aspect-[9/16] rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-950 shadow-xs"
                     >
-                      <img
+                      <SmartImage
                         src={slideUrl}
                         alt={`Slide ${idx + 1}`}
-                        className="w-full aspect-[9/16] object-cover"
+                        fill
+                        sizes="(max-width: 640px) 50vw, 25vw"
+                        className="object-cover"
                       />
                       <div className="absolute top-2 left-2 rounded-md bg-black/70 px-1.5 py-0.5 text-[9px] font-bold text-white">
                         #{idx + 1}

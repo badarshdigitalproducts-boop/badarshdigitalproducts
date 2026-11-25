@@ -2,18 +2,11 @@ import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = constructMetadata({
-  title: "Video Editing Bundles — 4K VFX, Alpha Overlays & Cinematic LUTs",
+  title: "2026 Video Editing Bundle: 500+ SFX, 100 Transitions, 50 LUTs | BADARSH",
   description:
-    "Supercharge your video edits with drag-and-drop creator assets. Uncompressed 4K video overlays, film grains, sound transitions, and color grading LUTs.",
+    "Download 500+ WAV sound effects, 100 seamless transitions, 50 cinema LUTs, and 4K overlays with lifetime commercial licensing. Instant download from BADARSH.",
+  image: "/api/og?title=2026+Video+Editing+Bundles&badge=SFX,+LUTs+%26+Overlays",
   canonical: "/bundles",
-  keywords: [
-    "video editing bundles",
-    "4k overlays",
-    "film grain pack",
-    "cinematic luts",
-    "video editing assets",
-    "premiere pro transitions",
-  ],
 });
 
 export default function BundlesLayout({

@@ -98,7 +98,7 @@ const productLinks = [
 
 const serviceLinks = [
   { label: "Video Editing", href: "/services/video-editing" },
-  { label: "Website Building", href: "/services/website-design" },
+  { label: "Website Building", href: "/services/website-building" },
   { label: "Social Media Management", href: "/services/social-media-management" },
   { label: "Custom Design", href: "/services" },
 ];

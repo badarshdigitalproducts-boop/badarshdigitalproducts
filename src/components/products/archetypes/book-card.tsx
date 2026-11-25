@@ -10,6 +10,7 @@ import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "../checkout-modal";
 import { useProductAccess } from "@/hooks/use-product-access";
 import { triggerDirectDownload } from "@/lib/download";
+import { SmartImage } from "@/components/shared/smart-image";
 
 interface BookCardProps {
   product: Product;
@@ -57,10 +58,12 @@ export function BookCard({ product }: BookCardProps) {
           <div className="pointer-events-none absolute left-3 top-0 bottom-0 z-20 w-[1px] bg-white/20" />
 
           {/* Book Cover Image */}
-          <img
+          <SmartImage
             src={product.images[0] || "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&q=80"}
             alt={product.title}
-            className="h-full w-full object-cover"
+            fill
+            sizes="(max-width: 768px) 80vw, 240px"
+            className="object-cover"
           />
 
           {/* Top Format Badge */}
@@ -76,11 +79,7 @@ export function BookCard({ product }: BookCardProps) {
               <BookOpen className="h-3.5 w-3.5 text-accent" />
               {pageCount}
             </span>
-            <div className="flex items-center gap-1">
-              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-              <span className="font-semibold text-foreground">{product.rating}</span>
-              <span>({product.reviewCount})</span>
-            </div>
+            <span className="text-[11px] font-medium text-muted">Digital PDF</span>
           </div>
 
           <h3 className="mt-2.5 line-clamp-2 font-heading text-base font-bold text-foreground group-hover:text-accent transition-colors">

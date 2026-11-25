@@ -1,61 +1,76 @@
 import type { MetadataRoute } from "next";
-import { getBaseUrl } from "@/lib/metadata";
+import { SITE_URL } from "@/lib/constants";
 import { products as staticProducts } from "@/content/products";
 import { blogPosts as staticBlogPosts } from "@/content/blog";
 import { getDatabase } from "@/lib/admin/store";
 
 export const revalidate = 300;
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = getBaseUrl();
-  const now = new Date();
+const BLOCKED_SLUGS = new Set([
+  "capcut-pro-unlocked-editor",
+  "the-psychology-of-money",
+]);
 
-  // Core canonical indexable public routes
+function safeDate(value?: string): Date {
+  if (value) {
+    const parsed = new Date(value);
+    if (!Number.isNaN(parsed.getTime())) {
+      return parsed;
+    }
+  }
+  return new Date("2026-11-22T00:00:00.000Z");
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = SITE_URL;
+  const catalogDate = new Date("2026-11-25T00:00:00.000Z");
+
+  // Core canonical indexable public routes (excludes redirects, login, cart, checkout, account, unsubscribe)
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: baseUrl, lastModified: now, changeFrequency: "daily", priority: 1.0 },
-    { url: `${baseUrl}/templates`, lastModified: now, changeFrequency: "daily", priority: 0.95 },
-    { url: `${baseUrl}/ebooks`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${baseUrl}/planners`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${baseUrl}/bundles`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${baseUrl}/sound-effects`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${baseUrl}/editing-bundles`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
-    { url: `${baseUrl}/editing-apps`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
-    { url: `${baseUrl}/apps`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
-    { url: `${baseUrl}/photo-presets`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
-    { url: `${baseUrl}/video-templates`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
-    { url: `${baseUrl}/services`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${baseUrl}/services/video-editing`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
-    { url: `${baseUrl}/services/photo-editing`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
-    { url: `${baseUrl}/services/event-photography`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
-    { url: `${baseUrl}/services/pre-wedding-cinematic`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
-    { url: `${baseUrl}/services/social-media-management`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
-    { url: `${baseUrl}/services/website-design`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
-    { url: `${baseUrl}/services/app-development`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
-    { url: `${baseUrl}/services/brand-identity`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
-    { url: `${baseUrl}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${baseUrl}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${baseUrl}/license`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${baseUrl}/refund-policy`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${baseUrl}/privacy`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${baseUrl}/privacy-policy`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${baseUrl}/cookie-policy`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${baseUrl}/terms`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+    { url: baseUrl, lastModified: catalogDate, changeFrequency: "daily", priority: 1.0 },
+    { url: `${baseUrl}/templates`, lastModified: catalogDate, changeFrequency: "daily", priority: 0.95 },
+    { url: `${baseUrl}/ebooks`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/planners`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/bundles`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/sound-effects`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/editing-apps`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.85 },
+    { url: `${baseUrl}/photo-presets`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/video-templates`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.85 },
+    { url: `${baseUrl}/services`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/services/video-editing`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/services/website-building`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/services/social-media-management`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.85 },
+    { url: `${baseUrl}/services/photo-editing`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${baseUrl}/services/event-photography`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${baseUrl}/services/pre-wedding-cinematic`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${baseUrl}/services/app-development`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${baseUrl}/services/brand-identity`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${baseUrl}/blog`, lastModified: catalogDate, changeFrequency: "weekly", priority: 0.85 },
+    { url: `${baseUrl}/about`, lastModified: catalogDate, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/license`, lastModified: catalogDate, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${baseUrl}/refund-policy`, lastModified: catalogDate, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${baseUrl}/privacy-policy`, lastModified: catalogDate, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${baseUrl}/cookie-policy`, lastModified: catalogDate, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${baseUrl}/terms`, lastModified: catalogDate, changeFrequency: "monthly", priority: 0.5 },
   ];
 
   let allProducts: any[] = [...staticProducts];
   let allPosts: any[] = [...staticBlogPosts];
+  let deletedSet = new Set<string>(["prod-017", "prod-020"]);
 
   try {
     const db = await getDatabase();
-    const deletedSet = new Set<string>(db.deletedProductIds || []);
+    deletedSet = new Set<string>([...(db.deletedProductIds || []), "prod-017", "prod-020"]);
 
     if (Array.isArray(db.products) && db.products.length > 0) {
       const prodMap = new Map<string, any>();
       staticProducts.forEach((p) => {
-        if (!deletedSet.has(p.id)) prodMap.set(p.slug, p);
+        if (!deletedSet.has(p.id) && !BLOCKED_SLUGS.has(p.slug)) {
+          prodMap.set(p.slug, p);
+        }
       });
       db.products.forEach((p) => {
-        if (p.slug && !deletedSet.has(p.id) && p.status !== "draft") {
+        if (p.slug && !deletedSet.has(p.id) && !BLOCKED_SLUGS.has(p.slug) && p.status !== "draft") {
           prodMap.set(p.slug, p);
         }
       });
@@ -78,17 +93,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic canonical product & ebook routes
   const productRoutes: MetadataRoute.Sitemap = allProducts
-    .filter((product) => Boolean(product.slug))
+    .filter(
+      (product) =>
+        Boolean(product.slug) &&
+        !deletedSet.has(product.id) &&
+        !BLOCKED_SLUGS.has(product.slug)
+    )
     .map((product) => ({
       url:
         product.category === "ebooks"
           ? `${baseUrl}/ebooks/${product.slug}`
           : `${baseUrl}/templates/${product.slug}`,
-      lastModified: product.updatedAt
-        ? new Date(product.updatedAt)
-        : product.createdAt
-        ? new Date(product.createdAt)
-        : now,
+      lastModified: safeDate(product.updatedAt || product.createdAt),
       changeFrequency: "weekly",
       priority: 0.85,
     }));
@@ -98,7 +114,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .filter((post) => Boolean(post.slug))
     .map((post) => ({
       url: `${baseUrl}/blog/${post.slug}`,
-      lastModified: post.updatedAt ? new Date(post.updatedAt) : now,
+      lastModified: safeDate(post.updatedAt || post.date),
       changeFrequency: "monthly",
       priority: 0.75,
     }));

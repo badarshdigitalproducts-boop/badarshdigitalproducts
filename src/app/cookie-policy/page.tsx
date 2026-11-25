@@ -12,7 +12,7 @@ import { Cookie, ShieldCheck, CheckCircle2, Lock, Sliders, ExternalLink } from "
 export const metadata = constructMetadata({
   title: "Cookie Policy",
   description:
-    "Learn about how BADARSH uses essential, functional, and performance cookies to provide secure browsing and seamless digital product delivery.",
+    "Learn how BADARSH uses essential, functional, and performance cookies to keep customer sessions secure and preserve instant digital checkout preferences.",
   canonical: "/cookie-policy",
 });
 

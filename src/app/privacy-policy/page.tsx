@@ -25,9 +25,9 @@ import {
 } from "@/lib/constants";
 
 export const metadata: Metadata = constructMetadata({
-  title: "Privacy Policy — DPDP Act (2023) Compliance",
+  title: "Privacy Policy & DPDP Compliance",
   description:
-    "Comprehensive, transparent Privacy Policy for BADARSH under India's Digital Personal Data Protection Act, 2023. Learn about data collection, processing purposes, user rights, and grievance redressal.",
+    "Transparent Privacy Policy for BADARSH under India's Digital Personal Data Protection Act, 2023 covering data collection, user rights, and grievances.",
   canonical: "/privacy-policy",
 });
 

@@ -1,93 +1,20 @@
-import { Suspense, type ReactNode } from "react";
+import { type ReactNode } from "react";
+import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { fontHeading, fontBody } from "@/lib/fonts";
-import { constructMetadata } from "@/lib/metadata";
+import { constructMetadata, SITE_URL } from "@/lib/metadata";
 import { StorefrontNav, StorefrontFooter } from "@/components/layout/storefront-shell";
 import { CookieConsentBanner } from "@/components/layout/cookie-banner";
 import { CurrencyProvider } from "@/context/currency-context";
 import { AudioPlayerProvider } from "@/context/audio-player-context";
 import { AuthProvider } from "@/context/auth-context";
-import {
-  siteConfig,
-  WHATSAPP_NUMBER,
-  BUSINESS_LEGAL_NAME,
-} from "@/lib/constants";
 import "./globals.css";
 
-export const metadata = constructMetadata();
+const baseMetadata = constructMetadata();
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": ["Organization", "OnlineBusiness", "Store"],
-  name: siteConfig.name,
-  legalName: BUSINESS_LEGAL_NAME,
-  url: siteConfig.url,
-  logo: `${siteConfig.url}/logo-dark-v3.png`,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Bengaluru",
-    addressRegion: "Karnataka",
-    addressCountry: "IN",
-  },
-  priceRange: "₹299 - ₹15,000",
-  currenciesAccepted: "INR, USD",
-  paymentAccepted: "UPI, Cards, Net Banking",
-  contactPoint: {
-    "@type": "ContactPoint",
-    telephone: `+${WHATSAPP_NUMBER}`,
-    contactType: "customer service",
-    areaServed: ["IN", "US", "GB", "AE", "CA", "AU"],
-    availableLanguage: ["English", "Hindi"],
-  },
-  sameAs: [
-    siteConfig.links.instagram,
-    siteConfig.links.youtube,
-    siteConfig.links.pinterest,
-  ],
-};
-
-const breadcrumbsJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteConfig.url,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Templates",
-      item: `${siteConfig.url}/templates`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Bundles",
-      item: `${siteConfig.url}/bundles`,
-    },
-    {
-      "@type": "ListItem",
-      position: 4,
-      name: "Services",
-      item: `${siteConfig.url}/services`,
-    },
-  ],
-};
-
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: siteConfig.name,
-  url: siteConfig.url,
-  description: siteConfig.description,
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${siteConfig.url}/templates?search={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
+export const metadata: Metadata = {
+  ...baseMetadata,
+  metadataBase: new URL(SITE_URL),
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -97,20 +24,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       className={`${fontHeading.variable} ${fontBody.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
-        />
-      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground font-body overflow-x-clip max-w-[100vw]">
         <ThemeProvider
           attribute="class"

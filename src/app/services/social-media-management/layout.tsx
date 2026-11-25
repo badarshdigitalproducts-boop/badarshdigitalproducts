@@ -1,17 +1,24 @@
 import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
+import { buildServiceSchemas } from "@/lib/seo-schema";
 
 export const metadata: Metadata = constructMetadata({
-  title: "Social Media Growth & Content Management Services",
+  title: "Social Media Management Agency Bengaluru",
   description:
-    "End-to-end social media strategy, content production, scheduling, and community management for brands looking to dominate Instagram & LinkedIn.",
+    "End-to-end Instagram Reels production, LinkedIn carousels, calendar scheduling, and organic social media growth for creators and founders across Bengaluru.",
+  image: "/api/og?title=Social+Media+Management&badge=Reels+%26+LinkedIn+Growth",
   canonical: "/services/social-media-management",
-  keywords: [
-    "social media management agency",
-    "instagram growth service",
-    "linkedin content strategy",
-    "social media marketing",
-    "creator brand management",
+});
+
+const { professionalServiceJsonLd, serviceJsonLd } = buildServiceSchemas({
+  name: "Social Media Management Agency Bengaluru",
+  description:
+    "Content production, Instagram Reels strategy, LinkedIn carousels, and social growth retainers.",
+  urlPath: "/services/social-media-management",
+  serviceType: "Social Media Management Service",
+  offers: [
+    { name: "Social Media Growth Starter", price: 9999, description: "Monthly content strategy & scheduling" },
+    { name: "Full Creator Retainer", price: 18999, description: "Complete Reels + carousel production" },
   ],
 });
 
@@ -20,5 +27,17 @@ export default function SocialMediaManagementLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
+      {children}
+    </>
+  );
 }

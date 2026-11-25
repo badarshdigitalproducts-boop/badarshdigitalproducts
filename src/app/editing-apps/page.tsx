@@ -20,6 +20,8 @@ import {
 import { products as fallbackProducts } from "@/content/products";
 import { useCurrency } from "@/context/currency-context";
 import { AppCard } from "@/components/products/archetypes/app-card";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
+import { SmartImage } from "@/components/shared/smart-image";
 import type { Product } from "@/types";
 
 const APP_CATEGORIES = [
@@ -56,8 +58,7 @@ export default function EditingAppsPage() {
         (p as any).productType === "app" ||
         p.tags?.includes("editing apps") ||
         p.tags?.includes("editing app") ||
-        p.tags?.includes("mobile creator") ||
-        p.tags?.includes("capcut");
+        p.tags?.includes("mobile creator");
 
       const matchesSearch =
         search === "" ||
@@ -67,7 +68,7 @@ export default function EditingAppsPage() {
 
       let matchesCat = true;
       if (selectedCategory === "video") {
-        matchesCat = p.tags?.some((t) => ["video", "video editing", "capcut", "vn"].includes(t.toLowerCase())) || true;
+        matchesCat = p.tags?.some((t) => ["video", "video editing", "premiere", "davinci", "vn"].includes(t.toLowerCase())) || true;
       }
 
       return isApp && matchesSearch && matchesCat;
@@ -78,13 +79,14 @@ export default function EditingAppsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      <Breadcrumbs items={[{ label: "Workflows & Configs", href: "/editing-apps" }]} />
       {/* Compact Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-          Verified Mobile Editing Apps
+          Creator Export Presets &amp; Workflow Guides
         </h1>
         <p className="mt-1 text-sm text-muted">
-          Direct cloud builds and creator suites with 4K 60fps exports and zero third-party redirect chains.
+          Studio-tested export settings, shortcut maps, LUT recipes, and mobile workflow configs created in-house by BADARSH.
         </p>
       </div>
 
@@ -96,10 +98,13 @@ export default function EditingAppsPage() {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8 relative z-10">
             <div className="flex items-start gap-5 min-w-0">
               <div className="relative h-24 w-24 sm:h-28 sm:w-28 shrink-0 overflow-hidden rounded-[22%] border border-card-border bg-neutral-900 shadow-xl">
-                <img
+                <SmartImage
                   src={featuredApp.images[0] || "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80"}
                   alt={featuredApp.title}
-                  className="h-full w-full object-cover"
+                  fill
+                  priority
+                  sizes="112px"
+                  className="object-cover"
                 />
               </div>
 
@@ -109,7 +114,7 @@ export default function EditingAppsPage() {
                     Featured Choice
                   </span>
                   <span className="text-xs text-muted font-mono">
-                    {featuredApp.appVersion || "v12.2 Pro Unlocked"}
+                    {featuredApp.appVersion || "Workflow Suite v2.0"}
                   </span>
                 </div>
 
@@ -118,15 +123,11 @@ export default function EditingAppsPage() {
                 </h2>
 
                 <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-muted">
-                  <div className="flex items-center gap-1">
-                    <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                    <span className="font-bold text-foreground">{featuredApp.rating}</span>
-                    <span>({featuredApp.reviewCount} reviews)</span>
-                  </div>
+                  <span>{featuredApp.format || "Config Files & PDF"}</span>
                   <span>&bull;</span>
-                  <span>{featuredApp.downloads.toLocaleString()}+ verified installs</span>
+                  <span>Commercial License</span>
                   <span>&bull;</span>
-                  <span className="text-emerald-500 font-semibold">100% Virus-Free</span>
+                  <span className="text-emerald-500 font-semibold">Studio Tested Configs</span>
                 </div>
 
                 <p className="mt-3 text-xs sm:text-sm text-muted leading-relaxed line-clamp-2 max-w-2xl">
@@ -140,7 +141,7 @@ export default function EditingAppsPage() {
                 <div className="font-heading text-2xl font-black text-foreground">
                   {featuredApp.price === 0 ? "Free" : formatCurr(featuredApp.price)}
                 </div>
-                <span className="text-[11px] text-muted">Instant Cloud Access</span>
+                <span className="text-[11px] text-muted">Instant Digital Download</span>
               </div>
 
               <a
@@ -148,7 +149,7 @@ export default function EditingAppsPage() {
                 className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 text-xs font-bold text-background shadow-md transition-transform hover:scale-105 active:scale-95"
               >
                 <Download className="h-4 w-4" />
-                <span>{featuredApp.price === 0 ? "Get Free App" : "Get App"}</span>
+                <span>{featuredApp.price === 0 ? "Get Free Guide" : "View Toolkit"}</span>
               </a>
             </div>
           </div>
@@ -181,7 +182,7 @@ export default function EditingAppsPage() {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search apps (CapCut, VN, Alight)..."
+            placeholder="Search presets (4K Export, DaVinci, Shortcuts)..."
             className="w-full rounded-full border border-card-border bg-card pl-10 pr-4 py-2 text-xs text-foreground placeholder:text-muted focus:border-accent focus:outline-none"
           />
         </div>
@@ -199,47 +200,47 @@ export default function EditingAppsPage() {
         <div className="mt-12 rounded-3xl border border-card-border bg-card p-12 text-center">
           <Smartphone className="mx-auto h-12 w-12 text-muted" />
           <h3 className="mt-4 font-heading text-lg font-bold text-foreground">
-            No editing apps found matching &ldquo;{search}&rdquo;
+            No workflow toolkits found matching &ldquo;{search}&rdquo;
           </h3>
           <p className="mt-2 text-xs text-muted">
-            Check back soon for new app version drops!
+            Check back soon for new export presets and creator guides!
           </p>
         </div>
       )}
 
-      {/* Installation Guide Banner (Professional Direct Download Guide) */}
+      {/* Setup Guide Banner */}
       <div className="mt-20 rounded-3xl border border-card-border bg-card/60 p-8 md:p-12 shadow-sm">
         <div className="flex items-center gap-2 text-xs font-bold text-accent uppercase tracking-wider mb-2">
           <ShieldCheck className="h-4 w-4" />
-          <span>Smooth Installation</span>
+          <span>Smooth Setup</span>
         </div>
         <h3 className="font-heading text-xl sm:text-2xl font-bold text-foreground">
-          How to Install Mobile Apps on Your Device (3 Simple Steps)
+          How to Import BADARSH Export Presets &amp; Workflow Configs (3 Simple Steps)
         </h3>
         <p className="mt-2 text-xs text-muted max-w-2xl">
-          All apps hosted on BADARSH are pre-verified, tested for malware, and guaranteed clean. Here is how easy it is to get started:
+          All configuration packs, XML presets, and PDF workflow guides on BADARSH are built in-house for DaVinci Resolve, Premiere Pro, VN Editor, and Lightroom.
         </p>
 
         <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3 text-xs leading-relaxed text-muted">
           <div className="rounded-2xl border border-card-border bg-background p-6 shadow-xs">
             <span className="font-heading text-3xl font-black text-accent">01</span>
-            <h4 className="mt-3 font-bold text-sm text-foreground">Direct Download</h4>
+            <h4 className="mt-3 font-bold text-sm text-foreground">Download Config Pack</h4>
             <p className="mt-1.5">
-              Click the download button right on the app card. The high-speed installer saves directly to your device storage.
+              Download the ZIP archive containing studio XML presets, shortcut maps, and our step-by-step PDF setup guide.
             </p>
           </div>
           <div className="rounded-2xl border border-card-border bg-background p-6 shadow-xs">
             <span className="font-heading text-3xl font-black text-accent">02</span>
-            <h4 className="mt-3 font-bold text-sm text-foreground">Confirm Permission</h4>
+            <h4 className="mt-3 font-bold text-sm text-foreground">Import Into Your Editor</h4>
             <p className="mt-1.5">
-              Tap the downloaded installer file. If your mobile system asks, enable &ldquo;Allow from this source&rdquo; to complete install.
+              Load the XML profile or apply the documented codec and bitrate settings in Premiere Pro, DaVinci Resolve, or VN Editor.
             </p>
           </div>
           <div className="rounded-2xl border border-card-border bg-background p-6 shadow-xs">
             <span className="font-heading text-3xl font-black text-accent">03</span>
-            <h4 className="mt-3 font-bold text-sm text-foreground">Launch &amp; Create</h4>
+            <h4 className="mt-3 font-bold text-sm text-foreground">Render &amp; Publish</h4>
             <p className="mt-1.5">
-              Open the app and start creating immediately: enjoy watermark-free exports, 4K at 60fps, and all VIP features unlocked.
+              Export crisp, high-bitrate 4K Reels and YouTube Shorts engineered to hold sharp detail after platform compression.
             </p>
           </div>
         </div>

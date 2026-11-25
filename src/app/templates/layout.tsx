@@ -2,18 +2,11 @@ import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = constructMetadata({
-  title: "Canva & Social Media Templates — Instagram Reels, LinkedIn & Pitch Decks",
+  title: "Canva Social Media & Pitch Deck Templates",
   description:
-    "Explore 100+ high-converting Canva & Figma templates. Instagram reels, carousel decks, presentation slides, and brand kits built for creators and modern founders.",
+    "Explore editable Canva social media kits, Instagram reel covers, LinkedIn carousels, and founder pitch decks with zero extra subscriptions. Instant access.",
+  image: "/api/og?title=Canva+%26+Design+Templates&badge=Reels,+Carousels+%26+Decks",
   canonical: "/templates",
-  keywords: [
-    "canva templates",
-    "instagram reels templates",
-    "linkedin carousel pack",
-    "pitch deck templates",
-    "social media templates",
-    "brand kit templates",
-  ],
 });
 
 export default function TemplatesLayout({

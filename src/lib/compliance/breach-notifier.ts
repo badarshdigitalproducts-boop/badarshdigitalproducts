@@ -359,7 +359,7 @@ export function generateUserBreachAdvisoryEmail(
     <!-- Footer -->
     <div style="background-color: #f1f5f9; padding: 16px 28px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #64748b; text-align: center;">
       BADARSH Digital Products &bull; Bengaluru, Karnataka, India &bull;
-      <a href="https://badarsh.com/privacy-policy" style="color: #64748b; text-decoration: underline;">Privacy Policy</a>
+      <a href="https://www.badarsh.com/privacy-policy" style="color: #64748b; text-decoration: underline;">Privacy Policy</a>
     </div>
   </div>
 </body>
@@ -397,7 +397,7 @@ Phone: ${incident.dpoContact.phone}
 Address: ${incident.dpoContact.address}
 
 BADARSH Digital Products - Bengaluru, Karnataka, India
-Privacy Policy: https://badarsh.com/privacy-policy
+Privacy Policy: https://www.badarsh.com/privacy-policy
 `;
 
   return { subject, html, text };

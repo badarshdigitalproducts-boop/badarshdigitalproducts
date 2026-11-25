@@ -2,17 +2,11 @@ import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = constructMetadata({
-  title: "Creator Software & Mobile Editing Apps — Verified & High-Speed",
+  title: "Creator Export Presets & Workflow Guides",
   description:
-    "Direct, high-speed mobile apps and creator software tools. Verified, virus-scanned APKs and mobile utilities for modern content creators.",
+    "Studio-tested 4K video export configs, DaVinci and Premiere shortcut maps, XML workflow presets, and illustrated creator setup guides by BADARSH Bengaluru.",
+  image: "/api/og?title=Creator+Workflows+%26+Configs&badge=Export+Presets+%26+Guides",
   canonical: "/editing-apps",
-  keywords: [
-    "mobile editing apps",
-    "creator software",
-    "video editor mobile",
-    "capcut pro",
-    "mobile creator utilities",
-  ],
 });
 
 export default function EditingAppsLayout({

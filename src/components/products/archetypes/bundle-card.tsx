@@ -10,6 +10,7 @@ import { useCurrency } from "@/context/currency-context";
 import { CheckoutModal } from "../checkout-modal";
 import { DrivePreviewModal } from "@/components/bundles/drive-preview-modal";
 import { useProductAccess } from "@/hooks/use-product-access";
+import { SmartImage } from "@/components/shared/smart-image";
 
 interface BundleCardProps {
   product: Product;
@@ -54,10 +55,12 @@ export function BundleCard({ product }: BundleCardProps) {
         {/* Layer Stack illusion behind main visual */}
         <div className="absolute inset-0 bg-gradient-to-tr from-accent/20 via-neutral-900 to-purple-900/30" />
         
-        <img
+        <SmartImage
           src={product.images[0] || "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=800&q=80"}
           alt={product.title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-90"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105 opacity-90"
         />
 
         {/* Top Badges */}
@@ -87,11 +90,7 @@ export function BundleCard({ product }: BundleCardProps) {
           <span className="font-semibold uppercase tracking-wider text-accent">
             All-In-One Mega Suite
           </span>
-          <div className="flex items-center gap-1">
-            <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-            <span className="font-semibold text-foreground">{product.rating}</span>
-            <span>({product.reviewCount})</span>
-          </div>
+          <span className="text-[11px] font-medium text-muted">Commercial License</span>
         </div>
 
         <h3 className="mt-2 font-heading text-lg font-bold text-foreground line-clamp-1 group-hover:text-accent transition-colors">

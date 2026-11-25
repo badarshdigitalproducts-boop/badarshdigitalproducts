@@ -11,6 +11,7 @@ import { useAudioPlayer } from "@/context/audio-player-context";
 import { CheckoutModal } from "../checkout-modal";
 import { useProductAccess } from "@/hooks/use-product-access";
 import { triggerDirectDownload } from "@/lib/download";
+import { SmartImage } from "@/components/shared/smart-image";
 
 interface SfxCardProps {
   product: Product;
@@ -72,10 +73,12 @@ export function SfxCard({ product }: SfxCardProps) {
     >
       {/* Video & Motion Visual Stage (16:9 Studio Ratio) */}
       <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-neutral-950">
-        <img
+        <SmartImage
           src={product.images[0] || "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&q=80"}
           alt={product.title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-90"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105 opacity-90"
         />
 
         {/* Ambient Overlay */}
@@ -128,11 +131,7 @@ export function SfxCard({ product }: SfxCardProps) {
           <span className="font-semibold text-accent">
             {product.audioCategory || "SFX & Music"}
           </span>
-          <div className="flex items-center gap-1">
-            <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-            <span className="font-semibold text-foreground">{product.rating}</span>
-            <span>({product.reviewCount})</span>
-          </div>
+          <span className="text-[11px] font-medium text-muted">24-Bit WAV</span>
         </div>
 
         <h3 className="mt-2 font-heading text-base font-bold text-foreground line-clamp-1 group-hover:text-accent transition-colors">

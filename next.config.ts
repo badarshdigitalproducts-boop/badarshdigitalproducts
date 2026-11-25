@@ -58,6 +58,15 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ["@aws-sdk/client-s3", "@aws-sdk/s3-request-presigner"],
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "covers.openlibrary.org" },
+      { protocol: "https", hostname: "*.r2.cloudflarestorage.com" },
+      { protocol: "https", hostname: "*.firebasestorage.app" },
+      { protocol: "https", hostname: "lh3.googleusercontent.com" },
+    ],
+  },
   turbopack: {
     rules: {
       "*.css": {
@@ -77,8 +86,59 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/:path*",
+        has: [{ type: "host", value: "badarsh.com" }],
+        destination: "https://www.badarsh.com/:path*",
+        permanent: true,
+      },
+      {
         source: "/contact",
         destination: "/about",
+        permanent: true,
+      },
+      {
+        source: "/editing-bundles",
+        destination: "/sound-effects",
+        permanent: true,
+      },
+      {
+        source: "/apps",
+        destination: "/editing-apps",
+        permanent: true,
+      },
+      {
+        source: "/presets",
+        destination: "/photo-presets",
+        permanent: true,
+      },
+      {
+        source: "/privacy",
+        destination: "/privacy-policy",
+        permanent: true,
+      },
+      {
+        source: "/services/website-design",
+        destination: "/services/website-building",
+        permanent: true,
+      },
+      {
+        source: "/templates/capcut-pro-unlocked-editor",
+        destination: "/editing-apps",
+        permanent: true,
+      },
+      {
+        source: "/editing-apps/capcut-pro-unlocked-editor",
+        destination: "/editing-apps",
+        permanent: true,
+      },
+      {
+        source: "/ebooks/the-psychology-of-money",
+        destination: "/ebooks",
+        permanent: true,
+      },
+      {
+        source: "/templates/the-psychology-of-money",
+        destination: "/ebooks",
         permanent: true,
       },
     ];

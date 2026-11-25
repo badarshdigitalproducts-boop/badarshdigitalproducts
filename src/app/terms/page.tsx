@@ -12,7 +12,8 @@ import { ShieldCheck, Scale, Ban, CheckCircle2, UserCheck, AlertCircle } from "l
 export const metadata = constructMetadata({
   title: "Terms of Service",
   description:
-    "Review the terms and conditions governing the purchase of digital products, commercial licensing, and engagement of creative services from BADARSH.",
+    "Review the terms and conditions governing digital product purchases, commercial licensing, and engagement of creative services from BADARSH Bengaluru.",
+  canonical: "/terms",
 });
 
 export default function TermsPage() {

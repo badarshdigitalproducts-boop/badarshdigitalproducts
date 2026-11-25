@@ -167,13 +167,9 @@ export function VideoTemplateCard({ product }: VideoTemplateCardProps) {
             <div className="flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400 mb-1">
               <span className="font-semibold flex items-center gap-1 text-indigo-600 dark:text-indigo-400">
                 <Music2 className="h-3 w-3" />
-                Trending Audio Included
+                Beat-Sync Ready
               </span>
-              <div className="flex items-center gap-1">
-                <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                <span className="font-bold text-neutral-900 dark:text-white">{product.rating}</span>
-                <span>({product.reviewCount})</span>
-              </div>
+              <span className="text-[11px] font-medium text-neutral-400">9:16 Vertical</span>
             </div>
 
             <h3 className="font-heading text-sm font-bold text-neutral-900 dark:text-white line-clamp-1">

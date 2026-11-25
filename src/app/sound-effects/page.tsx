@@ -1,27 +1,28 @@
 import { Metadata } from "next";
 import { SoundEffectsCatalog } from "@/components/audio/sound-effects-catalog";
-import { constructMetadata, getBaseUrl } from "@/lib/metadata";
+import { constructMetadata, SITE_URL } from "@/lib/metadata";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 
 export const metadata: Metadata = constructMetadata({
-  title: "Royalty-Free Sound Effects & Audio Library — 24-Bit Master WAV",
+  title: "24-Bit WAV Sound Effects & Audio Packs",
   description:
-    "Explore and download royalty-free sound effects, whooshes, gaming hits, cartoon drops, and cinematic impacts. 24-bit 48kHz WAV audio for video creators, reels, and commercial edits.",
+    "Browse 24-bit 48kHz WAV sound effects: whooshes, cinema impacts, UI transitions, and ambient beds. Instant digital delivery with full commercial licensing.",
+  image: "/api/og?title=24-Bit+WAV+Sound+Effects&badge=Audio+%26+SFX+Vault",
   canonical: "/sound-effects",
 });
 
 export default function SoundEffectsPage() {
-  const baseUrl = getBaseUrl();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: "BADARSH Royalty-Free Sound Effects Library",
     description:
       "24-Bit / 48kHz uncompressed master sound effects for video creators, editors, and filmmakers.",
-    url: `${baseUrl}/sound-effects`,
+    url: `${SITE_URL}/sound-effects`,
     publisher: {
       "@type": "Organization",
       name: "BADARSH Digital Products",
-      url: baseUrl,
+      url: SITE_URL,
     },
   };
 
@@ -32,6 +33,7 @@ export default function SoundEffectsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+        <Breadcrumbs items={[{ label: "Sound Effects", href: "/sound-effects" }]} />
         {/* Simple, crisp title */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-3xl">

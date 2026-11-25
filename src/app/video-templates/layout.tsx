@@ -2,18 +2,11 @@ import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = constructMetadata({
-  title: "Beat-Sync Video Templates — CapCut & Alight Motion XML Projects",
+  title: "Beat-Sync 9:16 Reels & XML Video Templates",
   description:
-    "Trending 9:16 vertical video editing templates. Velocity beat shakes, kinetic typography, and anime motion graphics ready to use in CapCut and Alight Motion.",
+    "Shop beat-sync vertical video templates, velocity shakes, kinetic typography, and Alight Motion XML projects built for high-retention Reels and Shorts.",
+  image: "/api/og?title=Beat-Sync+Video+Templates&badge=9:16+Reels+%26+XML+Projects",
   canonical: "/video-templates",
-  keywords: [
-    "capcut templates",
-    "alight motion xml",
-    "velocity edit template",
-    "beat sync reels",
-    "tiktok video templates",
-    "instagram reels xml",
-  ],
 });
 
 export default function VideoTemplatesLayout({

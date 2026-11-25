@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
             pCat === "apps" ||
             pCat === "app" ||
             p.tags?.some((t: string) =>
-              ["app", "editing apps", "editing app", "mobile creator", "capcut"].includes(
+              ["app", "editing apps", "editing app", "mobile creator"].includes(
                 t.toLowerCase()
               )
             )

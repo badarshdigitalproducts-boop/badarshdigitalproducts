@@ -11,7 +11,8 @@ import { ShieldCheck, RefreshCw, Clock, Mail, MessageCircle } from "lucide-react
 export const metadata = constructMetadata({
   title: "Refund & Delivery Policy",
   description:
-    "Learn about BADARSH's digital delivery mechanism, refund eligibility, replacement guarantees, and customer dispute resolution.",
+    "Learn about instant digital delivery, refund eligibility, file replacement guarantees, and resolution support for digital products purchased from BADARSH.",
+  canonical: "/refund-policy",
 });
 
 export default function RefundPolicyPage() {

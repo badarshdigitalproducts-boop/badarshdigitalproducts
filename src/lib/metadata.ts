@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { siteConfig, BUSINESS_LOCATION } from "@/lib/constants";
+import { SITE_URL, siteConfig, BUSINESS_LOCATION } from "@/lib/constants";
+
+export { SITE_URL };
 
 interface ConstructMetadataOptions {
   title?: string;
@@ -8,18 +10,10 @@ interface ConstructMetadataOptions {
   noIndex?: boolean;
   canonical?: string;
   keywords?: string[];
+  ogType?: "website" | "article";
 }
 
-export const getBaseUrl = (): string => {
-  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL.replace(/\/$/, "")}`;
-  }
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL.replace(/\/$/, "")}`;
-  }
-  return "https://badarshdigitalproducts.vercel.app";
-};
+export const getBaseUrl = (): string => SITE_URL;
 
 export function constructMetadata({
   title = siteConfig.name,
@@ -27,59 +21,54 @@ export function constructMetadata({
   image = siteConfig.ogImage,
   noIndex = false,
   canonical,
-  keywords = [],
+  ogType = "website",
 }: ConstructMetadataOptions = {}): Metadata {
   const fullTitle =
     title === siteConfig.name
-      ? `${siteConfig.name} — Premium Digital Templates & Creative Services`
-      : `${title} | ${siteConfig.name}`;
+      ? "Video Editing Assets, Lightroom Presets & SFX Packs | BADARSH"
+      : title.includes(`| ${siteConfig.name}`)
+        ? title
+        : `${title} | ${siteConfig.name}`;
 
-  const baseUrl = getBaseUrl();
-  const canonicalUrl = canonical
+  const baseUrl = SITE_URL;
+  const canonicalPath = canonical
     ? canonical.startsWith("http")
-      ? canonical
-      : `${baseUrl}${canonical.startsWith("/") ? canonical : `/${canonical}`}`
+      ? canonical.replace(/^https?:\/\/(www\.)?badarsh\.com/, "") || "/"
+      : canonical.startsWith("/")
+        ? canonical
+        : `/${canonical}`
+    : undefined;
+
+  const fullPageUrl = canonicalPath
+    ? `${baseUrl}${canonicalPath === "/" ? "" : canonicalPath}`
     : baseUrl;
 
-  const defaultKeywords = [
-    "digital templates",
-    "design templates",
-    "canva templates",
-    "instagram reels pack",
-    "linkedin carousel templates",
-    "pitch decks",
-    "branding kits",
-    "lightroom presets",
-    "video editing bundles",
-    "4k sound effects and overlays",
-    "e-books",
-    "digital planners",
-    "website design agency",
-    "creator tools",
-    "BADARSH",
-    "Bengaluru digital studio",
-  ];
+  const safeImage =
+    !image || image.startsWith("data:") || image.startsWith("blob:")
+      ? `/api/og?title=${encodeURIComponent(title.slice(0, 60))}&badge=BADARSH+Store`
+      : image;
 
-  const mergedKeywords = Array.from(new Set([...defaultKeywords, ...keywords]));
-
-  const ogImageUrl = image.startsWith("http")
-    ? image
-    : `${baseUrl}${image.startsWith("/") ? image : `/${image}`}`;
+  const ogImageUrl = safeImage.startsWith("http")
+    ? safeImage
+    : `${baseUrl}${safeImage.startsWith("/") ? safeImage : `/${safeImage}`}`;
 
   return {
     title: fullTitle,
     description,
-    keywords: mergedKeywords,
     authors: [{ name: siteConfig.name, url: baseUrl }],
     creator: siteConfig.name,
     publisher: siteConfig.name,
-    alternates: {
-      canonical: canonicalUrl,
-    },
+    ...(canonicalPath
+      ? {
+          alternates: {
+            canonical: canonicalPath,
+          },
+        }
+      : {}),
     openGraph: {
-      type: "website",
+      type: ogType,
       locale: "en_IN",
-      url: canonicalUrl,
+      url: fullPageUrl,
       title: fullTitle,
       description,
       siteName: siteConfig.name,

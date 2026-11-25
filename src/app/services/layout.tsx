@@ -2,18 +2,11 @@ import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = constructMetadata({
-  title: "Creative Agency Services — Video Editing, Web Design & Branding",
+  title: "Video Editing, Next.js Web & Brand Agency",
   description:
-    "Done-for-you creative services from Bengaluru. Premium high-retention video editing, custom Next.js websites, mobile apps, and full brand identities.",
+    "Hire BADARSH in Bengaluru for high-retention video editing, custom Next.js website development, social media management, photography, and brand identity.",
+  image: "/api/og?title=Creative+Studio+Services&badge=Bengaluru+Digital+Agency",
   canonical: "/services",
-  keywords: [
-    "creative agency Bengaluru",
-    "video editing agency",
-    "web design agency India",
-    "brand identity studio",
-    "app development agency",
-    "social media growth services",
-  ],
 });
 
 export default function ServicesLayout({

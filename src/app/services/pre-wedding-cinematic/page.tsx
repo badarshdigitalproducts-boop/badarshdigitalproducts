@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { getWhatsAppUrl } from "@/lib/utils";
 import { ServiceCheckoutModal } from "@/components/services/service-checkout-modal";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 
 export default function PreWeddingCinematicPage() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -117,6 +118,12 @@ export default function PreWeddingCinematicPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      <Breadcrumbs
+        items={[
+          { label: "Services", href: "/services" },
+          { label: "Pre-Wedding Cinematic", href: "/services/pre-wedding-cinematic" },
+        ]}
+      />
       {/* Compact Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-3xl">

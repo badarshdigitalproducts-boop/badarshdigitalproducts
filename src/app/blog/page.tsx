@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Search, Clock, BookOpen, ArrowRight, Sparkles } from "lucide-react";
 import { SectionHeader } from "@/components/shared/section-header";
 import { blogPosts as initialBlogPosts } from "@/content/blog";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import type { BlogPost } from "@/types";
 
 export default function BlogListingPage() {
@@ -47,6 +48,7 @@ export default function BlogListingPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      <Breadcrumbs items={[{ label: "Blog", href: "/blog" }]} />
       <div className="mb-8">
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
           Editorial Notes &amp; Creator Guides

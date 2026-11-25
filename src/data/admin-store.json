@@ -566,62 +566,6 @@
       "authorName": "James Clear"
     },
     {
-      "category": "ebooks",
-      "title": "The Psychology of Money",
-      "currency": "INR",
-      "previewPdfUrl": "https://raw.githubusercontent.com/ashishjain1547/public_financial_iq_books/master/5_The-Psychology-of-Money.pdf",
-      "downloadUrl": "https://raw.githubusercontent.com/ashishjain1547/public_financial_iq_books/master/5_The-Psychology-of-Money.pdf",
-      "updatedAt": "2026-11-23T04:51:04.618Z",
-      "id": "prod-017",
-      "createdAt": "2026-10-01",
-      "isBestseller": true,
-      "price": 0,
-      "coverImageUrl": "data:image/webp;base64,UklGRqIPAABXRUJQVlA4IJYPAADwSgCdASoaAeoAPp1Kn0ylpCKiI5d5eLATiWlu4XNBB1piQMQ99Xe4b+7+Hfhk8+SxTkv5V9v/0f989HP+L4W/EPUI9ZeBTtgNE/0voC+xn1r/k+GJ89eo/2B/0nuAfqh/vfU//O+IT9Y/2vsAf0P+6f9r/BexD/0/6bz4/UX/t/x/wDfzv+3f9z13fYD+4Pswfsz//xsEHgJph7dytJdsr4IP0TBRsBG06axt4gJph47aCHpu0X4Vb9WxNBt/2p+WkE7SpaI5Ha1iUjVCOICaYe81P9FD343WvcT97SHfBpCbNivDnCX3pAWGfy+JEp/zYQTy7ZaBejC+W5Y/nV/SXA/kL7PQfOkQEDYONyosCTuaJ7NBatoDUQDwE0xi/aEHTVMpa79o+YRzL9mIHiqgkQOJ2J7qxD07x0sR3J9CU/HgyN+3crSf1QLhBwHushaSvOmuiZ4KNyQgk8oU8uKgXMIe/jEHe6YWt82Os0sDHQW3BwO0rzsty5RqGIG1WK2FrfrkFZdss0TA1iESlSR70j3PfqVIlL8yZqngZPDLMr07+82Z47YJdaS7ZaBp1J4B1ED82pJisyOB+F/tLX3G5hW9Lh2YiV/mieXaOCSYHFquq0lHxBQjlzxFiH7rzOz+jrHVtPJljcos+N3FKDlRXluV/wSzGdDmVz8BCJTNIL36EtmcbZ9POtsRdNeM5w1wXPeNOG9oHH7HdVzUdGF9QnZUV5ZmRiSR0/8swQFZVAZyR4NoqBMwcITE4c3tVBv4lb4KMoP7WK6VtICaYe3c/EFdxDwE0w9u5Wku2WZ5AAD+/0BQAO3SdIZYe6hXJfnH6aNqIKBoCAL+X1CEJRGy8lEGCdNblJ/T/WITdF6whkbWBCybiqMYT1LUlS5Evz2IYt3ZNqlGWriqgqAfEdUxxBwu8wjtoXqlIjZizykF3qFNPww0ZutG9Z1BPAACMGMpRplP6G4qw55yuKYhuU3rpaJjc0OoaAMX5cF1waqgWdbPs3lqMOiCtq6HYe4qnDf+0UuCsMBgUf19t759XL7ue6tH2PI75+At/y3G9c+DLqZpWRd6pRDInD1w6HZogELRel5lWSReykmdLffXBnPddcIOgk8259hAzj623lz5/aONacOyQoCgBhyvMZgr3Jr/A/F0FCX1iMhsroAQvq6OUryA5jQpA4RPR5u3wGk6fa38tiiIUyNtFjgH7kQ/Jr7vQBMsarbBb/I9i1KxmVDOWMKrmiwh9Nr9Bzc3mJMGYRPHAdOH6cjdYEqHt+wfmsluAhb4Yk+VUbTaYSZuWdhYVNw5ue0JmUMzS+idbivVEGf53nXtYSR+yb8g1GMK2vxO9YjLbjspIsatkz90n+JMzAqXpD3EKum0venYr2NCui4LG4WSM6FYpr7ZaIq+Ra296UK4bm24MFuQ5HGZ3HREWfCUxYkgMEpw3rtG/WTz+BWf18lhQDoZMFQuIB4Wvo7ucjiR15Gwq/OSpnZ/4e9UqeVxxfdhdcHHZNT1Xq3Hsmbe/f/RR7RpGSfdco3Spn8DjM4x/iIqXakz/axg+I/ShJ9Y/8mtwms2bWkMSc1fDEkplAYN0MYfBA1YypR90zZDlqZcgUHKccDQh3R0aSAebZ07VlI7QAfOJikBm5WMkyYMDCYgywoey0JqV5mnTiw84QmXt6nOjfgHtGHktEwg6Owx8Zga6d0Zsv0OOdOCB+nxr76xL1NEaTy4k7/+22V3V8Xt5wrF4tm2ec12Bj7qsa8MPim67d185Wm7IeFbuM17JjXw+666BKw+YvLIUN2piNOCqVWS8b+0MhxrbpOKTb4RYJTGuRHz1l9zGOx0nDQSkrTs3kxq73380RblRoTstgo9hxco8nFz2atWXOmc/rjSFLLrQZxbsCN+u6k1VSmxjHd+WDyyoUyFiSOYiup8yNAkD8scLEJ39PPvRZlx5Og3/kEosb80KNiP127AD5JIRyj1H8A//DCewXrTA/z/0N1bfH8ObFwdtsAOpLEDK/GFMf4K5ZBGnjCaC18svcdNZTf2wywnsUFCDH8b7He4S8OdrAXuZDFt6D1Phmgyg04O7RjFHgojPqHMJs9k+6vchfKw/w0NTfxBlqApDWxmpEAyH3xkC52CLSdnBmxDeukO4MW3ijqWR74UO05IJofWdskuUFx9jy6iFAJX9jjagxyMHhWt3nREW2If4/R86nScAe7xeLpWCBUBxqWDBQ02xT2n8sEH6bLZ4v0teJm+GZr+1QasK0YVgH7IwD8hj04bj4Rfcr9xbBotE06cIuqI8gfaePQI0Ujt1gR3nlOfTLXT6qPp//nA+Rw+sIpjEhP8k7tWEX6N5fmSGLuDEhW+Ovz7JdPssXJ5HoKJ5up3vzopQ52JaaTnT/QuULDx6FgyutIGJYBKbun68K9NtHA1dWjx2dbGfSRSW0d6PXvCWDLOmTGWlicCfDQYvKX0aLITzCBonuPzXNJnm6+FxLWow8620PcD02N8WOX0FzUKLyqX4IlQVXdH8rfQIYcCO8/Cb49bbNP39BEZ09gH9DxvH0GL5W7wLnIuFE05An6mE1rlR0eQSl+XE8dPdfo0dUkVfO2BkvJ+HjsVeA8A/ccUNpiICZNSucN77DydmOKXWl74xghe8MUZxT8xJh5DRe7DER0cEaVe/PMJn/sSam2jiyQpKYy+2+PoTwv2zoawLNo/1aOLksHUt0WsSXLT/V31jeoH2pCJgx8w4F/kZ6tVCTI6OXxw7oq5lkC04c5dhXYI2BSDpB3kFOEsiXYqlkOTkE3qj/YFWQ1Hr2dPZJ9voLfPtHLc1zt2Zu8X6l+xV4LTNSydtOqpLCYuql173tFLQT1IBKJxP3RvyXeQj3NbDdzA1NeKK8G74jz7so14BDS3SEnl5pYIzJr2EsWn92+OZ+w/XR/+Om0w88aaN/BIVC4juV0eY/x6i6jSuucC4bcUdaDJGjbYh4D7SnJ4rlT8rNu/UmaJIdji6AtNn7S9NKtT7comn4F/lhEdLiufhPWlmjt6BPkZ8qWH9dsAwpautUOB5DwWMRfIUk4m/8lghLBDBNcj2uMNtN6IdiQlpQLmL6+2331py8t0kGMWOH+lQD5hJJtzQ0sjHrX5MjeKyAkzpo0j1c/UyptaqdSml2P6lvJOWgj334XwaigEPQ3b+wgIUd9hw2TI9HiQVcyQMzwV04AbsHIC4QcFpFuQ1UpAoIEzvYaHWsaNG3t2UMN//lyZoVgOQiJlbcptFGfS+pz8Kp+oRtvhfrwEkx7vjUlC12t/pttc6ZNthsBaTuobxKQ0hpAT+hSzEXC4oUPshFBYGvEapcyAC/R5PUnOk4hZ10czSRCZcJ8m8cKD2cpa9dmrn9PSZ3t6+3B/vDo2X/qvJ+4USE0lcmYzW/OgWAaJj2/I4Mv/Jps6zVxQvELM7Qd2qpeTLOQM7ZFL8DQRAQwHVG4Uhr7g8HhKTNGKGKvFCoMMmPXJqZnPdkgKzi/d1lOaLnhYI6VIy17KzWDKJP9zFhKHZXYmtnAN8ghQIyTJ9WoK/AGIfBM8oeGy3k2p3UJ546+PttBreSoSMLrgF2MrdUPT1rygxlV2cK7WT7Kj61z3X1+MYTHQa1MWN/5xYHxfVhyXRV6Ep7E9SpkGSpHPtsIjkY8OUp1DWyKysOlcdEUdtJncoXVs5f4dysN70LrNdozikdNNfUAhYRVeOo73+5bFNVnShlULX1tPma3tQO7v2xNXmAI3y5xoG0bCgz/6jrt1iR/HPKdZVu8wri8N0o+KfUTtcPM30v46ef2lYXZUbYzrA7AjsGiRIQARPgrDV1juqC1HyWz39Q9isF58VjnfpB/1/5b0BdzZuia71K2lZKI9diCdlJD144yRJDCHCjLsUokkoX1CseUZS/kmwB7EbAr5Ca66SA0woFzl5YWM/9k+UT7FvO/pTnt1xU0V5D0cGC9EE/lhmMvCXBVyL91eIq3hnV2TQNzM5zD5/KUEMgDMRfugi9HgtT6O1ap4fEOh2QKlxFJaohM0lhgozyEabT121D/wSZJTKlSynH1ubgecG4mW5LnGjesVOFWaBjM9JuZCSE9tZ/ZvVfwd2h6LqyVb1v6Q4R6HXlHAPLmv1csNH197OZWYCVFqMLjzNrKrHyoilWG/4IWjK+Y76HSKTJW287dQCAxUKNtiNV25iHiV6hABpGV7fiIhyn4i1VhMYxt1QtD1IRVnmWQ36QY0OEYzaW/GQXNjTArCM+Aj0xu7lYLh+jpZxFefPmRYRBvXohkYDOlkcp65kbhcYNqz6ySJY8mjEVnblzGiLRv6f4bJovHbcFtskXOKK3W/RIAkJYQLgbdoSvS+8sz7a9T3A9S3VJ2iIt34byQN6hCY7rM2GeNFTa1cKvKneGNKtaksMVJbYf1zMQWAeLWnhDF4XDtARpN1Xp7pOofJmpgSFlO0936phZlLhF9CT19rgcKr45Dr7UdH0NnZoYfgxWpbHoHruMho9C1sY6sKH+f4e9OaQxzCYlDmhHHjGLibuE06yeJn977eG6W0N8fMiWzk4o0iA4EZlNaRHndjW+JEFpgkdU93bpjSQzO8Ew1N3ljOPESF63A/VK1iY5n5KnxQsW1+IPFqOOKIpn/MIvGdI78jH0qfTdcse8z88TCuPwvIUVXJNUwn8n3k8SWVhHloWyJTSw4TaOpUYR20KOQ12kbXjfdHfY/kvMzzyJy7hgUoxIxNlAwGui4A3omfc6xC4WFx0Ia6Q3h5im33ao31LIp+UvZKv7PzfBXozLRJI4knkQLw3pGNL2fuUy/68FyeTkuQqkKHt3/udWA7kP6ACcqr2pVXA0vxpF1BYlDIKS27qGxON7m6Rc0hz6x6ofONbAZCiYY1I4DrVl5ydFG1yXdo0Thl+SsIJVHIVwc9vTdOgdQ4t/NogsUoZXsrxE2ZFf8egFM+F6rqMpYCDt7e8FVHRTVxEy1eftB7woqOxU2zzfBdiw0cc48PB2YdobwbXQpaz74I/xhLhAeLOthNdo6c4N/A9v+M8FfCDMVdybm8CmtiCvk/SKxYSxgIZvqoPutiWVkTC7Y2ImEhct/WPHMxvuSrIW5H0U4KdyL2k2YZuBkxgepgg5YTGDZYX2I82CQIgXamn2fkEnfQA4AP1TQS83h6zKu/oFsinOFhTVouyBBu1aM2VVQuyY9COKBy42eFNZm6xyYw69yScB3F3SJEOeisMmjcUOyCqeNar9+1qx+PtruCw+iT8gz3sG4qnkzTGCCFPL6k+iuZZAw6nvCfJDkLmdqlrahTj9ErwbPn8nCvl5fdG0L3QmgtsY/3uKfjoDR7A88AAAAAAAA=",
-      "deliveryType": "download-url",
-      "slug": "the-psychology-of-money",
-      "templateUrl": "/templates/the-psychology-of-money",
-      "fileSize": "2.8 MB",
-      "pageCount": 256,
-      "reviewCount": 1780,
-      "canvaUrl": "/templates/the-psychology-of-money",
-      "isNew": false,
-      "longDescription": "Money — investing, personal finance, and business decisions — is typically taught as a math-based field, where data and formulas tell us exactly what to do. But in the real world people don’t make financial decisions on a spreadsheet. They make them at the dinner table, where personal history, ego, pride, and odd incentives are scrambled together. Morgan Housel shares 19 short stories exploring the strange ways people think about money.",
-      "productType": "ebook",
-      "format": "Master PDF E-Book",
-      "description": "Timeless lessons on wealth, greed, and happiness by Morgan Housel. Doing well with money isn’t about what you know — it’s about how you behave.",
-      "status": "published",
-      "downloads": 11400,
-      "features": [
-        "256-page master edition (PDF)",
-        "19 short stories exploring how wealth and happiness work",
-        "Practical frameworks for compounding and financial freedom",
-        "Instant in-browser reading with search and text highlight",
-        "Full commercial and personal reading access"
-      ],
-      "images": [
-        "data:image/webp;base64,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",
-        "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&q=80"
-      ],
-      "specs": {
-        "count": "256 Pages",
-        "compatibility": "All PDF Readers, iPad, Kindle",
-        "dimensions": "Digital PDF"
-      },
-      "authorName": "Morgan Housel",
-      "tags": [
-        "psychology of money",
-        "morgan housel",
-        "investing",
-        "wealth",
-        "mindset",
-        "ebook",
-        "pdf"
-      ],
-      "isFeatured": true,
-      "rating": 4.9,
-      "originalPrice": 599
-    },
-    {
       "specs": {
         "count": "376 Pages",
         "dimensions": "Digital PDF",
@@ -1046,59 +990,6 @@
       "createdAt": "2026-11-10",
       "templateUrl": "/templates/2026-video-editing-mega-bundle",
       "canvaUrl": "/templates/2026-video-editing-mega-bundle",
-      "status": "published",
-      "updatedAt": "2026-11-22T15:21:10.884Z"
-    },
-    {
-      "id": "prod-020",
-      "slug": "capcut-pro-unlocked-editor",
-      "title": "CapCut Pro — Full Feature Mobile App & Creator Setup",
-      "description": "Fully verified mobile editing app installation & configuration guide. Unlock all VIP transitions, auto-captions, 4K exports & effects.",
-      "longDescription": "Everything you need to edit viral short-form videos directly from your smartphone. Verified and tested by the BADARSH technical team. Includes step-by-step video installation tutorial, DNS configuration to bypass regional restrictions, auto-captions setup, and 100+ creator asset presets pre-installed.",
-      "price": 399,
-      "originalPrice": 899,
-      "currency": "INR",
-      "category": "editing-apps",
-      "tags": [
-        "capcut",
-        "editing app",
-        "mobile",
-        "reels",
-        "video editor",
-        "app"
-      ],
-      "images": [
-        "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80",
-        "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80"
-      ],
-      "features": [
-        "All VIP transitions, filters & sound effects unlocked",
-        "No export watermark on 1080p and 4K 60fps reels",
-        "AI auto-captions & background cutout enabled",
-        "Full step-by-step mobile installation guide included",
-        "100% virus scanned and tested by BADARSH technical team"
-      ],
-      "specs": {
-        "count": "1 Verified Mobile App + Setup PDF",
-        "dimensions": "Android 8.0 or higher required",
-        "compatibility": "All Mobile Smartphones & Tablets"
-      },
-      "rating": 4.9,
-      "reviewCount": 167,
-      "downloads": 1890,
-      "isFeatured": true,
-      "isNew": true,
-      "isBestseller": true,
-      "format": "Verified Mobile App & Guide",
-      "fileSize": "142 MB",
-      "appVersion": "v13.0 Creator Studio Edition",
-      "appPlatform": "Mobile Android & Tablet",
-      "appDownloadUrl": "https://www.capcut.com/",
-      "downloadUrl": "https://www.capcut.com/",
-      "deliveryType": "download-url",
-      "createdAt": "2026-10-20",
-      "templateUrl": "/templates/capcut-pro-unlocked-editor",
-      "canvaUrl": "/templates/capcut-pro-unlocked-editor",
       "status": "published",
       "updatedAt": "2026-11-22T15:21:10.884Z"
     },
@@ -2084,7 +1975,7 @@
       "slug": "digital-product-playbook-2026",
       "title": "The 2026 Digital Product Playbook: How Indian Creators Build Recurring Revenue with Studio Assets & Next.js",
       "excerpt": "A step-by-step breakdown of how modern creators turn niche knowledge and customizable templates into high-margin digital product empires with zero inventory.",
-      "content": "\n## Why Digital Products are the Highest-Leverage Asset in 2026\n\nBuilding a service business or agency is great for cash flow, but you are always selling time. When you create digital assets — customizable design templates, business planners, financial trackers, and pitch decks — you build once and sell an unlimited number of times at near 100% gross margins.\n\nIn India, the digital creator ecosystem has matured. With instant UPI payments and automated downloads, Indian creators and entrepreneurs are generating substantial recurring income.\n\nHere is the exact framework we use at BADARSH to design, package, and sell high-converting digital products.\n\n### 1. Identify \"High Pain, High Frequency\" Problems\nDon't build generic motivational wallpapers or random quote templates. Build solutions for businesses that are actively losing money without them:\n- **Client Proposal & Pitch Decks**: Founders preparing for investor meetings will happily pay ₹799+ to save 15 hours of formatting.\n- **Service Agreement & Invoice Packs**: Freelancers needing legally clear, professional client onboarding documents.\n- **Social Media Content Kits**: Real estate agents, wellness clinics, and restaurants that must post daily but cannot afford full-time designers.\n\n### 2. Design for Zero-Subscription Accessibility First\nA common pitfall for template creators is using third-party paywalled elements. When customers try to export, they hit unexpected paywalls or watermarks and demand refunds.\n- Always design exclusively with royalty-free, universal web assets and standard Google Fonts.\n- Provide clean, unwatermarked high-resolution exports.\n- Test template access links in a clean browser window before publishing.\n\n### 3. Clear Commercial Licensing\nBuyers want certainty. If they buy your template, can they use it for their client work?\n- Provide a simple, transparent commercial license (like BADARSH's Commercial License).\n- Allow client deliverables and marketing usage.\n- Explicitly restrict direct resale or redistribution of the raw template files.\n\n### 4. Frictionless Checkout via UPI and Instant Delivery\nIn the Indian market, credit card checkout has massive drop-off rates. Ensure your store:\n- Supports UPI autopay and one-click QR transfers.\n- Delivers the instant access link immediately on screen and via an automated email confirmation.\n- Backs up every purchase with responsive digital support to answer quick questions.\n\nBy combining well-crafted BADARSH studio assets with instant digital delivery, you build a sustainable, trusted digital brand.\n    ",
+      "content": "\n## Why Digital Products are the Highest-Leverage Asset in 2026\n\nBuilding a service business or agency is great for cash flow, but you are always selling time. When you create digital assets — customizable design templates, business planners, financial trackers, and pitch decks — you build once and sell an unlimited number of times at near 100% gross margins.\n\nIn India, the digital creator ecosystem has matured. With instant UPI payments and automated downloads, Indian creators and entrepreneurs are generating substantial recurring income.\n\nHere is the exact framework we use at BADARSH to design, package, and sell high-converting digital products.\n\n### 1. Identify \"High Pain, High Frequency\" Problems\nDon't build generic motivational wallpapers or random quote templates. Build solutions for businesses that are actively losing money without them:\n- **Client Proposal & Pitch Decks**: Founders preparing for investor meetings will happily pay ₹799+ to save 15 hours of formatting.\n- **Service Agreement & Invoice Packs**: Freelancers needing legally clear, professional client onboarding documents.\n- **Social Media Content Kits**: Real estate agents, wellness clinics, and restaurants that must post daily but cannot afford full-time designers.\n\n### 2. Design for Zero-Subscription Accessibility First\nA common pitfall for template creators is using third-party paywalled elements. When customers try to export, they hit unexpected paywalls or watermarks and demand refunds.\n- Always design exclusively with royalty-free, universal web assets and standard Google Fonts.\n- Provide clean, unwatermarked high-resolution exports.\n- Test template access links in a clean browser window before publishing.\n\n### 3. Clear Commercial Licensing\nBuyers want certainty. If they buy your template, can they use it for their client work?\n- Provide a simple, transparent commercial license (like BADARSH's Commercial License).\n- Allow client deliverables and marketing usage.\n- Explicitly restrict direct resale or redistribution of the raw template files.\n\n### 4. Frictionless Checkout via UPI and Instant Delivery\nIn the Indian market, credit card checkout has massive drop-off rates. Ensure your store:\n- Supports UPI autopay and one-click QR transfers.\n- Delivers the instant access link immediately on screen and via an automated email confirmation.\n- Backs up every purchase with responsive digital support to answer quick questions.\n\nBy combining well-crafted BADARSH studio assets like our [2026 Video Editing Bundles](/bundles) and [Cinematic Lightroom Presets](/photo-presets) with dedicated [video editing services in Bengaluru](/services/video-editing), you build a sustainable, trusted digital brand.\n    ",
       "category": "Creator Economy",
       "author": "BADARSH Editorial",
       "date": "November 18, 2026",
@@ -2124,7 +2015,7 @@
       "slug": "instagram-organic-growth-blueprint",
       "title": "How Indian Businesses Are Scaling Organically on Instagram",
       "excerpt": "A complete guide on hooks, carousel pacing, and Reel retention tactics to attract qualified leads without spending on ads.",
-      "content": "\n## The New Rules of Social Selling in India\n\nThe days of posting a static photo of your product with generic hashtags and expecting sales are over. In 2026, Instagram's algorithm favors two primary signals: **Watch Time (Retention)** and **Direct Message Shares (Saves & Forwards)**.\n\nIf your content teaches, solves an immediate irritation, or evokes a strong \"I need to share this with my partner/friend\" reaction, you win.\n\n### Pillar 1: The 3-Second Visual Hook\nViewers scroll with zero patience. Your video or carousel cover must answer one question immediately: *\"What will I lose if I scroll past this?\"*\n- Use bold, contrasting text overlays (44pt+ on mobile).\n- State the specific outcome (e.g., \"Stop paying ₹25,000 for simple websites\").\n- Avoid generic titles like \"Tips for today\".\n\n### Pillar 2: High-Save Carousels\nCarousels remain the champion for collecting saves and bookmarks.\n- **Slide 1**: The promise or pain point.\n- **Slide 2-7**: One actionable, bite-sized insight per slide.\n- **Slide 8**: The exact summary checklist.\n- **Slide 9**: A clear Call-To-Action (e.g., \"Comment TEMPLATE and we'll DM you the link\").\n\n### Pillar 3: Turning Comments into Direct WhatsApp Inquiries\nMake it effortless for followers to buy from you. In India, trust closes on WhatsApp:\n- Add a direct wa.me link in your bio.\n- Use automated keyword triggers to send prospective buyers your template catalog or service brochure directly in DMs.\n    ",
+      "content": "\n## The New Rules of Social Selling in India\n\nThe days of posting a static photo of your product with generic hashtags and expecting sales are over. In 2026, Instagram's algorithm favors two primary signals: **Watch Time (Retention)** and **Direct Message Shares (Saves & Forwards)**.\n\nIf your content teaches, solves an immediate irritation, or evokes a strong \"I need to share this with my partner/friend\" reaction, you win.\n\n### Pillar 1: The 3-Second Visual Hook\nViewers scroll with zero patience. Your video or carousel cover must answer one question immediately: *\"What will I lose if I scroll past this?\"*\n- Use bold, contrasting text overlays (44pt+ on mobile).\n- State the specific outcome (e.g., \"Stop paying ₹25,000 for simple websites\").\n- Avoid generic titles like \"Tips for today\".\n\n### Pillar 2: High-Save Carousels\nCarousels remain the champion for collecting saves and bookmarks.\n- **Slide 1**: The promise or pain point.\n- **Slide 2-7**: One actionable, bite-sized insight per slide.\n- **Slide 8**: The exact summary checklist.\n- **Slide 9**: A clear Call-To-Action (e.g., \"Comment TEMPLATE and we'll DM you the link\").\n\n### Pillar 3: Turning Comments into Direct WhatsApp Inquiries\nMake it effortless for followers to buy from you. In India, trust closes on WhatsApp:\n- Add a direct wa.me link in your bio.\n- Use automated keyword triggers to send prospective buyers your template catalog or service brochure directly in DMs.\n- Outsource repetitive cuts to [BADARSH video editing services](/services/video-editing) so your team publishes high-retention Reels consistently every week.\n    ",
       "category": "Marketing Strategy",
       "author": "BADARSH Editorial",
       "date": "November 10, 2026",
@@ -2727,6 +2618,8 @@
     }
   ],
   "deletedProductIds": [
+    "prod-017",
+    "prod-020",
     "vt-001",
     "vt-002",
     "vt-003",

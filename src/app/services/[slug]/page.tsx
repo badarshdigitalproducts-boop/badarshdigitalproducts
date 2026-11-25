@@ -21,7 +21,7 @@ export default async function ServiceSlugPage({ params }: ServicePageProps) {
   if (decodedSlug === "video-editing") redirect("/services/video-editing");
   if (decodedSlug === "photo-editing") redirect("/services/photo-editing");
   if (decodedSlug === "social-media-management") redirect("/services/social-media-management");
-  if (decodedSlug === "website-design" || decodedSlug === "website-building") redirect("/services/website-design");
+  if (decodedSlug === "website-design" || decodedSlug === "website-building") redirect("/services/website-building");
   if (decodedSlug === "app-development") redirect("/services/app-development");
   if (decodedSlug === "brand-identity" || decodedSlug === "logo-design") redirect("/services/brand-identity");
 

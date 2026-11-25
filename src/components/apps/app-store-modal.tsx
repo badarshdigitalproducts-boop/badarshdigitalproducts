@@ -40,11 +40,11 @@ export function AppStoreModal({
 
   if (!isOpen || !product) return null;
 
-  const appVersion = product.appVersion || "v12.4.0 Pro VIP Edition";
-  const appSize = product.fileSize || "84.5 MB";
+  const appVersion = product.appVersion || "Studio Config v2.0";
+  const appSize = product.fileSize || "45 MB";
   const isFree = product.price === 0;
 
-  // Curated vertical mobile screenshots
+  // Curated workflow preview visuals
   const screenshots = [
     product.images[0] || "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80",
     "https://images.unsplash.com/photo-1542744094-3a31f272c490?w=800&q=80",
@@ -52,11 +52,11 @@ export function AppStoreModal({
   ];
 
   const unlockedFeatures = [
-    "4K 60fps High-Bitrate Export Unlocked (Zero Lag)",
-    "All VIP Transitions, Auto-Captions & 3D Zooms Active",
-    "No Watermark on Final Video Output",
+    "4K 60fps High-Bitrate Export Configs (Social Ready)",
+    "Step-by-Step Color Grading & Transition Recipes",
+    "Keyboard Shortcut Maps for DaVinci & Premiere Pro",
     "Commercial License for Client Work & Sponsored Reels",
-    "VirusTotal MD5 Verified: 0 / 72 Detections (100% Safe)",
+    "Studio-Tested Presets + Illustrated PDF Manual",
   ];
 
   const handleInstallClick = () => {
@@ -72,13 +72,12 @@ export function AppStoreModal({
         if (prev >= 100) {
           clearInterval(interval);
           setDownloadComplete(true);
-          // Trigger actual file download
           const directUrl =
             product.appDownloadUrl ||
             product.downloadUrl ||
             (product as any).googleDriveUrl ||
-            "https://www.capcut.com/";
-          triggerDirectDownload(directUrl, `${product.title.toLowerCase().replace(/\s+/g, "-")}-app.apk`);
+            "/editing-apps";
+          triggerDirectDownload(directUrl, `${product.title.toLowerCase().replace(/\s+/g, "-")}-configs.zip`);
           return 100;
         }
         return prev + 25;
@@ -94,13 +93,13 @@ export function AppStoreModal({
         exit={{ opacity: 0, scale: 0.95 }}
         className="relative flex h-[92vh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-2xl"
       >
-        {/* App Store Top Header */}
+        {/* Top Header */}
         <div className="flex items-center justify-between border-b border-neutral-200 dark:border-neutral-800 px-6 py-4">
           <div className="flex items-center gap-2">
             <span className="rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 text-[10px] font-bold">
-              VERIFIED CREATOR BUILD
+              ORIGINAL STUDIO SUITE
             </span>
-            <span className="text-xs text-neutral-400">• Play Store Verified Safe</span>
+            <span className="text-xs text-neutral-400">• Tested Creator Workflow</span>
           </div>
           <button
             onClick={onClose}
@@ -130,31 +129,19 @@ export function AppStoreModal({
                 {product.title}
               </h1>
               <p className="text-xs font-bold text-indigo-600 dark:text-indigo-400 mt-1">
-                BADARSH Verified Developer Systems
+                BADARSH Creative Studio
               </p>
 
-              {/* Play Store Rating & Stats Bar */}
+              {/* Specs Bar */}
               <div className="mt-4 flex flex-wrap items-center gap-6 text-xs text-neutral-500 dark:text-neutral-400">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-bold text-neutral-900 dark:text-white text-sm">4.9</span>
-                  <div className="flex">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <Star key={i} className="h-3 w-3 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
-                  <span className="text-[10px]">({product.reviewCount}k reviews)</span>
-                </div>
-                <div className="h-4 w-[1px] bg-neutral-200 dark:border-neutral-800" />
-                <div className="flex items-center gap-1">
-                  <Download className="h-3.5 w-3.5 text-neutral-400" />
-                  <span className="font-bold text-neutral-900 dark:text-white">50K+</span>
-                  <span className="text-[10px]">Installs</span>
-                </div>
+                <span className="font-semibold text-neutral-900 dark:text-white">
+                  {product.format || "Configs & PDF Guide"}
+                </span>
                 <div className="h-4 w-[1px] bg-neutral-200 dark:border-neutral-800" />
                 <div className="flex items-center gap-1">
                   <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
                   <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
-                    VirusTotal Clean
+                    Commercial License
                   </span>
                 </div>
                 <div className="h-4 w-[1px] bg-neutral-200 dark:border-neutral-800" />
@@ -162,7 +149,7 @@ export function AppStoreModal({
               </div>
             </div>
 
-            {/* Install / Download CTA Button */}
+            {/* Download CTA Button */}
             <div className="w-full sm:w-auto shrink-0">
               <button
                 onClick={handleInstallClick}
@@ -172,7 +159,7 @@ export function AppStoreModal({
                 {downloadProgress !== null && downloadProgress < 100 ? (
                   <>
                     <span className="animate-spin text-xs">⏳</span>
-                    <span>Installing... {downloadProgress}%</span>
+                    <span>Preparing... {downloadProgress}%</span>
                   </>
                 ) : downloadComplete ? (
                   <>
@@ -182,7 +169,7 @@ export function AppStoreModal({
                 ) : (
                   <>
                     <Sparkles className="h-4 w-4 text-amber-400" />
-                    <span>{isFree ? "Install Direct APK" : `Unlock App (${formatCurr(product.price)})`}</span>
+                    <span>{isFree ? "Download Config Pack" : `Unlock Toolkit (${formatCurr(product.price)})`}</span>
                   </>
                 )}
               </button>
@@ -213,10 +200,10 @@ export function AppStoreModal({
             </div>
           </div>
 
-          {/* Unlocked Features & Changelog */}
+          {/* Features & Workflow Specs */}
           <div className="mt-8 rounded-2xl bg-neutral-50 dark:bg-neutral-950/50 p-6 border border-neutral-100 dark:border-neutral-800">
             <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-3">
-              VIP Unlocked Capabilities in {appVersion}
+              What Is Included in {appVersion}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {unlockedFeatures.map((feat, idx) => (
@@ -228,37 +215,37 @@ export function AppStoreModal({
             </div>
           </div>
 
-          {/* 3-Step Guided Installation Walkthrough */}
+          {/* 3-Step Guided Setup Walkthrough */}
           <div className="mt-8">
             <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-3">
-              How to Install &amp; Activate in 30 Seconds
+              How to Set Up in 30 Seconds
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 p-4 bg-white dark:bg-neutral-900">
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-neutral-900 text-white text-[11px] font-bold mb-2">
                   1
                 </span>
-                <h4 className="text-xs font-bold text-neutral-900 dark:text-white">Download APK</h4>
+                <h4 className="text-xs font-bold text-neutral-900 dark:text-white">Download Config ZIP</h4>
                 <p className="mt-1 text-[11px] text-neutral-500">
-                  Direct high-speed download hosted on our verified Google Cloud mirrors.
+                  Direct cloud download of your XML presets, LUTs, and shortcut maps.
                 </p>
               </div>
               <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 p-4 bg-white dark:bg-neutral-900">
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-neutral-900 text-white text-[11px] font-bold mb-2">
                   2
                 </span>
-                <h4 className="text-xs font-bold text-neutral-900 dark:text-white">Allow Install</h4>
+                <h4 className="text-xs font-bold text-neutral-900 dark:text-white">Import Settings</h4>
                 <p className="mt-1 text-[11px] text-neutral-500">
-                  On Android, tap &ldquo;Allow from this source&rdquo; when prompted by your browser.
+                  Follow the illustrated PDF guide to load presets into Premiere, DaVinci, or VN.
                 </p>
               </div>
               <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 p-4 bg-white dark:bg-neutral-900">
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-neutral-900 text-white text-[11px] font-bold mb-2">
                   3
                 </span>
-                <h4 className="text-xs font-bold text-neutral-900 dark:text-white">Launch &amp; Create</h4>
+                <h4 className="text-xs font-bold text-neutral-900 dark:text-white">Export Clean 4K</h4>
                 <p className="mt-1 text-[11px] text-neutral-500">
-                  Open the app, all VIP transitions and 4K 60fps export are pre-unlocked automatically!
+                  Render crisp high-bitrate social videos ready for Reels and YouTube Shorts.
                 </p>
               </div>
             </div>

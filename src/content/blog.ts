@@ -45,7 +45,7 @@ In the Indian market, credit card checkout has massive drop-off rates. Ensure yo
 - Delivers the instant access link immediately on screen and via an automated email confirmation.
 - Backs up every purchase with responsive digital support to answer quick questions.
 
-By combining well-crafted BADARSH studio assets with instant digital delivery, you build a sustainable, trusted digital brand.
+By combining well-crafted BADARSH studio assets like our [2026 Video Editing Bundles](/bundles) and [Cinematic Lightroom Presets](/photo-presets) with dedicated [video editing services in Bengaluru](/services/video-editing), you build a sustainable, trusted digital brand.
     `,
   },
   {
@@ -130,6 +130,7 @@ Carousels remain the champion for collecting saves and bookmarks.
 Make it effortless for followers to buy from you. In India, trust closes on WhatsApp:
 - Add a direct wa.me link in your bio.
 - Use automated keyword triggers to send prospective buyers your template catalog or service brochure directly in DMs.
+- Outsource repetitive cuts to [BADARSH video editing services](/services/video-editing) so your team publishes high-retention Reels consistently every week.
     `,
   },
   {

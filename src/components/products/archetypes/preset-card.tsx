@@ -134,11 +134,7 @@ export function PresetCard({ product }: PresetCardProps) {
             <Sparkles className="h-3 w-3" />
             1-Click Lightroom Mobile (.DNG)
           </span>
-          <div className="flex items-center gap-1">
-            <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-            <span className="font-semibold text-foreground">{product.rating}</span>
-            <span>({product.reviewCount})</span>
-          </div>
+          <span className="text-[11px] font-medium text-muted">Mobile &amp; Desktop</span>
         </div>
 
         <h3 className="mt-2 font-heading text-base font-bold text-foreground line-clamp-1 group-hover:text-accent transition-colors">

@@ -28,15 +28,14 @@ export function Hero() {
             </span>
           </motion.div>
 
-          {/* Main Headline — Humanized, Confident Studio Typography */}
+          {/* Main Headline */}
           <motion.h1
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-4 apple-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold text-foreground tracking-[-0.035em] leading-[1.03]"
+            className="mt-4 apple-display text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-foreground tracking-[-0.035em] leading-[1.06]"
           >
-            Tools built for editors, <br className="hidden sm:inline" />
-            <span className="text-foreground/75">designers, and founders.</span>
+            Video Editing Packs, Lightroom Presets &amp; Sound Effects for Creators
           </motion.h1>
 
           {/* Subtitle */}

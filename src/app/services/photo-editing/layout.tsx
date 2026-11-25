@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
+import { buildServiceSchemas } from "@/lib/seo-schema";
 
 export const metadata: Metadata = constructMetadata({
-  title: "Professional Photo Retouching & Color Grading Services",
+  title: "Photo Retouching & Grading Services",
   description:
-    "Editorial photo retouching, high-end commercial grading, skin texture preservation, and background removal for brands and photographers.",
+    "Editorial photo retouching, color grading, skin texture preservation, and ecommerce product photography edits tailored for creators and brands in India.",
   canonical: "/services/photo-editing",
-  keywords: [
-    "photo retouching service",
-    "photo editing agency",
-    "commercial color grading",
-    "editorial skin retouching",
-    "product photography editing",
-  ],
+});
+
+const { professionalServiceJsonLd, serviceJsonLd } = buildServiceSchemas({
+  name: "Photo Retouching & Color Grading Service",
+  description:
+    "Commercial photo retouching, editorial color grading, and product shoot post-production in Bengaluru.",
+  urlPath: "/services/photo-editing",
+  serviceType: "Photo Editing Service",
+  offers: [{ name: "Commercial Retouch Package", price: 1499 }],
 });
 
 export default function PhotoEditingLayout({
@@ -20,5 +23,17 @@ export default function PhotoEditingLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
+      {children}
+    </>
+  );
 }

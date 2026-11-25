@@ -1,16 +1,46 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { ArrowLeft, Clock, Calendar, User, Share2, Sparkles, BookOpen } from "lucide-react";
+import { ArrowLeft, Clock, Calendar, User, BookOpen } from "lucide-react";
 import { blogPosts } from "@/content/blog";
-import { constructMetadata, getBaseUrl } from "@/lib/metadata";
+import { constructMetadata, SITE_URL } from "@/lib/metadata";
 import { BlogViewTracker } from "@/components/blog/blog-view-tracker";
 import { getAdminBlogPosts } from "@/lib/admin/store";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
+}
+
+const BLOG_SEO_TITLES: Record<string, string> = {
+  "digital-product-playbook-2026": "2026 Digital Product Playbook for Creators",
+  "design-hacks-for-small-business": "7 Visual Workflow Hacks for Small Business",
+  "instagram-organic-growth-blueprint": "Organic Instagram Growth Blueprint India",
+  "why-diy-websites-fail": "Why Small Business Websites Fail to Convert",
+};
+
+function toCompactSeoTitle(slug: string, rawTitle: string): string {
+  if (BLOG_SEO_TITLES[slug]) return BLOG_SEO_TITLES[slug];
+  const clean = rawTitle.trim();
+  if (clean.length <= 49) return clean;
+  return `${clean.slice(0, 46).trimEnd()}...`;
+}
+
+function toIsoDate(dateStr?: string, fallback?: string): string {
+  if (dateStr) {
+    const parsed = new Date(dateStr);
+    if (!Number.isNaN(parsed.getTime())) {
+      return parsed.toISOString();
+    }
+  }
+  if (fallback) {
+    const parsedFallback = new Date(fallback);
+    if (!Number.isNaN(parsedFallback.getTime())) {
+      return parsedFallback.toISOString();
+    }
+  }
+  return "2026-11-18T00:00:00.000Z";
 }
 
 async function getPostBySlug(slug: string) {
@@ -39,9 +69,9 @@ async function getAllPosts() {
 }
 
 function parseInlineMarkdown(text: string): ReactNode {
-  // Split by bold (**...**) and inline code (`...`)
+  // Split by **bold**, `inline code`, and [label](url)
   const parts: ReactNode[] = [];
-  const regex = /(\*\*[^*]+\*\*|`[^`]+`)/g;
+  const regex = /(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g;
   let lastIndex = 0;
   let match;
 
@@ -65,6 +95,34 @@ function parseInlineMarkdown(text: string): ReactNode {
           {token.slice(1, -1)}
         </code>
       );
+    } else if (token.startsWith("[")) {
+      const linkMatch = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(token);
+      if (linkMatch) {
+        const [, label, href] = linkMatch;
+        if (href.startsWith("/")) {
+          parts.push(
+            <Link
+              key={match.index}
+              href={href}
+              className="font-semibold text-accent underline underline-offset-4 hover:text-accent-hover"
+            >
+              {label}
+            </Link>
+          );
+        } else {
+          parts.push(
+            <a
+              key={match.index}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-accent underline underline-offset-4 hover:text-accent-hover"
+            >
+              {label}
+            </a>
+          );
+        }
+      }
     }
     lastIndex = regex.lastIndex;
   }
@@ -92,20 +150,28 @@ export async function generateMetadata({
     return constructMetadata({
       title: "Article Not Found",
       description: "The requested blog article could not be found.",
+      canonical: `/blog/${slug}`,
       noIndex: true,
     });
   }
 
+  const metaDescription =
+    post.excerpt.length >= 150
+      ? post.excerpt.slice(0, 160)
+      : `${post.excerpt} Read the full creator workflow guide on BADARSH.`;
+
   return constructMetadata({
-    title: post.title,
-    description: post.excerpt,
-    image: post.coverImage || "/images/og/og-default.png",
+    title: toCompactSeoTitle(post.slug, post.title),
+    description: metaDescription.slice(0, 160),
+    image:
+      post.coverImage ||
+      `/api/og?title=${encodeURIComponent(toCompactSeoTitle(post.slug, post.title))}&badge=BADARSH+Blog`,
     canonical: `/blog/${post.slug}`,
-    keywords: post.tags || [],
+    ogType: "article",
   });
 }
 
-async function BlogPostContent({ params }: BlogPostPageProps) {
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
 
@@ -113,30 +179,36 @@ async function BlogPostContent({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  const baseUrl = getBaseUrl();
+  const publishedIso = toIsoDate(post.date);
+  const modifiedIso = toIsoDate((post as { updatedAt?: string }).updatedAt, post.date);
+
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
+    datePublished: publishedIso,
+    dateModified: modifiedIso,
     image: post.coverImage?.startsWith("http")
       ? post.coverImage
-      : `${baseUrl}${post.coverImage || "/images/og/og-default.png"}`,
+      : `${SITE_URL}${post.coverImage || "/images/og/og-default.png"}`,
     author: {
       "@type": "Organization",
       name: post.author || "BADARSH Editorial",
-      url: baseUrl,
+      url: SITE_URL,
     },
     publisher: {
       "@type": "Organization",
       name: "BADARSH Digital Products",
       logo: {
         "@type": "ImageObject",
-        url: `${baseUrl}/logo-icon.png`,
+        url: `${SITE_URL}/logo-icon.png`,
       },
     },
-    mainEntityOfPage: `${baseUrl}/blog/${post.slug}`,
-    keywords: (post.tags || []).join(", "),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/blog/${post.slug}`,
+    },
   };
 
   const all = await getAllPosts();
@@ -197,6 +269,14 @@ async function BlogPostContent({ params }: BlogPostPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
       <BlogViewTracker slug={post.slug} />
+
+      <Breadcrumbs
+        items={[
+          { label: "Blog", href: "/blog" },
+          { label: post.title, href: `/blog/${post.slug}` },
+        ]}
+      />
+
       {/* Back to Blog */}
       <Link
         href="/blog"
@@ -302,19 +382,5 @@ async function BlogPostContent({ params }: BlogPostPageProps) {
         </div>
       )}
     </article>
-  );
-}
-
-export default function BlogPostPage(props: BlogPostPageProps) {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-[60vh] items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent border-t-transparent" />
-        </div>
-      }
-    >
-      <BlogPostContent params={props.params} />
-    </Suspense>
   );
 }

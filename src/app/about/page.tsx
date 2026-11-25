@@ -27,6 +27,7 @@ import {
 import { STATS, WHATSAPP_NUMBER, WHATSAPP_DISPLAY, SUPPORT_EMAIL, BUSINESS_LOCATION } from "@/lib/constants";
 import { AnimatedCounter } from "@/components/shared/animated-counter";
 import { getWhatsAppUrl } from "@/lib/utils";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 
 const ecosystemPillars = [
   {
@@ -34,13 +35,13 @@ const ecosystemPillars = [
     desc: "Uncompressed 24-bit 48kHz WAV audio sound effects, 4K ProRes transparent alpha overlays, and color LUTs engineered for high-retention video creators.",
     icon: Video,
     tag: "4K Master Assets",
-    link: "/editing-bundles",
+    link: "/sound-effects",
   },
   {
-    title: "Verified Creator Software",
-    desc: "Direct, high-speed mobile apps (CapCut Pro, mobile creator tools) with VIP transitions and 4K 60fps export unlocked. 100% virus-scanned.",
+    title: "Creator Workflow Suites",
+    desc: "Original 4K 60fps mobile export presets, Premiere & DaVinci shortcut configs, and tested mobile workflow guides.",
     icon: Smartphone,
-    tag: "Verified Apps",
+    tag: "Original Tools",
     link: "/editing-apps",
   },
   {
@@ -122,6 +123,7 @@ export default function AboutPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      <Breadcrumbs items={[{ label: "About", href: "/about" }]} />
       {/* Compact Header */}
       <div className="mb-8 max-w-3xl">
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">

@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
+import { buildServiceSchemas } from "@/lib/seo-schema";
 
 export const metadata: Metadata = constructMetadata({
-  title: "Professional Event & Portrait Photography Services — Bengaluru & Across India",
+  title: "Event & Portrait Photography Bengaluru",
   description:
-    "Luxury event and portrait photography for weddings, birthdays, corporate conferences, and fashion model portfolios. Sony G-Master optics, same-day teaser delivery.",
+    "Event and portrait photography in Bengaluru and across India for weddings, birthdays, corporate conferences, and model portfolios with fast teaser delivery.",
   canonical: "/services/event-photography",
-  keywords: [
-    "wedding photography Bengaluru",
-    "birthday photoshoot",
-    "corporate event photographer",
-    "model portfolio shoot",
-    "event photographer India",
-  ],
+});
+
+const { professionalServiceJsonLd, serviceJsonLd } = buildServiceSchemas({
+  name: "Event & Portrait Photography in Bengaluru",
+  description:
+    "Weddings, corporate conferences, birthday shoots, and model portfolios photographed with Sony G-Master optics.",
+  urlPath: "/services/event-photography",
+  serviceType: "Photography Service",
+  offers: [{ name: "Half-Day Event Coverage", price: 7999 }],
 });
 
 export default function EventPhotographyLayout({
@@ -20,5 +23,17 @@ export default function EventPhotographyLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
+      {children}
+    </>
+  );
 }

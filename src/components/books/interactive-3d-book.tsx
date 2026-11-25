@@ -6,6 +6,7 @@ import { BookOpen, Star, Eye, Sparkles, Lock, ArrowRight, ShieldCheck } from "lu
 import type { Product } from "@/types/product";
 import { useCurrency } from "@/context/currency-context";
 import { useProductAccess } from "@/hooks/use-product-access";
+import { SmartImage } from "@/components/shared/smart-image";
 
 interface Interactive3dBookProps {
   product: Product;
@@ -92,10 +93,12 @@ export function Interactive3dBook({ product, onReadPreview, onBuy }: Interactive
           <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-20 w-1.5 bg-gradient-to-l from-amber-100/30 to-transparent" />
 
           {/* Book Cover Image */}
-          <img
+          <SmartImage
             src={coverImg}
             alt={product.title}
-            className="h-full w-full object-cover transition-transform duration-500"
+            fill
+            sizes="(max-width: 768px) 60vw, 220px"
+            className="object-cover transition-transform duration-500"
           />
 
           {/* Top Badge: Free Chapter 1 & 2 Preview */}
@@ -127,11 +130,7 @@ export function Interactive3dBook({ product, onReadPreview, onBuy }: Interactive
               <BookOpen className="h-3.5 w-3.5 text-indigo-500" />
               {pageCount}
             </span>
-            <div className="flex items-center gap-1">
-              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-              <span className="font-bold text-neutral-900 dark:text-white">{product.rating}</span>
-              <span>({product.reviewCount})</span>
-            </div>
+            <span className="text-[11px] font-medium text-neutral-400">PDF &amp; Reader</span>
           </div>
 
           <h3 className="font-heading text-base font-bold text-neutral-900 dark:text-white line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">

@@ -1,16 +1,12 @@
 import { SiteConfig } from "@/types";
 
-const DEFAULT_SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "https://badarshdigitalproducts.vercel.app");
+export const SITE_URL = "https://www.badarsh.com";
 
 export const siteConfig: SiteConfig = {
   name: "BADARSH",
   description:
-    "Handcrafted video assets, color presets, sound design collections, and bespoke creative services for independent creators, editors, and modern businesses.",
-  url: DEFAULT_SITE_URL,
+    "Cinematic Lightroom presets, 24-bit WAV sound effects, LUTs and video editing bundles with commercial licenses. Plus video editing and Next.js web design in Bengaluru.",
+  url: SITE_URL,
   ogImage: "/images/og/og-default.png",
   links: {
     instagram: "https://instagram.com/badarsh",
@@ -57,9 +53,9 @@ export const SHOP_MENU = [
     icon: "",
   },
   {
-    label: "Apps",
+    label: "Apps & Configs",
     href: "/editing-apps",
-    desc: "Verified video editing software & creator tools",
+    desc: "Original 4K export presets, shortcut maps & workflow guides",
     icon: "",
   },
   {
@@ -114,8 +110,8 @@ export const SERVICES_MENU = [
     icon: "",
   },
   {
-    label: "Website Design",
-    href: "/services/website-design",
+    label: "Website Building",
+    href: "/services/website-building",
     desc: "Custom Next.js websites: ₹3k-6k / ₹9k-11k / ₹15k+",
     icon: "",
   },

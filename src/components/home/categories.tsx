@@ -45,7 +45,7 @@ const shopCategories = [
     name: "Sound Effects & Audio",
     desc: "Master 24-bit WAV audio: Hollywood whooshes, impacts, ambient textures, and 4K motion overlays.",
     icon: Video,
-    href: "/editing-bundles",
+    href: "/sound-effects",
     tag: "Master Audio",
   },
   {

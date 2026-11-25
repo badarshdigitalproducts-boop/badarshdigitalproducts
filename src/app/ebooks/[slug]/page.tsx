@@ -53,12 +53,20 @@ export async function generateMetadata({
     return constructMetadata({
       title: "E-Book Not Found",
       description: "The requested digital book could not be found.",
+      canonical: `/ebooks/${slug}`,
+      noIndex: true,
     });
   }
 
+  const seoTitle =
+    book.title.length > 49 ? `${book.title.slice(0, 46).trimEnd()}...` : book.title;
+
   return constructMetadata({
-    title: `${book.title} — Read Online & Master Edition PDF`,
-    description: book.description,
+    title: seoTitle,
+    description:
+      book.description.length >= 150
+        ? book.description.slice(0, 160)
+        : `${book.description} Read online and download instant PDF edition from BADARSH.`.slice(0, 160),
     image: book.images?.[0] || "/images/og/og-default.png",
     canonical: `/ebooks/${book.slug}`,
   });
@@ -90,11 +98,6 @@ export default async function EbookSlugPage({ params }: EbookSlugPageProps) {
       price: book.price,
       priceCurrency: book.currency || "INR",
       availability: "https://schema.org/InStock",
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: book.rating || 5,
-      reviewCount: book.reviewCount || 28,
     },
   };
 

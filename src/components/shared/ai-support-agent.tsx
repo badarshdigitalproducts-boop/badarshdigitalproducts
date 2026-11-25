@@ -24,7 +24,7 @@ interface ChatMessage {
 
 const INITIAL_SUGGESTIONS = [
   "2026 Video Mega Bundle details",
-  "CapCut Pro mobile app features",
+  "4K export presets & editing workflows",
   "Website development pricing (₹3k–₹15k)",
   "1-Click Lightroom Presets guide",
   "Commercial client licensing rights",

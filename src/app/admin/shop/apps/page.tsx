@@ -319,7 +319,7 @@ export default function AppsAdminPage() {
                   value={editingApp.title || ""}
                   onChange={(e) => setEditingApp({ ...editingApp, title: e.target.value })}
                   required
-                  placeholder="e.g. CapCut Pro 2026 Creative Suite"
+                  placeholder="e.g. Creator Export Configs & Workflow Pack"
                   className="mt-1 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
                 />
               </div>
@@ -332,7 +332,7 @@ export default function AppsAdminPage() {
                   rows={2}
                   value={editingApp.description || ""}
                   onChange={(e) => setEditingApp({ ...editingApp, description: e.target.value })}
-                  placeholder="Unlocked creator app features, premium filters, 4K 60FPS exports..."
+                  placeholder="Export presets, keyboard shortcut maps, and workflow guides..."
                   className="mt-1 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
                 />
               </div>

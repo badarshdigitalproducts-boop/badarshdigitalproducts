@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
+import { buildServiceSchemas } from "@/lib/seo-schema";
 
 export const metadata: Metadata = constructMetadata({
-  title: "iOS & Android Mobile App Development Services",
+  title: "Mobile & Web App Development Bengaluru",
   description:
-    "Turn your product vision into reality with cross-platform Flutter and React Native mobile app development. Fast, reliable, and scalable.",
+    "Cross-platform iOS, Android, and Next.js web application development in Bengaluru for modern brands, startups, and creator commerce platforms.",
   canonical: "/services/app-development",
-  keywords: [
-    "mobile app development",
-    "ios app developers",
-    "android app agency",
-    "react native development",
-    "flutter app developers India",
-  ],
+});
+
+const { professionalServiceJsonLd, serviceJsonLd } = buildServiceSchemas({
+  name: "Mobile & Web App Development Service",
+  description:
+    "Cross-platform Flutter, React Native, and Next.js web application engineering in Bengaluru.",
+  urlPath: "/services/app-development",
+  serviceType: "Mobile & Web Application Development",
+  offers: [{ name: "MVP Mobile & Web App", price: 15000 }],
 });
 
 export default function AppDevelopmentLayout({
@@ -20,5 +23,17 @@ export default function AppDevelopmentLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
+      {children}
+    </>
+  );
 }

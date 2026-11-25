@@ -20,6 +20,7 @@ import {
 import { products as fallbackProducts } from "@/content/products";
 import { useCurrency } from "@/context/currency-context";
 import { BundleCard } from "@/components/products/archetypes/bundle-card";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import type { Product } from "@/types";
 
 const BUNDLE_CATEGORIES = [
@@ -74,6 +75,7 @@ export default function BundlesPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      <Breadcrumbs items={[{ label: "Bundles", href: "/bundles" }]} />
       {/* Compact Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">

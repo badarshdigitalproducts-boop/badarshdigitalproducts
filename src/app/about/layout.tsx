@@ -2,17 +2,11 @@ import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = constructMetadata({
-  title: "About BADARSH — Bengaluru Digital Studio & Creative Agency",
+  title: "Independent Bengaluru Creative Studio | BADARSH",
   description:
-    "Learn the story behind BADARSH: Bengaluru-born digital design studio crafting premium templates, audio vaults, software tools, and creative services.",
+    "Meet BADARSH, an independent Bengaluru digital studio crafting commercial Lightroom presets, WAV sound effects, editing bundles, and custom web solutions.",
+  image: "/api/og?title=About+BADARSH+Studio&badge=Bengaluru,+India",
   canonical: "/about",
-  keywords: [
-    "about badarsh",
-    "bengaluru creative studio",
-    "digital products company",
-    "creator asset studio",
-    "creative agency story",
-  ],
 });
 
 export default function AboutLayout({

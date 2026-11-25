@@ -22,6 +22,7 @@ import { getWhatsAppUrl } from "@/lib/utils";
 import { WHATSAPP_DISPLAY, BUSINESS_LOCATION } from "@/lib/constants";
 import { PricingTable } from "@/components/services/pricing-table";
 import { ServiceCheckoutModal } from "@/components/services/service-checkout-modal";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 
 const GALLERY_CATEGORIES = [
   { id: "all", label: "All Works" },
@@ -132,6 +133,12 @@ export default function EventPhotographyPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      <Breadcrumbs
+        items={[
+          { label: "Services", href: "/services" },
+          { label: "Event Photography", href: "/services/event-photography" },
+        ]}
+      />
       {/* Compact Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-3xl">

@@ -24,7 +24,23 @@ import { SectionHeader } from "@/components/shared/section-header";
 import { PricingTable } from "@/components/services/pricing-table";
 import { services as initialServices } from "@/content/services";
 import { getWhatsAppUrl } from "@/lib/utils";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
+import { SmartImage } from "@/components/shared/smart-image";
+import { buildServiceSchemas } from "@/lib/seo-schema";
 import type { Service } from "@/types";
+
+const { professionalServiceJsonLd, serviceJsonLd } = buildServiceSchemas({
+  name: "BADARSH Creative Studio & Development Services",
+  description:
+    "High-retention video editing, Next.js website design and development, social media management, commercial photo retouching, and brand identity services in Bengaluru.",
+  urlPath: "/services",
+  serviceType: "Creative Studio & Web Development Agency",
+  offers: [
+    { name: "Short-Form Video Editing", price: 250, description: "Per vertical video edit" },
+    { name: "Next.js Landing Page Website", price: 3999, description: "Custom fast website" },
+    { name: "Social Media Monthly Management", price: 9999, description: "Monthly retainer" },
+  ],
+});
 
 export default function ServicesPage() {
   const [serviceList, setServiceList] = useState<Service[]>(initialServices);
@@ -57,6 +73,15 @@ export default function ServicesPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
+      <Breadcrumbs items={[{ label: "Services", href: "/services" }]} />
       {/* Compact Header */}
       <div className="mb-10">
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
@@ -96,11 +121,7 @@ export default function ServicesPage() {
 
                 <div className="flex flex-wrap items-center gap-3">
                   <Link
-                    href={
-                      service.slug === "website-building"
-                        ? "/services/website-design"
-                        : `/services/${service.slug}`
-                    }
+                    href={`/services/${service.slug}`}
                     className="inline-flex items-center gap-1.5 rounded-full border border-card-border bg-card px-5 py-3 font-heading text-xs font-bold text-foreground hover:border-accent hover:text-accent transition-all"
                   >
                     <span>View Dedicated Page</span>
@@ -213,10 +234,12 @@ export default function ServicesPage() {
                         key={pIdx}
                         className="group relative aspect-square overflow-hidden rounded-2xl border border-card-border bg-card shadow-sm"
                       >
-                        <img
+                        <SmartImage
                           src={imgSrc}
                           alt={`Retouched Work ${pIdx + 1}`}
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          fill
+                          sizes="(max-width: 640px) 50vw, 25vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
                           <span className="text-[11px] font-bold text-white">
@@ -280,10 +303,12 @@ export default function ServicesPage() {
                         key={lIdx}
                         className="group relative aspect-square overflow-hidden rounded-2xl border border-card-border bg-white p-4 shadow-sm flex items-center justify-center"
                       >
-                        <img
+                        <SmartImage
                           src={logoImg}
                           alt={`Logo Design ${lIdx + 1}`}
-                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 rounded-xl"
+                          fill
+                          sizes="(max-width: 640px) 50vw, 25vw"
+                          className="object-cover transition-transform duration-300 group-hover:scale-105 rounded-xl p-4"
                         />
                       </div>
                     ))}

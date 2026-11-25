@@ -56,16 +56,6 @@ export const VERIFIED_EBOOKS: CuratedBook[] = [
     size: "5.7 MB (Complete Edition)",
   },
   {
-    id: "the-psychology-of-money",
-    name: "The Psychology of Money",
-    author: "Morgan Housel",
-    category: "Wealth & Mindset",
-    url: "https://raw.githubusercontent.com/ashishjain1547/public_financial_iq_books/master/5_The-Psychology-of-Money.pdf",
-    cover: "https://covers.openlibrary.org/b/id/10543666-L.jpg",
-    pages: 256,
-    size: "2.8 MB (Master Edition)",
-  },
-  {
     id: "cashflow-quadrant",
     name: "CASHFLOW Quadrant",
     author: "Robert T. Kiyosaki",

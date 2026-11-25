@@ -2,18 +2,11 @@ import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = constructMetadata({
-  title: "Lightroom Presets — DNG Mobile & XMP Desktop 1-Tap Presets",
+  title: "Cinematic Lightroom Presets (.DNG & .XMP) for Mobile & Desktop | BADARSH",
   description:
-    "Transform your photography with one click. Professional Adobe Lightroom presets for portraits, moody street photography, travel, and warm vintage aesthetic.",
+    "Shop 1-tap Lightroom presets in .DNG and .XMP formats for portraits, street photography, weddings, and reels. Instant cloud download with commercial rights.",
+  image: "/api/og?title=Cinematic+Lightroom+Presets&badge=DNG+%26+XMP+Presets",
   canonical: "/photo-presets",
-  keywords: [
-    "lightroom presets",
-    "mobile presets dng",
-    "desktop presets xmp",
-    "instagram photo presets",
-    "moody portrait presets",
-    "color grading photography",
-  ],
 });
 
 export default function PhotoPresetsLayout({

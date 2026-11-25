@@ -18,6 +18,7 @@ import { SectionHeader } from "@/components/shared/section-header";
 import { PricingTable } from "@/components/services/pricing-table";
 import { services } from "@/content/services";
 import { getWhatsAppUrl } from "@/lib/utils";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 
 export default function VideoEditingPage() {
   const service = services.find((s) => s.slug === "video-editing") || services[0];
@@ -29,6 +30,12 @@ export default function VideoEditingPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      <Breadcrumbs
+        items={[
+          { label: "Services", href: "/services" },
+          { label: "Video Editing", href: "/services/video-editing" },
+        ]}
+      />
       {/* Compact Header */}
       <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>

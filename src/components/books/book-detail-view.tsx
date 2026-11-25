@@ -26,6 +26,8 @@ import { CheckoutModal } from "@/components/products/checkout-modal";
 import { PdfViewerModal } from "@/components/pdf/pdf-viewer-modal";
 import { triggerDirectDownload } from "@/lib/download";
 import { useProductAccess } from "@/hooks/use-product-access";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
+import { SmartImage } from "@/components/shared/smart-image";
 
 interface BookDetailViewProps {
   product: Product;
@@ -77,20 +79,13 @@ export function BookDetailView({ product }: BookDetailViewProps) {
   return (
     <>
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-14">
-        {/* Breadcrumb Trail */}
-        <nav className="mb-8 flex items-center gap-2 text-xs text-neutral-500">
-          <Link href="/" className="hover:text-neutral-900 dark:hover:text-white">
-            Home
-          </Link>
-          <ChevronRight className="h-3 w-3" />
-          <Link href="/ebooks" className="hover:text-neutral-900 dark:hover:text-white">
-            E-Books
-          </Link>
-          <ChevronRight className="h-3 w-3" />
-          <span className="font-semibold text-neutral-900 dark:text-white truncate">
-            {product.title}
-          </span>
-        </nav>
+        <Breadcrumbs
+          className="mb-8"
+          items={[
+            { label: "E-Books", href: "/ebooks" },
+            { label: product.title, href: `/ebooks/${product.slug}` },
+          ]}
+        />
 
         {/* Hero Product Stage */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
@@ -117,10 +112,13 @@ export function BookDetailView({ product }: BookDetailViewProps) {
                 {/* Right Edge Paper Stack */}
                 <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-20 w-2 bg-gradient-to-l from-amber-100/40 to-transparent" />
 
-                <img
+                <SmartImage
                   src={coverImg}
                   alt={product.title}
-                  className="h-full w-full object-cover"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 80vw, 320px"
+                  className="object-cover"
                 />
 
                 {/* Look Inside Badge */}
@@ -169,11 +167,7 @@ export function BookDetailView({ product }: BookDetailViewProps) {
               <span className="rounded-md bg-indigo-50 dark:bg-indigo-950/60 px-2.5 py-0.5 text-xs font-bold text-indigo-600 dark:text-indigo-400">
                 OFFICIAL DIGITAL MASTER EDITION
               </span>
-              <div className="flex items-center gap-1 text-xs">
-                <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                <span className="font-bold text-neutral-900 dark:text-white">{product.rating}</span>
-                <span className="text-neutral-500">({product.reviewCount} verified reviews)</span>
-              </div>
+              <span className="text-xs text-neutral-500">Instant Digital Delivery</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl font-extrabold text-neutral-900 dark:text-white tracking-tight">

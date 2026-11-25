@@ -1,59 +1,40 @@
 import type { MetadataRoute } from "next";
-import { getBaseUrl } from "@/lib/metadata";
+import { SITE_URL } from "@/lib/constants";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = getBaseUrl();
+  const disallowed = [
+    "/login",
+    "/signup",
+    "/cart",
+    "/checkout",
+    "/account",
+    "/account/",
+    "/orders/",
+    "/admin",
+    "/admin/",
+    "/unsubscribe",
+    "/api/",
+  ];
 
   return {
     rules: [
       {
         userAgent: "*",
         allow: "/",
-        disallow: [
-          "/api/",
-          "/admin",
-          "/admin/",
-          "/account",
-          "/account/",
-          "/orders/",
-          "/login",
-          "/signup",
-          "/unsubscribe",
-          "/_next/",
-        ],
+        disallow: [...disallowed, "/_next/"],
       },
       {
         userAgent: "Googlebot",
         allow: "/",
-        disallow: [
-          "/api/",
-          "/admin",
-          "/admin/",
-          "/account",
-          "/account/",
-          "/orders/",
-          "/login",
-          "/signup",
-          "/unsubscribe",
-        ],
+        disallow: disallowed,
       },
       {
         userAgent: "Bingbot",
         allow: "/",
-        disallow: [
-          "/api/",
-          "/admin",
-          "/admin/",
-          "/account",
-          "/account/",
-          "/orders/",
-          "/login",
-          "/signup",
-          "/unsubscribe",
-        ],
+        disallow: disallowed,
       },
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
-    host: baseUrl,
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   };
 }

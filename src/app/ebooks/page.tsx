@@ -21,6 +21,7 @@ import { Interactive3dBook } from "@/components/books/interactive-3d-book";
 import { ChapterReaderModal } from "@/components/books/chapter-reader-modal";
 import { CheckoutModal } from "@/components/products/checkout-modal";
 import { triggerDirectDownload } from "@/lib/download";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import type { Product } from "@/types";
 
 const EBOOK_CATEGORIES = [
@@ -91,6 +92,7 @@ export default function EbooksPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      <Breadcrumbs items={[{ label: "E-Books", href: "/ebooks" }]} />
       {/* Compact Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">

@@ -20,6 +20,7 @@ import { PdfViewerModal } from "@/components/pdf/pdf-viewer-modal";
 import { CheckoutModal } from "@/components/products/checkout-modal";
 import { triggerDirectDownload } from "@/lib/download";
 import { useProductAccess } from "@/hooks/use-product-access";
+import { SmartImage } from "@/components/shared/smart-image";
 
 interface AestheticPlannerCardProps {
   product: Product;
@@ -75,10 +76,12 @@ export function AestheticPlannerCard({ product }: AestheticPlannerCardProps) {
 
           {/* iPad Inner Screen */}
           <div className="relative h-full w-full rounded-xl overflow-hidden bg-neutral-950">
-            <img
+            <SmartImage
               src={coverImg}
               alt={product.title}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
 
             {/* Hyperlinked Month Tabs Simulation (Top/Right edge) */}
@@ -142,11 +145,7 @@ export function AestheticPlannerCard({ product }: AestheticPlannerCardProps) {
                 <CheckCircle2 className="h-3 w-3" />
                 {spreads[activeTab].tag}
               </span>
-              <div className="flex items-center gap-1">
-                <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                <span className="font-bold text-neutral-900 dark:text-white">{product.rating}</span>
-                <span>({product.reviewCount})</span>
-              </div>
+              <span className="text-[11px] font-medium text-neutral-400">GoodNotes &amp; Print</span>
             </div>
 
             <h3 className="font-heading text-base font-bold text-neutral-900 dark:text-white line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">

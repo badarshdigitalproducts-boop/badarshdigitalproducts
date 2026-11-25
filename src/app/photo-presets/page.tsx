@@ -19,6 +19,7 @@ import { products as fallbackProducts } from "@/content/products";
 import { useCurrency } from "@/context/currency-context";
 import { BeforeAfterSlider } from "@/components/presets/before-after-slider";
 import { BeforeAfterSlider as HeroSlider } from "@/components/shared/before-after-slider";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import type { Product } from "@/types";
 
 const PRESET_CATEGORIES = [
@@ -77,6 +78,7 @@ export default function PhotoPresetsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      <Breadcrumbs items={[{ label: "Lightroom Presets", href: "/photo-presets" }]} />
       {/* Compact Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">

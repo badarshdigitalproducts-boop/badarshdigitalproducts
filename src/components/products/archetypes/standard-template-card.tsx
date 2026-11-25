@@ -11,6 +11,7 @@ import { TemplateEditorModal } from "@/components/templates/template-editor-moda
 import { CheckoutModal } from "../checkout-modal";
 import { useProductAccess } from "@/hooks/use-product-access";
 import { triggerDirectDownload } from "@/lib/download";
+import { SmartImage } from "@/components/shared/smart-image";
 
 interface StandardTemplateCardProps {
   product: Product;
@@ -87,11 +88,13 @@ export function StandardTemplateCard({ product }: StandardTemplateCardProps) {
         {/* Visual Template Frame (Canva Style) */}
         <div className="relative aspect-[16/11] w-full overflow-hidden bg-muted/40">
           {coverImg && !imageError ? (
-            <img
+            <SmartImage
               src={coverImg}
               alt={product.title}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               onError={() => setImageError(true)}
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+              className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
@@ -164,11 +167,7 @@ export function StandardTemplateCard({ product }: StandardTemplateCardProps) {
             <span className="font-medium text-[11px] uppercase tracking-wider text-foreground/70">
               {product.specs?.dimensions || product.category.replace("-", " ")}
             </span>
-            <div className="flex items-center gap-1">
-              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-              <span className="font-semibold text-foreground">{product.rating}</span>
-              <span>({product.reviewCount})</span>
-            </div>
+            <span className="text-[11px] font-medium text-foreground/60">Commercial License</span>
           </div>
 
           {/* Title */}

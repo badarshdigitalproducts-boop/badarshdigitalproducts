@@ -20,8 +20,8 @@ export function FeaturedProducts() {
       .catch((err) => console.error("Error loading live products:", err));
   }, []);
 
-  // Prioritize polymorphic flagship products (App, Preset, Bundle, SFX, Ebook, Planner)
-  const priorityIds = ["prod-019", "prod-016", "prod-020", "prod-021", "prod-017", "prod-018"];
+  // Prioritize original studio flagship products (Bundles, Presets, SFX, Config Tools, Planners, Reels)
+  const priorityIds = ["prod-019", "prod-016", "prod-021", "prod-014", "prod-018", "prod-001"];
   const featured = [
     ...productList.filter((p) => priorityIds.includes(p.id)),
     ...productList.filter((p) => p.isFeatured && !priorityIds.includes(p.id)),
