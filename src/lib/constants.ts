@@ -35,6 +35,12 @@ export const NAV_LINKS = [
 
 export const SHOP_MENU = [
   {
+    label: "Canva Templates",
+    href: "/templates",
+    desc: "Social media, pitch decks, branding kits & cards",
+    icon: "",
+  },
+  {
     label: "E-Books",
     href: "/ebooks",
     desc: "Growth playbooks, marketing blueprints & founder guides",

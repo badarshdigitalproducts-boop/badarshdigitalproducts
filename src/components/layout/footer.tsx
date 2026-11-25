@@ -91,6 +91,7 @@ const productLinks = [
   { label: "Apps", href: "/editing-apps" },
   { label: "Lightroom Presets", href: "/photo-presets" },
   { label: "Sound Effects", href: "/sound-effects" },
+  { label: "Video Templates", href: "/video-templates" },
   { label: "E-Books", href: "/ebooks" },
   { label: "Planners", href: "/planners" },
   { label: "Templates", href: "/templates" },

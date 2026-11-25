@@ -42,13 +42,15 @@ export function BookCard({ product }: BookCardProps) {
     }
   };
 
+  const targetHref = product.category === "ebooks" ? `/ebooks/${product.slug}` : `/templates/${product.slug}`;
+
   return (
     <>
       <motion.div
         whileHover={{ y: -6 }}
         whileTap={{ scale: 0.985 }}
         transition={{ type: "spring", duration: 0.35, bounce: 0.1 }}
-        onClick={() => router.push(`/templates/${product.slug}`)}
+        onClick={() => router.push(targetHref)}
         className="group relative flex flex-col rounded-2xl border border-card-border bg-card p-5 shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-foreground/20 hover:shadow-xl hover:shadow-black/5 cursor-pointer"
       >
         {/* Book Presentation Stage — 3:4 Apple Books Portrait Aspect */}

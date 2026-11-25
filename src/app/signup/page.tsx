@@ -38,8 +38,13 @@ function SignupForm() {
   // Redirect as soon as Firebase/server session resolves (handles popup + redirect + cookie flows)
   useEffect(() => {
     if (!authLoading && user) {
-      router.replace(redirectUrl);
-      router.refresh();
+      try {
+        router.replace(redirectUrl);
+      } catch {}
+      const timer = setTimeout(() => {
+        window.location.href = redirectUrl;
+      }, 350);
+      return () => clearTimeout(timer);
     }
   }, [user, authLoading, router, redirectUrl]);
 
