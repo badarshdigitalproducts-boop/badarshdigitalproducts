@@ -64,6 +64,59 @@ const FREE_SFX_AUDIO_URLS: Record<string, { title: string; url: string }> = {
   },
 };
 
+const FREE_APP_DOWNLOAD_MAP: Record<string, { title: string; url: string; filename: string }> = {
+  "prod-014": {
+    title: "Creator Video Editing Tools & Config Vault",
+    url: "/downloads/creator-video-editing-tools-config-vault.zip",
+    filename: "creator-video-editing-tools-config-vault.zip",
+  },
+  "creator-editing-apps-vault": {
+    title: "Creator Video Editing Tools & Config Vault",
+    url: "/downloads/creator-video-editing-tools-config-vault.zip",
+    filename: "creator-video-editing-tools-config-vault.zip",
+  },
+  "app-vn-editor": {
+    title: "VN Video Editor Pro Studio Setup",
+    url: "/downloads/vn-video-editor-pro-setup.zip",
+    filename: "vn-video-editor-pro-setup.zip",
+  },
+  "vn-video-editor-pro-setup": {
+    title: "VN Video Editor Pro Studio Setup",
+    url: "/downloads/vn-video-editor-pro-setup.zip",
+    filename: "vn-video-editor-pro-setup.zip",
+  },
+  "app-capcut-setup": {
+    title: "CapCut Mobile 4K Export Suite",
+    url: "/downloads/capcut-mobile-creator-suite.zip",
+    filename: "capcut-mobile-creator-suite.zip",
+  },
+  "capcut-mobile-creator-suite": {
+    title: "CapCut Mobile 4K Export Suite",
+    url: "/downloads/capcut-mobile-creator-suite.zip",
+    filename: "capcut-mobile-creator-suite.zip",
+  },
+  "app-alight-motion": {
+    title: "Alight Motion Pro Preset Engine",
+    url: "/downloads/alight-motion-pro-presets-engine.zip",
+    filename: "alight-motion-pro-presets-engine.zip",
+  },
+  "alight-motion-pro-presets-engine": {
+    title: "Alight Motion Pro Preset Engine",
+    url: "/downloads/alight-motion-pro-presets-engine.zip",
+    filename: "alight-motion-pro-presets-engine.zip",
+  },
+  "app-lightroom-mobile": {
+    title: "Lightroom Mobile Pro Preset Injector",
+    url: "/downloads/lightroom-mobile-preset-injector.zip",
+    filename: "lightroom-mobile-preset-injector.zip",
+  },
+  "lightroom-mobile-preset-injector": {
+    title: "Lightroom Mobile Pro Preset Injector",
+    url: "/downloads/lightroom-mobile-preset-injector.zip",
+    filename: "lightroom-mobile-preset-injector.zip",
+  },
+};
+
 function findProduct(dbProducts: any[], productId: string) {
   const normalizedId = productId.toLowerCase().trim();
   return (
@@ -159,6 +212,31 @@ async function resolveDownloadRedirect(fileTarget: string, request: NextRequest,
     }
 
     return NextResponse.redirect(fileTarget, 307);
+  }
+
+  // If local static download file in public/
+  if (fileTarget.startsWith("/downloads/") || fileTarget.startsWith("downloads/")) {
+    try {
+      const fs = await import("fs");
+      const path = await import("path");
+      const cleanPath = fileTarget.replace(/^\/+/, "");
+      const fullPath = path.join(process.cwd(), "public", cleanPath);
+      if (fs.existsSync(fullPath)) {
+        const fileBuffer = fs.readFileSync(fullPath);
+        const filename = path.basename(fullPath);
+        return new NextResponse(fileBuffer, {
+          status: 200,
+          headers: {
+            "Content-Type": "application/zip",
+            "Content-Disposition": `attachment; filename="${filename}"`,
+            "Access-Control-Allow-Origin": "*",
+            "Cache-Control": "public, max-age=3600",
+          },
+        });
+      }
+    } catch (fsErr) {
+      console.warn("Local download read failed, falling back to URL redirect:", fsErr);
+    }
   }
 
   // Standard direct download redirect
@@ -267,7 +345,13 @@ export async function GET(request: NextRequest) {
 
     // 3. Free product instant download validation
     if (productId && !orderId) {
-      const staticSfx = FREE_SFX_AUDIO_URLS[productId.toLowerCase().trim()];
+      const normId = productId.toLowerCase().trim();
+      const staticApp = FREE_APP_DOWNLOAD_MAP[normId];
+      if (staticApp) {
+        return await resolveDownloadRedirect(staticApp.url, request, staticApp.title);
+      }
+
+      const staticSfx = FREE_SFX_AUDIO_URLS[normId];
       if (staticSfx) {
         return await resolveDownloadRedirect(staticSfx.url, request, staticSfx.title);
       }
