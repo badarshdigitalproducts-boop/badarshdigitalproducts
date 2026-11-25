@@ -35,39 +35,19 @@ export default function EditingBundlesPage() {
   }, [productList]);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-16">
-      {/* Hero Header */}
-      <div className="max-w-3xl mb-12">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3.5 py-1 text-xs font-semibold text-foreground shadow-2xs">
-          <Music className="h-3.5 w-3.5 text-accent" />
-          BADARSH Audio Vault
-        </span>
-        <h1 className="mt-3 font-heading text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl md:text-5xl">
-          Sound Effects &amp; Background Music
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      {/* Compact Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          Sound Effects &amp; Motion Audio Packs
         </h1>
-        <p className="mt-3 text-sm sm:text-base leading-relaxed text-muted">
-          Uncompressed 24-bit 48kHz WAV audio engineered for high-retention video creators. Designed for viral Instagram Reels, YouTube documentaries, and commercial edits. Audition live waveforms and drag directly onto your timeline.
+        <p className="mt-1 text-sm text-muted">
+          Audition 24-bit 48kHz WAV waveforms live and download complete drag-and-drop audio &amp; overlay kits.
         </p>
-
-        {/* Feature Highlights */}
-        <div className="mt-5 flex flex-wrap items-center gap-2.5">
-          <div className="flex items-center gap-1.5 rounded-full border border-border bg-background px-3.5 py-1 text-xs font-medium text-foreground shadow-2xs">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-            <span>Master 24-Bit / 48kHz WAV</span>
-          </div>
-          <div className="flex items-center gap-1.5 rounded-full border border-border bg-background px-3.5 py-1 text-xs font-medium text-foreground shadow-2xs">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-            <span>100% Royalty-Free Commercial License</span>
-          </div>
-          <div className="flex items-center gap-1.5 rounded-full border border-border bg-background px-3.5 py-1 text-xs font-medium text-foreground shadow-2xs">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-            <span>CapCut &bull; Premiere &bull; DaVinci Ready</span>
-          </div>
-        </div>
       </div>
 
       {/* Audio Waveform SFX Catalog with Filters */}
-      <div className="mb-20">
+      <div className="mb-16">
         <SoundEffectsCatalog />
       </div>
 

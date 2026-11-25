@@ -191,7 +191,7 @@ export default function AdminSettingsPage() {
             </h1>
           </div>
           <p className="text-xs text-zinc-400 mt-0.5">
-            Manage Cashfree payment gateway, announcement banner, secret founder access, currency &amp; cloud database.
+            Manage online payment gateway, announcement banner, secret founder access, currency &amp; cloud database.
           </p>
         </div>
 
@@ -203,24 +203,24 @@ export default function AdminSettingsPage() {
         )}
       </div>
 
-      {/* Cashfree Payment Gateway Card */}
-      <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-6 backdrop-blur-md space-y-5">
+      {/* Payment Gateway Card */}
+      <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-4 sm:p-6 backdrop-blur-md space-y-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-zinc-800 pb-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FF5A36]/15 text-[#FF5A36]">
               <CreditCard className="h-5 w-5" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <h2 className="font-heading text-sm font-bold text-white">
-                  Cashfree Payment Gateway Integration
+                  Online Payment Gateway Integration
                 </h2>
-                <span className="rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-bold text-amber-400">
-                  Account In Review • Ready in 2 Days
+                <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-bold text-emerald-400">
+                  Production Configured
                 </span>
               </div>
               <p className="text-[11px] text-zinc-400">
-                Supports UPI Auto-Collect, Cards, NetBanking, and Instant Refunds for Indian Customers.
+                Supports UPI Auto-Collect, Cards, NetBanking, and Instant Refunds for Customers.
               </p>
             </div>
           </div>
@@ -249,10 +249,10 @@ export default function AdminSettingsPage() {
 
         {/* Notice for Founder & Z+ Security Status */}
         <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 text-xs text-zinc-300 space-y-2">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2 font-semibold text-emerald-400">
               <ShieldCheck className="h-4 w-4 text-emerald-400" />
-              <span>Z+ Server-Side Security: Cashfree Production Gateway</span>
+              <span>Z+ Server-Side Security: Production Payment Gateway</span>
             </div>
             <span className="rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
               Live Production Active
@@ -276,19 +276,19 @@ export default function AdminSettingsPage() {
 
           <div>
             <label className="block text-xs font-semibold text-zinc-300">
-              Cashfree App ID (Client ID)
+              Gateway Client ID
             </label>
             <input
               type="text"
               readOnly
-              value={settings.cashfree?.appId || "1541••••••••1451"}
+              value={settings.cashfree?.appId || "Configured in Env"}
               className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900/80 px-3.5 py-2 text-xs text-zinc-300 font-mono focus:outline-none cursor-default"
             />
           </div>
 
           <div>
             <label className="block text-xs font-semibold text-zinc-300">
-              Cashfree Secret Key
+              Gateway Secret Key
             </label>
             <div className="relative mt-1.5">
               <input
@@ -306,7 +306,7 @@ export default function AdminSettingsPage() {
 
         {/* Test Connection Action */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-zinc-800/80 pt-4">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
               onClick={handleTestCashfree}
@@ -314,7 +314,7 @@ export default function AdminSettingsPage() {
               className="flex items-center gap-1.5 rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-1.5 text-xs font-semibold text-zinc-200 hover:bg-zinc-800 hover:text-white transition-colors"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${testingCashfree ? "animate-spin" : ""}`} />
-              <span>{testingCashfree ? "Testing Connection..." : "Test Cashfree Credentials"}</span>
+              <span>{testingCashfree ? "Testing Connection..." : "Verify Gateway Connection"}</span>
             </button>
 
             {cashfreeTestResult && (

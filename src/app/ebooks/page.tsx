@@ -90,39 +90,19 @@ export default function EbooksPage() {
   }, [productList, search, selectedCategory]);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
-      {/* Hero Header */}
-      <div className="text-center max-w-3xl mx-auto">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5 text-xs font-bold text-accent">
-          <BookOpen className="h-3.5 w-3.5" />
-          BADARSH Digital Library
-        </span>
-        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Original E-Books &amp; <span className="text-accent">Creator Playbooks</span>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      {/* Compact Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          E-Books &amp; Creator Playbooks
         </h1>
-        <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
-          No recycled AI summaries or generic advice. Proprietary step-by-step monetization playbooks, viral script frameworks, and growth systems written and executed by the BADARSH studio team.
+        <p className="mt-1 text-sm text-muted">
+          Practical monetization guides and creative frameworks with an interactive in-browser preview reader.
         </p>
-
-        {/* Value Prop Badges */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <div className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-medium text-foreground shadow-2xs">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-            <span>Interactive In-Browser PDF Reader</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-medium text-foreground shadow-2xs">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-            <span>Direct High-Res PDF Downloads</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-medium text-foreground shadow-2xs">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-            <span>Commercial Implementation License</span>
-          </div>
-        </div>
       </div>
 
       {/* Search & Category Pills */}
-      <div className="mt-14 mb-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0 scrollbar-none">
           {EBOOK_CATEGORIES.map((cat) => (
             <button

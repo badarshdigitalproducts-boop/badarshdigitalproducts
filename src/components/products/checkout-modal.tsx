@@ -22,15 +22,26 @@ import { useCurrency } from "@/context/currency-context";
 import { useAuth } from "@/context/auth-context";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
 import { triggerDirectDownload } from "@/lib/download";
+import { safeParseJson } from "@/lib/utils";
 import { markProductAsUnlocked } from "@/hooks/use-product-access";
 
 interface CheckoutModalProps {
   product: Product;
   isOpen: boolean;
   onClose: () => void;
+  initialCustomer?: {
+    name?: string;
+    email?: string;
+    phone?: string;
+  };
 }
 
-export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) {
+export function CheckoutModal({
+  product,
+  isOpen,
+  onClose,
+  initialCustomer,
+}: CheckoutModalProps) {
   const { currency, formatPrice: formatCurr } = useCurrency();
   const { user } = useAuth();
 
@@ -40,11 +51,13 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
   const [customerPhone, setCustomerPhone] = useState("");
 
   useEffect(() => {
-    if (isOpen && user) {
-      if (!customerName && user.displayName) setCustomerName(user.displayName);
-      if (!customerEmail && user.email) setCustomerEmail(user.email);
+    if (!isOpen) return;
+    setCustomerName((prev) => prev || initialCustomer?.name || user?.displayName || "");
+    setCustomerEmail((prev) => prev || initialCustomer?.email || user?.email || "");
+    if (initialCustomer?.phone) {
+      setCustomerPhone((prev) => prev || initialCustomer.phone || "");
     }
-  }, [isOpen, user]);
+  }, [isOpen, user, initialCustomer]);
 
   // Coupon State
   const [couponCode, setCouponCode] = useState("");
@@ -68,20 +81,47 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
   const discountAmount = appliedCoupon ? appliedCoupon.discountAmount : 0;
   const finalTotal = Math.max(subtotal - discountAmount, 0);
 
-  const loadCashfreeSdk = () => {
+  const loadPaymentSdk = () => {
     return new Promise<any>((resolve) => {
+      if (typeof window === "undefined") {
+        resolve(null);
+        return;
+      }
       if ((window as any).Cashfree) {
         resolve((window as any).Cashfree);
         return;
       }
+
+      const existingScript = document.getElementById("payment-gateway-sdk") as HTMLScriptElement | null;
+      if (existingScript) {
+        const start = Date.now();
+        const poll = setInterval(() => {
+          if ((window as any).Cashfree) {
+            clearInterval(poll);
+            resolve((window as any).Cashfree);
+          } else if (Date.now() - start > 7500) {
+            clearInterval(poll);
+            resolve(null);
+          }
+        }, 120);
+        return;
+      }
+
       const script = document.createElement("script");
+      script.id = "payment-gateway-sdk";
       script.src = "https://sdk.cashfree.com/js/v3/cashfree.js";
       script.async = true;
-      script.onload = () => resolve((window as any).Cashfree);
+      script.onload = () => resolve((window as any).Cashfree || null);
       script.onerror = () => resolve(null);
       document.body.appendChild(script);
     });
   };
+
+  useEffect(() => {
+    if (isOpen && finalTotal > 0) {
+      loadPaymentSdk();
+    }
+  }, [isOpen, finalTotal]);
 
   const handleCopyLicense = (key: string) => {
     navigator.clipboard.writeText(key);
@@ -100,7 +140,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code: couponCode, amount: subtotal }),
       });
-      const data = await res.json();
+      const data = await safeParseJson<any>(res, { valid: false, message: "Invalid coupon code" });
 
       if (data.valid) {
         setAppliedCoupon({
@@ -135,7 +175,8 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
       return;
     }
 
-    const cleanPhone = customerPhone.replace(/\D/g, "");
+    const rawDigits = customerPhone.replace(/\D/g, "");
+    const cleanPhone = rawDigits.length >= 10 ? rawDigits.slice(-10) : rawDigits;
     if (finalTotal > 0 && cleanPhone.length !== 10) {
       setErrorMessage("Please enter a valid 10-digit WhatsApp/mobile number (e.g. 9876543210).");
       return;
@@ -157,11 +198,11 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
           canvaUrl: product.canvaUrl || "",
           downloadUrl: product.downloadUrl || product.pdfUrl || product.appDownloadUrl || product.googleDriveUrl || "",
           couponCode: appliedCoupon?.code,
-          paymentMethod: "Cashfree",
+          paymentMethod: "Online",
         }),
       });
 
-      const data = await res.json();
+      const data = await safeParseJson(res, { success: false, error: "" } as any);
       if (res.ok && data.success) {
         if (data.orderId) {
           try {
@@ -174,30 +215,38 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
         }
 
         if (data.paymentRequired && data.paymentSessionId) {
-          const cfUrl =
-            data.cfEnv === "TEST"
-              ? `https://sandbox.cashfree.com/order/#${data.paymentSessionId}`
-              : `https://payments.cashfree.com/order/#${data.paymentSessionId}`;
+          const sdkPromise = loadPaymentSdk();
+          const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve(null), 8000));
+          const GatewaySdk = await Promise.race([sdkPromise, timeoutPromise]);
 
-          try {
-            const sdkPromise = loadCashfreeSdk();
-            const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve(null), 1800));
-            const Cashfree = await Promise.race([sdkPromise, timeoutPromise]);
-            if (Cashfree) {
-              const cf = Cashfree({
-                mode: data.cfEnv === "TEST" ? "sandbox" : "production",
-              });
-              cf.checkout({
-                paymentSessionId: data.paymentSessionId,
-                redirectTarget: "_self",
-              });
+          if (GatewaySdk) {
+            const gateway = GatewaySdk({
+              mode: data.cfEnv === "TEST" ? "sandbox" : "production",
+            });
+            const checkoutRes = await gateway.checkout({
+              paymentSessionId: data.paymentSessionId,
+              redirectTarget: "_self",
+            });
+
+            if (checkoutRes?.error) {
+              setErrorMessage(
+                checkoutRes.error.message ||
+                  "Payment could not be completed. Please try again or pay via WhatsApp."
+              );
               return;
             }
-          } catch (cfErr) {
-            console.warn("Cashfree SDK fallback to direct URL:", cfErr);
+
+            if (checkoutRes?.redirect) {
+              return;
+            }
+
+            window.location.href = `/orders/${data.orderId}?token=${encodeURIComponent(data.orderId)}`;
+            return;
           }
 
-          window.location.href = cfUrl;
+          setErrorMessage(
+            "Unable to launch secure checkout (blocked by browser or slow network). Please retry or order via WhatsApp."
+          );
           return;
         }
 
@@ -575,21 +624,21 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                   </button>
                 </div>
               ) : (
-                /* Clean Direct Online Payment via Cashfree */
-                <div className="space-y-4 pt-1">
-                  <div className="rounded-2xl border border-card-border bg-background p-4 text-center space-y-3">
+                /* Clean Direct Online Payment */
+                <div className="space-y-3.5 pt-1">
+                  <div className="rounded-2xl border border-card-border bg-background p-4 text-center space-y-2.5">
                     <div className="flex items-center justify-center gap-2 text-xs font-semibold text-emerald-500">
                       <ShieldCheck className="h-4 w-4" />
-                      <span>Cashfree Official Production Gateway</span>
+                      <span>256-Bit Encrypted Checkout</span>
                     </div>
                     <p className="text-xs text-muted">
-                      Direct secure payment supporting Google Pay, PhonePe, Paytm, UPI, Cards &amp; NetBanking.
+                      Instant confirmation with Google Pay, PhonePe, Paytm, UPI, Cards &amp; NetBanking.
                     </p>
-                    <div className="flex flex-wrap items-center justify-center gap-2 pt-1 text-[11px] text-muted font-medium">
+                    <div className="flex flex-wrap items-center justify-center gap-1.5 pt-0.5 text-[11px] text-muted font-medium">
                       <span className="rounded-md bg-secondary px-2.5 py-1">Google Pay</span>
                       <span className="rounded-md bg-secondary px-2.5 py-1">PhonePe</span>
-                      <span className="rounded-md bg-secondary px-2.5 py-1">Paytm</span>
-                      <span className="rounded-md bg-secondary px-2.5 py-1">Cards / RuPay</span>
+                      <span className="rounded-md bg-secondary px-2.5 py-1">UPI</span>
+                      <span className="rounded-md bg-secondary px-2.5 py-1">Cards</span>
                       <span className="rounded-md bg-secondary px-2.5 py-1">NetBanking</span>
                     </div>
                   </div>
@@ -601,7 +650,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                         <X className="h-4 w-4 shrink-0 mt-0.5" />
                         <span>{errorMessage}</span>
                       </div>
-                      <div className="flex items-center gap-2 pt-1">
+                      <div className="flex flex-wrap items-center gap-2 pt-1">
                         <button
                           type="button"
                           onClick={() => setErrorMessage(null)}
@@ -615,7 +664,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                           className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1 text-[11px] font-bold text-white hover:bg-emerald-700 transition-colors"
                         >
                           <MessageCircle className="h-3.5 w-3.5" />
-                          <span>Order via WhatsApp</span>
+                          <span>Pay via WhatsApp</span>
                         </button>
                       </div>
                     </div>
@@ -630,14 +679,23 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                     {submitting ? (
                       <>
                         <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                        <span>Connecting to Cashfree Secure Checkout...</span>
+                        <span>Opening Secure Payment...</span>
                       </>
                     ) : (
                       <>
                         <Lock className="h-4 w-4" />
-                        <span>Pay {formatCurr(finalTotal)} &bull; Direct Checkout</span>
+                        <span>Pay {formatCurr(finalTotal)} Now</span>
                       </>
                     )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleWhatsAppCheckout}
+                    className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-full border border-card-border bg-background py-2.5 text-[11px] font-semibold text-muted hover:text-foreground hover:border-foreground/30 transition-colors"
+                  >
+                    <MessageCircle className="h-3.5 w-3.5 text-emerald-500" />
+                    <span>Need help? Order on WhatsApp</span>
                   </button>
                 </div>
               )}

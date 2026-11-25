@@ -174,7 +174,7 @@ export default function SoundEffectsAdminPage() {
       </div>
 
       {/* Filter / Search Bar */}
-      <div className="flex items-center justify-between gap-4 border-b border-zinc-800 pb-4">
+      <div className="flex flex-col gap-3 border-b border-zinc-800 pb-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="relative w-full max-w-md">
           <Search className="pointer-events-none absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2 text-zinc-500" />
           <input
@@ -185,14 +185,15 @@ export default function SoundEffectsAdminPage() {
             className="w-full rounded-xl border border-zinc-800 bg-zinc-950 py-2 pr-4 pl-9 text-xs text-white placeholder:text-zinc-600 focus:border-[#FF5A36] focus:outline-none"
           />
         </div>
-        <span className="text-xs text-zinc-500">
+        <span className="text-xs text-zinc-500 shrink-0">
           Total Tracks: <strong className="text-zinc-200">{filtered.length}</strong>
         </span>
       </div>
 
       {/* Table */}
       <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950/60 backdrop-blur-md">
-        <table className="w-full text-left text-xs">
+        <div className="overflow-x-auto">
+          <table className="min-w-[680px] w-full text-left text-xs">
           <thead className="border-b border-zinc-800 bg-zinc-900/40 text-zinc-400">
             <tr>
               <th className="px-4 py-3 font-medium">Sound Track</th>
@@ -315,6 +316,7 @@ export default function SoundEffectsAdminPage() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Upload / Edit Modal */}

@@ -49,35 +49,12 @@ export function Hero() {
             Handcrafted video assets, color presets, sound design, and custom digital services. Clean files, lifetime commercial licenses, and direct downloads. No subscriptions.
           </motion.p>
 
-          {/* Clean Action Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <Link
-              href="/bundles"
-              className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-foreground text-background hover:opacity-90 px-7 py-2.5 text-sm font-semibold tracking-tight shadow-sm active:scale-[0.97] transition-all"
-            >
-              <span>Browse Catalog</span>
-            </Link>
-
-            <Link
-              href="/services"
-              className="inline-flex items-center gap-1.5 text-sm font-normal text-accent hover:underline px-4 py-2 group transition-colors"
-            >
-              <span>Studio Services</span>
-              <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-          </motion.div>
-
           {/* Trust Highlights */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.32 }}
-            className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-muted"
+            transition={{ duration: 0.6, delay: 0.24 }}
+            className="mt-7 flex flex-wrap items-center justify-center gap-6 text-xs text-muted"
           >
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />

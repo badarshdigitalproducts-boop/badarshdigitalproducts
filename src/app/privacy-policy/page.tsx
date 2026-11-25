@@ -112,7 +112,7 @@ export default function PrivacyPolicyPage() {
               <ul className="list-disc pl-5 space-y-1 text-xs">
                 <li>Billing customer name and email</li>
                 <li>Contact phone number (for digital delivery &amp; UPI receipt)</li>
-                <li>Payment gateway transaction reference IDs (Cashfree / Razorpay)</li>
+                <li>Payment gateway transaction reference IDs (UPI / Card / NetBanking)</li>
                 <li>Unique cryptographic license keys issued</li>
                 <li>GST invoice state for tax compliance</li>
               </ul>

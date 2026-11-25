@@ -166,7 +166,7 @@ export function CanvaTemplateCard({ product }: CanvaTemplateCardProps) {
           </div>
 
           {/* Hover Slide Scrubber Dots */}
-          <div className="absolute bottom-3 left-0 right-0 z-10 flex justify-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div className="hidden md:flex absolute bottom-3 left-0 right-0 z-10 justify-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             {slides.map((_, idx) => (
               <div
                 key={idx}
@@ -179,8 +179,8 @@ export function CanvaTemplateCard({ product }: CanvaTemplateCardProps) {
             ))}
           </div>
 
-          {/* Hover Action Floating Bar (Canva Style) */}
-          <div className="absolute inset-x-3 bottom-8 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex gap-2">
+          {/* Action Floating Bar (Always visible on mobile tap, hover reveal on desktop) */}
+          <div className="absolute inset-x-3 bottom-3 md:bottom-8 z-10 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200 flex gap-2">
             <button
               onClick={(e) => {
                 e.stopPropagation();

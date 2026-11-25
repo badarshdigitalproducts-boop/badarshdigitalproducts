@@ -27,40 +27,34 @@ export default function BrandIdentityPage() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
-      {/* Hero */}
-      <div className="text-center">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5 text-xs font-bold text-accent">
-          <Sparkles className="h-3.5 w-3.5" />
-          BADARSH Brand &amp; Identity Atelier
-        </span>
-        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Brand Identity &amp; <span className="text-accent">Custom Logo Design</span>
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-          We design timeless logo marks, comprehensive typography systems, and brand guideline books that position your business as an undeniable industry leader. Inspect our portfolio of designed logos below, download sample vectors, or connect directly on WhatsApp to order your custom logo.
-        </p>
-
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <a
-            href={getWhatsAppUrl(
-              "Hi BADARSH! I want to order a custom logo design for my brand. Let's discuss requirements!",
-              "Custom Logo Order"
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 font-heading text-xs font-bold text-white shadow-lg shadow-accent/25 hover:bg-accent-hover hover:scale-105 transition-all"
-          >
-            <MessageSquare className="h-4 w-4" />
-            <span>Order Your Custom Logo on WhatsApp</span>
-            <ArrowRight className="h-4 w-4" />
-          </a>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      {/* Compact Header */}
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Brand Identity &amp; Custom Logo Design
+          </h1>
+          <p className="mt-1 text-sm text-muted">
+            Vector logo marks, typography systems, and complete brand guideline books crafted in-house.
+          </p>
         </div>
+        <a
+          href={getWhatsAppUrl(
+            "Hi BADARSH! I want to order a custom logo design for my brand. Let's discuss requirements!",
+            "Custom Logo Order"
+          )}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-accent-hover transition-all shrink-0 self-start sm:self-auto"
+        >
+          <MessageSquare className="h-3.5 w-3.5" />
+          <span>Order on WhatsApp</span>
+        </a>
       </div>
 
       {/* DESIGNED LOGOS SHOWCASE GALLERY */}
       {service.portfolioImages && service.portfolioImages.length > 0 && (
-        <div className="mt-16 rounded-3xl border border-card-border bg-card/60 p-6 md:p-10 shadow-sm">
+        <div className="rounded-3xl border border-card-border bg-card/60 p-5 md:p-8 shadow-sm">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
             <div>
               <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent">

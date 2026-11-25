@@ -76,39 +76,19 @@ export default function PhotoPresetsPage() {
   }, [productList, search, selectedCategory]);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
-      {/* Hero Header */}
-      <div className="text-center max-w-3xl mx-auto">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5 text-xs font-bold text-accent">
-          <Camera className="h-3.5 w-3.5 text-accent" />
-          1-Click Adobe Lightroom Presets
-        </span>
-        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Cinematic Color Science. <span className="text-accent">1 Tap to Grade.</span>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      {/* Compact Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          Adobe Lightroom Photo Presets
         </h1>
-        <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
-          Crafted by professional colorists. Click your preset link to automatically launch Adobe Lightroom Mobile with custom curves, film grain, and skin tones dialed in. Add your photo and export in seconds.
+        <p className="mt-1 text-sm text-muted">
+          Slide to inspect real color science and unlock .DNG Mobile &amp; .XMP Desktop profiles with one tap.
         </p>
-
-        {/* 3 Steps */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <div className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-medium text-foreground shadow-2xs">
-            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-white">1</span>
-            <span>Get Preset Link</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-medium text-foreground shadow-2xs">
-            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-white">2</span>
-            <span>Opens in Free Lightroom App</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-medium text-foreground shadow-2xs">
-            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-white">3</span>
-            <span>Select Your Photo &bull; Master Edit Applied</span>
-          </div>
-        </div>
       </div>
 
       {/* Featured Live Comparison Stage */}
-      <div className="mt-14 overflow-hidden rounded-3xl border border-card-border bg-card p-6 md:p-10 shadow-lg">
+      <div className="overflow-hidden rounded-3xl border border-card-border bg-card p-5 md:p-8 shadow-lg">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-7">
             <HeroSlider

@@ -121,43 +121,19 @@ export default function AboutPage() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
-      {/* Hero Eyebrow & Headline */}
-      <div className="mx-auto max-w-4xl text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-semibold text-muted shadow-2xs"
-        >
-          <span className="flex h-2 w-2 rounded-full bg-accent" />
-          <span className="font-semibold text-foreground">BADARSH Studio Profile</span>
-          <span className="text-muted/50">&bull;</span>
-          <span>Craftsmanship &amp; Engineering</span>
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-6 apple-display text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-foreground leading-[1.06]"
-        >
-          Built On One Principle: <br className="hidden sm:inline" />
-          <span className="text-accent">Craftsmanship</span> Over Shortcuts.
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-6 apple-subhead text-lg sm:text-xl leading-relaxed text-muted max-w-2xl mx-auto font-normal"
-        >
-          We are a creator tools powerhouse and full-stack digital production agency. From uncompressed SFX vaults and verified mobile creator apps to bespoke Next.js web applications, BADARSH bridges the gap between raw ambition and world-class digital execution.
-        </motion.p>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      {/* Compact Header */}
+      <div className="mb-8 max-w-3xl">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
+          BADARSH Studio &amp; Engineering Team
+        </h1>
+        <p className="mt-2 text-sm sm:text-base leading-relaxed text-muted">
+          An independent creative studio building production audio/video vaults, calibrated presets, and full-stack Next.js platforms.
+        </p>
       </div>
 
       {/* Hero Manifesto Stage */}
-      <div className="mt-14 overflow-hidden rounded-3xl border border-card-border bg-card p-8 md:p-14 shadow-sm relative">
+      <div className="overflow-hidden rounded-3xl border border-card-border bg-card p-6 md:p-10 shadow-sm relative">
         <div className="absolute top-0 right-0 h-96 w-96 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
 
         <div className="relative mx-auto max-w-3xl">

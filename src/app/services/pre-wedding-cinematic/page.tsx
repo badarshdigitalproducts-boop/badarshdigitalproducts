@@ -116,39 +116,19 @@ export default function PreWeddingCinematicPage() {
   ];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
-      {/* Hero Header */}
-      <div className="text-center max-w-3xl mx-auto">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 px-4 py-1.5 text-xs font-bold text-neutral-800 dark:text-neutral-200">
-          <Film className="h-3.5 w-3.5 text-amber-500" />
-          BADARSH Cinema Unit
-        </span>
-        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white sm:text-5xl md:text-6xl">
-          Cinematic <span className="text-amber-500">Pre-Wedding Films</span>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      {/* Compact Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-3xl">
+          Cinematic Pre-Wedding Films
         </h1>
-        <p className="mt-4 text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg">
-          Not boring pose-and-smile clips. We direct story-driven, Bollywood-grade 4K motion pictures complete with licensed musical scores, DJI Mavic drone landscapes, and emotional voiceovers.
+        <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+          Story-driven 4K motion pictures shot on Sony FX3 Cinema Line &amp; drone across Goa, Coorg, and Bengaluru.
         </p>
-
-        {/* Highlights */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <div className="flex items-center gap-2 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-1.5 text-xs font-medium text-neutral-800 dark:text-neutral-200 shadow-xs">
-            <Compass className="h-3.5 w-3.5 text-indigo-500" />
-            <span>Goa, Coorg, Chikmagalur &amp; Bengaluru</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-1.5 text-xs font-medium text-neutral-800 dark:text-neutral-200 shadow-xs">
-            <Video className="h-3.5 w-3.5 text-amber-500" />
-            <span>4K 10-Bit 4:2:2 ProRes Color Science</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-1.5 text-xs font-medium text-neutral-800 dark:text-neutral-200 shadow-xs">
-            <Clock className="h-3.5 w-3.5 text-emerald-500" />
-            <span>Guaranteed Teaser Within 3 Days</span>
-          </div>
-        </div>
       </div>
 
       {/* 4K Cinematic Showreel Video Player */}
-      <div className="mt-16 overflow-hidden rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-neutral-950 shadow-2xl relative">
+      <div className="overflow-hidden rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-neutral-950 shadow-2xl relative">
         <div className="relative aspect-video w-full max-h-[580px] bg-black">
           <video
             ref={videoRef}

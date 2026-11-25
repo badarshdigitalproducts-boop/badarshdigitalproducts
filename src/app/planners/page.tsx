@@ -82,39 +82,19 @@ export default function PlannersPage() {
   }, [productList, search, selectedCategory]);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
-      {/* Hero Header */}
-      <div className="text-center max-w-3xl mx-auto">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5 text-xs font-bold text-accent">
-          <Calendar className="h-3.5 w-3.5" />
-          Productivity Systems
-        </span>
-        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Original Productivity &amp; <span className="text-accent">Life Planners</span>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      {/* Compact Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          Productivity &amp; Life Planners
         </h1>
-        <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
-          Designed by our team to organize every aspect of your life — daily routines, career sprints, fitness routines, and finance tracking. Preview live inside our secure reader with copy protection and download instantly.
+        <p className="mt-1 text-sm text-muted">
+          Preview templates in our protected PDF viewer and download iPad-ready GoodNotes &amp; printable layouts.
         </p>
-
-        {/* Feature Badges */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <div className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-medium text-foreground shadow-2xs">
-            <Lock className="h-3.5 w-3.5 text-emerald-500" />
-            <span>Secure In-Browser PDF Reader</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-medium text-foreground shadow-2xs">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-            <span>GoodNotes, Notability &amp; Printable PDF</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-medium text-foreground shadow-2xs">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-            <span>Instant High-Res Cloud Delivery</span>
-          </div>
-        </div>
       </div>
 
       {/* Category Tabs & Search */}
-      <div className="mt-14 mb-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0 scrollbar-none">
           {categories.map((cat) => (
             <button

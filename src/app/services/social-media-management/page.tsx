@@ -26,39 +26,33 @@ export default function SocialMediaManagementPage() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
-      {/* Hero */}
-      <div className="text-center">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5 text-xs font-bold text-accent">
-          <Share2 className="h-3.5 w-3.5" />
-          Full-Stack Social Media Agency
-        </span>
-        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Done-For-You <span className="text-accent">Social Media Management</span>
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-          Stop stressing over what to post every day. We handle your entire social media presence: custom content calendars, graphic design, edited Reels, caption copywriting, peak-hour publishing, and active follower engagement.
-        </p>
-
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <a
-            href={getWhatsAppUrl(
-              "Hi BADARSH! I'm interested in monthly social media management for my brand. Let's schedule a kickoff call!",
-              "Social Media Management Inquiry"
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 font-heading text-xs font-bold text-white shadow-lg shadow-accent/25 hover:bg-accent-hover hover:scale-105 transition-all"
-          >
-            <MessageSquare className="h-4 w-4" />
-            <span>Chat on WhatsApp</span>
-            <ArrowRight className="h-4 w-4" />
-          </a>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      {/* Compact Header */}
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Social Media Management
+          </h1>
+          <p className="mt-1 text-sm text-muted">
+            End-to-end content calendars, edited Reels, copywriting, scheduling, and community management.
+          </p>
         </div>
+        <a
+          href={getWhatsAppUrl(
+            "Hi BADARSH! I'm interested in monthly social media management for my brand. Let's schedule a kickoff call!",
+            "Social Media Management Inquiry"
+          )}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-accent-hover transition-all shrink-0 self-start sm:self-auto"
+        >
+          <MessageSquare className="h-3.5 w-3.5" />
+          <span>Book Kickoff on WhatsApp</span>
+        </a>
       </div>
 
       {/* 4 Pillars of Social Media Dominance */}
-      <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-2xl border border-card-border bg-card/60 p-6">
           <Calendar className="h-8 w-8 text-accent mb-3" />
           <h4 className="font-heading text-base font-bold text-foreground">30-Day Strategy</h4>

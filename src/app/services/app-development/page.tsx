@@ -28,39 +28,33 @@ export default function AppDevelopmentPage() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
-      {/* Hero */}
-      <div className="text-center">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5 text-xs font-bold text-accent">
-          <Smartphone className="h-3.5 w-3.5" />
-          Cross-Platform Mobile Studio
-        </span>
-        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Mobile App Development for <span className="text-accent">iOS &amp; Android</span>
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-          Turn your app concept into a production-ready mobile application on the Apple App Store and Google Play. We develop responsive cross-platform apps using React Native and Flutter with secure authentication, real-time database sync, push notifications, and payment processing.
-        </p>
-
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <a
-            href={getWhatsAppUrl(
-              "Hi BADARSH! I have an app idea. Can we schedule a scoping call to discuss development?",
-              "Mobile App Inquiry"
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 font-heading text-xs font-bold text-white shadow-lg shadow-accent/25 hover:bg-accent-hover hover:scale-105 transition-all"
-          >
-            <MessageSquare className="h-4 w-4" />
-            <span>Discuss Your App on WhatsApp</span>
-            <ArrowRight className="h-4 w-4" />
-          </a>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      {/* Compact Header */}
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Mobile App Development (iOS &amp; Android)
+          </h1>
+          <p className="mt-1 text-sm text-muted">
+            Production React Native &amp; Flutter builds with auth, cloud database sync, and App Store deployment.
+          </p>
         </div>
+        <a
+          href={getWhatsAppUrl(
+            "Hi BADARSH! I have an app idea. Can we schedule a scoping call to discuss development?",
+            "Mobile App Inquiry"
+          )}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-accent-hover transition-all shrink-0 self-start sm:self-auto"
+        >
+          <MessageSquare className="h-3.5 w-3.5" />
+          <span>Scope on WhatsApp</span>
+        </a>
       </div>
 
       {/* APP PORTFOLIO SHOWCASE */}
-      <div className="mt-16 rounded-3xl border border-card-border bg-card/60 p-6 md:p-10 shadow-sm">
+      <div className="rounded-3xl border border-card-border bg-card/60 p-5 md:p-8 shadow-sm">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div>
             <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent">

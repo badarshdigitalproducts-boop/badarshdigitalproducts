@@ -65,7 +65,7 @@ const NAV_ITEMS = [
   { label: "Blog & Editorial", href: "/admin/blog", icon: FileText, group: "Audience" },
 
   // SYSTEM
-  { label: "CashFree & Settings", href: "/admin/settings", icon: Settings, group: "System" },
+  { label: "Payments & Settings", href: "/admin/settings", icon: Settings, group: "System" },
   { label: "DPDP Compliance & Breach", href: "/admin/compliance", icon: ShieldCheck, group: "System" },
 ];
 
@@ -274,7 +274,7 @@ export default function AdminLayout({
         </header>
 
         {/* Mobile Header */}
-        <header className="flex h-16 items-center justify-between border-b border-zinc-800 bg-zinc-950 px-4 md:hidden">
+        <header className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-md px-4 md:hidden">
           <div className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FF5A36] text-xs font-bold text-white">
               B
@@ -284,17 +284,28 @@ export default function AdminLayout({
             </span>
           </div>
 
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="rounded-lg p-2 text-zinc-400 hover:bg-zinc-900 hover:text-white"
-          >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/"
+              target="_blank"
+              className="rounded-lg border border-zinc-800 bg-zinc-900 p-2 text-zinc-300 hover:text-white"
+              aria-label="Open Storefront"
+            >
+              <ExternalLink className="h-4 w-4" />
+            </Link>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="rounded-lg p-2 text-zinc-300 hover:bg-zinc-900 hover:text-white"
+              aria-label="Toggle Admin Navigation"
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </header>
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="border-b border-zinc-800 bg-zinc-950 p-4 md:hidden max-h-[80vh] overflow-y-auto">
+          <div className="border-b border-zinc-800 bg-zinc-950 p-3 md:hidden max-h-[82vh] overflow-y-auto">
             <nav className="space-y-1">
               {NAV_ITEMS.map((item) => {
                 const Icon = item.icon;
@@ -306,23 +317,23 @@ export default function AdminLayout({
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-xs font-semibold",
+                      "flex items-center gap-3 rounded-xl px-3.5 py-3 text-xs font-semibold",
                       isActive
                         ? "bg-[#FF5A36] text-white"
                         : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
                     )}
                   >
-                    <Icon className="h-4 w-4" />
+                    <Icon className="h-4 w-4 shrink-0" />
                     <span>{item.label}</span>
                   </Link>
                 );
               })}
-              <div className="pt-2">
+              <div className="pt-2 border-t border-zinc-800/80 mt-2">
                 <button
                   onClick={handleLogout}
-                  className="flex w-full items-center gap-3 rounded-lg px-3.5 py-2.5 text-xs font-semibold text-red-400 hover:bg-red-500/10"
+                  className="flex w-full items-center gap-3 rounded-xl px-3.5 py-3 text-xs font-semibold text-red-400 hover:bg-red-500/10"
                 >
-                  <LogOut className="h-4 w-4" />
+                  <LogOut className="h-4 w-4 shrink-0" />
                   <span>Lock Console</span>
                 </button>
               </div>
@@ -331,7 +342,7 @@ export default function AdminLayout({
         )}
 
         {/* Page Content */}
-        <main className="flex-1 p-4 md:p-8 lg:p-10">{children}</main>
+        <main className="flex-1 p-3.5 sm:p-6 md:p-8 lg:p-10">{children}</main>
       </div>
     </div>
   );

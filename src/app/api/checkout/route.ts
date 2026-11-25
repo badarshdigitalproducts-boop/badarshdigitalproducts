@@ -275,8 +275,8 @@ export async function POST(request: NextRequest) {
           console.error("Cashfree order creation failed:", cfResult.error);
         }
       } catch (cfErr: any) {
-        cfErrorMessage = cfErr?.message || "Cashfree connection error.";
-        console.warn("Cashfree session creation warning:", cfErr);
+        cfErrorMessage = cfErr?.message || "Payment gateway connection error.";
+        console.warn("Payment session creation warning:", cfErr);
       }
 
       if (!paymentSessionId) {
@@ -285,7 +285,7 @@ export async function POST(request: NextRequest) {
             success: false,
             error:
               cfErrorMessage ||
-              "Unable to initialize Cashfree payment gateway. Please verify your phone number and try again.",
+              "Unable to initialize secure payment gateway. Please verify your phone number and try again.",
           },
           { status: 502 }
         );
@@ -308,11 +308,11 @@ export async function POST(request: NextRequest) {
       items,
       totalAmount: finalAmount,
       currency: "INR",
-      paymentMethod: isFree ? "Free Product" : paymentSessionId ? "Cashfree" : paymentMethod,
+      paymentMethod: isFree ? "Free Product" : paymentSessionId ? "Online (UPI / Card)" : paymentMethod,
       paymentStatus,
       licenseKey,
       canvaAccessDelivered: paymentStatus === "completed",
-      deliveryNotes: `Online checkout ${appliedCoupon ? `[Coupon: ${appliedCoupon.code} -₹${discountAmount}]` : ""} ${paymentSessionId ? `[Cashfree Session: ${paymentSessionId.slice(0, 16)}...]` : ""}`.trim(),
+      deliveryNotes: `Online checkout ${appliedCoupon ? `[Coupon: ${appliedCoupon.code} -₹${discountAmount}]` : ""} ${paymentSessionId ? `[Session: ${paymentSessionId.slice(0, 12)}...]` : ""}`.trim(),
     });
 
     // 11. Auto-capture lead

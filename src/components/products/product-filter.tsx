@@ -24,6 +24,8 @@ interface ProductFilterProps {
   onSearchChange: (query: string) => void;
   sortBy: string;
   onSortChange: (sort: string) => void;
+  selectedAspectRatio?: string;
+  onAspectRatioChange?: (ratio: string) => void;
   categoriesList?: readonly { value: string; label: string }[];
   totalCount?: number;
 }
@@ -49,12 +51,14 @@ export function ProductFilter({
   onSearchChange,
   sortBy,
   onSortChange,
+  selectedAspectRatio,
+  onAspectRatioChange,
   categoriesList = CATEGORIES,
   totalCount,
 }: ProductFilterProps) {
   return (
-    <div className="space-y-4">
-      {/* Search & Sort Row */}
+    <div className="space-y-3.5">
+      {/* Search & Controls Row */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         {/* Canva-grade search bar */}
         <div className="relative flex-1">
@@ -63,7 +67,7 @@ export function ProductFilter({
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search templates (e.g. Reels, Carousels, Pitch Decks, Canva links)..."
+            placeholder="Search templates (Reels, Carousels, Pitch Decks, Planners)..."
             className="w-full rounded-full border border-border bg-background py-2.5 pl-10 pr-9 text-xs sm:text-sm text-foreground placeholder:text-foreground/40 focus:border-foreground focus:outline-none transition-colors"
           />
           {searchQuery && (
@@ -77,19 +81,35 @@ export function ProductFilter({
           )}
         </div>
 
-        {/* Sort & Count */}
-        <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0">
+        {/* Aspect Ratio, Sort & Count */}
+        <div className="flex flex-wrap items-center justify-between sm:justify-end gap-2 shrink-0">
           {typeof totalCount === "number" && (
-            <span className="text-xs text-foreground/50">
+            <span className="text-xs text-foreground/50 mr-1">
               {totalCount} {totalCount === 1 ? "template" : "templates"}
             </span>
           )}
 
-          <div className="flex items-center gap-2">
+          {onAspectRatioChange && (
+            <select
+              value={selectedAspectRatio || "all"}
+              onChange={(e) => onAspectRatioChange(e.target.value)}
+              aria-label="Filter by aspect ratio"
+              className="cursor-pointer rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground focus:border-foreground focus:outline-none transition-colors"
+            >
+              <option value="all">All Sizes</option>
+              <option value="9:16">9:16 Reels / Stories</option>
+              <option value="1:1">1:1 / 4:5 Feed</option>
+              <option value="16:9">16:9 Presentation</option>
+              <option value="A4">A4 Print / PDF</option>
+            </select>
+          )}
+
+          <div className="flex items-center gap-1.5">
             <SlidersHorizontal className="h-3.5 w-3.5 text-foreground/50" />
             <select
               value={sortBy}
               onChange={(e) => onSortChange(e.target.value)}
+              aria-label="Sort templates"
               className="cursor-pointer rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground focus:border-foreground focus:outline-none transition-colors"
             >
               <option value="popular">Most Popular</option>

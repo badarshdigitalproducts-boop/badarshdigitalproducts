@@ -5,10 +5,13 @@ import {
 } from "@/lib/auth/access-control";
 import {
   findUserById,
+  findUserByEmail,
   deleteUserAccount,
+  getCanonicalUserId,
   USER_COOKIE_NAME,
 } from "@/lib/auth/user-auth";
-import { getAdminOrders } from "@/lib/admin/store";
+import { getAdminOrders, getDatabase, saveDatabase } from "@/lib/admin/store";
+import { rtSaveUser } from "@/lib/firebase/rtdb";
 
 export async function GET(request: Request) {
   try {
@@ -17,15 +20,47 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const account = await findUserById(user.uid);
+    let account = await findUserById(user.uid);
+    if (!account && user.email) {
+      account = await findUserByEmail(user.email);
+    }
+
+    // Reconcile missing cloud record for an already-verified signed session cookie
+    if (!account && user.email) {
+      const now = new Date().toISOString();
+      account = {
+        id: user.uid || getCanonicalUserId(user.email),
+        name: user.displayName || user.email.split("@")[0],
+        email: user.email.toLowerCase().trim(),
+        photoURL: user.photoURL || undefined,
+        provider: "email",
+        createdAt: now,
+        lastLoginAt: now,
+        dpdpConsent: {
+          consentedAt: now,
+          version: "2023-v1",
+          lawfulBasis: "explicit_statutory_consent",
+        },
+      };
+      const db = await getDatabase();
+      if (!db.users) db.users = [];
+      db.users.unshift(account);
+      await saveDatabase(db);
+      await rtSaveUser(account).catch(() => {});
+    }
+
     if (!account) {
       return NextResponse.json({ error: "User account not found." }, { status: 404 });
     }
 
-    // Retrieve user's own orders (strictly matching customer email)
+    // Retrieve user's own orders matching account userId or verified email
     const allOrders = await getAdminOrders();
+    const normalizedEmail = user.email.toLowerCase().trim();
     const userOrders = allOrders.filter(
-      (o) => o.customerEmail && o.customerEmail.toLowerCase().trim() === user.email.toLowerCase().trim()
+      (o) =>
+        o.userId === account!.id ||
+        o.userId === user.uid ||
+        (o.customerEmail && o.customerEmail.toLowerCase().trim() === normalizedEmail)
     );
 
     return NextResponse.json({

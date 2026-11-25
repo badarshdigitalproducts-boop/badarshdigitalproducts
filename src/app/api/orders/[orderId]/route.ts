@@ -47,9 +47,9 @@ export async function GET(request: Request, { params }: RouteParams) {
           order = {
             ...order,
             paymentStatus: "completed",
-            paymentMethod: "Cashfree",
+            paymentMethod: "Online (UPI / Card)",
             canvaAccessDelivered: true,
-            deliveryNotes: `Auto-verified on customer redirect via Cashfree Production Gateway (${cfResult.cfOrderId || "CF_PAID"})`,
+            deliveryNotes: `Auto-verified on customer redirect (${cfResult.cfOrderId || "PAID"})`,
           };
           await saveAdminOrder(order);
 
@@ -65,6 +65,11 @@ export async function GET(request: Request, { params }: RouteParams) {
       }
     }
 
+    const publicPaymentMethod =
+      order.paymentMethod?.toLowerCase() === "cashfree"
+        ? "Online (UPI / Card)"
+        : order.paymentMethod || "Online (UPI / Card)";
+
     // Return sanitized customer order record
     return NextResponse.json({
       success: true,
@@ -76,11 +81,10 @@ export async function GET(request: Request, { params }: RouteParams) {
         items: order.items,
         totalAmount: order.totalAmount,
         currency: order.currency,
-        paymentMethod: order.paymentMethod,
+        paymentMethod: publicPaymentMethod,
         paymentStatus: order.paymentStatus,
         licenseKey: order.licenseKey,
         canvaAccessDelivered: order.canvaAccessDelivered,
-        deliveryNotes: order.deliveryNotes,
         createdAt: order.createdAt,
       },
     });

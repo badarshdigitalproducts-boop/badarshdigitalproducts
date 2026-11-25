@@ -43,9 +43,26 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+async function computeCanonicalFallbackUid(email: string | null | undefined, fbUid: string): Promise<string> {
+  if (!email || typeof window === "undefined" || !window.crypto?.subtle) {
+    return fbUid;
+  }
+  try {
+    const data = new TextEncoder().encode(email.toLowerCase().trim());
+    const hashBuffer = await window.crypto.subtle.digest("SHA-256", data);
+    const hex = Array.from(new Uint8Array(hashBuffer))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+    return `usr-${hex.slice(0, 12)}`;
+  } catch {
+    return fbUid;
+  }
+}
+
 async function syncGoogleSessionWithServer(fbUser: FirebaseUser): Promise<AuthUser> {
+  const canonicalFallbackUid = await computeCanonicalFallbackUid(fbUser.email, fbUser.uid);
   const fallbackUser: AuthUser = {
-    uid: fbUser.uid,
+    uid: canonicalFallbackUid,
     email: fbUser.email,
     displayName: fbUser.displayName || (fbUser.email ? fbUser.email.split("@")[0] : "Creator"),
     photoURL: fbUser.photoURL || null,
@@ -70,7 +87,7 @@ async function syncGoogleSessionWithServer(fbUser: FirebaseUser): Promise<AuthUs
       }
     }
   } catch {
-    // Non-blocking: Firebase client session remains valid even if cookie sync retries
+    // Non-blocking: Firebase client session preserves deterministic fallback ID
   }
 
   return fallbackUser;
@@ -96,6 +113,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     async function initAuth() {
       let hasCookieSession = false;
+      let activeSessionEmail = "";
 
       // 1. Check for returning Google Redirect sign-in result first
       try {
@@ -106,6 +124,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (mounted) {
             setUser(syncedUser);
             hasCookieSession = true;
+            activeSessionEmail = syncedUser.email?.toLowerCase().trim() || "";
             setLoading(false);
             syncAccountPurchasedProducts(true).catch(() => {});
           }
@@ -122,6 +141,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (data.user && mounted) {
             setUser(data.user);
             hasCookieSession = true;
+            activeSessionEmail = data.user.email?.toLowerCase().trim() || "";
             setLoading(false);
             syncAccountPurchasedProducts().catch(() => {});
           }
@@ -138,9 +158,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           async (fbUser: FirebaseUser | null) => {
             if (!mounted) return;
             if (fbUser && fbUser.email) {
+              const fbEmail = fbUser.email.toLowerCase().trim();
+              // Skip redundant re-sync if cookie session already verified this exact user
+              if (hasCookieSession && activeSessionEmail === fbEmail) {
+                setLoading(false);
+                return;
+              }
               const syncedUser = await syncGoogleSessionWithServer(fbUser);
               if (mounted) {
                 setUser(syncedUser);
+                hasCookieSession = true;
+                activeSessionEmail = syncedUser.email?.toLowerCase().trim() || "";
                 setLoading(false);
                 syncAccountPurchasedProducts().catch(() => {});
               }

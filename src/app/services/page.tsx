@@ -56,35 +56,19 @@ export default function ServicesPage() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
-      {/* Top Hero */}
-      <SectionHeader
-        badge="BADARSH Done-For-You Agency"
-        title="Creative &amp; Technical Services for Growing Brands"
-        subtitle="Skip the amateur freelancers. Hire our dedicated in-house team to produce viral video edits, build blazing-fast Next.js websites, retouch commercial photos, and scale your brand identity."
-      />
-
-      {/* Dedicated Services Bar */}
-      <div className="mt-8 mb-16 flex flex-wrap items-center justify-center gap-2">
-        {serviceList.map((s) => {
-          const dedicatedHref =
-            s.slug === "website-building"
-              ? "/services/website-design"
-              : `/services/${s.slug}`;
-          return (
-            <Link
-              key={s.id}
-              href={dedicatedHref}
-              className="rounded-full border border-card-border bg-card px-4 py-2 text-xs font-bold text-muted transition-all hover:border-accent hover:text-accent hover:bg-accent/5"
-            >
-              {s.title} &rarr;
-            </Link>
-          );
-        })}
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      {/* Compact Header */}
+      <div className="mb-10">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          Studio Production &amp; Engineering Services
+        </h1>
+        <p className="mt-1 text-sm text-muted">
+          In-house video editing, custom Next.js applications, photography, and growth retainers delivered with transparent packages.
+        </p>
       </div>
 
       {/* Services List */}
-      <div className="space-y-24 md:space-y-36">
+      <div className="space-y-16 md:space-y-24">
         {serviceList.map((service, idx) => {
           const Icon = getIcon(service.slug);
 

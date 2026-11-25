@@ -21,9 +21,12 @@ import {
   ArrowRight,
   RefreshCw,
   LogOut,
+  Copy,
+  Check,
 } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
 import { useCurrency } from "@/context/currency-context";
+import { safeParseJson } from "@/lib/utils";
 import { SectionHeader } from "@/components/shared/section-header";
 
 interface UserProfile {
@@ -59,6 +62,7 @@ export default function AccountSettingsPage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [orders, setOrders] = useState<UserOrder[]>([]);
   const [loading, setLoading] = useState(true);
+  const [copiedId, setCopiedId] = useState(false);
 
   // Delete modal state
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -80,17 +84,26 @@ export default function AccountSettingsPage() {
   const fetchAccountData = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/user/account");
+      const res = await fetch("/api/user/account", { cache: "no-store" });
       if (res.ok) {
-        const data = await res.json();
-        setProfile(data.user);
-        setOrders(data.orders || []);
+        const data = await safeParseJson(res, {} as any);
+        if (data?.user) setProfile(data.user);
+        setOrders(Array.isArray(data?.orders) ? data.orders : []);
       }
     } catch (err) {
       console.error("Failed to load user account:", err);
     } finally {
       setLoading(false);
     }
+  };
+
+  const persistentUserId = profile?.id || user?.uid || "";
+
+  const handleCopyUserId = () => {
+    if (!persistentUserId) return;
+    navigator.clipboard.writeText(persistentUserId);
+    setCopiedId(true);
+    setTimeout(() => setCopiedId(false), 2000);
   };
 
   const handleDownloadMyData = () => {
@@ -223,7 +236,29 @@ export default function AccountSettingsPage() {
             </div>
           </div>
 
-          <div className="border-t border-card-border/60 pt-4 grid grid-cols-2 gap-4 text-xs">
+          <div className="border-t border-card-border/60 pt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+            <div>
+              <span className="text-muted block text-[11px]">Persistent User ID</span>
+              <div className="mt-0.5 flex items-center gap-1.5">
+                <span className="font-mono font-semibold text-foreground text-[12px] truncate">
+                  {persistentUserId || "Assigning..."}
+                </span>
+                {persistentUserId && (
+                  <button
+                    type="button"
+                    onClick={handleCopyUserId}
+                    className="inline-flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded-md border border-card-border text-muted hover:text-foreground hover:bg-muted/40 transition-colors"
+                    aria-label="Copy User ID"
+                  >
+                    {copiedId ? (
+                      <Check className="h-3 w-3 text-emerald-500" />
+                    ) : (
+                      <Copy className="h-3 w-3" />
+                    )}
+                  </button>
+                )}
+              </div>
+            </div>
             <div>
               <span className="text-muted block text-[11px]">Member Since</span>
               <span className="font-medium text-foreground">

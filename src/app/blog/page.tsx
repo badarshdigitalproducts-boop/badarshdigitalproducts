@@ -46,16 +46,19 @@ export default function BlogListingPage() {
   const featured = postsList[0];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
-      <SectionHeader
-        badge="BADARSH Knowledge Base"
-        title="Marketing, Design &amp; Founder Guides"
-        subtitle="Real-world case studies, design tutorials, and organic growth tactics to help you win online."
-      />
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          Editorial Notes &amp; Creator Guides
+        </h1>
+        <p className="mt-1 text-sm text-muted">
+          Practical workflows, design systems, and editing case studies from the BADARSH studio team.
+        </p>
+      </div>
 
       {/* Featured hero post */}
       {featured && (
-        <div className="relative mt-10 overflow-hidden rounded-3xl border border-card-border bg-card shadow-md transition-all hover:border-accent/40 hover:shadow-xl">
+        <div className="relative overflow-hidden rounded-3xl border border-card-border bg-card shadow-md transition-all hover:border-accent/40 hover:shadow-xl">
           <div className="grid grid-cols-1 lg:grid-cols-12">
             <div className="flex aspect-[16/10] items-center justify-center bg-gradient-to-br from-accent/20 via-purple-900/30 to-card p-8 lg:col-span-6">
               <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-background border border-border text-foreground shadow-sm">

@@ -91,7 +91,7 @@ export async function createCashfreeOrder(params: CreateCashfreeOrderParams) {
   if (!isConfigured) {
     return {
       success: false,
-      error: "Cashfree API credentials are not configured on the server.",
+      error: "Payment gateway API credentials are not configured on the server.",
       fallbackRequired: true,
     };
   }
@@ -140,10 +140,10 @@ export async function createCashfreeOrder(params: CreateCashfreeOrderParams) {
     const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      console.error("Cashfree order creation error:", data);
+      console.error("Payment gateway order creation error:", data);
       return {
         success: false,
-        error: data.message || "Failed to create Cashfree payment session.",
+        error: data.message || "Failed to create secure payment session.",
         fallbackRequired: true,
       };
     }
@@ -156,10 +156,10 @@ export async function createCashfreeOrder(params: CreateCashfreeOrderParams) {
       env,
     };
   } catch (error: any) {
-    console.error("Cashfree connection error:", error);
+    console.error("Payment gateway connection error:", error);
     return {
       success: false,
-      error: error.message || "Network error communicating with Cashfree.",
+      error: error.message || "Network error communicating with payment gateway.",
       fallbackRequired: true,
     };
   }

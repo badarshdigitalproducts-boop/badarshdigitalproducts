@@ -403,11 +403,11 @@ export default function AdminOrdersPage() {
             onChange={(e) => setMethodFilter(e.target.value)}
             className="rounded-xl border border-zinc-800 bg-zinc-900/80 px-3 py-2 text-xs font-medium text-zinc-300 focus:border-[#FF5A36] focus:outline-none"
           >
-            <option value="all">All Payment Gateways</option>
+            <option value="all">All Payment Methods</option>
+            <option value="Online (UPI / Card)">Online (UPI / Card)</option>
             <option value="UPI">UPI Direct</option>
-            <option value="Razorpay">Razorpay</option>
-            <option value="Stripe">Stripe</option>
             <option value="Manual Bank Transfer">Bank Transfer</option>
+            <option value="Free Product">Free Product</option>
           </select>
         </div>
       </div>
@@ -440,7 +440,7 @@ export default function AdminOrdersPage() {
       ) : (
         <div className="overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-950/60 shadow-xl backdrop-blur-xl">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+            <table className="min-w-[780px] w-full text-left text-xs">
               <thead className="border-b border-zinc-800 bg-zinc-900/60 text-zinc-400">
                 <tr>
                   <th className="px-4 py-3 font-semibold">Order ID</th>
@@ -754,10 +754,10 @@ export default function AdminOrdersPage() {
                     }
                     className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-2 text-xs text-white focus:border-[#FF5A36] focus:outline-none"
                   >
+                    <option value="Online (UPI / Card)">Online (UPI / Card)</option>
                     <option value="UPI">UPI Direct (GPay, PhonePe, Paytm)</option>
-                    <option value="Razorpay">Razorpay Gateway</option>
-                    <option value="Stripe">Stripe International</option>
                     <option value="Manual Bank Transfer">Manual NEFT / IMPS</option>
+                    <option value="Free Product">Free Product</option>
                   </select>
                 </div>
               </div>

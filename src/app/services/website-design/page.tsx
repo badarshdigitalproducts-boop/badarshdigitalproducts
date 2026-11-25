@@ -28,39 +28,33 @@ export default function WebsiteDesignPage() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
-      {/* Hero */}
-      <div className="text-center">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5 text-xs font-bold text-accent">
-          <Globe className="h-3.5 w-3.5" />
-          Next.js Web Engineering Studio
-        </span>
-        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Website Design &amp; <span className="text-accent">Custom Next.js Development</span>
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-          We develop high-performance, responsive websites tailored to your exact business requirements with transparent flexible rates. Sub-second page loads, complete Google SEO optimization, and direct personal WhatsApp collaboration with BADARSH founders.
-        </p>
-
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <a
-            href={getWhatsAppUrl(
-              "Hi BADARSH! I need a website designed for my business. Can we discuss pages and get a quote on WhatsApp?",
-              "Website Development Inquiry"
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 font-heading text-xs font-bold text-white shadow-lg shadow-accent/25 hover:bg-accent-hover hover:scale-105 transition-all"
-          >
-            <MessageSquare className="h-4 w-4" />
-            <span>Discuss Your Website on WhatsApp</span>
-            <ArrowRight className="h-4 w-4" />
-          </a>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      {/* Compact Header */}
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Website Design &amp; Next.js Development
+          </h1>
+          <p className="mt-1 text-sm text-muted">
+            Sub-second responsive storefronts and SaaS sites engineered for SEO and direct checkout.
+          </p>
         </div>
+        <a
+          href={getWhatsAppUrl(
+            "Hi BADARSH! I need a website designed for my business. Can we discuss pages and get a quote on WhatsApp?",
+            "Website Development Inquiry"
+          )}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-accent-hover transition-all shrink-0 self-start sm:self-auto"
+        >
+          <MessageSquare className="h-3.5 w-3.5" />
+          <span>Get Quote on WhatsApp</span>
+        </a>
       </div>
 
       {/* LIVE WEBSITES PORTFOLIO SHOWCASE */}
-      <div className="mt-16 rounded-3xl border border-card-border bg-card/60 p-6 md:p-10 shadow-sm">
+      <div className="rounded-3xl border border-card-border bg-card/60 p-5 md:p-8 shadow-sm">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div>
             <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent">

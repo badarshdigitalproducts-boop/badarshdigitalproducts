@@ -27,39 +27,33 @@ export default function PhotoEditingPage() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
-      {/* Hero */}
-      <div className="text-center max-w-3xl mx-auto">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5 text-xs font-bold text-accent">
-          <Camera className="h-3.5 w-3.5" />
-          BADARSH Retouching Studio
-        </span>
-        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          High-End Commercial <span className="text-accent">Photo Retouching</span>
-        </h1>
-        <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
-          Studio-grade frequency separation skin retouching, reflection cleanup, e-commerce pure-white cutouts, and editorial color grading that meets the exacting standards of luxury brands and top marketplaces.
-        </p>
-
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <a
-            href={getWhatsAppUrl(
-              "Hi BADARSH! I have photos that need retouching. Can I send 1-2 sample photos to test your quality?",
-              "Photo Retouching Inquiry"
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 font-heading text-xs font-bold text-white shadow-lg shadow-accent/25 hover:bg-accent-hover hover:scale-105 transition-all"
-          >
-            <MessageSquare className="h-4 w-4" />
-            <span>Send Sample Photos on WhatsApp</span>
-            <ArrowRight className="h-4 w-4" />
-          </a>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      {/* Compact Header */}
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Commercial Photo Retouching
+          </h1>
+          <p className="mt-1 text-sm text-muted">
+            Drag the comparison sliders below to inspect frequency separation skin texture, lighting, and commercial grading.
+          </p>
         </div>
+        <a
+          href={getWhatsAppUrl(
+            "Hi BADARSH! I have photos that need retouching. Can I send 1-2 sample photos to test your quality?",
+            "Photo Retouching Inquiry"
+          )}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-accent-hover transition-all shrink-0 self-start sm:self-auto"
+        >
+          <MessageSquare className="h-3.5 w-3.5" />
+          <span>Send Sample on WhatsApp</span>
+        </a>
       </div>
 
       {/* INTERACTIVE BEFORE & AFTER SLIDER SHOWCASE */}
-      <div className="mt-16 rounded-3xl border border-card-border bg-card/60 p-6 md:p-10 shadow-sm">
+      <div className="rounded-3xl border border-card-border bg-card/60 p-5 md:p-8 shadow-sm">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-8">
           <div>
             <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent">

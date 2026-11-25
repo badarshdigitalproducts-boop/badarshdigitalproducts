@@ -39,12 +39,6 @@ export const NAV_LINKS = [
 
 export const SHOP_MENU = [
   {
-    label: "Templates",
-    href: "/templates",
-    desc: "Social & presentation design templates for every platform",
-    icon: "",
-  },
-  {
     label: "E-Books",
     href: "/ebooks",
     desc: "Growth playbooks, marketing blueprints & founder guides",

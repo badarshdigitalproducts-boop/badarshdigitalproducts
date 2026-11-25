@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { ArrowRight, ChevronRight } from "lucide-react";
 import { SectionHeader } from "@/components/shared/section-header";
 import { ProductCard } from "@/components/products/product-card";
 import { products as initialProducts } from "@/content/products";
@@ -50,16 +48,6 @@ export function FeaturedProducts() {
         <p className="text-center text-[11px] text-[#86868B] mt-2 md:hidden">
           Swipe sideways to explore assets &rarr;
         </p>
-
-        <div className="mt-12 text-center">
-          <Link
-            href="/bundles"
-            className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background hover:bg-muted px-6 py-2.5 text-xs sm:text-sm font-medium text-foreground shadow-xs transition-all active:scale-95"
-          >
-            <span>Explore Full Catalog</span>
-            <ChevronRight className="h-4 w-4" />
-          </Link>
-        </div>
       </div>
     </section>
   );

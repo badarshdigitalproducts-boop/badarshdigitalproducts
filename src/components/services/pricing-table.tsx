@@ -97,21 +97,6 @@ export function PricingTable({ packages, serviceTitle }: PricingTableProps) {
             </div>
 
             <div className="mt-8 border-t border-card-border/60 pt-6 space-y-2.5">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => handleInquireClick(pkg)}
-                className={`flex w-full cursor-pointer items-center justify-center gap-2 rounded-full py-3.5 font-heading text-xs font-bold transition-all duration-200 ${
-                  pkg.isPopular
-                    ? "bg-accent text-white shadow-md shadow-accent/20 hover:bg-accent-hover hover:shadow-lg"
-                    : "border border-card-border bg-background text-foreground hover:border-accent hover:bg-accent hover:text-white"
-                }`}
-              >
-                <MessageCircle className="h-4 w-4" />
-                <span>{pkg.ctaText || "Inquire via WhatsApp"}</span>
-              </a>
-
               <button
                 type="button"
                 onClick={() => {
@@ -137,11 +122,26 @@ export function PricingTable({ packages, serviceTitle }: PricingTableProps) {
                     createdAt: "2026-01-01",
                   });
                 }}
-                className="flex w-full cursor-pointer items-center justify-center gap-1.5 py-2 text-[11px] font-semibold text-muted hover:text-foreground transition-colors"
+                className={`flex w-full cursor-pointer items-center justify-center gap-2 rounded-full py-3.5 font-heading text-xs font-bold transition-all duration-200 ${
+                  pkg.isPopular
+                    ? "bg-accent text-white shadow-md shadow-accent/20 hover:bg-accent-hover hover:shadow-lg"
+                    : "bg-foreground text-background hover:opacity-90"
+                }`}
               >
-                <Lock className="h-3 w-3 text-emerald-500" />
-                <span>Or Book &amp; Pay Online (UPI / Card) &rarr;</span>
+                <Lock className="h-3.5 w-3.5" />
+                <span>Book &amp; Pay Online</span>
               </button>
+
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => handleInquireClick(pkg)}
+                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-card-border bg-background py-3 font-heading text-xs font-semibold text-foreground hover:border-emerald-500/40 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200"
+              >
+                <MessageCircle className="h-3.5 w-3.5 text-emerald-500" />
+                <span>{pkg.ctaText || "Inquire via WhatsApp"}</span>
+              </a>
             </div>
           </div>
         );

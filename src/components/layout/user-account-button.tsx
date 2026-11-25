@@ -110,6 +110,9 @@ export function UserAccountButton() {
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" title="Active" />
                 </div>
                 <p className="truncate text-[11px] text-foreground/50">{user.email}</p>
+                <p className="truncate font-mono text-[10px] text-foreground/45 mt-0.5">
+                  ID: {user.uid}
+                </p>
               </div>
             </div>
 
@@ -121,15 +124,15 @@ export function UserAccountButton() {
                 className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs text-foreground/80 transition-colors hover:bg-muted hover:text-foreground font-medium"
               >
                 <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
-                <span>Account &amp; DPDP Privacy</span>
+                <span>Account &amp; My Library</span>
               </Link>
               <Link
-                href="/bundles"
+                href="/account#orders"
                 onClick={() => setOpen(false)}
                 className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs text-foreground/80 transition-colors hover:bg-muted hover:text-foreground"
               >
                 <FolderLock className="h-3.5 w-3.5 text-foreground/60" />
-                <span>My Digital Library</span>
+                <span>Orders &amp; License Keys</span>
               </Link>
               <Link
                 href="/templates"

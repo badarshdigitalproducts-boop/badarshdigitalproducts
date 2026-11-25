@@ -87,17 +87,20 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" title="Active" />
                         </div>
                         <p className="truncate text-xs text-foreground/50">{user.email}</p>
+                        <p className="truncate font-mono text-[10px] text-foreground/45 mt-0.5">
+                          ID: {user.uid}
+                        </p>
                       </div>
                     </div>
 
                     <div className="mt-3 grid grid-cols-2 gap-2 pt-2 border-t border-border/60">
                       <Link
-                        href="/bundles"
+                        href="/account"
                         onClick={onClose}
-                        className="flex items-center justify-center gap-1.5 rounded-lg bg-foreground py-2 text-xs font-medium text-background transition-opacity hover:opacity-85"
+                        className="flex items-center justify-center gap-1.5 rounded-lg bg-foreground py-2.5 text-xs font-medium text-background transition-opacity hover:opacity-85"
                       >
                         <FolderLock className="h-3.5 w-3.5" />
-                        <span>My Library</span>
+                        <span>Account &amp; Library</span>
                       </Link>
                       <button
                         onClick={async () => {

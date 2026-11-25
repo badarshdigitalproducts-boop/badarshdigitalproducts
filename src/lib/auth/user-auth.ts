@@ -1,11 +1,21 @@
 import crypto from "crypto";
 import { getDatabase, saveDatabase } from "@/lib/admin/store";
 import { fsGetUserById, fsSaveUser } from "@/lib/firebase/db";
-import { rtGetUserById, rtSaveUser } from "@/lib/firebase/rtdb";
+import { rtGetUserById, rtGetUsers, rtSaveUser } from "@/lib/firebase/rtdb";
 import type { UserAccount } from "@/lib/admin/types";
 
 export const USER_COOKIE_NAME = "badarsh_creator_session";
 export const USER_SESSION_MAX_AGE_SECONDS = 30 * 24 * 60 * 60; // 30 days
+
+/**
+ * Generates a canonical, stable user ID from normalized email so users
+ * consistently receive the exact same ID across logins, devices, and serverless instances.
+ */
+export function getCanonicalUserId(email: string): string {
+  const normalized = email.toLowerCase().trim();
+  const hash = crypto.createHash("sha256").update(normalized).digest("hex").slice(0, 12);
+  return `usr-${hash}`;
+}
 
 const SESSION_SECRET =
   process.env.ADMIN_SESSION_SECRET ||
@@ -103,9 +113,32 @@ export function verifyUserSessionToken(token: string | undefined): {
 
 export async function findUserByEmail(email: string): Promise<UserAccount | null> {
   const normalized = email.toLowerCase().trim();
+  const canonicalId = getCanonicalUserId(normalized);
   const db = await getDatabase();
   const localMatch = (db.users || []).find((u) => u.email.toLowerCase() === normalized);
   if (localMatch) return localMatch;
+
+  // Direct RTDB lookup (fast canonical key lookup + user list fallback)
+  const directRtUser = await rtGetUserById(canonicalId).catch(() => null);
+  if (directRtUser && directRtUser.email.toLowerCase() === normalized) {
+    if (!db.users) db.users = [];
+    if (!db.users.some((u) => u.id === directRtUser.id)) {
+      db.users.unshift(directRtUser);
+      await saveDatabase(db);
+    }
+    return directRtUser;
+  }
+
+  const rtUsers = await rtGetUsers().catch(() => []);
+  const rtMatch = rtUsers.find((u) => u?.email?.toLowerCase() === normalized);
+  if (rtMatch) {
+    if (!db.users) db.users = [];
+    if (!db.users.some((u) => u.id === rtMatch.id)) {
+      db.users.unshift(rtMatch);
+      await saveDatabase(db);
+    }
+    return rtMatch;
+  }
 
   // Cross-lambda fallback: force refresh from cloud stores
   const freshDb = await getDatabase(true);
@@ -117,7 +150,7 @@ export async function findUserById(userId: string): Promise<UserAccount | null> 
   const localMatch = (db.users || []).find((u) => u.id === userId);
   if (localMatch) return localMatch;
 
-  const cloudUser = (await fsGetUserById(userId)) || (await rtGetUserById(userId));
+  const cloudUser = (await rtGetUserById(userId)) || (await fsGetUserById(userId));
   if (cloudUser) {
     if (!db.users) db.users = [];
     if (!db.users.some((u) => u.id === cloudUser.id)) {
@@ -139,18 +172,18 @@ export async function createUserAccount(
   photoURL?: string,
   consentGiven: boolean = true
 ): Promise<UserAccount> {
-  const db = await getDatabase();
-  if (!db.users) db.users = [];
-
   const normalized = email.toLowerCase().trim();
-  const existing = db.users.find((u) => u.email.toLowerCase() === normalized);
+  const existing = await findUserByEmail(normalized);
   if (existing) {
     throw new Error("An account with this email address already exists.");
   }
 
+  const db = await getDatabase();
+  if (!db.users) db.users = [];
+
   const now = new Date().toISOString();
   const newUser: UserAccount = {
-    id: `usr-${Date.now().toString(36)}-${crypto.randomBytes(3).toString("hex")}`,
+    id: getCanonicalUserId(normalized),
     name: name.trim() || email.split("@")[0],
     email: normalized,
     passwordHash: password ? hashPassword(password) : undefined,
@@ -169,7 +202,7 @@ export async function createUserAccount(
 
   db.users.unshift(newUser);
   await saveDatabase(db);
-  await Promise.allSettled([fsSaveUser(newUser), rtSaveUser(newUser)]);
+  await Promise.allSettled([rtSaveUser(newUser), fsSaveUser(newUser)]);
   return newUser;
 }
 
@@ -205,24 +238,30 @@ export async function upsertGoogleUser(
   name?: string,
   photoURL?: string
 ): Promise<UserAccount> {
-  const db = await getDatabase(true);
+  const normalized = email.toLowerCase().trim();
+  const existingByEmail = await findUserByEmail(normalized);
+  const db = await getDatabase();
   if (!db.users) db.users = [];
 
-  const normalized = email.toLowerCase().trim();
-  const existing = db.users.find((u) => u.email.toLowerCase() === normalized);
+  const existing = existingByEmail || db.users.find((u) => u.email.toLowerCase() === normalized);
   const now = new Date().toISOString();
 
   if (existing) {
     existing.lastLoginAt = now;
-    if (name && !existing.name) existing.name = name;
+    if (name && (!existing.name || existing.name === existing.email.split("@")[0])) {
+      existing.name = name.trim();
+    }
     if (photoURL && !existing.photoURL) existing.photoURL = photoURL;
+    const idx = db.users.findIndex((u) => u.id === existing.id);
+    if (idx >= 0) db.users[idx] = existing;
+    else db.users.unshift(existing);
     await saveDatabase(db);
-    await Promise.allSettled([fsSaveUser(existing), rtSaveUser(existing)]);
+    await Promise.allSettled([rtSaveUser(existing), fsSaveUser(existing)]);
     return existing;
   }
 
   const newUser: UserAccount = {
-    id: `usr-${Date.now().toString(36)}-${crypto.randomBytes(3).toString("hex")}`,
+    id: getCanonicalUserId(normalized),
     name: name?.trim() || email.split("@")[0],
     email: normalized,
     photoURL,
@@ -238,7 +277,7 @@ export async function upsertGoogleUser(
 
   db.users.unshift(newUser);
   await saveDatabase(db);
-  await Promise.allSettled([fsSaveUser(newUser), rtSaveUser(newUser)]);
+  await Promise.allSettled([rtSaveUser(newUser), fsSaveUser(newUser)]);
   return newUser;
 }
 

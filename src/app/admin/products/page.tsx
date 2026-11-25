@@ -377,7 +377,7 @@ export default function AdminProductsPage() {
         </div>
 
         {/* Search row */}
-        <div className="flex items-center justify-between gap-4 pt-1">
+        <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
           <div className="relative w-full max-w-md">
             <Search className="pointer-events-none absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2 text-zinc-500" />
             <input
@@ -398,7 +398,7 @@ export default function AdminProductsPage() {
       {/* Product Table */}
       <div className="overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-950/60 backdrop-blur-md">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="min-w-[780px] w-full text-left text-xs">
             <thead className="border-b border-zinc-800 bg-zinc-900/40 text-zinc-400">
               <tr>
                 <th className="px-4 py-3 font-medium">Product Item</th>

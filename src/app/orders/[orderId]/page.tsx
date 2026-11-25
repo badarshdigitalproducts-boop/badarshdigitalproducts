@@ -244,7 +244,9 @@ export default function OrderFulfillmentPage() {
           <div>
             <span className="text-muted">Payment:</span>{" "}
             <span className="rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-[10px] font-bold text-emerald-500 uppercase">
-              {order?.paymentMethod || "UPI Confirmed"}
+              {order?.paymentMethod?.toLowerCase() === "cashfree"
+                ? "Online (UPI / Card)"
+                : order?.paymentMethod || "Online (UPI / Card)"}
             </span>
           </div>
         </div>

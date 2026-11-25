@@ -171,7 +171,7 @@ export default function CookiePolicyPage() {
           </p>
           <ul className="mt-3 list-disc pl-5 space-y-2 text-xs text-muted">
             <li>
-              <strong>Cashfree Payments India Pvt. Ltd.</strong>: RBI-regulated payment gateway facilitating secure UPI, card, and net-banking transactions. Complies with PCI-DSS Level 1 security standards.
+              <strong>RBI-Regulated Payment Infrastructure Partner</strong>: Payment processing partner facilitating encrypted UPI, card, and net-banking transactions in compliance with PCI-DSS Level 1 security standards.
             </li>
             <li>
               <strong>Google Firebase &amp; Cloud Platform</strong>: Cloud database storage and infrastructure hosting.

@@ -131,40 +131,20 @@ export default function EventPhotographyPage() {
   );
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
-      {/* Hero Header */}
-      <div className="text-center max-w-3xl mx-auto">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 px-4 py-1.5 text-xs font-bold text-neutral-800 dark:text-neutral-200">
-          <Camera className="h-3.5 w-3.5 text-indigo-500" />
-          BADARSH Studio Photography Unit
-        </span>
-        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white sm:text-5xl md:text-6xl">
-          Event &amp; Portrait <span className="text-indigo-600 dark:text-indigo-400">Photography</span>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      {/* Compact Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-3xl">
+          Event &amp; Portrait Photography
         </h1>
-        <p className="mt-4 text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg">
-          From intimate birthdays and high-fashion model portfolios to grand South Indian and royal weddings. Master candid moments captured with Sony Full-Frame G-Master optics.
+        <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+          24-hour WhatsApp teaser delivery, Sony G-Master prime optics, and destination coverage across India.
         </p>
-
-        {/* Turnaround Guarantee Badges */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <div className="flex items-center gap-2 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-1.5 text-xs font-medium text-neutral-800 dark:text-neutral-200 shadow-xs">
-            <Clock className="h-3.5 w-3.5 text-indigo-500" />
-            <span>24-Hour WhatsApp Teaser Delivery</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-1.5 text-xs font-medium text-neutral-800 dark:text-neutral-200 shadow-xs">
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
-            <span>Sony Full-Frame G-Master Prime Lenses</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-4 py-1.5 text-xs font-medium text-neutral-800 dark:text-neutral-200 shadow-xs">
-            <Award className="h-3.5 w-3.5 text-amber-500" />
-            <span>Bengaluru &amp; Pan-India Destination Shoots</span>
-          </div>
-        </div>
       </div>
 
       {/* Luxury Photo Gallery with Category Switcher */}
-      <div className="mt-16">
-        <div className="flex items-center justify-center gap-2 overflow-x-auto pb-4 scrollbar-none">
+      <div>
+        <div className="flex items-center justify-start gap-2 overflow-x-auto pb-4 scrollbar-none">
           {GALLERY_CATEGORIES.map((cat) => (
             <button
               key={cat.id}

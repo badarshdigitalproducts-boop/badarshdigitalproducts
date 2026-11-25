@@ -27,23 +27,13 @@ export function BlogPreview() {
   return (
     <section className="border-t border-card-border/60 bg-card/20 py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
-          <SectionHeader
-            badge="Articles &amp; Guides"
-            title="Notes on Craft &amp; Editing"
-            subtitle="Field guides on video pacing, color grading workflows, and building an independent creative business."
-            align="left"
-            className="mb-0 md:mb-0"
-          />
-
-          <Link
-            href="/blog"
-            className="hidden items-center gap-2 rounded-full border border-card-border bg-card px-6 py-2.5 text-xs font-bold text-foreground transition-all hover:border-accent hover:text-accent md:inline-flex"
-          >
-            <span>View All Articles</span>
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
-        </div>
+        <SectionHeader
+          badge="Articles &amp; Guides"
+          title="Notes on Craft &amp; Editing"
+          subtitle="Field guides on video pacing, color grading workflows, and building an independent creative business."
+          align="left"
+          className="mb-0 md:mb-0"
+        />
 
         <div className="mt-12 flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none px-4 -mx-4 pb-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:px-0 md:mx-0">
           {posts.map((post, index) => (
@@ -105,16 +95,6 @@ export function BlogPreview() {
               </div>
             </motion.article>
           ))}
-        </div>
-
-        <div className="mt-10 text-center md:hidden">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 rounded-full border border-card-border bg-card px-8 py-3 text-xs font-bold text-foreground shadow-sm hover:border-accent hover:text-accent"
-          >
-            <span>View All Articles</span>
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
         </div>
       </div>
     </section>

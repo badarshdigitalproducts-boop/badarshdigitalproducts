@@ -61,9 +61,9 @@ export async function POST(request: NextRequest) {
         const updatedOrder = {
           ...existingOrder,
           paymentStatus: "completed" as const,
-          paymentMethod: "Cashfree",
+          paymentMethod: "Online (UPI / Card)",
           canvaAccessDelivered: true,
-          deliveryNotes: `Auto-verified via Cashfree Webhook [Payment ID: ${cfPaymentId}] on ${new Date().toISOString()}`,
+          deliveryNotes: `Auto-verified via Payment Webhook [Ref: ${cfPaymentId}] on ${new Date().toISOString()}`,
         };
 
         await saveAdminOrder(updatedOrder);

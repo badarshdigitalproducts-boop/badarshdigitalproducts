@@ -31,7 +31,7 @@ const organizationJsonLd = {
   },
   priceRange: "₹299 - ₹15,000",
   currenciesAccepted: "INR, USD",
-  paymentAccepted: "UPI, Cards, Net Banking, Razorpay, Cashfree",
+  paymentAccepted: "UPI, Cards, Net Banking",
   contactPoint: {
     "@type": "ContactPoint",
     telephone: `+${WHATSAPP_NUMBER}`,

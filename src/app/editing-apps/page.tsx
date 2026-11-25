@@ -77,40 +77,20 @@ export default function EditingAppsPage() {
   const featuredApp = apps[0] || fallbackProducts.find((p) => p.category === "editing-apps");
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
-      {/* Hero Header — Apple App Store Style */}
-      <div className="text-center max-w-3xl mx-auto">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5 text-xs font-bold text-accent">
-          <Smartphone className="h-3.5 w-3.5 text-accent" />
-          BADARSH App Store
-        </span>
-        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Verified Mobile <span className="text-accent">Editing Apps</span>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      {/* Compact Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          Verified Mobile Editing Apps
         </h1>
-        <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
-          Download high-performance mobile video editors and creator suites directly from BADARSH. Clean direct downloads with zero third-party ads, no expired links, and all VIP transitions, 4K 60fps exports, and auto-caption tools verified.
+        <p className="mt-1 text-sm text-muted">
+          Direct cloud builds and creator suites with 4K 60fps exports and zero third-party redirect chains.
         </p>
-
-        {/* Feature Badges */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <div className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-medium text-foreground shadow-2xs">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-            <span>Direct High-Speed Cloud Downloads</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-medium text-foreground shadow-2xs">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-            <span>100% Virus-Scanned &amp; Safe</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-xs font-medium text-foreground shadow-2xs">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-            <span>Watermark-Free 4K 60FPS Exports</span>
-          </div>
-        </div>
       </div>
 
       {/* Featured App Spotlight (Apple App Store 'App of the Day') */}
       {featuredApp && (
-        <div className="mt-14 overflow-hidden rounded-3xl border border-card-border bg-linear-to-br from-card via-card to-secondary/40 p-6 md:p-10 shadow-lg relative">
+        <div className="overflow-hidden rounded-3xl border border-card-border bg-linear-to-br from-card via-card to-secondary/40 p-5 md:p-8 shadow-lg relative">
           <div className="absolute top-0 right-0 h-80 w-80 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
 
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8 relative z-10">

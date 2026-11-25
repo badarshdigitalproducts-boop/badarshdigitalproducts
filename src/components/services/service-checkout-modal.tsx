@@ -136,10 +136,10 @@ ${formData.notes ? `Notes: ${formData.notes}` : ""}`;
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="relative z-10 w-full max-w-2xl overflow-hidden rounded-3xl border border-white/10 bg-[#0e0e11] text-white shadow-2xl"
+            className="relative z-10 w-full max-w-2xl max-h-[92vh] overflow-y-auto rounded-3xl border border-white/10 bg-[#0e0e11] text-white shadow-2xl"
           >
             {/* Header banner */}
-            <div className="border-b border-white/10 bg-gradient-to-r from-zinc-900 to-[#18181b] p-6 sm:p-8">
+            <div className="border-b border-white/10 bg-gradient-to-r from-zinc-900 to-[#18181b] p-5 sm:p-8">
               <div className="flex items-start justify-between">
                 <div>
                   <div className="inline-flex items-center gap-2 rounded-full bg-[#FF5A36]/15 border border-[#FF5A36]/30 px-3 py-1 text-[11px] font-bold text-[#FF5A36]">
@@ -173,7 +173,7 @@ ${formData.notes ? `Notes: ${formData.notes}` : ""}`;
             </div>
 
             {/* Content & Booking Form */}
-            <div className="p-6 sm:p-8 space-y-6">
+            <div className="p-5 sm:p-8 space-y-6">
               {/* Features summary */}
               {plan.features && plan.features.length > 0 && (
                 <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-4">
@@ -264,28 +264,28 @@ ${formData.notes ? `Notes: ${formData.notes}` : ""}`;
                 </div>
 
                 {/* Primary Actions */}
-                <div className="pt-2 space-y-3">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-[#25D366] py-3.5 text-xs font-bold text-white shadow-lg shadow-[#25D366]/20 hover:bg-[#20ba59] active:scale-[0.99] transition-all"
-                  >
-                    <MessageCircle className="h-4 w-4" />
-                    <span>Lock In Date &amp; Chat on WhatsApp</span>
-                  </button>
-
+                <div className="pt-2 space-y-2.5">
                   <button
                     type="button"
                     onClick={() => setShowDirectCheckout(true)}
-                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 py-3 text-xs font-semibold text-white hover:bg-white/10 active:scale-[0.99] transition-all"
+                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-[#FF5A36] py-3.5 text-xs font-bold text-white shadow-lg shadow-[#FF5A36]/20 hover:opacity-90 active:scale-[0.99] transition-all"
                   >
-                    <CreditCard className="h-3.5 w-3.5 text-[#FF5A36]" />
-                    <span>Or Pay Booking Deposit Online (UPI / Card / NetBanking)</span>
+                    <CreditCard className="h-4 w-4" />
+                    <span>Pay Booking Deposit ({formatCurr(plan.price)})</span>
+                  </button>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 py-3 text-xs font-bold text-emerald-400 hover:bg-emerald-500/20 active:scale-[0.99] transition-all"
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    <span>Lock Date &amp; Discuss on WhatsApp</span>
                   </button>
                 </div>
               </form>
 
-              <div className="flex items-center justify-center gap-4 text-[11px] text-zinc-400 border-t border-white/5 pt-4">
+              <div className="flex flex-wrap items-center justify-center gap-3 text-[11px] text-zinc-400 border-t border-white/5 pt-4">
                 <div className="flex items-center gap-1">
                   <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
                   <span>Verified Master Crew</span>
@@ -293,7 +293,7 @@ ${formData.notes ? `Notes: ${formData.notes}` : ""}`;
                 <span>&bull;</span>
                 <div className="flex items-center gap-1">
                   <Lock className="h-3.5 w-3.5 text-zinc-400" />
-                  <span>256-Bit Encrypted Deposit</span>
+                  <span>UPI, Cards &amp; NetBanking Supported</span>
                 </div>
               </div>
             </div>
@@ -307,6 +307,11 @@ ${formData.notes ? `Notes: ${formData.notes}` : ""}`;
           product={serviceAsProduct}
           isOpen={true}
           onClose={() => setShowDirectCheckout(false)}
+          initialCustomer={{
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+          }}
         />
       )}
     </>

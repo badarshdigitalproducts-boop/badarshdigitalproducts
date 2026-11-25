@@ -28,40 +28,34 @@ export default function VideoEditingPage() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-20">
-      {/* Hero */}
-      <div className="text-center">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5 text-xs font-bold text-accent">
-          <Video className="h-3.5 w-3.5" />
-          BADARSH Video Production Studio
-        </span>
-        <h1 className="mt-4 apple-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Professional Video Editing for <span className="text-accent">Reels, YouTube &amp; Ads</span>
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-          Transform your raw footage into cinematic, high-retention content that captivates audiences. We handle dynamic cuts, Hormozi-style subtitles, sound design, and color grading tailored to your brand aesthetic.
-        </p>
-
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <a
-            href={getWhatsAppUrl(
-              "Hi BADARSH! I'm interested in video editing for my brand. Can we discuss turnaround and footage upload?",
-              "Video Editing Inquiry"
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 font-heading text-xs font-bold text-white shadow-lg shadow-accent/25 hover:bg-accent-hover hover:scale-105 transition-all"
-          >
-            <MessageSquare className="h-4 w-4" />
-            <span>Send Raw Footage on WhatsApp</span>
-            <ArrowRight className="h-4 w-4" />
-          </a>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 md:py-12">
+      {/* Compact Header */}
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Professional Video Editing
+          </h1>
+          <p className="mt-1 text-sm text-muted">
+            High-retention cuts, dynamic captions, sound design, and color grading for Reels, YouTube &amp; campaigns.
+          </p>
         </div>
+        <a
+          href={getWhatsAppUrl(
+            "Hi BADARSH! I'm interested in video editing for my brand. Can we discuss turnaround and footage upload?",
+            "Video Editing Inquiry"
+          )}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-accent-hover transition-all shrink-0 self-start sm:self-auto"
+        >
+          <MessageSquare className="h-3.5 w-3.5" />
+          <span>Send Footage on WhatsApp</span>
+        </a>
       </div>
 
       {/* PORTFOLIO VIDEO PLAYER SECTION */}
       {service.portfolioVideos && service.portfolioVideos.length > 0 && (
-        <div className="mt-16 rounded-3xl border border-card-border bg-card/60 p-6 md:p-10 shadow-sm">
+        <div className="rounded-3xl border border-card-border bg-card/60 p-5 md:p-8 shadow-sm">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-8">
             <div>
               <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent">
