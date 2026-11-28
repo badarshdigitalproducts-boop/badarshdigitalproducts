@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import crypto from "crypto";
 import { verifyUserSessionToken, USER_COOKIE_NAME } from "@/lib/auth/user-auth";
 import { verifySessionToken, ADMIN_COOKIE_NAME } from "@/lib/admin/auth";
 import type { OrderRecord } from "@/lib/admin/types";
@@ -32,7 +33,8 @@ export function isAdminAuthenticated(request: Request): boolean {
   try {
     const cookieHeader = request.headers.get("cookie") || "";
     const match = cookieHeader.match(new RegExp(`${ADMIN_COOKIE_NAME}=([^;]+)`));
-    return verifySessionToken(match ? match[1] : undefined);
+    const userAgent = request.headers.get("user-agent") || undefined;
+    return verifySessionToken(match ? match[1] : undefined, userAgent);
   } catch {
     return false;
   }
@@ -85,10 +87,17 @@ export function requireOwnership(
   return { authorized: true, user };
 }
 
+function constantTimeEquals(a: string, b: string): boolean {
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  if (bufA.length !== bufB.length) return false;
+  return crypto.timingSafeEqual(bufA, bufB);
+}
+
 /**
  * Validates ownership of an order to prevent IDOR order enumeration.
  * Verifies that the order's customerEmail matches the authenticated user, or that the request
- * has an admin session or order secret token.
+ * has an admin session or cryptographically random order access/license token.
  */
 export function canAccessOrder(
   request: Request,
@@ -98,12 +107,15 @@ export function canAccessOrder(
   // 1. Admin can access all orders
   if (isAdminAuthenticated(request)) return true;
 
-  // 2. Order secret token (license key, matching order ID, or fulfillment token)
+  // 2. Cryptographic order access token (or licenseKey once order is paid)
   if (orderSecretToken) {
     const trimmed = orderSecretToken.trim();
     if (
-      (order.licenseKey && trimmed === order.licenseKey.trim()) ||
-      trimmed === order.id.trim()
+      trimmed.length > 0 &&
+      ((order.accessToken && constantTimeEquals(trimmed, order.accessToken.trim())) ||
+        (order.paymentStatus === "completed" &&
+          order.licenseKey &&
+          constantTimeEquals(trimmed, order.licenseKey.trim())))
     ) {
       return true;
     }

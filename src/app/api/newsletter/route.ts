@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { addSubscriber } from "@/lib/admin/store";
 import { checkRateLimit, createRateLimitResponse } from "@/lib/security/rate-limiter";
 import { sanitizeText, sanitizeEmail, isHoneypotTriggered } from "@/lib/security/sanitize";
+import { sendNewsletterWelcomeEmail } from "@/lib/email/resend";
 
 export const dynamic = "force-dynamic";
 
@@ -39,10 +40,14 @@ export async function POST(request: NextRequest) {
 
     // Persist subscriber directly into the BADARSH Audience Engine
     const savedSub = await addSubscriber(email, source);
+    const emailResult = await sendNewsletterWelcomeEmail(email).catch(() => ({ sent: false }));
 
     return NextResponse.json({
       success: true,
-      message: "Subscribed successfully! Check your email for your 10 free templates.",
+      emailSent: emailResult.sent,
+      message: emailResult.sent
+        ? "Subscribed! Check your inbox for your welcome note and free creator vault."
+        : "Subscribed! All free sound effects and starter creator tools are unlocked for you on BADARSH.",
       subscriberId: savedSub.id,
     });
   } catch (error: any) {

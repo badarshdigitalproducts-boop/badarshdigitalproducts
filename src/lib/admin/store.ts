@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
 import bundledStoreData from "@/data/admin-store.json";
@@ -85,6 +86,102 @@ const TMP_STORE_PATH = path.join(TMP_DIR, "admin-store.json");
 let cachedDb: AdminDatabase | null = null;
 let cachedDbAt = 0;
 const DB_CACHE_TTL_MS = 10_000;
+
+const BLOCKED_PRODUCT_IDS = new Set([
+  "prod-013",
+  "prod-017",
+  "prod-020",
+  "prod-mx0g77qg",
+  "prod-mwusptt8",
+]);
+
+const PIRATED_CONTENT_RE =
+  /(rich[- ]dad|atomic[- ]habits|cashflow[- ]quadrant|hooked[- ]how[- ]to|psychology[- ]of[- ]money|intelligent[- ]investor|capcut[- ]pro[- ]unlocked|kolegite\.com|epdf\.pub|oceanofpdf)/i;
+
+const BROKEN_ASSET_URL_RE =
+  /(Accounting\.pdf|ForBigger|actions\.google\.com|lightroom\.adobe\.com|capcut\.com\/template-detail\/7200000|1536240478700|1507842229451|1518173946687|covers\.openlibrary\.org|thumb\.wikimedia\.org|^\/uploads\/)/i;
+
+function isBlockedProduct(p: any): boolean {
+  if (!p) return true;
+  if (BLOCKED_PRODUCT_IDS.has(p.id)) return true;
+  const hay = `${p.slug || ""} ${p.title || ""} ${p.downloadUrl || ""} ${p.previewPdfUrl || ""} ${p.pdfUrl || ""}`;
+  return PIRATED_CONTENT_RE.test(hay);
+}
+
+function healProductFromSeed(existing: any, sp: any): boolean {
+  let changed = false;
+  if (
+    ["prod-009", "prod-010", "prod-022", "prod-023", "prod-014"].includes(sp.id) &&
+    PIRATED_CONTENT_RE.test(`${existing.title || ""} ${existing.slug || ""} ${existing.downloadUrl || ""}`)
+  ) {
+    Object.assign(existing, sp);
+    return true;
+  }
+
+  const assetFields = [
+    "downloadUrl",
+    "freeDownloadUrl",
+    "previewPdfUrl",
+    "pdfUrl",
+    "videoUrl",
+    "audioPreviewUrl",
+    "overlayLinkUrl",
+    "googleDriveUrl",
+    "presetLinkUrl",
+    "appDownloadUrl",
+    "alightMotionXmlUrl",
+    "capcutUrl",
+  ] as const;
+
+  for (const field of assetFields) {
+    const val = existing[field];
+    if ((!val && sp[field]) || (typeof val === "string" && BROKEN_ASSET_URL_RE.test(val) && sp[field])) {
+      existing[field] = sp[field];
+      changed = true;
+    }
+  }
+
+  if (
+    Array.isArray(sp.images) &&
+    sp.images[0] &&
+    (!Array.isArray(existing.images) ||
+      !existing.images.length ||
+      existing.images.some((img: string) => BROKEN_ASSET_URL_RE.test(img || "") || img.startsWith("/images/products/")))
+  ) {
+    existing.images = sp.images;
+    changed = true;
+  }
+
+  if (sp.fileSize && (!existing.fileSize || existing.format?.includes("APK"))) {
+    existing.fileSize = sp.fileSize;
+    if (sp.format) existing.format = sp.format;
+    changed = true;
+  }
+
+  if (sp.deliveryType && (!existing.deliveryType || existing.deliveryType === "external-url" || existing.deliveryType === "google-drive")) {
+    if (existing.deliveryType !== sp.deliveryType) {
+      existing.deliveryType = sp.deliveryType;
+      changed = true;
+    }
+  }
+
+  return changed;
+}
+
+function healServiceMedia(s: any, ss?: any): boolean {
+  let changed = false;
+  if (Array.isArray(s.portfolioVideos) && s.portfolioVideos.some((v: string) => BROKEN_ASSET_URL_RE.test(v || ""))) {
+    s.portfolioVideos = ss?.portfolioVideos || ["/videos/badarsh-showreel.mp4"];
+    changed = true;
+  }
+  if (Array.isArray(s.portfolioImages) && s.portfolioImages.some((img: string) => BROKEN_ASSET_URL_RE.test(img || ""))) {
+    s.portfolioImages = ss?.portfolioImages || s.portfolioImages.map((img: string) =>
+      BROKEN_ASSET_URL_RE.test(img || "") ? "/images/catalog/cinematic-reels-cover.png" : img
+    );
+    changed = true;
+  }
+  return changed;
+}
 
 export function invalidateDbCache(): void {
   cachedDb = null;
@@ -277,116 +374,72 @@ export async function getDatabase(forceRefresh = false): Promise<AdminDatabase> 
       parsed.coupons.unshift(seed.coupons[0]);
       modified = true;
     }
-    // Purge legacy 3D mockup frame (prod-013 / assets category)
+    // Purge retired/blocked/pirated entries
     if (parsed.products && Array.isArray(parsed.products)) {
       const beforeLen = parsed.products.length;
       parsed.products = parsed.products.filter(
-        (p: any) => p.id !== "prod-013" && p.slug !== "digital-mockup-graphics-kit" && p.category !== "assets"
+        (p: any) => !isBlockedProduct(p) && p.slug !== "digital-mockup-graphics-kit" && p.category !== "assets"
       );
       if (parsed.products.length !== beforeLen) modified = true;
     }
 
+    const coreIds = new Set(seed.products.map((sp) => sp.id));
+    const rawDeleted = Array.isArray(parsed.deletedProductIds) ? parsed.deletedProductIds : [];
+    const safeDeleted = rawDeleted.filter((id: string) => !coreIds.has(id) || BLOCKED_PRODUCT_IDS.has(id));
+    if (safeDeleted.length !== rawDeleted.length) {
+      parsed.deletedProductIds = safeDeleted;
+      if (parsed.settings) parsed.settings.deletedProductIds = safeDeleted;
+      modified = true;
+    }
+
     if (!parsed.products || !parsed.products.length) {
-      const deletedSet = new Set<string>(Array.isArray(parsed.deletedProductIds) ? parsed.deletedProductIds : []);
+      const deletedSet = new Set<string>(safeDeleted);
       parsed.products = seed.products.filter((sp) => !deletedSet.has(sp.id));
       modified = true;
     } else {
-      const deletedSet = new Set<string>(Array.isArray(parsed.deletedProductIds) ? parsed.deletedProductIds : []);
+      const deletedSet = new Set<string>(safeDeleted);
       seed.products.forEach((sp) => {
         if (deletedSet.has(sp.id)) return;
         const existing = parsed.products.find((p: any) => p.id === sp.id || p.slug === sp.slug);
         if (existing) {
-          if (!existing.videoUrl && sp.videoUrl) {
-            existing.videoUrl = sp.videoUrl;
-            modified = true;
-          }
-          if (sp.images && sp.images[0] && (!existing.images || !existing.images.length || existing.images[0]?.startsWith("/images/products/"))) {
-            existing.images = sp.images;
-            modified = true;
-          }
-          if (sp.downloadUrl && (!existing.downloadUrl || existing.downloadUrl.startsWith("/downloads/"))) {
-            existing.downloadUrl = sp.downloadUrl;
-            modified = true;
-          }
-          if (sp.previewPdfUrl && !existing.previewPdfUrl) {
-            existing.previewPdfUrl = sp.previewPdfUrl;
-            modified = true;
-          }
-          if (sp.pdfUrl && !existing.pdfUrl) {
-            existing.pdfUrl = sp.pdfUrl;
-            modified = true;
-          }
-          if (sp.appDownloadUrl && !existing.appDownloadUrl) {
-            existing.appDownloadUrl = sp.appDownloadUrl;
-            modified = true;
-          }
-          if (sp.appVersion && !existing.appVersion) {
-            existing.appVersion = sp.appVersion;
-            modified = true;
-          }
-          if (sp.appPlatform && !existing.appPlatform) {
-            existing.appPlatform = sp.appPlatform;
-            modified = true;
-          }
-          if (sp.beforeImage && !existing.beforeImage) {
-            existing.beforeImage = sp.beforeImage;
-            modified = true;
-          }
-          if (sp.afterImage && !existing.afterImage) {
-            existing.afterImage = sp.afterImage;
-            modified = true;
-          }
-          if (sp.audioPreviewUrl && !existing.audioPreviewUrl) {
-            existing.audioPreviewUrl = sp.audioPreviewUrl;
-            modified = true;
-          }
-          if (sp.audioDuration && !existing.audioDuration) {
-            existing.audioDuration = sp.audioDuration;
-            modified = true;
-          }
-          if (sp.audioCategory && !existing.audioCategory) {
-            existing.audioCategory = sp.audioCategory;
-            modified = true;
-          }
-          if (sp.pageCount && !existing.pageCount) {
-            existing.pageCount = sp.pageCount;
-            modified = true;
-          }
-          if (sp.authorName && !existing.authorName) {
-            existing.authorName = sp.authorName;
-            modified = true;
-          }
-          if (sp.plannerCategory && !existing.plannerCategory) {
-            existing.plannerCategory = sp.plannerCategory;
-            modified = true;
-          }
-          if (sp.totalAssetsCount && !existing.totalAssetsCount) {
-            existing.totalAssetsCount = sp.totalAssetsCount;
-            modified = true;
-          }
-          if (sp.editableTemplateData && !existing.editableTemplateData) {
-            existing.editableTemplateData = sp.editableTemplateData;
-            modified = true;
-          }
-          if (sp.presetLinkUrl && !existing.presetLinkUrl) {
-            existing.presetLinkUrl = sp.presetLinkUrl;
-            modified = true;
-          }
-          if (sp.overlayLinkUrl && !existing.overlayLinkUrl) {
-            existing.overlayLinkUrl = sp.overlayLinkUrl;
-            modified = true;
-          }
-          if (sp.googleDriveUrl && !existing.googleDriveUrl) {
-            existing.googleDriveUrl = sp.googleDriveUrl;
-            modified = true;
-          }
-          if (sp.deliveryType && (!existing.deliveryType || existing.deliveryType === "download-url")) {
-            existing.deliveryType = sp.deliveryType;
-            modified = true;
-          }
-        } else if (!deletedSet.has(sp.id)) {
+          if (healProductFromSeed(existing, sp)) modified = true;
+          if (!existing.beforeImage && sp.beforeImage) { existing.beforeImage = sp.beforeImage; modified = true; }
+          if (!existing.afterImage && sp.afterImage) { existing.afterImage = sp.afterImage; modified = true; }
+          if (!existing.audioDuration && sp.audioDuration) { existing.audioDuration = sp.audioDuration; modified = true; }
+          if (!existing.audioCategory && sp.audioCategory) { existing.audioCategory = sp.audioCategory; modified = true; }
+          if (!existing.appVersion && sp.appVersion) { existing.appVersion = sp.appVersion; modified = true; }
+          if (!existing.appPlatform && sp.appPlatform) { existing.appPlatform = sp.appPlatform; modified = true; }
+          if (!existing.pageCount && sp.pageCount) { existing.pageCount = sp.pageCount; modified = true; }
+          if (!existing.authorName && sp.authorName) { existing.authorName = sp.authorName; modified = true; }
+          if (!existing.plannerCategory && sp.plannerCategory) { existing.plannerCategory = sp.plannerCategory; modified = true; }
+          if (!existing.totalAssetsCount && sp.totalAssetsCount) { existing.totalAssetsCount = sp.totalAssetsCount; modified = true; }
+          if (!existing.editableTemplateData && sp.editableTemplateData) { existing.editableTemplateData = sp.editableTemplateData; modified = true; }
+        } else {
           parsed.products.push(sp);
           modified = true;
+        }
+      });
+
+      // Fix custom persisted planners/ebooks that point to gitignored /uploads/ paths
+      parsed.products.forEach((p: any) => {
+        if (p.id === "prod-mwv1wcsu") {
+          if (typeof p.downloadUrl === "string" && p.downloadUrl.startsWith("/uploads/")) {
+            p.downloadUrl = "/downloads/pdfs/90-day-fitness-operating-system.pdf";
+            modified = true;
+          }
+          if (typeof p.previewPdfUrl === "string" && p.previewPdfUrl.startsWith("/uploads/")) {
+            p.previewPdfUrl = "/downloads/pdfs/90-day-fitness-operating-system.pdf";
+            modified = true;
+          }
+          if (typeof p.pdfUrl === "string" && p.pdfUrl.startsWith("/uploads/")) {
+            p.pdfUrl = "/downloads/pdfs/digital-marketing-plan.pdf";
+            modified = true;
+          }
+          if (Array.isArray(p.images) && p.images[0]?.startsWith("/uploads/")) {
+            p.images = ["/images/catalog/90-day-fitness.png"];
+            p.coverImageUrl = "/images/catalog/90-day-fitness.png";
+            modified = true;
+          }
         }
       });
     }
@@ -396,6 +449,7 @@ export async function getDatabase(forceRefresh = false): Promise<AdminDatabase> 
       seed.services.forEach((ss) => {
         const existing = parsed.services.find((s: any) => s.id === ss.id || s.slug === ss.slug);
         if (existing) {
+          if (healServiceMedia(existing, ss)) modified = true;
           if (ss.portfolioVideos && (!existing.portfolioVideos || !existing.portfolioVideos.length)) {
             existing.portfolioVideos = ss.portfolioVideos;
             modified = true;
@@ -461,31 +515,45 @@ export async function getDatabase(forceRefresh = false): Promise<AdminDatabase> 
       rtGetUsers().catch(() => []),
     ]);
 
-    const deletedSet = new Set<string>([
+    const seedForCloud = getSeedDatabase();
+    const coreIds = new Set(seedForCloud.products.map((sp) => sp.id));
+    const rawCloudDeleted = [
       ...(Array.isArray(localDb.deletedProductIds) ? localDb.deletedProductIds : []),
       ...(Array.isArray(fsSettings?.deletedProductIds) ? fsSettings.deletedProductIds : []),
       ...(Array.isArray(rtSettings?.deletedProductIds) ? rtSettings.deletedProductIds : []),
-    ]);
-    if (deletedSet.size > 0) {
-      localDb.deletedProductIds = Array.from(deletedSet);
-    }
+    ];
+    const deletedSet = new Set<string>(
+      rawCloudDeleted.filter((id) => !coreIds.has(id) || BLOCKED_PRODUCT_IDS.has(id))
+    );
+    localDb.deletedProductIds = Array.from(deletedSet);
 
-    const cloudProds = fsProds.length > 0 ? fsProds : rtProds;
-    if (cloudProds && cloudProds.length > 0) {
+    // Merge both RTDB and Firestore per document instead of dropping one entirely (fixes split-brain catalog)
+    const mergedCloudProds = [...(rtProds || []), ...(fsProds || [])];
+    if (mergedCloudProds.length > 0) {
       const prodMap = new Map<string, AdminProduct>();
       localDb.products.forEach((p) => {
-        if (!deletedSet.has(p.id)) prodMap.set(p.id, p);
+        if (!deletedSet.has(p.id) && !isBlockedProduct(p)) prodMap.set(p.id, p);
       });
-      cloudProds.forEach((p) => {
-        if (!deletedSet.has(p.id)) prodMap.set(p.id, p);
+      mergedCloudProds.forEach((p) => {
+        if (!p?.id || deletedSet.has(p.id) || isBlockedProduct(p)) return;
+        const candidate = { ...p };
+        const seedMatch = seedForCloud.products.find((sp) => sp.id === candidate.id || sp.slug === candidate.slug);
+        if (seedMatch) healProductFromSeed(candidate, seedMatch);
+        prodMap.set(candidate.id, candidate);
       });
       localDb.products = Array.from(prodMap.values());
     }
-    const cloudServices = fsServices.length > 0 ? fsServices : rtServices;
-    if (cloudServices && cloudServices.length > 0) {
+    const cloudServices = [...(rtServices || []), ...(fsServices || [])];
+    if (cloudServices.length > 0) {
       const svcMap = new Map<string, AdminService>();
       localDb.services.forEach((s) => svcMap.set(s.id, s));
-      cloudServices.forEach((s) => svcMap.set(s.id, s));
+      cloudServices.forEach((s) => {
+        if (!s?.id) return;
+        const candidate = { ...s };
+        const seedMatch = seedForCloud.services.find((ss) => ss.id === candidate.id || ss.slug === candidate.slug);
+        healServiceMedia(candidate, seedMatch);
+        svcMap.set(candidate.id, candidate);
+      });
       localDb.services = Array.from(svcMap.values());
     }
     if (fsPosts && fsPosts.length > 0) {
@@ -494,11 +562,13 @@ export async function getDatabase(forceRefresh = false): Promise<AdminDatabase> 
       fsPosts.forEach((b) => postMap.set(b.slug, b));
       localDb.blogPosts = Array.from(postMap.values());
     }
-    const cloudOrders = fsOrders.length > 0 ? fsOrders : rtOrders;
-    if (cloudOrders && cloudOrders.length > 0) {
+    const cloudOrders = [...(rtOrders || []), ...(fsOrders || [])];
+    if (cloudOrders.length > 0) {
       const ordMap = new Map<string, OrderRecord>();
       localDb.orders.forEach((o) => ordMap.set(o.id, o));
-      cloudOrders.forEach((o) => ordMap.set(o.id, o));
+      cloudOrders.forEach((o) => {
+        if (o?.id) ordMap.set(o.id, o);
+      });
       localDb.orders = Array.from(ordMap.values());
     }
     if (fsCoupons && fsCoupons.length > 0) {
@@ -507,11 +577,13 @@ export async function getDatabase(forceRefresh = false): Promise<AdminDatabase> 
       fsCoupons.forEach((c) => cpnMap.set(c.id, c));
       localDb.coupons = Array.from(cpnMap.values());
     }
-    const cloudLeads = fsLeads.length > 0 ? fsLeads : rtLeads;
-    if (cloudLeads && cloudLeads.length > 0) {
+    const cloudLeads = [...(rtLeads || []), ...(fsLeads || [])];
+    if (cloudLeads.length > 0) {
       const leadMap = new Map<string, LeadInquiry>();
       localDb.leads.forEach((l) => leadMap.set(l.id, l));
-      cloudLeads.forEach((l) => leadMap.set(l.id, l));
+      cloudLeads.forEach((l) => {
+        if (l?.id) leadMap.set(l.id, l);
+      });
       localDb.leads = Array.from(leadMap.values());
     }
     if (fsSubs && fsSubs.length > 0) {
@@ -919,12 +991,13 @@ export async function saveAdminOrder(orderData: Partial<OrderRecord> & { custome
       order = {
         ...orderData,
         id: orderData.id,
+        accessToken: orderData.accessToken || crypto.randomBytes(24).toString("hex"),
         customerEmail: orderData.customerEmail || "",
         items: orderData.items || [],
         currency: orderData.currency || "INR",
         paymentMethod: orderData.paymentMethod || "UPI",
         paymentStatus: orderData.paymentStatus || "completed",
-        licenseKey: orderData.licenseKey || `BDRSH-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
+        licenseKey: orderData.licenseKey || `BDRSH-${crypto.randomBytes(2).toString("hex").toUpperCase()}-${crypto.randomBytes(2).toString("hex").toUpperCase()}`,
         canvaAccessDelivered: Boolean(orderData.canvaAccessDelivered ?? true),
         createdAt: now,
         updatedAt: now,
@@ -932,9 +1005,10 @@ export async function saveAdminOrder(orderData: Partial<OrderRecord> & { custome
       db.orders.unshift(order);
     }
   } else {
-    const newId = `ORD-${Math.floor(10000 + Math.random() * 90000)}`;
+    const newId = `ORD-${crypto.randomInt(10000, 99999)}`;
     order = {
       id: newId,
+      accessToken: orderData.accessToken || crypto.randomBytes(24).toString("hex"),
       customerName: orderData.customerName,
       customerEmail: orderData.customerEmail || "",
       customerPhone: orderData.customerPhone || "",
@@ -943,7 +1017,7 @@ export async function saveAdminOrder(orderData: Partial<OrderRecord> & { custome
       currency: orderData.currency || "INR",
       paymentMethod: orderData.paymentMethod || "UPI",
       paymentStatus: orderData.paymentStatus || "completed",
-      licenseKey: `BDRSH-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
+      licenseKey: `BDRSH-${crypto.randomBytes(2).toString("hex").toUpperCase()}-${crypto.randomBytes(2).toString("hex").toUpperCase()}`,
       canvaAccessDelivered: Boolean(orderData.canvaAccessDelivered ?? true),
       deliveryNotes: orderData.deliveryNotes || "Manual founder creation",
       createdAt: now,
@@ -1254,11 +1328,12 @@ export async function syncDatabaseToFirebase(): Promise<{
 
 export async function getFirebaseStatus() {
   const [fsStatus, rtStatus] = await Promise.all([
-    checkFirebaseConnection().catch(() => ({ connected: false, latencyMs: 0, error: "Firestore unavailable" })),
-    checkRealtimeDbConnection().catch(() => ({ connected: false, latencyMs: 0, error: "Realtime DB unavailable" })),
+    checkFirebaseConnection().catch(() => ({ connected: false, latencyMs: 0, adminSdkActive: false, error: "Firestore unavailable" })),
+    checkRealtimeDbConnection().catch(() => ({ connected: false, latencyMs: 0, adminSdkActive: false, error: "Realtime DB unavailable" })),
   ]);
   return {
     connected: fsStatus.connected || rtStatus.connected,
+    adminSdkActive: Boolean((fsStatus as any).adminSdkActive || (rtStatus as any).adminSdkActive),
     latencyMs: rtStatus.connected ? rtStatus.latencyMs : fsStatus.latencyMs,
     firestore: fsStatus,
     realtimeDb: rtStatus,

@@ -244,10 +244,10 @@ describe("4. Download Route Authorization Logic (Free Instant vs Paid Persistent
       return { authorized: false, status: 404, error: "ORDER_NOT_FOUND" };
     }
 
-    // Strict access control: token/licenseKey or customer identity match
+    // Strict access control: cryptographic accessToken, paid licenseKey, or customer identity match (NEVER order.id!)
     const hasAccess =
-      (requesterToken && order.licenseKey && requesterToken.trim() === order.licenseKey.trim()) ||
-      (requesterToken && requesterToken.trim() === order.id.trim()) ||
+      (requesterToken && order.accessToken && requesterToken.trim() === order.accessToken.trim()) ||
+      (requesterToken && order.paymentStatus === "completed" && order.licenseKey && requesterToken.trim() === order.licenseKey.trim()) ||
       (requesterUser && order.userId && requesterUser.uid === order.userId) ||
       (requesterUser && requesterUser.email && order.customerEmail && requesterUser.email.toLowerCase() === order.customerEmail.toLowerCase());
 
@@ -280,8 +280,8 @@ describe("4. Download Route Authorization Logic (Free Instant vs Paid Persistent
     id: "vt-001",
     title: "Velocity Beat Shake & Flash Vol. 1",
     price: 0,
-    alightMotionXmlUrl: "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
-    capcutUrl: "https://www.capcut.com/template-detail/720000000001",
+    alightMotionXmlUrl: "/downloads/vt-velocity-beat-shake-vol-1.zip",
+    capcutUrl: "/downloads/vt-velocity-beat-shake-vol-1.zip",
   };
 
   const paidTemplatePack = {
@@ -305,24 +305,32 @@ describe("4. Download Route Authorization Logic (Free Instant vs Paid Persistent
     assert.equal(res.status, 404);
   });
 
-  it("should reject paid product download when payment is pending", () => {
+  it("should reject paid product download when payment is pending (accessToken or logged-in owner gets 402, unissued licenseKey gets 403)", () => {
     const pendingOrder = {
       id: "ord_1001",
+      accessToken: "rand_tok_pending_1001",
       paymentStatus: "pending",
       licenseKey: "BDRSH-AAA-BBB",
       customerEmail: "buyer@badarsh.com",
-      items: [{ id: "prod-001", downloadUrl: "https://r2.badarsh.com/assets/reels-mega-pack.zip" }],
+      items: [{ id: "prod-001", downloadUrl: "/downloads/instagram-reels-template-pack.zip" }],
     };
 
-    const res = authorizeDownload({
+    const withAccessToken = authorizeDownload({
+      product: paidTemplatePack,
+      order: pendingOrder,
+      requesterToken: "rand_tok_pending_1001",
+    });
+    assert.equal(withAccessToken.authorized, false);
+    assert.equal(withAccessToken.status, 402);
+    assert.equal(withAccessToken.error, "PAYMENT_PENDING");
+
+    const withUnpaidLicenseKey = authorizeDownload({
       product: paidTemplatePack,
       order: pendingOrder,
       requesterToken: "BDRSH-AAA-BBB",
     });
-
-    assert.equal(res.authorized, false);
-    assert.equal(res.status, 402);
-    assert.equal(res.error, "PAYMENT_PENDING");
+    assert.equal(withUnpaidLicenseKey.authorized, false);
+    assert.equal(withUnpaidLicenseKey.status, 403);
   });
 
   it("should reject paid product download when accessed by unauthorized third party (IDOR)", () => {
@@ -367,23 +375,133 @@ describe("4. Download Route Authorization Logic (Free Instant vs Paid Persistent
     assert.equal(res.target, "https://r2.badarsh.com/assets/reels-mega-pack.zip");
   });
 
-  it("should authorize permanent re-downloads for completed orders with matching order ID return token", () => {
+  it("should reject order.id used directly as bearer token (prevents guessable IDOR)", () => {
     const completedOrder = {
       id: "ord_1004",
+      accessToken: "cryptographic_random_token_1004",
       paymentStatus: "completed",
       licenseKey: "BDRSH-ANOTHER-KEY",
       customerEmail: "creator@example.com",
-      items: [{ id: "prod-001", downloadUrl: "https://r2.badarsh.com/assets/reels-mega-pack.zip" }],
+      items: [{ id: "prod-001", downloadUrl: "/downloads/instagram-reels-template-pack.zip" }],
     };
 
     const res = authorizeDownload({
       product: paidTemplatePack,
       order: completedOrder,
-      requesterToken: "ord_1004", // returned via cf_id redirect
+      requesterToken: "ord_1004",
+    });
+
+    assert.equal(res.authorized, false);
+    assert.equal(res.status, 403);
+    assert.equal(res.error, "FORBIDDEN_IDOR");
+  });
+
+  it("should authorize permanent re-downloads with matching cryptographic accessToken", () => {
+    const completedOrder = {
+      id: "ord_1005",
+      accessToken: "cryptographic_random_token_1005",
+      paymentStatus: "completed",
+      licenseKey: "BDRSH-TOKEN-KEY",
+      customerEmail: "creator@example.com",
+      items: [{ id: "prod-001", downloadUrl: "/downloads/instagram-reels-template-pack.zip" }],
+    };
+
+    const res = authorizeDownload({
+      product: paidTemplatePack,
+      order: completedOrder,
+      requesterToken: "cryptographic_random_token_1005",
     });
 
     assert.equal(res.authorized, true);
     assert.equal(res.status, 200);
     assert.equal(res.type, "PAID_VERIFIED_PERPETUAL");
+  });
+});
+
+describe("5. Production Security Invariants & Asset Integrity", () => {
+  it("should contain zero hardcoded admin, session, or download signing secrets in source code", () => {
+    const filesToCheck = [
+      "src/lib/admin/auth.ts",
+      "src/proxy.ts",
+      "src/lib/auth/user-auth.ts",
+      "src/lib/storage/r2.ts",
+      "src/app/api/download/route.ts",
+    ];
+    for (const rel of filesToCheck) {
+      const content = fs.readFileSync(path.join(rootDir, rel), "utf8");
+      assert.doesNotMatch(
+        content,
+        /FOUNDER_MASTER_KEY|DEFAULT_SESSION_SECRET|badarsh_secure_hmac_session_secret|badarsh-secret-signing-key/
+      );
+    }
+  });
+
+  it("should enforce passwordHash requirement, token secrecy, and PDF proxy SSRF protections", () => {
+    const userAuth = fs.readFileSync(path.join(rootDir, "src/lib/auth/user-auth.ts"), "utf8");
+    assert.match(userAuth, /if\s*\(\s*!user\s*\|\|\s*!user\.passwordHash/);
+
+    const accessControl = fs.readFileSync(path.join(rootDir, "src/lib/auth/access-control.ts"), "utf8");
+    assert.doesNotMatch(accessControl, /trimmed\s*===\s*order\.id\.trim\(\)/);
+    assert.match(accessControl, /timingSafeEqual/);
+
+    const checkout = fs.readFileSync(path.join(rootDir, "src/app/api/checkout/route.ts"), "utf8");
+    assert.match(checkout, /isCompleted\s*\?/);
+
+    const pdfProxy = fs.readFileSync(path.join(rootDir, "src/app/api/pdf-proxy/route.ts"), "utf8");
+    assert.match(pdfProxy, /redirect:\s*"error"/);
+    assert.match(pdfProxy, /%PDF-/);
+    assert.match(pdfProxy, /isPrivateOrDisallowedHost/);
+  });
+
+  it("should contain zero pirated titles, broken Google sample media, or committed PII", () => {
+    const store = JSON.parse(fs.readFileSync(path.join(rootDir, "src/data/admin-store.json"), "utf8"));
+    assert.equal((store.orders || []).length, 0, "admin-store.json orders must be empty");
+    assert.equal((store.leads || []).length, 0, "admin-store.json leads must be empty");
+    assert.equal((store.users || []).length, 0, "admin-store.json users must be empty");
+
+    const catalogFiles = [
+      "src/content/products.ts",
+      "src/content/services.ts",
+      "src/components/audio/sound-effects-catalog.tsx",
+      "src/data/admin-store.json",
+    ];
+    for (const rel of catalogFiles) {
+      const content = fs.readFileSync(path.join(rootDir, rel), "utf8");
+      assert.doesNotMatch(
+        content,
+        /ForBigger|actions\.google\.com|Accounting\.pdf|Rich Dad|Atomic Habits|Psychology of Money|CASHFLOW Quadrant|Nir Eyal|lightroom\.adobe\.com|covers\.openlibrary\.org/
+      );
+    }
+  });
+
+  it("should have valid real local media, PDF, image, and ZIP files for every catalog reference", () => {
+    const filesToScan = [
+      "src/content/products.ts",
+      "src/content/services.ts",
+      "src/components/audio/sound-effects-catalog.tsx",
+      "src/app/api/download/route.ts",
+    ];
+    const assetPaths = new Set();
+    const re = /"(\/(?:downloads|audio|videos|images\/catalog)\/[^"]+)"/g;
+    for (const rel of filesToScan) {
+      const text = fs.readFileSync(path.join(rootDir, rel), "utf8");
+      let match;
+      while ((match = re.exec(text)) !== null) {
+        if (match[1] === "/downloads/ord_") continue;
+        assetPaths.add(match[1]);
+      }
+    }
+    assert.ok(assetPaths.size >= 30, `Expected >= 30 local catalog assets, found ${assetPaths.size}`);
+    for (const assetRel of assetPaths) {
+      const absPath = path.join(rootDir, "public", assetRel.slice(1));
+      assert.ok(fs.existsSync(absPath), `Missing local asset on disk: ${assetRel}`);
+      const stat = fs.statSync(absPath);
+      assert.ok(stat.size > 1000, `Asset looks like an empty stub (${stat.size}B): ${assetRel}`);
+      const head = fs.readFileSync(absPath).subarray(0, 4);
+      if (assetRel.endsWith(".zip")) assert.equal(head.toString("hex"), "504b0304", `Invalid ZIP header: ${assetRel}`);
+      if (assetRel.endsWith(".pdf")) assert.equal(head.toString("ascii"), "%PDF", `Invalid PDF header: ${assetRel}`);
+      if (assetRel.endsWith(".wav")) assert.equal(head.toString("ascii"), "RIFF", `Invalid WAV header: ${assetRel}`);
+      if (assetRel.endsWith(".png")) assert.equal(head.toString("hex"), "89504e47", `Invalid PNG header: ${assetRel}`);
+    }
   });
 });

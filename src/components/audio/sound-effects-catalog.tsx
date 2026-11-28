@@ -56,7 +56,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     clipsCount: 3,
     durationSeconds: 8,
     durationLabel: "0:08",
-    audioUrl: "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
+    audioUrl: "/audio/quattro-boom.wav",
     price: 0,
     waveformPoints: [
       0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
@@ -76,7 +76,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     clipsCount: 1,
     durationSeconds: 5,
     durationLabel: "0:05",
-    audioUrl: "https://actions.google.com/sounds/v1/foley/beeps.ogg",
+    audioUrl: "/audio/welcome-chime.wav",
     price: 0,
     waveformPoints: [
       0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
@@ -95,7 +95,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     clipsCount: 6,
     durationSeconds: 14,
     durationLabel: "0:14",
-    audioUrl: "https://actions.google.com/sounds/v1/impacts/crash.ogg",
+    audioUrl: "/audio/explosion-impact.wav",
     price: 0,
     waveformPoints: [
       0.12, 0.55, 0.92, 0.95, 0.65, 0.25, 0.02,
@@ -119,7 +119,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     clipsCount: 4,
     durationSeconds: 3,
     durationLabel: "0:03",
-    audioUrl: "https://actions.google.com/sounds/v1/cartoon/pop.ogg",
+    audioUrl: "/audio/item-collected.wav",
     price: 0,
     waveformPoints: [
       0.02, 0.02, 0.02,
@@ -141,7 +141,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     clipsCount: 1,
     durationSeconds: 6,
     durationLabel: "0:06",
-    audioUrl: "https://actions.google.com/sounds/v1/cartoon/slide_whistle.ogg",
+    audioUrl: "/audio/toon-drops.wav",
     price: 0,
     waveformPoints: [
       0.02, 0.02, 0.02, 0.05, 0.12, 0.75, 0.02, 0.15, 0.92, 0.02, 0.08, 0.55, 0.02,
@@ -159,7 +159,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     clipsCount: 1,
     durationSeconds: 4,
     durationLabel: "0:04",
-    audioUrl: "https://actions.google.com/sounds/v1/foley/beeps.ogg",
+    audioUrl: "/audio/platform-hit.wav",
     price: 0,
     waveformPoints: [
       0.15, 0.60, 0.95, 0.98, 0.80, 0.45, 0.20, 0.08, 0.02, 0.02,
@@ -177,7 +177,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     clipsCount: 3,
     durationSeconds: 7,
     durationLabel: "0:07",
-    audioUrl: "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
+    audioUrl: "/audio/cinematic-whoosh.wav",
     price: 0,
     waveformPoints: [
       0.02, 0.05, 0.15, 0.25, 0.42, 0.68, 0.92, 0.98, 0.75, 0.35,
@@ -193,7 +193,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     clipsCount: 5,
     durationSeconds: 3,
     durationLabel: "0:03",
-    audioUrl: "https://actions.google.com/sounds/v1/household/clock_tick.ogg",
+    audioUrl: "/audio/mechanical-keyboard.wav",
     price: 0,
     waveformPoints: [
       0.08, 0.72, 0.18, 0.02, 0.12, 0.85, 0.22, 0.06, 0.15, 0.68,
@@ -208,7 +208,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     clipsCount: 2,
     durationSeconds: 28,
     durationLabel: "0:28",
-    audioUrl: "https://actions.google.com/sounds/v1/water/rain_heavy.ogg",
+    audioUrl: "/audio/rain-thunder.wav",
     price: 0,
     waveformPoints: [
       0.20, 0.25, 0.30, 0.28, 0.35, 0.32, 0.40, 0.55, 0.75, 0.88,
@@ -224,7 +224,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     clipsCount: 3,
     durationSeconds: 9,
     durationLabel: "0:09",
-    audioUrl: "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
+    audioUrl: "/audio/cyber-shield.wav",
     price: 0,
     waveformPoints: [
       0.15, 0.22, 0.38, 0.58, 0.78, 0.92, 0.85, 0.65, 0.45, 0.30,
@@ -240,7 +240,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     clipsCount: 2,
     durationSeconds: 16,
     durationLabel: "0:16",
-    audioUrl: "https://actions.google.com/sounds/v1/foley/beeps.ogg",
+    audioUrl: "/audio/espresso-pour.wav",
     price: 0,
     waveformPoints: [
       0.12, 0.18, 0.25, 0.32, 0.42, 0.50, 0.55, 0.52, 0.48, 0.45,
@@ -256,7 +256,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     clipsCount: 3,
     durationSeconds: 22,
     durationLabel: "0:22",
-    audioUrl: "https://actions.google.com/sounds/v1/ambiences/outdoor_ambience.ogg",
+    audioUrl: "/audio/stadium-applause.wav",
     price: 0,
     waveformPoints: [
       0.18, 0.28, 0.45, 0.65, 0.82, 0.92, 0.95, 0.90, 0.85, 0.80,
@@ -272,7 +272,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     clipsCount: 2,
     durationSeconds: 24,
     durationLabel: "0:24",
-    audioUrl: "https://actions.google.com/sounds/v1/impacts/crash.ogg",
+    audioUrl: "/audio/subway-departure.wav",
     price: 0,
     waveformPoints: [
       0.15, 0.22, 0.32, 0.45, 0.62, 0.78, 0.88, 0.92, 0.85, 0.78,
@@ -288,7 +288,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     clipsCount: 4,
     durationSeconds: 12,
     durationLabel: "0:12",
-    audioUrl: "https://actions.google.com/sounds/v1/impacts/crash.ogg",
+    audioUrl: "/audio/industrial-press.wav",
     price: 0,
     waveformPoints: [
       0.12, 0.88, 0.95, 0.55, 0.22, 0.08, 0.02,
@@ -305,7 +305,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     clipsCount: 50,
     durationSeconds: 95,
     durationLabel: "1:35",
-    audioUrl: "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
+    audioUrl: "/audio/trailer-braam.wav",
     price: 499,
     slug: "viral-sfx-motion-overlay-bundle",
     waveformPoints: [
@@ -322,7 +322,7 @@ export const SOUND_TRACKS: SfxTrack[] = [
     clipsCount: 40,
     durationSeconds: 130,
     durationLabel: "2:10",
-    audioUrl: "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
+    audioUrl: "/audio/crystal-transition.wav",
     price: 399,
     slug: "cinematic-sfx-motion-overlays-vault",
     waveformPoints: [
@@ -409,7 +409,7 @@ export function SoundEffectsCatalog() {
                   p.audioPreviewUrl ||
                   p.downloadUrl ||
                   p.googleDriveUrl ||
-                  "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
+                  "/audio/quattro-boom.wav",
                 waveformPoints: [
                   0.1, 0.25, 0.6, 0.85, 0.95, 0.75, 0.5, 0.3, 0.65, 0.9, 0.7, 0.4, 0.2, 0.1, 0.05,
                 ],

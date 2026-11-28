@@ -5,7 +5,8 @@ import { getDatabase } from "@/lib/admin/store";
 export async function GET(request: Request) {
   const cookieHeader = request.headers.get("cookie") || "";
   const match = cookieHeader.match(new RegExp(`${ADMIN_COOKIE_NAME}=([^;]+)`));
-  const authorized = verifySessionToken(match ? match[1] : undefined);
+  const userAgent = request.headers.get("user-agent") || undefined;
+  const authorized = verifySessionToken(match ? match[1] : undefined, userAgent);
 
   if (!authorized) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

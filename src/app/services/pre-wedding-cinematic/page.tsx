@@ -139,7 +139,7 @@ export default function PreWeddingCinematicPage() {
         <div className="relative aspect-video w-full max-h-[580px] bg-black">
           <video
             ref={videoRef}
-            src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4"
+            src="/videos/badarsh-showreel.mp4"
             loop
             muted={isMuted}
             playsInline

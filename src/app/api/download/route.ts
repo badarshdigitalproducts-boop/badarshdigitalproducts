@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDatabase } from "@/lib/admin/store";
-import { generateR2DownloadUrl, isR2Configured } from "@/lib/storage/r2";
+import { generateR2DownloadUrl, getDownloadSigningKey, isR2Configured } from "@/lib/storage/r2";
 import { canAccessOrder } from "@/lib/auth/access-control";
 import { products as fallbackProducts } from "@/content/products";
 import crypto from "crypto";
@@ -8,59 +8,67 @@ import crypto from "crypto";
 const FREE_SFX_AUDIO_URLS: Record<string, { title: string; url: string }> = {
   "sfx-quattro-boom": {
     title: "Quattro-boom Whoosh SFX",
-    url: "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
+    url: "/audio/quattro-boom.wav",
   },
   "sfx-welcome": {
     title: "Welcome SFX",
-    url: "https://actions.google.com/sounds/v1/foley/beeps.ogg",
+    url: "/audio/welcome-chime.wav",
   },
   "sfx-explosion": {
     title: "Explosion SFX",
-    url: "https://actions.google.com/sounds/v1/impacts/crash.ogg",
+    url: "/audio/explosion-impact.wav",
   },
   "sfx-item-collected": {
     title: "Item Collected SFX",
-    url: "https://actions.google.com/sounds/v1/cartoon/pop.ogg",
+    url: "/audio/item-collected.wav",
   },
   "sfx-toon-drops": {
     title: "Toon Drops SFX",
-    url: "https://actions.google.com/sounds/v1/cartoon/slide_whistle.ogg",
+    url: "/audio/toon-drops.wav",
   },
   "sfx-platform-hit": {
     title: "SFX Platform Game Hit 1",
-    url: "https://actions.google.com/sounds/v1/foley/beeps.ogg",
+    url: "/audio/platform-hit.wav",
   },
   "sfx-cinematic-whoosh": {
     title: "Cinematic High-Pass Whoosh",
-    url: "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
+    url: "/audio/cinematic-whoosh.wav",
   },
   "sfx-mech-keyboard": {
     title: "Mechanical Keyboard Click & Tap",
-    url: "https://actions.google.com/sounds/v1/household/clock_tick.ogg",
+    url: "/audio/mechanical-keyboard.wav",
   },
   "sfx-rain-thunder": {
     title: "Rain On Window & Soft Thunder",
-    url: "https://actions.google.com/sounds/v1/water/rain_heavy.ogg",
+    url: "/audio/rain-thunder.wav",
   },
   "sfx-cyber-shield": {
     title: "Sci-Fi Energy Shield Recharging",
-    url: "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
+    url: "/audio/cyber-shield.wav",
   },
   "sfx-espresso-pour": {
     title: "Domestic Coffee Pour & Ceramic Clink",
-    url: "https://actions.google.com/sounds/v1/foley/beeps.ogg",
+    url: "/audio/espresso-pour.wav",
   },
   "sfx-stadium-applause": {
     title: "Arena Crowd Cheer & Thunderous Applause",
-    url: "https://actions.google.com/sounds/v1/ambiences/outdoor_ambience.ogg",
+    url: "/audio/stadium-applause.wav",
   },
   "sfx-subway-departure": {
     title: "Urban Metro Train Track Rumble",
-    url: "https://actions.google.com/sounds/v1/impacts/crash.ogg",
+    url: "/audio/subway-departure.wav",
   },
   "sfx-industrial-press": {
     title: "Heavy Hydraulic Piston Impact",
-    url: "https://actions.google.com/sounds/v1/impacts/crash.ogg",
+    url: "/audio/industrial-press.wav",
+  },
+  "sfx-trailer-braam": {
+    title: "Deep Trailer Braam Impact",
+    url: "/audio/trailer-braam.wav",
+  },
+  "sfx-crystal-transition": {
+    title: "Crystal Glass Transition Riser",
+    url: "/audio/crystal-transition.wav",
   },
 };
 
@@ -166,46 +174,51 @@ async function resolveDownloadRedirect(fileTarget: string, request: NextRequest,
     }
   }
 
-  // For remote HTTP/HTTPS files (PDFs, raw files, XMLs, audio, etc.):
-  // Stream directly through the Badarsh API with attachment headers.
-  // This completely eliminates CORS errors, "This content is blocked", and unwanted new tab jumps!
-  if (fileTarget.startsWith("http://") || fileTarget.startsWith("https://")) {
+  // For remote HTTP/HTTPS files: only fetch HTTPS from non-private hosts without open redirects
+  if (fileTarget.startsWith("https://")) {
     try {
-      const upstreamRes = await fetch(fileTarget, {
-        headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-        },
-      });
-
-      if (upstreamRes.ok) {
-        let safeName = "badarsh-download";
-        try {
-          const urlObj = new URL(fileTarget);
-          const rawName = urlObj.pathname.split("/").pop();
-          if (rawName && rawName.includes(".")) {
-            safeName = decodeURIComponent(rawName);
-          } else if (productTitle) {
-            safeName = `${productTitle.toLowerCase().replace(/[^a-z0-9_-]+/g, "-")}-master.pdf`;
-          }
-        } catch {
-          if (productTitle) {
-            safeName = `${productTitle.toLowerCase().replace(/[^a-z0-9_-]+/g, "-")}.bin`;
-          }
-        }
-
-        const contentType = upstreamRes.headers.get("content-type") || "application/octet-stream";
-        const arrayBuffer = await upstreamRes.arrayBuffer();
-
-        return new NextResponse(arrayBuffer, {
-          status: 200,
+      const parsedUrl = new URL(fileTarget);
+      if (
+        parsedUrl.hostname !== "localhost" &&
+        !parsedUrl.hostname.endsWith(".local") &&
+        !parsedUrl.hostname.endsWith(".internal") &&
+        !/^(?:\d{1,3}\.){3}\d{1,3}$/.test(parsedUrl.hostname)
+      ) {
+        const upstreamRes = await fetch(fileTarget, {
+          redirect: "error",
+          signal: AbortSignal.timeout(15000),
           headers: {
-            "Content-Type": contentType,
-            "Content-Disposition": `attachment; filename="${safeName}"`,
-            "Access-Control-Allow-Origin": "*",
-            "Cache-Control": "public, max-age=3600",
+            "User-Agent": "BADARSH-Downloader/1.0",
           },
         });
+
+        if (upstreamRes.ok) {
+          let safeName = "badarsh-download";
+          try {
+            const rawName = parsedUrl.pathname.split("/").pop();
+            if (rawName && rawName.includes(".")) {
+              safeName = decodeURIComponent(rawName).replace(/[^a-zA-Z0-9._-]/g, "-");
+            } else if (productTitle) {
+              safeName = `${productTitle.toLowerCase().replace(/[^a-z0-9_-]+/g, "-")}-master.pdf`;
+            }
+          } catch {
+            if (productTitle) {
+              safeName = `${productTitle.toLowerCase().replace(/[^a-z0-9_-]+/g, "-")}.bin`;
+            }
+          }
+
+          const contentType = upstreamRes.headers.get("content-type") || "application/octet-stream";
+          const arrayBuffer = await upstreamRes.arrayBuffer();
+
+          return new NextResponse(arrayBuffer, {
+            status: 200,
+            headers: {
+              "Content-Type": contentType,
+              "Content-Disposition": `attachment; filename="${safeName}"`,
+              "Cache-Control": "public, max-age=3600",
+            },
+          });
+        }
       }
     } catch (streamErr) {
       console.warn("Direct stream fetch failed, falling back to redirect:", streamErr);
@@ -214,22 +227,41 @@ async function resolveDownloadRedirect(fileTarget: string, request: NextRequest,
     return NextResponse.redirect(fileTarget, 307);
   }
 
-  // If local static download file in public/
-  if (fileTarget.startsWith("/downloads/") || fileTarget.startsWith("downloads/")) {
+  // Serve local static files in public/downloads/, public/audio/, public/videos/ with accurate Content-Type
+  if (
+    fileTarget.startsWith("/downloads/") ||
+    fileTarget.startsWith("downloads/") ||
+    fileTarget.startsWith("/audio/") ||
+    fileTarget.startsWith("audio/") ||
+    fileTarget.startsWith("/videos/") ||
+    fileTarget.startsWith("videos/")
+  ) {
     try {
       const fs = await import("fs");
       const path = await import("path");
+      const publicRoot = path.resolve(process.cwd(), "public");
       const cleanPath = fileTarget.replace(/^\/+/, "");
-      const fullPath = path.join(process.cwd(), "public", cleanPath);
-      if (fs.existsSync(fullPath)) {
+      const fullPath = path.resolve(publicRoot, cleanPath);
+      if (fullPath.startsWith(publicRoot + path.sep) && fs.existsSync(fullPath)) {
         const fileBuffer = fs.readFileSync(fullPath);
         const filename = path.basename(fullPath);
+        const ext = path.extname(filename).toLowerCase();
+        const mimeMap: Record<string, string> = {
+          ".zip": "application/zip",
+          ".pdf": "application/pdf",
+          ".wav": "audio/wav",
+          ".mp3": "audio/mpeg",
+          ".ogg": "audio/ogg",
+          ".mp4": "video/mp4",
+          ".xml": "application/xml",
+          ".cube": "text/plain; charset=utf-8",
+          ".xmp": "application/rdf+xml",
+        };
         return new NextResponse(fileBuffer, {
           status: 200,
           headers: {
-            "Content-Type": "application/zip",
+            "Content-Type": mimeMap[ext] || "application/octet-stream",
             "Content-Disposition": `attachment; filename="${filename}"`,
-            "Access-Control-Allow-Origin": "*",
             "Cache-Control": "public, max-age=3600",
           },
         });
@@ -267,16 +299,21 @@ export async function GET(request: NextRequest) {
         );
       }
 
-      const signingKey =
-        process.env.DOWNLOAD_SIGNING_KEY ||
-        process.env.ADMIN_SESSION_SECRET ||
-        "badarsh-secret-signing-key";
+      const signingKey = getDownloadSigningKey();
+      if (!signingKey) {
+        return NextResponse.json(
+          { error: "Download signing is not configured on the server." },
+          { status: 503 }
+        );
+      }
       const expectedToken = crypto
         .createHmac("sha256", signingKey)
         .update(`${key}:${exp}`)
         .digest("hex");
 
-      if (token !== expectedToken) {
+      const tokenBuf = Buffer.from(token);
+      const expectedBuf = Buffer.from(expectedToken);
+      if (tokenBuf.length !== expectedBuf.length || !crypto.timingSafeEqual(tokenBuf, expectedBuf)) {
         return NextResponse.json(
           { error: "Invalid signature. This download link cannot be shared or pirated." },
           { status: 403 }

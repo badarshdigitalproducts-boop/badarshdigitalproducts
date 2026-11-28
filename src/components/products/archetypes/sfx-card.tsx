@@ -30,7 +30,7 @@ export function SfxCard({ product }: SfxCardProps) {
 
   const audioSrc =
     product.audioPreviewUrl ||
-    "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg";
+    "/audio/quattro-boom.wav";
 
   const handleActionClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -41,7 +41,7 @@ export function SfxCard({ product }: SfxCardProps) {
     if (isFree) {
       triggerDirectDownload(
         `/api/download?productId=${encodeURIComponent(product.id)}`,
-        `${product.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-master.ogg`
+        `${product.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-master.wav`
       );
     } else {
       setCheckoutOpen(true);

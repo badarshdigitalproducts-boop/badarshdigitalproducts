@@ -11,15 +11,13 @@ export const services: Service[] = [
       "Transform your raw footage into cinematic content that captivates your audience. Our video editing service covers everything from YouTube long-form to Instagram Reels and ad creatives. We handle color grading, motion graphics, subtitles, sound design, and transitions — all tailored to your brand's aesthetic and platform requirements. Whether you're a creator, coach, or business, we'll make your videos look like they were produced by a top-tier studio.",
     icon: "Video",
     portfolioVideos: [
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4",
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+      "/videos/badarsh-showreel.mp4",
     ],
     portfolioImages: [
       "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80",
-      "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80",
+      "/images/catalog/video-bundle-cover.png",
       "https://images.unsplash.com/photo-1626544827763-d516dce335e2?w=1200&q=80",
-      "https://images.unsplash.com/photo-1518173946687-a4c8a383392e?w=1200&q=80",
+      "/images/catalog/cinematic-reels-cover.png",
     ],
     features: [
       "Professional color grading & cinematic LUTs",
@@ -946,8 +944,7 @@ export const services: Service[] = [
       "Turn your relationship into a high-budget cinema trailer. We script personalized love story narratives, capture sweeping 4K aerial drone vistas, direct candid romantic interactions, and score your film with licensed cinematic music.",
     icon: "Video",
     portfolioVideos: [
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+      "/videos/badarsh-showreel.mp4",
     ],
     portfolioImages: [
       "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=1200&q=80",

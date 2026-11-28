@@ -6,7 +6,7 @@ import { getAdminServices, saveAdminService, deleteAdminService } from "@/lib/ad
 function isAuthorized(request: Request): boolean {
   const cookieHeader = request.headers.get("cookie") || "";
   const match = cookieHeader.match(new RegExp(`${ADMIN_COOKIE_NAME}=([^;]+)`));
-  return verifySessionToken(match ? match[1] : undefined);
+  return verifySessionToken(match ? match[1] : undefined, request.headers.get("user-agent") || undefined);
 }
 
 function revalidateServices(slug?: string) {

@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const ADMIN_COOKIE_NAME = "badarsh_admin_session";
-const DEFAULT_SESSION_SECRET = "badarsh_zplus_hmac_secret_4a91f82c7e034b568392019a847321ee";
 
 function getSessionSecret(): string {
   const envVal = process.env.ADMIN_SESSION_SECRET;
@@ -10,21 +9,23 @@ function getSessionSecret(): string {
     const cleaned = envVal.trim().replace(/^["']|["']$/g, "");
     if (cleaned) return cleaned;
   }
-  return DEFAULT_SESSION_SECRET;
+  return "";
 }
 
 /**
- * Edge-compatible Web Crypto HMAC-SHA256 signature verification
+ * Edge-compatible Web Crypto HMAC-SHA256 signature verification.
+ * Fails closed when ADMIN_SESSION_SECRET is missing.
  */
 async function verifyAdminSessionEdge(token: string): Promise<boolean> {
   if (!token || typeof token !== "string") return false;
+  const secret = getSessionSecret();
+  if (!secret) return false;
   const parts = token.split(".");
   if (parts.length !== 2) return false;
 
   const [payloadB64, signatureB64Url] = parts;
 
   try {
-    const secret = getSessionSecret();
     const encoder = new TextEncoder();
 
     const cryptoKey = await crypto.subtle.importKey(

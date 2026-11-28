@@ -50,9 +50,9 @@ export default function OrderFulfillmentPage() {
     try {
       const localToken = typeof window !== "undefined" ? localStorage.getItem(`badarsh_order_token_${orderId}`) : null;
       const search = typeof window !== "undefined" ? window.location.search : "";
-      const baseParams = search ? search : `?token=${encodeURIComponent(localToken || orderId)}`;
+      const baseParams = search ? search : localToken ? `?token=${encodeURIComponent(localToken)}` : "";
       const query = localToken && !baseParams.includes("token=")
-        ? `${baseParams}&token=${encodeURIComponent(localToken)}`
+        ? `${baseParams ? `${baseParams}&` : "?"}token=${encodeURIComponent(localToken)}`
         : baseParams;
 
       const res = await fetch(`/api/orders/${orderId}${query}`);

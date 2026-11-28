@@ -56,7 +56,7 @@ export function BundleCard({ product }: BundleCardProps) {
         <div className="absolute inset-0 bg-gradient-to-tr from-accent/20 via-neutral-900 to-purple-900/30" />
         
         <SmartImage
-          src={product.images[0] || "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=800&q=80"}
+          src={product.images[0] || "/images/catalog/video-bundle-cover.png"}
           alt={product.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

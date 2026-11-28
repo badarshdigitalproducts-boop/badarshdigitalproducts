@@ -204,9 +204,16 @@ export function CheckoutModal({
 
       const data = await safeParseJson(res, { success: false, error: "" } as any);
       if (res.ok && data.success) {
+        const orderAccessToken =
+          data.accessToken ||
+          data.order?.accessToken ||
+          data.order?.licenseKey ||
+          "";
         if (data.orderId) {
           try {
-            localStorage.setItem(`badarsh_order_token_${data.orderId}`, data.order?.licenseKey || data.orderId);
+            if (orderAccessToken) {
+              localStorage.setItem(`badarsh_order_token_${data.orderId}`, orderAccessToken);
+            }
             // Unlock immediately ONLY when payment is already completed (₹0 / 100% coupon)
             if (!data.paymentRequired && data.order?.paymentStatus === "completed") {
               markProductAsUnlocked(product.id, product.slug, data.orderId, data.order?.licenseKey);
@@ -240,7 +247,10 @@ export function CheckoutModal({
               return;
             }
 
-            window.location.href = `/orders/${data.orderId}?token=${encodeURIComponent(data.orderId)}`;
+            const nextToken = data.accessToken || data.order?.accessToken || data.order?.licenseKey;
+            window.location.href = nextToken
+              ? `/orders/${data.orderId}?token=${encodeURIComponent(nextToken)}`
+              : `/orders/${data.orderId}`;
             return;
           }
 

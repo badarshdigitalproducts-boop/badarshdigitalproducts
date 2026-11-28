@@ -10,6 +10,7 @@ import {
   limit,
 } from "firebase/firestore";
 import { getFirestoreDb } from "./config";
+import { getAdminFirestore, isFirebaseAdminConfigured } from "./admin";
 import type {
   AdminProduct,
   AdminService,
@@ -37,19 +38,13 @@ export const COLLECTIONS = {
   USERS: "users",
 } as const;
 
-/**
- * Helper to ensure Firestore calls never hang serverless lambdas or throw unhandled exceptions
- */
-function withTimeout<T>(promise: Promise<T>, ms = 3500, fallback: T): Promise<T> {
+function withTimeout<T>(promise: Promise<T>, ms = 4000, fallback: T): Promise<T> {
   return Promise.race([
     promise,
     new Promise<T>((resolve) => setTimeout(() => resolve(fallback), ms)),
   ]);
 }
 
-/**
- * Recursively cleans undefined properties from objects so Firestore never rejects the write
- */
 function cleanForFirestore<T extends Record<string, any>>(obj: T): Record<string, any> {
   if (!obj || typeof obj !== "object") return obj;
   const cleaned: Record<string, any> = {};
@@ -65,334 +60,157 @@ function cleanForFirestore<T extends Record<string, any>>(obj: T): Record<string
   return cleaned;
 }
 
-/**
- * Health check & latency test for Firebase Firestore
- */
+async function getAllDocs<T>(collectionName: string): Promise<T[]> {
+  try {
+    const adminDb = getAdminFirestore();
+    if (adminDb) {
+      const snapshot = await withTimeout(adminDb.collection(collectionName).get(), 4000, null);
+      if (!snapshot) return [];
+      const items: T[] = [];
+      snapshot.forEach((d) => items.push(d.data() as T));
+      return items;
+    }
+
+    const db = getFirestoreDb();
+    const snapshot = await withTimeout(getDocs(collection(db, collectionName)), 3500, null);
+    if (!snapshot) return [];
+    const items: T[] = [];
+    snapshot.forEach((d) => items.push(d.data() as T));
+    return items;
+  } catch (err) {
+    console.warn(`Firestore read warning (${collectionName}):`, (err as Error)?.message);
+    return [];
+  }
+}
+
+async function upsertDoc(collectionName: string, docId: string, data: Record<string, any>): Promise<void> {
+  try {
+    const cleaned = cleanForFirestore(data);
+    const adminDb = getAdminFirestore();
+    if (adminDb) {
+      await withTimeout(
+        adminDb.collection(collectionName).doc(docId).set(cleaned, { merge: true }),
+        4000,
+        undefined
+      );
+      return;
+    }
+
+    const db = getFirestoreDb();
+    await withTimeout(setDoc(doc(db, collectionName, docId), cleaned, { merge: true }), 4000, undefined);
+  } catch (err) {
+    console.warn(`Firestore write warning (${collectionName}/${docId}):`, (err as Error)?.message);
+  }
+}
+
+async function removeDoc(collectionName: string, docId: string): Promise<void> {
+  try {
+    const adminDb = getAdminFirestore();
+    if (adminDb) {
+      await withTimeout(adminDb.collection(collectionName).doc(docId).delete(), 4000, undefined);
+      return;
+    }
+
+    const db = getFirestoreDb();
+    await withTimeout(deleteDoc(doc(db, collectionName, docId)), 4000, undefined);
+  } catch (err) {
+    console.warn(`Firestore delete warning (${collectionName}/${docId}):`, (err as Error)?.message);
+  }
+}
+
 export async function checkFirebaseConnection(): Promise<{
   connected: boolean;
   latencyMs: number;
+  adminSdkActive?: boolean;
   error?: string;
 }> {
   const start = Date.now();
+  const adminSdkActive = isFirebaseAdminConfigured();
   try {
+    const adminDb = getAdminFirestore();
+    if (adminDb) {
+      await withTimeout(adminDb.collection(COLLECTIONS.SETTINGS).doc("system").get(), 4000, null);
+      return {
+        connected: true,
+        latencyMs: Date.now() - start,
+        adminSdkActive: true,
+      };
+    }
+
     const db = getFirestoreDb();
     const settingsDoc = doc(db, COLLECTIONS.SETTINGS, "system");
     await withTimeout(getDoc(settingsDoc), 4000, null);
     return {
       connected: true,
       latencyMs: Date.now() - start,
+      adminSdkActive: false,
     };
   } catch (err: any) {
     let errorMsg = err?.message || "Failed to reach Firebase Firestore";
     if (errorMsg.includes("suspended") || errorMsg.includes("CONSUMER_SUSPENDED")) {
-      errorMsg = "Firebase project is suspended in Google Cloud. Resume it at https://console.firebase.google.com/project/badarshdigiitalproducts";
+      errorMsg = "Firebase project is suspended in Google Cloud.";
     } else if (errorMsg.includes("permission-denied") || errorMsg.includes("PERMISSION_DENIED")) {
-      errorMsg = "Firestore Rules locked. Enable Read/Write in Firebase Console -> Firestore Database -> Rules.";
+      errorMsg = adminSdkActive
+        ? "Firestore Admin SDK check failed."
+        : "Firestore client rules blocked server access. Add FIREBASE_SERVICE_ACCOUNT_KEY to Vercel.";
     }
     return {
       connected: false,
       latencyMs: Date.now() - start,
+      adminSdkActive,
       error: errorMsg,
     };
   }
 }
 
 /* ---------------- Products ---------------- */
-
-export async function fsGetProducts(): Promise<AdminProduct[]> {
-  try {
-    const db = getFirestoreDb();
-    const colRef = collection(db, COLLECTIONS.PRODUCTS);
-    const fetchAction = async () => {
-      const snapshot = await getDocs(colRef);
-      const products: AdminProduct[] = [];
-      snapshot.forEach((d) => {
-        products.push(d.data() as AdminProduct);
-      });
-      return products;
-    };
-    return await withTimeout(fetchAction(), 3500, []);
-  } catch (err) {
-    console.warn("fsGetProducts warning:", err);
-    return [];
-  }
-}
-
-export async function fsSaveProduct(product: AdminProduct): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    const docRef = doc(db, COLLECTIONS.PRODUCTS, product.id);
-    const cleaned = cleanForFirestore(product as any);
-    await withTimeout(setDoc(docRef, cleaned, { merge: true }), 4000, undefined);
-  } catch (err) {
-    console.warn("fsSaveProduct warning:", err);
-  }
-}
-
-export async function fsDeleteProduct(id: string): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    const docRef = doc(db, COLLECTIONS.PRODUCTS, id);
-    await withTimeout(deleteDoc(docRef), 4000, undefined);
-  } catch (err) {
-    console.warn("fsDeleteProduct warning:", err);
-  }
-}
+export const fsGetProducts = () => getAllDocs<AdminProduct>(COLLECTIONS.PRODUCTS);
+export const fsSaveProduct = (product: AdminProduct) => upsertDoc(COLLECTIONS.PRODUCTS, product.id, product);
+export const fsDeleteProduct = (id: string) => removeDoc(COLLECTIONS.PRODUCTS, id);
 
 /* ---------------- Services ---------------- */
-
-export async function fsGetServices(): Promise<AdminService[]> {
-  try {
-    const db = getFirestoreDb();
-    const colRef = collection(db, COLLECTIONS.SERVICES);
-    const fetchAction = async () => {
-      const snapshot = await getDocs(colRef);
-      const services: AdminService[] = [];
-      snapshot.forEach((d) => {
-        services.push(d.data() as AdminService);
-      });
-      return services;
-    };
-    return await withTimeout(fetchAction(), 3500, []);
-  } catch (err) {
-    console.warn("fsGetServices warning:", err);
-    return [];
-  }
-}
-
-export async function fsSaveService(service: AdminService): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    const docRef = doc(db, COLLECTIONS.SERVICES, service.id);
-    const cleaned = cleanForFirestore(service as any);
-    await withTimeout(setDoc(docRef, cleaned, { merge: true }), 4000, undefined);
-  } catch (err) {
-    console.warn("fsSaveService warning:", err);
-  }
-}
-
-export async function fsDeleteService(id: string): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    const docRef = doc(db, COLLECTIONS.SERVICES, id);
-    await withTimeout(deleteDoc(docRef), 4000, undefined);
-  } catch (err) {
-    console.warn("fsDeleteService warning:", err);
-  }
-}
+export const fsGetServices = () => getAllDocs<AdminService>(COLLECTIONS.SERVICES);
+export const fsSaveService = (service: AdminService) => upsertDoc(COLLECTIONS.SERVICES, service.id, service);
+export const fsDeleteService = (id: string) => removeDoc(COLLECTIONS.SERVICES, id);
 
 /* ---------------- Blog Posts ---------------- */
-
-export async function fsGetBlogPosts(): Promise<AdminBlogPost[]> {
-  try {
-    const db = getFirestoreDb();
-    const colRef = collection(db, COLLECTIONS.BLOG);
-    const fetchAction = async () => {
-      const snapshot = await getDocs(colRef);
-      const posts: AdminBlogPost[] = [];
-      snapshot.forEach((d) => {
-        posts.push(d.data() as AdminBlogPost);
-      });
-      return posts;
-    };
-    return await withTimeout(fetchAction(), 3500, []);
-  } catch (err) {
-    console.warn("fsGetBlogPosts warning:", err);
-    return [];
-  }
-}
-
-export async function fsSaveBlogPost(post: AdminBlogPost): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    const docRef = doc(db, COLLECTIONS.BLOG, post.slug);
-    const cleaned = cleanForFirestore(post as any);
-    await withTimeout(setDoc(docRef, cleaned, { merge: true }), 4000, undefined);
-  } catch (err) {
-    console.warn("fsSaveBlogPost warning:", err);
-  }
-}
-
-export async function fsDeleteBlogPost(slug: string): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    const docRef = doc(db, COLLECTIONS.BLOG, slug);
-    await withTimeout(deleteDoc(docRef), 4000, undefined);
-  } catch (err) {
-    console.warn("fsDeleteBlogPost warning:", err);
-  }
-}
+export const fsGetBlogPosts = () => getAllDocs<AdminBlogPost>(COLLECTIONS.BLOG);
+export const fsSaveBlogPost = (post: AdminBlogPost) => upsertDoc(COLLECTIONS.BLOG, post.slug, post);
+export const fsDeleteBlogPost = (slug: string) => removeDoc(COLLECTIONS.BLOG, slug);
 
 /* ---------------- Orders ---------------- */
-
-export async function fsGetOrders(): Promise<OrderRecord[]> {
-  try {
-    const db = getFirestoreDb();
-    const colRef = collection(db, COLLECTIONS.ORDERS);
-    const fetchAction = async () => {
-      const snapshot = await getDocs(colRef);
-      const orders: OrderRecord[] = [];
-      snapshot.forEach((d) => {
-        orders.push(d.data() as OrderRecord);
-      });
-      return orders;
-    };
-    return await withTimeout(fetchAction(), 3500, []);
-  } catch (err) {
-    console.warn("fsGetOrders warning:", err);
-    return [];
-  }
-}
-
-export async function fsSaveOrder(order: OrderRecord): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    const docRef = doc(db, COLLECTIONS.ORDERS, order.id);
-    const cleaned = cleanForFirestore(order as any);
-    await withTimeout(setDoc(docRef, cleaned, { merge: true }), 4000, undefined);
-  } catch (err) {
-    console.warn("fsSaveOrder warning:", err);
-  }
-}
-
-export async function fsDeleteOrder(id: string): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    const docRef = doc(db, COLLECTIONS.ORDERS, id);
-    await withTimeout(deleteDoc(docRef), 4000, undefined);
-  } catch (err) {
-    console.warn("fsDeleteOrder warning:", err);
-  }
-}
+export const fsGetOrders = () => getAllDocs<OrderRecord>(COLLECTIONS.ORDERS);
+export const fsSaveOrder = (order: OrderRecord) => upsertDoc(COLLECTIONS.ORDERS, order.id, order);
+export const fsDeleteOrder = (id: string) => removeDoc(COLLECTIONS.ORDERS, id);
 
 /* ---------------- Coupons ---------------- */
-
-export async function fsGetCoupons(): Promise<AdminCoupon[]> {
-  try {
-    const db = getFirestoreDb();
-    const colRef = collection(db, COLLECTIONS.COUPONS);
-    const fetchAction = async () => {
-      const snapshot = await getDocs(colRef);
-      const coupons: AdminCoupon[] = [];
-      snapshot.forEach((d) => {
-        coupons.push(d.data() as AdminCoupon);
-      });
-      return coupons;
-    };
-    return await withTimeout(fetchAction(), 3500, []);
-  } catch (err) {
-    console.warn("fsGetCoupons warning:", err);
-    return [];
-  }
-}
-
-export async function fsSaveCoupon(coupon: AdminCoupon): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    const docRef = doc(db, COLLECTIONS.COUPONS, coupon.id);
-    const cleaned = cleanForFirestore(coupon as any);
-    await withTimeout(setDoc(docRef, cleaned, { merge: true }), 4000, undefined);
-  } catch (err) {
-    console.warn("fsSaveCoupon warning:", err);
-  }
-}
-
-export async function fsDeleteCoupon(id: string): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    const docRef = doc(db, COLLECTIONS.COUPONS, id);
-    await withTimeout(deleteDoc(docRef), 4000, undefined);
-  } catch (err) {
-    console.warn("fsDeleteCoupon warning:", err);
-  }
-}
+export const fsGetCoupons = () => getAllDocs<AdminCoupon>(COLLECTIONS.COUPONS);
+export const fsSaveCoupon = (coupon: AdminCoupon) => upsertDoc(COLLECTIONS.COUPONS, coupon.id, coupon);
+export const fsDeleteCoupon = (id: string) => removeDoc(COLLECTIONS.COUPONS, id);
 
 /* ---------------- Leads ---------------- */
-
-export async function fsGetLeads(): Promise<LeadInquiry[]> {
-  try {
-    const db = getFirestoreDb();
-    const colRef = collection(db, COLLECTIONS.LEADS);
-    const fetchAction = async () => {
-      const snapshot = await getDocs(colRef);
-      const leads: LeadInquiry[] = [];
-      snapshot.forEach((d) => {
-        leads.push(d.data() as LeadInquiry);
-      });
-      return leads;
-    };
-    return await withTimeout(fetchAction(), 3500, []);
-  } catch (err) {
-    console.warn("fsGetLeads warning:", err);
-    return [];
-  }
-}
-
-export async function fsSaveLead(lead: LeadInquiry): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    const docRef = doc(db, COLLECTIONS.LEADS, lead.id);
-    await withTimeout(setDoc(docRef, lead, { merge: true }), 4000, undefined);
-  } catch (err) {
-    console.warn("fsSaveLead warning:", err);
-  }
-}
-
-export async function fsDeleteLead(id: string): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    const docRef = doc(db, COLLECTIONS.LEADS, id);
-    await withTimeout(deleteDoc(docRef), 4000, undefined);
-  } catch (err) {
-    console.warn("fsDeleteLead warning:", err);
-  }
-}
+export const fsGetLeads = () => getAllDocs<LeadInquiry>(COLLECTIONS.LEADS);
+export const fsSaveLead = (lead: LeadInquiry) => upsertDoc(COLLECTIONS.LEADS, lead.id, lead);
+export const fsDeleteLead = (id: string) => removeDoc(COLLECTIONS.LEADS, id);
 
 /* ---------------- Subscribers ---------------- */
-
-export async function fsGetSubscribers(): Promise<Subscriber[]> {
-  try {
-    const db = getFirestoreDb();
-    const colRef = collection(db, COLLECTIONS.SUBSCRIBERS);
-    const fetchAction = async () => {
-      const snapshot = await getDocs(colRef);
-      const subscribers: Subscriber[] = [];
-      snapshot.forEach((d) => {
-        subscribers.push(d.data() as Subscriber);
-      });
-      return subscribers;
-    };
-    return await withTimeout(fetchAction(), 3500, []);
-  } catch (err) {
-    console.warn("fsGetSubscribers warning:", err);
-    return [];
-  }
-}
-
-export async function fsSaveSubscriber(sub: Subscriber): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    const docRef = doc(db, COLLECTIONS.SUBSCRIBERS, sub.id);
-    await withTimeout(setDoc(docRef, sub, { merge: true }), 4000, undefined);
-  } catch (err) {
-    console.warn("fsSaveSubscriber warning:", err);
-  }
-}
-
-export async function fsDeleteSubscriber(id: string): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    const docRef = doc(db, COLLECTIONS.SUBSCRIBERS, id);
-    await withTimeout(deleteDoc(docRef), 4000, undefined);
-  } catch (err) {
-    console.warn("fsDeleteSubscriber warning:", err);
-  }
-}
+export const fsGetSubscribers = () => getAllDocs<Subscriber>(COLLECTIONS.SUBSCRIBERS);
+export const fsSaveSubscriber = (sub: Subscriber) => upsertDoc(COLLECTIONS.SUBSCRIBERS, sub.id, sub);
+export const fsDeleteSubscriber = (id: string) => removeDoc(COLLECTIONS.SUBSCRIBERS, id);
 
 /* ---------------- Settings ---------------- */
-
 export async function fsGetSettings(): Promise<SystemSettings | null> {
   try {
+    const adminDb = getAdminFirestore();
+    if (adminDb) {
+      const snap = await withTimeout(
+        adminDb.collection(COLLECTIONS.SETTINGS).doc("system").get(),
+        3500,
+        null
+      );
+      return snap && snap.exists ? (snap.data() as SystemSettings) : null;
+    }
+
     const db = getFirestoreDb();
     const docRef = doc(db, COLLECTIONS.SETTINGS, "system");
     const snapshot = await withTimeout(getDoc(docRef), 3500, null);
@@ -406,39 +224,34 @@ export async function fsGetSettings(): Promise<SystemSettings | null> {
   }
 }
 
-export async function fsSaveSettings(settings: SystemSettings): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    const docRef = doc(db, COLLECTIONS.SETTINGS, "system");
-    await withTimeout(setDoc(docRef, settings, { merge: true }), 4000, undefined);
-  } catch (err) {
-    console.warn("fsSaveSettings warning:", err);
-  }
-}
+export const fsSaveSettings = (settings: SystemSettings) =>
+  upsertDoc(COLLECTIONS.SETTINGS, "system", settings as Record<string, any>);
 
 /* ---------------- Audit Logs ---------------- */
-
-export async function fsAddAuditLog(log: AuditLog): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    const docRef = doc(db, COLLECTIONS.AUDIT_LOGS, log.id);
-    await withTimeout(setDoc(docRef, log), 3000, undefined);
-  } catch (err) {
-    console.warn("fsAddAuditLog warning:", err);
-  }
-}
+export const fsAddAuditLog = (log: AuditLog) => upsertDoc(COLLECTIONS.AUDIT_LOGS, log.id, log);
 
 export async function fsGetAuditLogs(max = 50): Promise<AuditLog[]> {
   try {
+    const adminDb = getAdminFirestore();
+    if (adminDb) {
+      const snap = await withTimeout(
+        adminDb.collection(COLLECTIONS.AUDIT_LOGS).orderBy("timestamp", "desc").limit(max).get(),
+        3500,
+        null
+      );
+      if (!snap) return [];
+      const logs: AuditLog[] = [];
+      snap.forEach((d) => logs.push(d.data() as AuditLog));
+      return logs;
+    }
+
     const db = getFirestoreDb();
     const colRef = collection(db, COLLECTIONS.AUDIT_LOGS);
     const q = query(colRef, orderBy("timestamp", "desc"), limit(max));
     const snapshot = await withTimeout(getDocs(q), 3500, null);
     if (!snapshot) return [];
     const logs: AuditLog[] = [];
-    snapshot.forEach((d) => {
-      logs.push(d.data() as AuditLog);
-    });
+    snapshot.forEach((d) => logs.push(d.data() as AuditLog));
     return logs;
   } catch (err) {
     console.warn("fsGetAuditLogs warning:", err);
@@ -447,25 +260,16 @@ export async function fsGetAuditLogs(max = 50): Promise<AuditLog[]> {
 }
 
 /* ---------------- Users ---------------- */
-
-export async function fsGetUsers(): Promise<UserAccount[]> {
-  try {
-    const db = getFirestoreDb();
-    const snapshot = await withTimeout(getDocs(collection(db, COLLECTIONS.USERS)), 3500, null);
-    if (!snapshot) return [];
-    const users: UserAccount[] = [];
-    snapshot.forEach((d) => {
-      users.push(d.data() as UserAccount);
-    });
-    return users;
-  } catch (err) {
-    console.warn("fsGetUsers warning:", err);
-    return [];
-  }
-}
+export const fsGetUsers = () => getAllDocs<UserAccount>(COLLECTIONS.USERS);
 
 export async function fsGetUserById(id: string): Promise<UserAccount | null> {
   try {
+    const adminDb = getAdminFirestore();
+    if (adminDb) {
+      const snap = await withTimeout(adminDb.collection(COLLECTIONS.USERS).doc(id).get(), 3500, null);
+      return snap && snap.exists ? (snap.data() as UserAccount) : null;
+    }
+
     const db = getFirestoreDb();
     const snap = await withTimeout(getDoc(doc(db, COLLECTIONS.USERS, id)), 3500, null);
     if (!snap || !snap.exists()) return null;
@@ -476,27 +280,9 @@ export async function fsGetUserById(id: string): Promise<UserAccount | null> {
   }
 }
 
-export async function fsSaveUser(user: UserAccount): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    await withTimeout(setDoc(doc(db, COLLECTIONS.USERS, user.id), user, { merge: true }), 4000, undefined);
-  } catch (err) {
-    console.warn("fsSaveUser warning:", err);
-  }
-}
+export const fsSaveUser = (user: UserAccount) => upsertDoc(COLLECTIONS.USERS, user.id, user);
+export const fsDeleteUser = (id: string) => removeDoc(COLLECTIONS.USERS, id);
 
-export async function fsDeleteUser(id: string): Promise<void> {
-  try {
-    const db = getFirestoreDb();
-    await withTimeout(deleteDoc(doc(db, COLLECTIONS.USERS, id)), 4000, undefined);
-  } catch (err) {
-    console.warn("fsDeleteUser warning:", err);
-  }
-}
-
-/**
- * Sync entire local database to Firebase Firestore in bulk
- */
 export async function fsSyncFullDatabase(database: AdminDatabase): Promise<{
   products: number;
   services: number;
@@ -506,51 +292,32 @@ export async function fsSyncFullDatabase(database: AdminDatabase): Promise<{
   leads: number;
   subscribers: number;
 }> {
-  const db = getFirestoreDb();
-
-  // 1. Products
   for (const prod of database.products) {
-    await setDoc(doc(db, COLLECTIONS.PRODUCTS, prod.id), prod, { merge: true });
+    await fsSaveProduct(prod);
   }
-
-  // 2. Services
   for (const svc of database.services) {
-    await setDoc(doc(db, COLLECTIONS.SERVICES, svc.id), svc, { merge: true });
+    await fsSaveService(svc);
   }
-
-  // 3. Blog Posts
   for (const post of database.blogPosts) {
-    await setDoc(doc(db, COLLECTIONS.BLOG, post.slug), post, { merge: true });
+    await fsSaveBlogPost(post);
   }
-
-  // 4. Orders
   for (const order of database.orders) {
-    await setDoc(doc(db, COLLECTIONS.ORDERS, order.id), order, { merge: true });
+    await fsSaveOrder(order);
   }
-
-  // 5. Coupons
   for (const coupon of database.coupons) {
-    await setDoc(doc(db, COLLECTIONS.COUPONS, coupon.id), coupon, { merge: true });
+    await fsSaveCoupon(coupon);
   }
-
-  // 6. Leads
   for (const lead of database.leads) {
-    await setDoc(doc(db, COLLECTIONS.LEADS, lead.id), lead, { merge: true });
+    await fsSaveLead(lead);
   }
-
-  // 7. Subscribers
   for (const sub of database.subscribers) {
-    await setDoc(doc(db, COLLECTIONS.SUBSCRIBERS, sub.id), sub, { merge: true });
+    await fsSaveSubscriber(sub);
   }
-
-  // 8. Users
   for (const user of database.users || []) {
-    await setDoc(doc(db, COLLECTIONS.USERS, user.id), user, { merge: true });
+    await fsSaveUser(user);
   }
-
-  // 9. Settings
   if (database.settings) {
-    await setDoc(doc(db, COLLECTIONS.SETTINGS, "system"), database.settings, { merge: true });
+    await fsSaveSettings(database.settings);
   }
 
   return {

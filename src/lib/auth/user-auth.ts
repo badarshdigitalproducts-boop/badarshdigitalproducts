@@ -17,9 +17,22 @@ export function getCanonicalUserId(email: string): string {
   return `usr-${hash}`;
 }
 
-const SESSION_SECRET =
-  process.env.ADMIN_SESSION_SECRET ||
-  "badarsh_secure_hmac_session_secret_994821a8b3c4";
+let devEphemeralUserSecret: string | null = null;
+
+function getUserSessionSecret(): string {
+  const configured =
+    process.env.USER_SESSION_SECRET?.trim() ||
+    process.env.ADMIN_SESSION_SECRET?.trim();
+  if (configured) return configured;
+
+  if (process.env.NODE_ENV === "production") {
+    return "";
+  }
+  if (!devEphemeralUserSecret) {
+    devEphemeralUserSecret = crypto.randomBytes(32).toString("hex");
+  }
+  return devEphemeralUserSecret;
+}
 
 export function hashPassword(password: string): string {
   const salt = crypto.randomBytes(16).toString("hex");
@@ -60,9 +73,14 @@ export function createUserSessionToken(user: {
     exp: Date.now() + USER_SESSION_MAX_AGE_SECONDS * 1000,
   };
 
+  const secret = getUserSessionSecret();
+  if (!secret) {
+    throw new Error("Server session secret is not configured");
+  }
+
   const payloadB64 = Buffer.from(JSON.stringify(payload)).toString("base64url");
   const signature = crypto
-    .createHmac("sha256", SESSION_SECRET)
+    .createHmac("sha256", secret)
     .update(payloadB64)
     .digest("base64url");
 
@@ -77,13 +95,16 @@ export function verifyUserSessionToken(token: string | undefined): {
 } | null {
   if (!token || typeof token !== "string") return null;
 
+  const secret = getUserSessionSecret();
+  if (!secret) return null;
+
   const parts = token.split(".");
   if (parts.length !== 2) return null;
 
   const [payloadB64, signature] = parts;
 
   const expectedSignature = crypto
-    .createHmac("sha256", SESSION_SECRET)
+    .createHmac("sha256", secret)
     .update(payloadB64)
     .digest("base64url");
 
@@ -211,13 +232,10 @@ export async function verifyUserCredentials(
   password: string
 ): Promise<UserAccount | null> {
   const user = await findUserByEmail(email);
-  if (!user) return null;
+  if (!user || !user.passwordHash || !password) return null;
 
-  // If user registered via password, verify hash
-  if (user.passwordHash) {
-    const valid = verifyPassword(password, user.passwordHash);
-    if (!valid) return null;
-  }
+  const valid = verifyPassword(password, user.passwordHash);
+  if (!valid) return null;
 
   // Update last login
   const db = await getDatabase();

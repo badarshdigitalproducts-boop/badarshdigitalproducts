@@ -37,7 +37,7 @@ export function DrivePreviewModal({
 }: DrivePreviewModalProps) {
   const { formatPrice: formatCurr } = useCurrency();
   const [activeVideoPreview, setActiveVideoPreview] = useState<string>(
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4"
+    "/videos/badarsh-showreel.mp4"
   );
   const [isPlaying, setIsPlaying] = useState(false);
   const [expandedFolders, setExpandedFolders] = useState<Record<string, boolean>>({
@@ -57,10 +57,10 @@ export function DrivePreviewModal({
       id: "overlays",
       name: "01_Cinematic_4K_Overlays (42 items • 18.2 GB)",
       files: [
-        { name: "4K_16mm_Film_Grain_Master.mov", size: "480 MB", preview: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4" },
-        { name: "Vintage_Light_Leak_Warm_03.mov", size: "320 MB", preview: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" },
-        { name: "Anamorphic_Blue_Lens_Flare_4K.mov", size: "510 MB", preview: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" },
-        { name: "Retro_Dust_And_Scratches_Loop.mov", size: "290 MB", preview: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" },
+        { name: "4K_16mm_Film_Grain_Master.mp4", size: "3.9 MB", preview: "/videos/badarsh-showreel.mp4" },
+        { name: "Vintage_Light_Leak_Warm_03.mp4", size: "3.9 MB", preview: "/videos/badarsh-showreel.mp4" },
+        { name: "Anamorphic_Blue_Lens_Flare_4K.mp4", size: "3.9 MB", preview: "/videos/badarsh-showreel.mp4" },
+        { name: "Retro_Dust_And_Scratches_Loop.mp4", size: "3.9 MB", preview: "/videos/badarsh-showreel.mp4" },
       ],
     },
     {

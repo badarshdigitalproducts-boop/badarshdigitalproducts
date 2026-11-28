@@ -203,6 +203,7 @@ export interface OrderItem {
 
 export interface OrderRecord {
   id: string;
+  accessToken?: string;
   userId?: string;
   customerName: string;
   customerEmail: string;

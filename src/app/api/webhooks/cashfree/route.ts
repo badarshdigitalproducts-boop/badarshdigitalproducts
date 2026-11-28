@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { verifyCashfreeWebhookSignature } from "@/lib/cashfree";
 import { getAdminOrders, saveAdminOrder } from "@/lib/admin/store";
 import { fsSaveOrder, rtSaveOrder, isFirebaseConfigured } from "@/lib/firebase";
+import { sendOrderConfirmationEmail } from "@/lib/email/resend";
 
 export const dynamic = "force-dynamic";
 
@@ -57,23 +58,30 @@ export async function POST(request: NextRequest) {
       );
 
       if (existingOrder) {
+        const wasAlreadyPaid = existingOrder.paymentStatus === "completed";
         const cfPaymentId = paymentData?.cf_payment_id || `CF-${Date.now()}`;
         const updatedOrder = {
           ...existingOrder,
           paymentStatus: "completed" as const,
           paymentMethod: "Online (UPI / Card)",
           canvaAccessDelivered: true,
-          deliveryNotes: `Auto-verified via Payment Webhook [Ref: ${cfPaymentId}] on ${new Date().toISOString()}`,
+          deliveryNotes: wasAlreadyPaid
+            ? existingOrder.deliveryNotes
+            : `Auto-verified via Payment Webhook [Ref: ${cfPaymentId}] on ${new Date().toISOString()}`,
         };
 
-        await saveAdminOrder(updatedOrder);
+        if (!wasAlreadyPaid) {
+          await saveAdminOrder(updatedOrder);
 
-        // Synchronize to Firebase cloud database if active
-        if (isFirebaseConfigured()) {
-          await Promise.allSettled([
-            fsSaveOrder(updatedOrder),
-            rtSaveOrder(updatedOrder),
-          ]);
+          // Synchronize to Firebase cloud database if active
+          if (isFirebaseConfigured()) {
+            await Promise.allSettled([
+              fsSaveOrder(updatedOrder),
+              rtSaveOrder(updatedOrder),
+            ]);
+          }
+
+          await sendOrderConfirmationEmail(updatedOrder).catch(() => {});
         }
 
         console.log(`Cashfree Webhook: Order #${orderId} marked as COMPLETED.`);

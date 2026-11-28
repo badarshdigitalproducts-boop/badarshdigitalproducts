@@ -3,6 +3,7 @@ import {
   verifyAdminPassphrase,
   createSessionToken,
   verifySessionToken,
+  isAdminAuthConfigured,
   checkRateLimit,
   recordFailedAttempt,
   resetRateLimit,
@@ -16,8 +17,27 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
   try {
+    if (!isAdminAuthConfigured()) {
+      return NextResponse.json(
+        { error: "Admin security keys are not configured on the server environment." },
+        { status: 503 }
+      );
+    }
+
     const ip = getClientIp(request);
     const userAgent = request.headers.get("user-agent") || "unknown";
+
+    const rateCheck = checkRateLimit(ip);
+    if (!rateCheck.allowed) {
+      return NextResponse.json(
+        {
+          error: "Too many failed login attempts. Try again later.",
+          locked: true,
+          retryAfterSeconds: rateCheck.retryAfterSeconds,
+        },
+        { status: 429 }
+      );
+    }
 
     const body = await request.json().catch(() => ({}));
     const passphrase = body.passphrase;
@@ -92,7 +112,8 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   const token = request.cookies.get(ADMIN_COOKIE_NAME)?.value;
-  const authenticated = verifySessionToken(token);
+  const userAgent = request.headers.get("user-agent") || undefined;
+  const authenticated = verifySessionToken(token, userAgent);
   return NextResponse.json({ authenticated }, { status: authenticated ? 200 : 401 });
 }
 

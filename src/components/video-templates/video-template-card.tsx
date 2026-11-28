@@ -36,7 +36,7 @@ export function VideoTemplateCard({ product }: VideoTemplateCardProps) {
   const videoUrl =
     product.videoUrl ||
     product.previewVideoUrl ||
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4";
+    "/videos/badarsh-showreel.mp4";
 
   const handleMouseEnter = () => {
     setIsPlaying(true);

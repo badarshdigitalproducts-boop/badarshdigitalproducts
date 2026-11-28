@@ -33,8 +33,8 @@ export function PresetCard({ product }: PresetCardProps) {
       return;
     }
     if (isFree) {
-      const targetUrl = product.presetLinkUrl || product.downloadUrl || "https://lightroom.adobe.com/";
-      triggerDirectDownload(targetUrl, `${product.title.toLowerCase().replace(/\s+/g, "-")}-preset.dng`);
+      const targetUrl = product.presetLinkUrl || product.downloadUrl || "/downloads/cinematic-lightroom-presets.zip";
+      triggerDirectDownload(targetUrl, `${product.title.toLowerCase().replace(/\s+/g, "-")}-presets.zip`);
     } else {
       setCheckoutOpen(true);
     }

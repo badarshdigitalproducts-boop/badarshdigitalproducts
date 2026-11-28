@@ -57,11 +57,14 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["@aws-sdk/client-s3", "@aws-sdk/s3-request-presigner"],
+  serverExternalPackages: [
+    "@aws-sdk/client-s3",
+    "@aws-sdk/s3-request-presigner",
+    "firebase-admin",
+  ],
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "covers.openlibrary.org" },
       { protocol: "https", hostname: "*.r2.cloudflarestorage.com" },
       { protocol: "https", hostname: "*.firebasestorage.app" },
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
@@ -138,6 +141,51 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/templates/the-psychology-of-money",
+        destination: "/ebooks",
+        permanent: true,
+      },
+      {
+        source: "/ebooks/rich-dad-poor-dad",
+        destination: "/ebooks",
+        permanent: true,
+      },
+      {
+        source: "/templates/rich-dad-poor-dad",
+        destination: "/ebooks",
+        permanent: true,
+      },
+      {
+        source: "/ebooks/rich-dad-poor-dad-key-lessons-chapter-guide",
+        destination: "/ebooks",
+        permanent: true,
+      },
+      {
+        source: "/ebooks/atomic-habits",
+        destination: "/ebooks",
+        permanent: true,
+      },
+      {
+        source: "/templates/atomic-habits",
+        destination: "/ebooks",
+        permanent: true,
+      },
+      {
+        source: "/ebooks/cashflow-quadrant",
+        destination: "/ebooks",
+        permanent: true,
+      },
+      {
+        source: "/templates/cashflow-quadrant",
+        destination: "/ebooks",
+        permanent: true,
+      },
+      {
+        source: "/ebooks/hooked-how-to-build-habit-forming-products",
+        destination: "/ebooks",
+        permanent: true,
+      },
+      {
+        source: "/templates/hooked-how-to-build-habit-forming-products",
         destination: "/ebooks",
         permanent: true,
       },

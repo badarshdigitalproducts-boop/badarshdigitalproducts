@@ -50,13 +50,12 @@ export default function PhotoPresetsPage() {
   const presets = useMemo(() => {
     return productList.filter((p) => {
       const isPreset =
-        p.category === "photo-presets" ||
-        (p.category as string) === "presets" ||
-        (p.category as string) === "preset" ||
-        (p as any).productType === "photo-preset" ||
-        (p as any).productType === "preset" ||
-        p.tags?.includes("preset") ||
-        p.tags?.includes("lightroom");
+        p.category !== "editing-apps" &&
+        (p.category === "photo-presets" ||
+          (p.category as string) === "presets" ||
+          (p.category as string) === "preset" ||
+          (p as any).productType === "photo-preset" ||
+          (p as any).productType === "preset");
       const matchesSearch =
         search === "" ||
         p.title.toLowerCase().includes(search.toLowerCase()) ||

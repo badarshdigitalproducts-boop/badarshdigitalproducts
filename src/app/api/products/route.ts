@@ -78,15 +78,14 @@ export async function GET(request: NextRequest) {
           );
         }
 
-        // Photo Presets match
+        // Photo Presets match (strictly presets, never editing-apps)
         if (catLower === "photo-presets" || catLower === "presets" || catLower === "preset") {
           return (
             pCat === "photo-presets" ||
             pCat === "presets" ||
             pCat === "preset" ||
-            p.tags?.some((t: string) =>
-              ["preset", "presets", "lightroom", "dng", "photo"].includes(t.toLowerCase())
-            )
+            p.productType === "photo-preset" ||
+            (p.productType as string) === "preset"
           );
         }
 
@@ -100,10 +99,9 @@ export async function GET(request: NextRequest) {
           return (
             pCat === "editing-bundles" ||
             pCat === "sound-effects" ||
+            p.productType === "sfx" ||
             p.tags?.some((t: string) =>
-              ["sfx", "sound", "bg music", "music", "audio", "overlays", "transitions"].includes(
-                t.toLowerCase()
-              )
+              ["sfx", "sound", "bg music", "music", "audio"].includes(t.toLowerCase())
             )
           );
         }
@@ -113,9 +111,7 @@ export async function GET(request: NextRequest) {
           return (
             pCat === "ebooks" ||
             pCat === "ebook" ||
-            p.tags?.some((t: string) =>
-              ["ebook", "book", "guide", "pdf"].includes(t.toLowerCase())
-            )
+            p.productType === "ebook"
           );
         }
 
@@ -124,13 +120,11 @@ export async function GET(request: NextRequest) {
           return (
             pCat === "planners" ||
             pCat === "planner" ||
-            p.tags?.some((t: string) =>
-              ["planner", "productivity", "system"].includes(t.toLowerCase())
-            )
+            p.productType === "planner"
           );
         }
 
-        // Video Templates match
+        // Video Templates match (strictly video-templates, never social-media or editing-apps)
         if (
           catLower === "video-templates" ||
           catLower === "video-template" ||
@@ -141,10 +135,7 @@ export async function GET(request: NextRequest) {
           return (
             pCat === "video-templates" ||
             (p.productType as string) === "video-template" ||
-            (p.productType as any) === "video" ||
-            p.tags?.some((t: string) =>
-              ["video", "template", "capcut", "alight", "alight motion", "reels template", "reels"].includes(t.toLowerCase())
-            )
+            (p.productType as any) === "video"
           );
         }
 

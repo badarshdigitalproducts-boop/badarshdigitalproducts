@@ -62,16 +62,32 @@ export function getR2Client(): S3Client {
  * @param key Object key in R2 (e.g. "bundles/viral-sfx-master.zip")
  * @param expiresInSeconds Expiration duration (default 14400 = 4 hours)
  */
+let devEphemeralSigningKey: string | null = null;
+
+export function getDownloadSigningKey(): string {
+  const configured =
+    process.env.DOWNLOAD_SIGNING_KEY?.trim() ||
+    process.env.ADMIN_SESSION_SECRET?.trim();
+  if (configured) return configured;
+
+  if (process.env.NODE_ENV === "production") {
+    return "";
+  }
+  if (!devEphemeralSigningKey) {
+    devEphemeralSigningKey = crypto.randomBytes(32).toString("hex");
+  }
+  return devEphemeralSigningKey;
+}
+
 export async function generateR2DownloadUrl(
   key: string,
   expiresInSeconds: number = 14400
 ): Promise<string> {
   if (!isR2Configured()) {
-    // Graceful fallback token if R2 credentials are not yet configured
-    const signingKey =
-      process.env.DOWNLOAD_SIGNING_KEY ||
-      process.env.ADMIN_SESSION_SECRET ||
-      "badarsh-secret-signing-key";
+    const signingKey = getDownloadSigningKey();
+    if (!signingKey) {
+      throw new Error("Download signing key is not configured on the server");
+    }
     const expiresAt = Math.floor(Date.now() / 1000) + expiresInSeconds;
     const token = crypto
       .createHmac("sha256", signingKey)

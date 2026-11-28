@@ -61,7 +61,7 @@ const DANGEROUS_EXTENSIONS = new Set([
 function isAuthorized(request: Request): boolean {
   const cookieHeader = request.headers.get("cookie") || "";
   const match = cookieHeader.match(new RegExp(`${ADMIN_COOKIE_NAME}=([^;]+)`));
-  return verifySessionToken(match ? match[1] : undefined);
+  return verifySessionToken(match ? match[1] : undefined, request.headers.get("user-agent") || undefined);
 }
 
 export async function POST(request: Request) {

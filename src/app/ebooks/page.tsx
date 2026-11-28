@@ -68,21 +68,21 @@ export default function EbooksPage() {
       let matchesCat = true;
       if (selectedCategory === "finance") {
         matchesCat = Boolean(
-          p.tags?.some((t) => ["finance", "investing", "wealth", "money", "rich dad poor dad", "cashflow"].includes(t.toLowerCase())) ||
-          p.title.toLowerCase().includes("money") ||
-          p.title.toLowerCase().includes("rich") ||
+          p.tags?.some((t) => ["finance", "pricing", "wealth", "cashflow"].includes(t.toLowerCase())) ||
+          p.title.toLowerCase().includes("wealth") ||
           p.title.toLowerCase().includes("cashflow")
         );
       } else if (selectedCategory === "habits") {
         matchesCat = Boolean(
-          p.tags?.some((t) => ["habits", "productivity", "self improvement", "atomic habits"].includes(t.toLowerCase())) ||
-          p.title.toLowerCase().includes("habit")
+          p.tags?.some((t) => ["habits", "productivity", "workflow", "systems"].includes(t.toLowerCase())) ||
+          p.title.toLowerCase().includes("habit") ||
+          p.title.toLowerCase().includes("systems")
         );
       } else if (selectedCategory === "business") {
         matchesCat = Boolean(
-          p.tags?.some((t) => ["business", "startups", "ux", "product design", "hooked"].includes(t.toLowerCase())) ||
-          p.title.toLowerCase().includes("business") ||
-          p.title.toLowerCase().includes("hooked")
+          p.tags?.some((t) => ["business", "agency", "ux", "retention", "product design"].includes(t.toLowerCase())) ||
+          p.title.toLowerCase().includes("agency") ||
+          p.title.toLowerCase().includes("retention")
         );
       }
 

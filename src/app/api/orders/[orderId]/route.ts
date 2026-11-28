@@ -3,6 +3,7 @@ import { getAdminOrders, saveAdminOrder } from "@/lib/admin/store";
 import { canAccessOrder } from "@/lib/auth/access-control";
 import { getCashfreeOrder } from "@/lib/cashfree";
 import { fsSaveOrder, rtSaveOrder, isFirebaseConfigured } from "@/lib/firebase";
+import { sendOrderConfirmationEmail } from "@/lib/email/resend";
 
 interface RouteParams {
   params: Promise<{ orderId: string }>;
@@ -59,6 +60,7 @@ export async function GET(request: Request, { params }: RouteParams) {
               rtSaveOrder(order),
             ]);
           }
+          await sendOrderConfirmationEmail(order).catch(() => {});
         }
       } catch (cfErr) {
         console.warn("Cashfree status check warning:", cfErr);
@@ -70,7 +72,9 @@ export async function GET(request: Request, { params }: RouteParams) {
         ? "Online (UPI / Card)"
         : order.paymentMethod || "Online (UPI / Card)";
 
-    // Return sanitized customer order record
+    const isPaid = order.paymentStatus === "completed";
+
+    // Return sanitized customer order record (omit licenseKey until paid)
     return NextResponse.json({
       success: true,
       order: {
@@ -83,8 +87,14 @@ export async function GET(request: Request, { params }: RouteParams) {
         currency: order.currency,
         paymentMethod: publicPaymentMethod,
         paymentStatus: order.paymentStatus,
-        licenseKey: order.licenseKey,
-        canvaAccessDelivered: order.canvaAccessDelivered,
+        ...(isPaid
+          ? {
+              licenseKey: order.licenseKey,
+              canvaAccessDelivered: order.canvaAccessDelivered,
+            }
+          : {
+              canvaAccessDelivered: false,
+            }),
         createdAt: order.createdAt,
       },
     });

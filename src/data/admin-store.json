@@ -1,57 +1,6 @@
 {
   "products": [
     {
-      "appVersion": "",
-      "currency": "INR",
-      "rating": 5,
-      "status": "published",
-      "plannerCategory": "",
-      "title": "The Intelligent Investor",
-      "totalAssetsCount": "",
-      "appPlatform": "",
-      "authorName": "BADARSH Studio",
-      "downloads": 0,
-      "audioCategory": "",
-      "pageCount": 452,
-      "productType": "ebook",
-      "longDescription": "",
-      "beforeImage": "",
-      "format": "Digital Product",
-      "presetLinkUrl": "",
-      "videoUrl": "",
-      "downloadUrl": "https://sims.sairam.edu.in/wp-content/uploads/sites/7/2024/03/THE-INTELLIGENT-INVESTOR.pdf",
-      "deliveryType": "download-url",
-      "price": 2,
-      "reviewCount": 1,
-      "isBestseller": false,
-      "category": "ebooks",
-      "isFeatured": false,
-      "pdfUrl": "https://sims.sairam.edu.in/wp-content/uploads/sites/7/2024/03/THE-INTELLIGENT-INVESTOR.pdf",
-      "afterImage": "",
-      "canvaUrl": "",
-      "appDownloadUrl": "",
-      "images": [
-        "data:image/png;base64,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"
-      ],
-      "googleDriveUrl": "",
-      "previewPdfUrl": "https://sims.sairam.edu.in/wp-content/uploads/sites/7/2024/03/THE-INTELLIGENT-INVESTOR.pdf",
-      "templateUrl": "",
-      "coverImageUrl": "data:image/png;base64,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",
-      "audioDuration": "",
-      "audioPreviewUrl": "",
-      "features": [
-        "Verified BADARSH Creator Digital Asset"
-      ],
-      "updatedAt": "2026-11-25T04:22:15.604Z",
-      "description": "The Intelligent Investor is a classic 1949 finance book by Benjamin Graham that introduces the foundational principles of value investing. Often referred to as the \"bible of value investing,\" it teaches everyday investors how to build long-term wealth while minimizing financial risk.",
-      "isNew": true,
-      "originalPrice": 699,
-      "id": "prod-mwusptt8",
-      "tags": [],
-      "slug": "the-intelligent-investor",
-      "createdAt": "2026-11-24T14:34:24.428Z"
-    },
-    {
       "id": "prod-001",
       "slug": "instagram-reels-template-pack",
       "title": "Instagram Reels Template Pack",
@@ -94,11 +43,11 @@
       "isBestseller": true,
       "format": "Design Template",
       "fileSize": "12 MB",
-      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4",
+      "videoUrl": "/videos/badarsh-showreel.mp4",
       "deliveryType": "canva-link",
       "templateUrl": "/templates/instagram-reels-template-pack",
       "canvaUrl": "https://www.canva.com/templates/?query=instagram-reels",
-      "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
+      "downloadUrl": "/downloads/instagram-reels-template-pack.zip",
       "createdAt": "2025-03-15",
       "status": "published",
       "updatedAt": "2026-11-22T15:21:10.884Z"
@@ -148,7 +97,7 @@
       "deliveryType": "canva-link",
       "templateUrl": "/templates/linkedin-carousel-templates",
       "canvaUrl": "https://www.canva.com/templates/?query=linkedin-carousel",
-      "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
+      "downloadUrl": "/downloads/linkedin-carousel-templates.zip",
       "createdAt": "2025-05-20",
       "status": "published",
       "updatedAt": "2026-11-22T15:21:10.884Z"
@@ -198,7 +147,7 @@
       "deliveryType": "canva-link",
       "templateUrl": "/templates/social-media-starter-kit",
       "canvaUrl": "https://www.canva.com/templates/?query=social-media-kit",
-      "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
+      "downloadUrl": "/downloads/social-media-starter-kit.zip",
       "createdAt": "2025-01-10",
       "status": "published",
       "updatedAt": "2026-11-22T15:21:10.884Z"
@@ -248,7 +197,7 @@
       "deliveryType": "canva-link",
       "templateUrl": "/templates/modern-pitch-deck-template",
       "canvaUrl": "https://www.canva.com/templates/?query=pitch-deck",
-      "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
+      "downloadUrl": "/downloads/modern-pitch-deck-template.zip",
       "createdAt": "2025-04-12",
       "status": "published",
       "updatedAt": "2026-11-22T15:21:10.884Z"
@@ -297,7 +246,7 @@
       "deliveryType": "canva-link",
       "templateUrl": "/templates/webinar-slide-deck",
       "canvaUrl": "https://www.canva.com/templates/?query=presentation",
-      "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
+      "downloadUrl": "/downloads/webinar-slide-deck.zip",
       "createdAt": "2025-06-01",
       "status": "published",
       "updatedAt": "2026-11-22T15:21:10.884Z"
@@ -346,7 +295,7 @@
       "deliveryType": "canva-link",
       "templateUrl": "/templates/ultimate-brand-identity-kit",
       "canvaUrl": "https://www.canva.com/templates/?query=brand-identity",
-      "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
+      "downloadUrl": "/downloads/ultimate-brand-identity-kit.zip",
       "createdAt": "2025-02-18",
       "status": "published",
       "updatedAt": "2026-11-22T15:21:10.884Z"
@@ -395,286 +344,10 @@
       "deliveryType": "canva-link",
       "templateUrl": "/templates/luxury-business-card-collection",
       "canvaUrl": "https://www.canva.com/templates/?query=business-card",
-      "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
+      "downloadUrl": "/downloads/luxury-business-card-collection.zip",
       "createdAt": "2025-04-05",
       "status": "published",
       "updatedAt": "2026-11-22T15:21:10.884Z"
-    },
-    {
-      "id": "prod-008",
-      "slug": "business-launch-bundle",
-      "title": "Business Launch Mega Bundle",
-      "description": "Our entire creative catalog in one comprehensive package: 200+ templates spanning social media, pitch decks, brand kits & cards.",
-      "longDescription": "The ultimate shortcut for founders launching a new venture. Get immediate access to our bestselling collections in one bundled package: Instagram Reels Pack, LinkedIn Carousel Pack, Pitch Deck Template, Brand Identity Kit, and Business Card Collection. Save over 60% compared to purchasing individually.",
-      "price": 999,
-      "originalPrice": 2490,
-      "currency": "INR",
-      "category": "bundles",
-      "tags": [
-        "bundle",
-        "mega pack",
-        "all in one",
-        "startup bundle",
-        "complete kit"
-      ],
-      "images": [
-        "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80",
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80"
-      ],
-      "features": [
-        "200+ templates across all core suites",
-        "Social media, carousels, reels, and stories",
-        "Investor pitch deck & presentation slides",
-        "Complete brand guidelines & logo kit",
-        "Luxury business card collection",
-        "Free lifetime updates to all included packs",
-        "Commercial license for personal & client work"
-      ],
-      "specs": {
-        "count": "200+ Combined Templates",
-        "dimensions": "All Formats Included (16:9, 9:16, 4:5, 1:1, Print)",
-        "compatibility": "Universal Web & Mobile"
-      },
-      "rating": 5,
-      "reviewCount": 178,
-      "downloads": 2150,
-      "isFeatured": true,
-      "isNew": false,
-      "isBestseller": true,
-      "format": "Master Bundle",
-      "fileSize": "95 MB",
-      "deliveryType": "canva-link",
-      "templateUrl": "/templates/business-launch-bundle",
-      "canvaUrl": "https://www.canva.com/templates/?query=business-planner",
-      "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
-      "createdAt": "2025-01-01",
-      "status": "published",
-      "updatedAt": "2026-11-22T15:21:10.884Z"
-    },
-    {
-      "previewPdfUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf",
-      "title": "Rich Dad Poor Dad",
-      "images": [
-        "data:image/webp;base64,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",
-        "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=1200&q=80"
-      ],
-      "reviewCount": 2450,
-      "productType": "ebook",
-      "tags": [
-        "rich dad poor dad",
-        "robert kiyosaki",
-        "finance",
-        "investing",
-        "wealth",
-        "ebook",
-        "pdf",
-        "bestseller"
-      ],
-      "slug": "rich-dad-poor-dad",
-      "coverImageUrl": "data:image/webp;base64,UklGRgIcAABXRUJQVlA4IPYbAABQdACdASqrAOoAPp1Em0mlo6IhKnY8CLATiUAZ1c5v7ntV5Z970pvqPUewqfXehP+D9yvy//4n/A/QD4m/4L9nfcF6Cn7fepD+Z/5f9jfdv/5n7Ge+30AP1064v0Cf2A9Nb9qvhm/bX9xvaF//GGBcoP0XiT5g/d019xF1OPmv4Z/b/4L2p/3P+78cfjb/m+oX+W/zH/WcNqAP8p/qv+s/xH5Dem//Q+jP2E/5PuAfyz+g/8f1O/5PiPfaP91/lvux+wL+V/1X/Zf3n8p/kM/5f8154v0H/H/+r/X/AN/Lv7J/3f8V7WX//9uX7g//j3Nv1m/6reNGsj70x4V9MthzOu8drp1fNTW4jbDzpv8ympPyaWxmkY2OeEN5kuFABRAyxEF7NQxRemgy6wshzee8TsHLfws2T0+0DLZbmbUVVbqqVyfuoS80Hon3kiBuAW0rbupK5NII5hNJ2CINPmX0EpidmNM3agVpaxcvbnM6Kop++zzfmPIGaDo3GwozaC62Fmb3STND9H0bhzVVFx94CRKAP/1PJx28hWqw9q5phzJx0ocNTO/EXUtdlu/DFe0PtwcG6EpJXweDwcQOZVhzGa2Zbo9vh+VrdXgM0a5+jFbRvnxM7BInDnO26yLYfUs7C6AzJ9dpkvUuPeEAVcFeoTBXMuJLFiYkhr3fSlER9vgX39ohG8N1xYA8EIawtfaTL8qCUHgTk2kuvuFjcFG5Iz1JtlMZi2cwld2f3QW5PzcJjQBzyRfU6OdYwpTnae9/Y6Rnh4bBvWbDr8+NnxX4bCFiKVUsRcplG7W6caxlhimyUa9o/ZDMrl3dodCeq09N1gamwkrCcpgJizvD4O4DVvakKkJEgKsBSW+h6PGuD7t98ZBGFw6Lcofl6PYnxhlbskiusDbiwYvRgAhexet8RTD+rykKqLup3uRdN6pW6IPYiJA7m1yiES7w+33s3X8D7cg9Bvf/1Jb0rA9lz7Ke/jv97Q4T6zJ3cmpoHXoQidy9dkR12Ffou+aJNMzEfrAxRxJDIsgde6FXLc/5CWAago0Y7e41xMJUtFB+ARRvwq1HWaJrEXHcPJ00anaiA0wTgmaZzthWrK4yWAiNXbAw+5wvIoW/v7IcTi8/KP5TQ1/y04Qb4EOF22zpsfpHT1Z3sJv7osqVHVLvwbW/J6HmeIGtJmKBV9gGi1vKxY34DZKKE3xtedQC4t0pcJUoE6EqT5tjVHxg4+YDY4825ZRh8fko01NOkFflGKAA/vxR0Zs3Aa0AhFawNT5zPKuy0/9YECtFwQR+NU+tQoTbaKCJnB7k2ox0Q7Rdkkw7vGN82vnAVkXA+KC4YokOtFN0ybzSO5UCFL89IYwuJAkfyD/Jj3RtI0DiXG0d6HhPAtBvP4FE/+da9rdrk7QxZMZBkBl4lFHqHNeVxcdT4OpyrYZu+pMchEjQA+YMDo1DZXogR+aYrH4pQdr2f757bOOUrmGpGAHHOFeY1EbqJGw93JFR6mz2irLMr0XLvNAYlu34jX1DgjSJKbcLBnmfh/JH3qy3nAiIFcLrl3iJDxD/7vFoQdr05SVzURuxOqi/XlzAd9/xyCDiZ+hVWO0FgQMLgJLgAoJ4siI6Kq5B/tMaHRpndlK9/cYUx8XHUpDdi7hdxpzKx9WZNAHl9WHVRBc91b3iND1B70D+qSFiTgh4akrtU9HJyJSymNCpSnLWl1CZzbSBSN8+lAfqn0hB2IMK55x0tdWGLc5FVPrSXLakOI9DO/Jg9b6L8w/6PHpmiCA78JpZpzviI6GgSwYLVZeejWKrfw0uRPrT6JtdE248VUJlTD2wwN/kICvWCOFHshETKy8SNwWC/v+QVWgMPGHRS2txTMhKskpLhtyoQ7prdQkcX+v9wqJsgGNml/sZy0G5iBoifPe8gcUzqC3LW23ki9aqV5opMce6pbTgL+yPzZE3cG3cY7F9kNPi4hOYlhnHaForaAC7I4v+fUr+/XANo10hR4tUx8C2sUPxxnRscG88d9VzqJC4dt65bi57O4L6sCpnGYEGTM6aRYE3G6funZXO8mVBQXDon8HwaHsPPkbUdMQow/P67E8FYkc85QZHLkVY0ORJFgdT5p7o0reZP2aOs/qPeNF5rRn1cjoPqXQIRM/FWz9XNPf/ysad42f/DO0asqfW6PfEiGcobTBBrzqnehSuVHRLn4jsfxo1gWkkP2xBGsojbuv+bIaIPS1hEO+1NQhbBSvtDMfh02PqSIGPzmu427i5O2CAqsX+bwpUkqqk6g8fGAMwvOCOM686SJidD24O8yAoHHAH4oh0u9ra5erW8q3ACrSRIVDCT7duqgQw4sK7RiAXsbOdqtzPaGFKVbnKQBkx/zA+vCISiDJATUB4+eb+qcGQL3L7/s5bAIyvtRpqo/mFQ18YyuFB2Zt0sBRtG7SvpJeZCa9sbwSgJVUGkCwFS2R2poMeXvkQwtSBRfsctXOiR3AuQms0PM9bJShr+1upzs1/iLOEJJsTysqEZ+2M1M7VatQ+dl4qoFImm/V4FLB7Y4LN/0zVmiFJNHPqrHh8eJP9dfQ6K+4eqm12LKY1raMWa/t4kzo9084TQ5fHJQp/M/u2gVDTdOsp0O05Hmp0mVDRzsNR2iiH3kYxo9WORPXSacYNpFvtqc5ZQvxr3sic43gzOAuJNBU+sF3yNeZva8H4x+qlHklAxvozH2vjt36yailHNdXYVjnQp5kJAB6MBr9Tp8tja9Hylcqgjv/Ajs8CQSgvG3Wzj17+zEm2EgbGHsp1KRRmVLfYvnBPGqTkGdFnA1/42zUcJr4jSruWR5X4UiNLJFcK3hKtqR4hXCTvAKZHGqWYEgOa9Vf7psbsYgcgsQe/yZwRKJU5JMa3pqJnhr67F+U1L3JP38lfQYBPY2nf80znkepNdQc6Y+OFVuQY+sLj9G8Jf6DE1s2nXYgvMGVr71MPWdBkBnp/nMki36YCylkvAXviTnedCngdpPM8mGy1cml/gXHEnDvwGEgGGPVDPyO2Nf+M4zooJYFjWXNQthYMTa/Ncr9aMJw0ci30U75L6x4P23z6BICyky2j87TGWuWBQ4Qje3w7wdt/P8QDuMettEXEjwyDCYGU2S/DgPqADVbbIc/edsoY8YxoB5feCRVZ8QaK1ErgHpj9yNrjJSBrjPe53KJ9v2Vg9e5036nXaI1TqEuJcWslgcmGIKuZ+iBmOIFclTQvjgU8uoxNEDgSD4lMCrsYdC5xVuHSxC1q5pucW1GcMuoswgwDWBZysvxTqBj8mTtEp/hfSJBhksJ55GxTmBw9ECVuamPRx45d/A5Cc1rWPl8daFMl+9PywQHroQeruUqTwYXmzaqlOiwymSEORf7ezXgCQyyRleoGCoZhIEQEsHIgMvtIuUPWbkwsWOvAzDJJUKq0zkou5r7TEctP1n9AWjQ/psp6u60cSAqbz5mUoGuAPYfqv3AJKB64fzBPzd1OysxGbS4nZqJqytOd2PK2V2In9sNe6kPYLoLU3zU6qTS9C3nqDSinpNBxrHWrqhZPAc6vcMoqNVBgqHQlnLFbVv7XRZbsOXxpblhWJ0HFGo1VQuBirJFG7lLqXa7dozd5W6BGO9Bdcl/zABJs4KtKVhVDCG60BJ+P0J01/NeRMT4KAaYY0tVWN3U3ZvaNoxoN1TY7XLIDuyq3uL5TVSx0AoveSTGm5u8wzpXnHYwKLPGaa2VhhD21gB9m1mXtxNaoqp30yj6D4VA5n160T2A9oZX9MBsXD1KoU7PkCLEsFU2wODSXnJzfrlh4vZrbK1PZYbuwFCSU1sc8ZWHPUmrB2QlwXupR1CevOIZkPR+Qf3Wf3CLNAZXhZoxXAKjOj5b1a276yZTnwkgsOPfLaYheOlLHx4uc2OfdqifIWf4lg7c3g7CmnAJHHtOWVlgJzjUF1rPfpv6kDMYyO0L0taqD/vtetHpaeQSftE4ZyJg/KZBSJD/g1OjmfXJYp+hRmetJxtKHdRKRUM1buIVpqXC0y6wMcR9xQMUijUC8zmVUYQG/Uot7qoxm2lZMSZzSxMTlNenKT9y2NIend+4iF53/GYsIHGvCGEub/IfPOF2izif1QRfX06/GACQ/74E6CD/nvDW5qk4z52e5+q70N+qYzk+Bazsb4e4aDTqsi//UeXf/MHmPQwRgv3+tHskPLQbIEbHysb/yCNiWsPZibkiI89AfscBE+007OxXBz/SrbLV/wQPnwNvcDVVBss3hMGDTISoDUo73o817j1jf9/oLT+xw1Tkd0npw7CkOFEtTlzWjM1B4F04GaTcv7+d+Zcigvl6z7i2AFfQVMmPwwAl/9EQQp/Rah0Hn+XKPsIjclkOeT8bev/VMU1Dmi1jjZAgDC/UZ1pOeGxYj27V8M0gzlHiMKB66Jffx2kpRgj4I31WhwDmIRDp0pwzX/GifNf2hwpsgDfxsi58k8mn0jLtXc9sgs6KQVaUWHiBKnu5iWAFPaTtQnD3x4uDRG+bzDDr+/mbzH/9WKKqCBQDT5y6xdNZTz4Mjs1+/UliJyCyxl63T4BXGPt5I3fvLNLOK95l65Sq5mz5WSfV9qwM4e8KQrJQwIxRxS+LI3BDwVE9WNAL8MVTkT0/tgrfSR8Vr/GqVHHgDdLpSykaIRqZOxKtEu3i+6axnXTrZ7dsaL+yBwN76rb6Y0iILChkZA9f70L7bKawAva3m3AMAg4AQoxQ5w9MqF52I1Spv+cdL3JbBcmFrDIgELCUCg/eTuSyqcitXNRXrr7NljuMb5HfjRaEK/wttEYXOvn11DYXejDwoTDSL6WrDlqNAb9wCK7627REaWwuOYAcjH7biHcSQBAZS2YbnzoMIogyjCGmDQtYslriWbF4TjFPYrH3Z7t2v+mdLqoTP9Q9tsETvMc+gjzpTCLR8kMuMjW5cTNDY1vDVpfVlGjQBs+802GNI5Ds0J8yUs5RSthuseIxqAqC5l0O9U+cuasktPMKZmodB/ARZLfJaquQdYmU+r+zfvJha/aI5qQUsOHTXkCvlsaCr1TniqNNfxOOzyZQ8IJ2EQjVUDY0Qm9Q720Tc2471i6THUCHmdiTHmL430/VCb1mJo/yji8sDZRSXsb3LCmki0gDjkKoJ5+gi8iocr7P3Zbx/VgRusgCZVmOxeOe3y3xBe2j1PHQCPdHCHKh93/vJ/ito/Exblxo+IFpr1rq/MHhp2fk7+tCqVyk1PNg3+tFVxuS/QffPGB8W+KkenUyyfxohFwUq2+9r4WB361s/JMKFCDZCKzMB4+hCN8p6KtdK6dyL+t2WsvvdNMODBUvwNRGxXuuq6F8Q3s4whX9WTneD0vAEDUUerRJYi4xkc9lFw+QN6dvSxvJBI0Fb6zE5HvQbjIwNnBGFTe5UhemkTR/sodfmWv2LZIY7Gt7sIF1hkyIRLZ+Pmr/9P/4jlNaPYRIXx4Qv9GkLeYQbYRLVS4of9iM4XpXW4jjKEtJhWUPofDswlhp153CFh7ZvxVk/lZV5J+NftX3+p68KRTw+Gnfqh/XZmLdyNXz/8TjnvOhsDwMex2J+oisWJ1I+8s0zZTA/o3Q6a6ECHJ0ukfy/I8iTNG0BJzmVEc6xvOVjM3O+XflG9G4m+Bl+5FhGRvjngmFDYqdePxO6p30QY5dzWRhiIfL8ZJFrJS8NCQdlqg51qQwbkiiqXXEkIANaf8OJU6PWkP9qDbERB/B33kbD0ejh5TNOmhDBD/4FqiOM1lUqpdnMtUGjhPd6zp+6szV3MDjKXH4dwYYe5jaStgOm9hE7djOBdincBfHdXgrvXuiXQ2tkV0ZCXG6IZPP6Dk1A8AW8hBj7V4VidGz0xymrSXuR2eMfeHnZX7etwiV7GNG86lHwEOP1RM3mPysosf0UQmTV/4+IbG6QR6xhahDxLUNQoqVJjx2z1jnh0j5i+UetHpp1v7RReRh7F6TfinYkmlCBfiRYh/06mgiSn5bKyWzCKz0LmO/1lbgPEXGf49VqUnrtN+DkNzk4uRK71Q1cMzJhvn3MkMk+5tTt5K3Nv27QGpg1nKf4ev+r5fqcf6XdrxTWHZ/wFGGDWekfWaFeVr44UE8MJ07cOizgkT6rgtpwRsjQOHnm8P1DWudJJElBPVMRTg+Zaj+v5XSWsXu1shmAyQ4hdeLPfSJKj1apeSnrrLQG83J0+KQGSPoDrbakbQ7X6Rgeru/UsapLHGG8bD3BglZkiRAMU9NKzG57o++yMi3c91UBDkxNHFATDWB7LE4J+kwOOiRuj0EtGmdLVviRKmVz2d5BKODu1Q0agWpqRvd/CwulrLpd06oio0jMb03OrRMYNb9K8HAlbg6lHtd/E19MJ36ppLfOIRwmndA++nSUOd2gfX+7tRq6fm2BPr4kyQLFExFOxTDcHCDpgHhpeAVQjcnwo6uz1okuvAEZ7dvqG8bt2hM96dp3zlV+jI9XHG/oRpbbiUQ6v3X5gyfQksbPTluAUx9iyrIPKxuzDY4zdNEikbWtrn3gZcGegCFLo2aVnauPMtnWWudjsPgziZWiAhGgxS9M4mlDEdQKO2u6mtTTMVolO4GrXN8zP/Pf2UmNl34XiIfI260oD8NPB75oSyva8SVFVJRfHgkBIDfT6DR/AaidxG7mWhc9CcWvyhQtiRtrgBrGQ7vGbApESSUyPKbdlav9/udluEJMrv9vSrvfClAPa2Q/CSvI7gk4ZsP3ZSj6NAty4p2g1sEdhlVqWONsQ/1QQz/SUDIpo7h+JZy/dgoxiGB/XhKucJz6qbXc23XgjeofS7jaV3RzuZyfNtQQsR7ACfDj0gV6NaEPSVg9Tp+oIvRuBcB511o7isj7LgSLvYgvuxdEI7o6tt55E+HO44RXKsZ1H+D78wvXBme2c/jUCTNKSg6l5ifr8N8qc+XDYFvTy5Pc1wvBX0TIH4iQJuPswp3pFsQblf54P31PZKIRWN3bdZ6UbeXAuy6kYP4xRB9GRuN7T2jysn83nlfrg35Q55HO2Gq1o+6VKDxamnYy8R02G/bArrjjL9A2TdVqgmXijzzXrgS1ptKoIFeDr9gUt2YoLyDC2GVV0Sf0HwdSG3N7LhbuFkW+Q1cUaN0jb69aF4NnhjPJaozDr3s2eq3DUOMHefvugVwLuOaBCLULekxcPpd9QfsY7WlhjL2/VxMkhxXyX/KRmtjYAhEZftKKiGuNGhre9WCsVkRH1Q3w0a/6RHxOggK1E9R49HlWk316GRI8oYPG5KgYXILZHeS42DqS2t0A9204lZ7xEQN3XIN4f9b+yGdT1Qve139NKmPUIMrBYA+6uBgjiPvy0wfY4fQPwEtkiUFhi6y/GHg3ZXKbhe7dhUXG7i5VkgLVJnKo+giXYjGcbwINJgu+9wAMtGTqu/LFZOkh7TFflS1bQmb3/Ms5KDKVKezHVZDyvhf7onWxfMUfIkBiyIiguLATD8qJy8RI/DQXqL+HqoL3NnUzzL30ar7y4DcBxzsd1wabAYMsjNv70lKW/2W3/OPO5md7mLph3JwiVx7BQykSezpne/ebq23PfHEQDtWYMuC/xq6AGp9w+fHgr83/BcQbGGxRmuMmX0P0eBtXwkNHVRH94Q3UuG3NzDYv7nxCsOM10p+PmEuUgcRch7GHGknCWOZ3ABT+KBAMNcT5Md2Qg4kEDi0zKMjPgtLv5Gu4ii+yZsoVjWn41cCJMrhVYnMGgpEU9YN3Ehkf+E6/dj69WP6ByukOARVqW9zeu4VWXMgbXsfmliExdXgP2xsnwKwBHVMKjE5EhGEJRGPGdPOLJrxhoR8nxn5FOkcXofZYW5VYlyoSEBzxX57KzQ+0MhIrvHxnrAlZaUCx8hAKEWOCMPNL0ATdkJrOslNROEfkn4HPC2Z+bR3mtjbS1Op1Rmbapd3wpAu84Xa4/NwU8C7ka2zRcgfXoyxb8dpYCmhnQGASUtD5t5oo/SfiFr7nwmYiJHCXCnvsknp3+s1SraTSooZ4LIztVbERZzLWOS6k7LogcMGCJtNDS2Ln0nQzmT9Wqbnc81lKDZ/gwmSO0tsHgyzT2lJf79DKyHNEtsWhU3ZhobjyEvZkwoduWkwLB5e8quQIkjxlKZYYfdJDERBuOJvr1nltZf4FNyQFJO7cxFaYQGt1KLSwlQGXnHlY/180w711gAcVHDpYvAKhTmkSpvLvdrafC9/R16BgvDUgI/HS6g7Fn5Hw4a7Kft4yVzyST4r2uEMOAfIXqc23CRrZQIHtg0u9prQl9zHwtXBI6bTAA0uyZiXuHGh5gcl7scZqQsOqO08l3nU6yppcEytgElqv89VSPUpVHb0uejlzJ+xrAXZXixQ3koQ4Be9IB9qWmvrmn5PNjnZMnEGM0sc73vk32MdWLo7CqKdhDO5Wv+HSXFnWePWLf3nNkV4fzvqXfCfOv7fFqZbUqNFALvlmlVoplGZ+stbBdPgzW2B+FgaPtTeVha02cFXBGIx5wz61Q8QpPNR3OwV5SSHWUQ+jFSsf70TlaTu52B9bF1cZ5qY2tdGhzxHM1QNkVHRBpVyclXKMY+POt2r5Z1x6lXOMMjfCPkahb7Jc5BLzIo8p49quwIl6ue9KaTEAWEBDWoczKP0pEzK6FJDLCn6e0watjyOC6kXPvuWwd2456tFp9Et9/OjlhUFDdVdknHDHkSUaWwWrnTGBWFYT8VitvX9D9NgcZvIeRWUmzACUcrKs/tOYKkgqY9MgSGxTZOaRnp7iNtZxO/wvfl7JIGwWTLNi5rOuoaV1GZ1t8PfM9fO30qM2JfFrZteEJNZsI12MUJkjbbRWib7tNvUot7fYNSC4YzfenQNFPol/is7/AQcTl2gtynKGC6FvuJyMGctoOkeZw3xycwxOFF8fuDV+44N1a7QOQ/ZT5zBKzu4sxnyVAheoA5AebMslOsm23dFygTMf++qlurylaaBbapfOqeb7JWtHCcL1d3AEbCpbQkW/OIrnDml+RFvzjMt/8m628aFu1uar7r782PSme5HB5GbCMsL+e7dzWHLw6QKyZPqLYue8hoXf+ipl5WJqVXqR/6G2pgQ1jVfp96mHZqB10pGdff4xobHoOtyJra9baa8qeOVArBuGk7p2yPifHGU+36Za08ueQsSuj/vm4iAbfZsWYI8qRCvdRaG8+hKflNuP+kJkHLtH2yPLnKkvdI9djzhGGsuBrYW0XNGMxDe81Z3dunrfYlyHa5uIVN2++nDBiOdwBXuBs+HYUhojbUDC4uUG14ADBKhIKR7s03wML5jQrrodnPZJrC/HAhoCZKzqn3QicaYQLWPfvB6CwROBAnrcCOYv43RATTiIIZ3B4UHyuoUGYgryZi7nJHYjsXlHHE0QeWUA5G5LblTUsuLHRlKBgRlahYriQ4K3PqDQIEszJKxxi9adtufU+LSrInxFp8zzvYNIQXAiUEr9GDIiB2yjZLHANDWq1NNiJZH+wu69TG7oPkZaJxueXQyxF7e8AfDu2+OIS9GcIGFJb3jDo3/+B2Cyt7sPfwRxZP4/682PA5Tp/Q2mBmbP2DxG12TWia3z6UDB0NUgMK0TyuH8EYjFSpUfJAhLgAA=",
-      "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf",
-      "downloads": 14820,
-      "authorName": "Robert T. Kiyosaki",
-      "isBestseller": true,
-      "pageCount": 336,
-      "features": [
-        "Full uncompressed 336-page complete book (PDF)",
-        "Interactive in-browser reader with full search & bookmarking",
-        "Compatible with iPad, Kindle, Android, and Desktop",
-        "Key asset vs liability diagrams & cashflow breakdowns",
-        "Instant download delivered immediately to your library"
-      ],
-      "longDescription": "Rich Dad Poor Dad is Robert Kiyosaki’s story of growing up with two dads — his real father and the father of his best friend, his rich dad — and the ways in which both men shaped his thoughts about money and investing. The book explodes the myth that you need to earn a high income to be rich and explains the difference between working for money and having your money work for you.",
-      "deliveryType": "download-url",
-      "canvaUrl": "/templates/rich-dad-poor-dad",
-      "fileSize": "0.5 MB",
-      "price": 2,
-      "originalPrice": 499,
-      "status": "published",
-      "rating": 5,
-      "createdAt": "2025-02-28",
-      "specs": {
-        "compatibility": "Kindle, iPad, Android, Mac, PC",
-        "count": "336 Pages (Complete Edition)",
-        "dimensions": "Digital PDF"
-      },
-      "category": "ebooks",
-      "description": "What the rich teach their kids about money that the poor and middle class do not. The #1 personal finance book of all time by Robert T. Kiyosaki.",
-      "updatedAt": "2026-11-23T09:31:04.521Z",
-      "id": "prod-009",
-      "format": "Master PDF E-Book",
-      "isNew": false,
-      "currency": "INR",
-      "isFeatured": true,
-      "templateUrl": "/templates/rich-dad-poor-dad"
-    },
-    {
-      "price": 0,
-      "description": "An easy & proven way to build good habits and break bad ones. Tiny changes, remarkable results by James Clear.",
-      "fileSize": "5.7 MB",
-      "canvaUrl": "/templates/atomic-habits",
-      "pageCount": 320,
-      "downloads": 22100,
-      "features": [
-        "320-page full unabridged master edition (PDF)",
-        "The 4 Laws of Behavior Change implementation system",
-        "Habit stacking templates & daily habit scorecards",
-        "Read directly in your browser with zero download delay",
-        "Lifetime cloud access with Kindle/iPad export"
-      ],
-      "longDescription": "No matter your goals, Atomic Habits offers a proven framework for improving every day. James Clear, one of the world's leading experts on habit formation, reveals practical strategies that will teach you exactly how to form good habits, break bad ones, and master the tiny behaviors that lead to remarkable results. Includes the 4 Laws of Behavior Change.",
-      "status": "published",
-      "rating": 5,
-      "templateUrl": "/templates/atomic-habits",
-      "format": "Master PDF E-Book",
-      "title": "Atomic Habits: Proven Framework for Daily Improvement",
-      "isFeatured": true,
-      "productType": "ebook",
-      "downloadUrl": "https://raw.githubusercontent.com/gocandra/BOOKS/master/Atomic%20Habits.pdf",
-      "currency": "INR",
-      "images": [
-        "data:image/webp;base64,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",
-        "https://images.unsplash.com/photo-1507842229451-7f01be7f7b27?w=1200&q=80"
-      ],
-      "originalPrice": 699,
-      "isNew": false,
-      "reviewCount": 3890,
-      "slug": "atomic-habits",
-      "createdAt": "2026-10-15",
-      "authorName": "James Clear",
-      "previewPdfUrl": "https://raw.githubusercontent.com/gocandra/BOOKS/master/Atomic%20Habits.pdf",
-      "tags": [
-        "atomic habits",
-        "james clear",
-        "productivity",
-        "habits",
-        "self improvement",
-        "ebook",
-        "pdf",
-        "bestseller"
-      ],
-      "coverImageUrl": "data:image/webp;base64,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",
-      "category": "ebooks",
-      "specs": {
-        "count": "320 Pages",
-        "compatibility": "Kindle, iPad, Android, Mac, PC",
-        "dimensions": "Digital PDF"
-      },
-      "deliveryType": "download-url",
-      "updatedAt": "2026-11-25T04:04:58.275Z",
-      "id": "prod-010",
-      "isBestseller": true
-    },
-    {
-      "currency": "INR",
-      "createdAt": "2026-10-10",
-      "templateUrl": "/templates/cashflow-quadrant",
-      "updatedAt": "2026-11-25T04:06:04.461Z",
-      "specs": {
-        "count": "376 Pages",
-        "dimensions": "Digital PDF",
-        "compatibility": "Kindle, iPad, Tablet, Mobile"
-      },
-      "status": "published",
-      "rating": 4.9,
-      "isFeatured": false,
-      "id": "prod-022",
-      "description": "Reveals why some people work less, earn more, pay less in taxes, and learn to become financially free by Robert T. Kiyosaki.",
-      "format": "Master PDF E-Book",
-      "isNew": false,
-      "category": "ebooks",
-      "fileSize": "6.6 MB",
-      "canvaUrl": "/templates/cashflow-quadrant",
-      "originalPrice": 499,
-      "tags": [
-        "cashflow quadrant",
-        "robert kiyosaki",
-        "business",
-        "investing",
-        "financial freedom",
-        "ebook",
-        "pdf"
-      ],
-      "images": [
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy95w8Sa7t9AydoUbdEdqF-SXOz01YspuphTD5gcnmQw&s=10",
-        "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1200&q=80"
-      ],
-      "features": [
-        "376-page comprehensive financial roadmap (PDF)",
-        "Detailed quadrant diagrams & wealth formulas",
-        "Full in-browser PDF reader with zoom and night mode",
-        "Direct download for offline reading on mobile/tablet"
-      ],
-      "title": "CASHFLOW Quadrant: Guide to Financial Freedom",
-      "slug": "cashflow-quadrant",
-      "coverImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy95w8Sa7t9AydoUbdEdqF-SXOz01YspuphTD5gcnmQw&s=10",
-      "productType": "ebook",
-      "deliveryType": "download-url",
-      "isBestseller": false,
-      "downloads": 9800,
-      "price": 0,
-      "pageCount": 376,
-      "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/CASHFLOW-Quadrant-2015.pdf",
-      "authorName": "Robert T. Kiyosaki",
-      "previewPdfUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/CASHFLOW-Quadrant-2015.pdf",
-      "longDescription": "The CASHFLOW Quadrant reveals how some people work less, earn more, pay less in taxes, and learn to become financially free. It categorizes how people generate income: E (Employee), S (Self-Employed), B (Business Owner), and I (Investor), and charts the path to shifting from the left side to the right side of the quadrant.",
-      "reviewCount": 1430
-    },
-    {
-      "isNew": false,
-      "images": [
-        "data:image/webp;base64,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",
-        "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80"
-      ],
-      "currency": "INR",
-      "templateUrl": "/templates/hooked-how-to-build-habit-forming-products",
-      "isBestseller": false,
-      "updatedAt": "2026-11-23T04:53:21.400Z",
-      "specs": {
-        "compatibility": "All PDF Readers, iPad, Kindle",
-        "count": "256 Pages",
-        "dimensions": "Digital PDF"
-      },
-      "category": "ebooks",
-      "deliveryType": "download-url",
-      "description": "Why do some products capture widespread attention while others flop? The definitive guide to customer habit loops by Nir Eyal.",
-      "authorName": "Nir Eyal",
-      "createdAt": "2026-10-18",
-      "status": "published",
-      "rating": 4.8,
-      "originalPrice": 599,
-      "id": "prod-023",
-      "features": [
-        "256-page illustrated guide to the Hook Model (PDF)",
-        "Trigger, Action, Variable Reward & Investment breakdowns",
-        "Case studies from Twitter, Instagram, Pinterest and Google",
-        "Interactive in-browser PDF preview reader included"
-      ],
-      "downloads": 7400,
-      "tags": [
-        "hooked",
-        "nir eyal",
-        "product design",
-        "psychology",
-        "startups",
-        "ux",
-        "ebook",
-        "pdf"
-      ],
-      "fileSize": "2.2 MB",
-      "canvaUrl": "/templates/hooked-how-to-build-habit-forming-products",
-      "pageCount": 256,
-      "slug": "hooked-how-to-build-habit-forming-products",
-      "price": 0,
-      "isFeatured": false,
-      "longDescription": "Hooked is based on Eyal’s years of research, consulting, and practical experience. He wrote the book he wished had been available to him as a start-up founder — not abstract theory, but a how-to guide for building better products. Hooked is written for product managers, designers, marketers, start-up founders, and anyone who seeks to understand how products influence our behavior.",
-      "format": "Master PDF E-Book",
-      "title": "Hooked: How to Build Habit-Forming Products",
-      "coverImageUrl": "data:image/webp;base64,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",
-      "reviewCount": 920,
-      "productType": "ebook",
-      "previewPdfUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/OceanofPDF.com_Hooked_How_to_Build_Habit.pdf",
-      "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/OceanofPDF.com_Hooked_How_to_Build_Habit.pdf"
     },
     {
       "id": "prod-011",
@@ -717,8 +390,8 @@
       "isBestseller": true,
       "format": "Design & Google Sheets",
       "fileSize": "10 MB",
-      "previewPdfUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
-      "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
+      "previewPdfUrl": "/downloads/pdfs/365-day-content-planner.pdf",
+      "downloadUrl": "/downloads/pdfs/365-day-content-planner.pdf",
       "deliveryType": "download-url",
       "createdAt": "2025-11-01",
       "templateUrl": "/templates/content-calendar-planner-2026",
@@ -767,8 +440,8 @@
       "isBestseller": false,
       "format": "GoodNotes & Tablet PDF",
       "fileSize": "9 MB",
-      "previewPdfUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
-      "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
+      "previewPdfUrl": "/downloads/pdfs/freelance-client-tracker.pdf",
+      "downloadUrl": "/downloads/pdfs/freelance-client-tracker.pdf",
       "deliveryType": "download-url",
       "createdAt": "2026-09-20",
       "templateUrl": "/templates/freelance-client-tracker-planner",
@@ -819,13 +492,13 @@
       "isNew": true,
       "isBestseller": true,
       "format": "Interactive PDF Planner",
-      "fileSize": "15 MB",
+      "fileSize": "4 KB",
       "samplePages": [
         "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&q=80",
         "https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&q=80"
       ],
-      "previewPdfUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
-      "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
+      "previewPdfUrl": "/downloads/pdfs/2026-life-career-fitness-planner.pdf",
+      "downloadUrl": "/downloads/pdfs/2026-life-career-fitness-planner.pdf",
       "deliveryType": "download-url",
       "createdAt": "2026-11-01",
       "templateUrl": "/templates/life-career-fitness-planner-2026",
@@ -834,325 +507,55 @@
       "updatedAt": "2026-11-22T15:21:10.884Z"
     },
     {
-      "id": "prod-016",
-      "slug": "cinematic-lightroom-presets",
-      "title": "Cinematic Mood & Warm Aesthetic Presets",
-      "description": "15 professional Lightroom mobile & desktop presets (.DNG & .XMP). 1-click warm film look, deep shadows, and moody portrait tones.",
-      "longDescription": "Transform your phone and camera photos into cinematic frames with one tap. This collection of 15 presets was crafted for creators who want that coveted warm, editorial aesthetic — muted greens, rich golden skin tones, and soft analog grain. Works with the free Lightroom Mobile app (no subscription required) and Lightroom Desktop.",
-      "price": 299,
-      "originalPrice": 599,
-      "currency": "INR",
-      "category": "photo-presets",
-      "tags": [
-        "lightroom",
-        "presets",
-        "photo editing",
-        "cinematic",
-        "photography",
-        "dng"
-      ],
-      "images": [
-        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1200&q=80",
-        "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=1200&q=80"
-      ],
-      "features": [
-        "15 Lightroom Mobile presets (.DNG format)",
-        "15 Lightroom Desktop presets (.XMP format)",
-        "Works with the 100% FREE Lightroom Mobile app",
-        "Skin tone protection algorithm included",
-        "Step-by-step video & PDF installation guide",
-        "Compatible with iPhone, Android, RAW, and JPEG"
-      ],
-      "specs": {
-        "count": "15 Presets (Mobile & Desktop)",
-        "dimensions": "DNG (Mobile) & XMP (Desktop) Files",
-        "compatibility": "Lightroom Mobile (Free) & Desktop"
-      },
-      "rating": 4.9,
-      "reviewCount": 63,
-      "downloads": 1350,
-      "isFeatured": true,
-      "isNew": false,
-      "isBestseller": true,
-      "format": "DNG & XMP Presets",
-      "fileSize": "18 MB",
-      "beforeImage": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1200&q=80",
-      "afterImage": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=1200&q=80",
-      "downloadUrl": "https://lightroom.adobe.com/",
-      "presetLinkUrl": "https://lightroom.adobe.com/",
-      "deliveryType": "external-url",
-      "createdAt": "2026-11-08",
-      "templateUrl": "/templates/cinematic-lightroom-presets",
-      "canvaUrl": "/templates/cinematic-lightroom-presets",
-      "status": "published",
-      "updatedAt": "2026-11-22T15:21:10.884Z"
-    },
-    {
-      "id": "prod-019",
-      "slug": "2026-video-editing-mega-bundle",
-      "title": "2026 Video Editing Mega Bundle",
-      "description": "Everything a creator or video editor needs: 500+ SFX, 100 transitions, 50 LUTs, 30 title templates & 4K green screen elements.",
-      "longDescription": "The definitive toolkit uploaded directly from the BADARSH Studio cloud drive. Includes 500+ uncompressed WAV sound effects, 100 seamless transitions, 50 cinematic color LUTs, 30 animated motion titles, and 4K green screen VFX elements. Works seamlessly across CapCut, Premiere Pro, DaVinci Resolve, and Final Cut Pro.",
-      "price": 799,
-      "originalPrice": 1999,
-      "currency": "INR",
-      "category": "bundles",
-      "tags": [
-        "bundle",
-        "video editing",
-        "2026",
-        "sfx",
-        "transitions",
-        "luts",
-        "mega pack"
-      ],
-      "images": [
-        "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80",
-        "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80"
-      ],
-      "features": [
-        "500+ royalty-free master sound effects (WAV & MP3)",
-        "100 seamless drag-and-drop transitions (CapCut & Premiere)",
-        "50 cinematic LUTs for iPhone, Sony, Canon & Panasonic footage",
-        "30 customizable animated lower-thirds & motion titles",
-        "25 4K green screen & alpha channel motion graphics",
-        "Lifetime cloud drive access with free updates throughout 2026"
-      ],
-      "specs": {
-        "count": "700+ Production Assets Total",
-        "dimensions": "4K UHD (3840×2160) & 24-bit 48kHz WAV",
-        "compatibility": "CapCut, Premiere Pro, DaVinci Resolve, FCPX, VN"
-      },
-      "rating": 5,
-      "reviewCount": 203,
-      "downloads": 2100,
-      "isFeatured": true,
-      "isNew": true,
-      "isBestseller": true,
-      "format": "Cloud Drive ZIP Bundle",
-      "fileSize": "2.1 GB",
-      "totalAssetsCount": "700+ Production Assets",
-      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-      "googleDriveUrl": "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
-      "downloadUrl": "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
-      "deliveryType": "google-drive",
-      "createdAt": "2026-11-10",
-      "templateUrl": "/templates/2026-video-editing-mega-bundle",
-      "canvaUrl": "/templates/2026-video-editing-mega-bundle",
-      "status": "published",
-      "updatedAt": "2026-11-22T15:21:10.884Z"
-    },
-    {
-      "id": "prod-015",
-      "slug": "viral-sfx-motion-overlay-bundle",
-      "title": "Viral Video SFX & Motion Overlay Bundle",
-      "description": "350+ creator sound effects (whooshes, risers, pops, camera clicks) plus 4K film grains, light leaks & direct app templates.",
-      "longDescription": "Elevate your short-form video retention instantly with audio-visual impact. Includes 350+ master-quality WAV/MP3 sound effects crafted specifically for pacing Instagram Reels and YouTube Shorts, alongside 40 seamless 4K grain and light leak overlays. Open in your editing app with 1-click, add your clip, and get the edited result instantly.",
-      "price": 499,
-      "originalPrice": 999,
-      "currency": "INR",
-      "category": "editing-bundles",
-      "tags": [
-        "sfx",
-        "sound effects",
-        "motion graphics",
-        "overlays",
-        "reels editing",
-        "video bundle"
-      ],
-      "images": [
-        "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80",
-        "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80"
-      ],
-      "features": [
-        "350+ high-fidelity sound effects (WAV + MP3)",
-        "40 seamless 4K ProRes light leaks & film grains",
-        "Direct 1-click template link: opens in CapCut/Premiere",
-        "Just add your photo or clip and export finished video",
-        "100% royalty-free commercial license",
-        "Organized into intuitive category folders"
-      ],
-      "specs": {
-        "count": "350+ SFX & 40 4K Video Overlays",
-        "dimensions": "4K UHD (3840x2160) & 24-bit 48kHz Audio",
-        "compatibility": "CapCut, VN, Premiere, FCPX, DaVinci"
-      },
-      "rating": 5,
-      "reviewCount": 89,
-      "downloads": 940,
-      "isFeatured": true,
-      "isNew": false,
-      "isBestseller": true,
-      "format": "Audio & Video Bundle",
-      "fileSize": "850 MB",
-      "audioPreviewUrl": "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
-      "downloadUrl": "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
-      "overlayLinkUrl": "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
-      "deliveryType": "external-url",
-      "createdAt": "2026-11-05",
-      "templateUrl": "/templates/viral-sfx-motion-overlay-bundle",
-      "canvaUrl": "/templates/viral-sfx-motion-overlay-bundle",
-      "status": "published",
-      "updatedAt": "2026-11-23T06:54:32.834Z"
-    },
-    {
-      "id": "prod-021",
-      "slug": "cinematic-sfx-motion-overlays-vault",
-      "title": "Cinematic SFX & Motion Overlays Pack",
-      "description": "150+ royalty-free Hollywood whooshes, risers, hits & 4K optical dust overlays. Drag-and-drop for CapCut, Premiere & DaVinci.",
-      "longDescription": "Created by the BADARSH sound and VFX team for high-retention video creators. Contains 150+ master quality audio SFX recorded in 24-bit 48kHz WAV format, plus 30 4K ProRes alpha-channel optical overlays (film burns, vintage dust, light leaks, and glitch transitions). Just drag onto your editing timeline for instant Hollywood production value.",
-      "price": 399,
-      "originalPrice": 899,
-      "currency": "INR",
-      "category": "editing-bundles",
-      "tags": [
-        "sfx",
-        "motion overlays",
-        "sound effects",
-        "transitions",
-        "video editing",
-        "cinematic"
-      ],
-      "images": [
-        "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80",
-        "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80"
-      ],
-      "features": [
-        "150+ master sound effects (Whooshes, Risers, Impacts, Textures)",
-        "30 4K ProRes 422 transparent alpha motion overlays",
-        "Compatible with CapCut Mobile/PC, Premiere Pro, DaVinci, FCPX",
-        "Uncompressed 24-bit 48kHz master audio fidelity",
-        "Direct Google Drive download link with lifetime updates",
-        "Full commercial monetization license included"
-      ],
-      "specs": {
-        "count": "180+ SFX & VFX Assets",
-        "dimensions": "4K UHD (3840×2160) & 48kHz WAV",
-        "compatibility": "CapCut, Premiere Pro, DaVinci, Final Cut"
-      },
-      "rating": 5,
-      "reviewCount": 112,
-      "downloads": 1240,
-      "isFeatured": true,
-      "isNew": true,
-      "isBestseller": true,
-      "format": "WAV & 4K ProRes Video",
-      "fileSize": "1.4 GB",
-      "audioPreviewUrl": "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
-      "overlayLinkUrl": "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
-      "downloadUrl": "https://actions.google.com/sounds/v1/science_fiction/whoosh_cinematic.ogg",
-      "deliveryType": "google-drive",
-      "createdAt": "2026-11-12",
-      "templateUrl": "/templates/cinematic-sfx-motion-overlays-vault",
-      "canvaUrl": "/templates/cinematic-sfx-motion-overlays-vault",
-      "status": "published",
-      "updatedAt": "2026-11-23T06:56:03.154Z"
-    },
-    {
-      "productType": "planner",
-      "createdAt": "2026-11-24T18:51:25.518Z",
-      "beforeImage": "",
-      "downloadUrl": "/uploads/3-month-humanized-digital-marketing-training-plan-1795546254106.pdf",
-      "originalPrice": 499,
-      "currency": "INR",
-      "rating": 5,
-      "status": "published",
-      "updatedAt": "2026-11-24T18:51:25.518Z",
-      "reviewCount": 1,
-      "tags": [],
-      "appVersion": "",
-      "appPlatform": "",
-      "slug": "the-90-day-fitness-operating-system",
-      "category": "planners",
       "audioPreviewUrl": "",
-      "previewPdfUrl": "/uploads/3-month-humanized-digital-marketing-training-plan-1795546243980.pdf",
-      "isNew": true,
-      "coverImageUrl": "/uploads/90-day-lean-bulk-fitness-plan-1795546263917.png",
-      "authorName": "",
+      "coverImageUrl": "/images/catalog/90-day-fitness.png",
       "format": "Digital Product",
-      "audioDuration": "",
+      "slug": "the-90-day-fitness-operating-system",
+      "downloads": 0,
+      "appVersion": "",
+      "googleDriveUrl": "",
+      "longDescription": "",
+      "audioCategory": "",
+      "originalPrice": 499,
       "videoUrl": "",
+      "audioDuration": "",
+      "productType": "planner",
+      "deliveryType": "download-url",
+      "price": 25,
+      "tags": [],
+      "title": "The 90-Day Fitness Operating System",
       "description": "Your complete 90-day roadmap to building lean muscle, losing stubborn fat, and mastering daily nutrition without guesswork.",
+      "category": "planners",
+      "pageCount": 12,
+      "beforeImage": "",
+      "presetLinkUrl": "",
+      "pdfUrl": "/downloads/pdfs/digital-marketing-plan.pdf",
+      "canvaUrl": "",
       "appDownloadUrl": "",
       "features": [
         "Verified BADARSH Creator Digital Asset"
       ],
-      "presetLinkUrl": "",
-      "googleDriveUrl": "",
-      "id": "prod-mwv1wcsu",
-      "canvaUrl": "",
-      "title": "The 90-Day Fitness Operating System",
-      "longDescription": "",
-      "images": [
-        "/uploads/90-day-lean-bulk-fitness-plan-1795546263917.png"
-      ],
-      "pdfUrl": "/uploads/3-month-humanized-digital-marketing-training-plan-1795546254106.pdf",
+      "status": "published",
       "afterImage": "",
-      "downloads": 0,
-      "price": 25,
-      "pageCount": 12,
+      "images": [
+        "/images/catalog/90-day-fitness.png"
+      ],
+      "rating": 5,
+      "id": "prod-mwv1wcsu",
+      "updatedAt": "2026-11-24T18:51:25.518Z",
+      "reviewCount": 1,
+      "currency": "INR",
+      "isBestseller": false,
+      "downloadUrl": "/downloads/pdfs/90-day-fitness-operating-system.pdf",
+      "isNew": true,
+      "totalAssetsCount": "",
+      "createdAt": "2026-11-24T18:51:25.518Z",
+      "appPlatform": "",
+      "previewPdfUrl": "/downloads/pdfs/90-day-fitness-operating-system.pdf",
       "isFeatured": false,
       "templateUrl": "",
-      "totalAssetsCount": "",
-      "isBestseller": false,
       "plannerCategory": "Daily Productivity",
-      "audioCategory": "",
-      "deliveryType": "download-url"
-    },
-    {
-      "templateUrl": "/templates/creator-editing-apps-vault",
-      "status": "published",
-      "format": "Config Files & PDF",
-      "id": "prod-014",
-      "images": [
-        "data:image/png;base64,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",
-        "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80"
-      ],
-      "category": "editing-apps",
-      "fileSize": "45 MB",
-      "createdAt": "2026-11-01",
-      "isBestseller": true,
-      "appDownloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf",
-      "reviewCount": 74,
-      "productType": "app-license",
-      "longDescription": "The exact tools, settings, and render presets used by top social video editors. Includes custom keyboard shortcut configurations for Premiere Pro and DaVinci Resolve, 4K mobile render XML profiles that bypass Instagram compression algorithms, and our studio color grading cheat-sheet.",
-      "specs": {
-        "compatibility": "VN Editor, CapCut, Premiere, DaVinci",
-        "dimensions": "PDF Guide + XML Preset Files",
-        "count": "15 Presets & Config Files + PDF Guide"
-      },
-      "tags": [
-        "editing apps",
-        "davinci",
-        "premiere",
-        "shortcuts",
-        "export settings",
-        "lut"
-      ],
-      "isNew": false,
-      "features": [
-        "DaVinci Resolve & Premiere Pro shortcut maps",
-        "4K 60fps high-bitrate mobile export presets",
-        "10 baseline color conversion LUTs (.cube)",
-        "Audio EQ & compressor voiceover presets",
-        "Detailed step-by-step installation PDF guide"
-      ],
-      "deliveryType": "download-url",
-      "currency": "INR",
-      "originalPrice": 599,
-      "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf",
-      "isFeatured": true,
-      "title": "Creator Video Editing Tools & Config Vault",
-      "rating": 4.8,
-      "canvaUrl": "/templates/creator-editing-apps-vault",
-      "description": "Complete editing software suite: 4K mobile export configs, DaVinci & Premiere keyboard shortcut maps, and color LUT recipes.",
-      "downloads": 1120,
-      "slug": "creator-editing-apps-vault",
-      "price": 0,
-      "updatedAt": "2026-11-25T15:31:43.110Z",
-      "coverImageUrl": "data:image/png;base64,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",
-      "appVersion": "v2.5 Studio Suite",
-      "appPlatform": "Android, iOS & Desktop"
+      "authorName": ""
     },
     {
       "id": "app-vn-editor",
@@ -1192,8 +595,8 @@
       "isFeatured": true,
       "isNew": true,
       "isBestseller": true,
-      "format": "APK Installer & XML Presets",
-      "fileSize": "82 MB",
+      "format": "VN LUTs, SFX & Setup ZIP",
+      "fileSize": "239 KB",
       "appVersion": "v2.4.2 Pro Studio",
       "appPlatform": "Android, iOS & Desktop",
       "appDownloadUrl": "/downloads/vn-video-editor-pro-setup.zip",
@@ -1221,7 +624,7 @@
         "mobile creator"
       ],
       "images": [
-        "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80",
+        "/images/catalog/cinematic-reels-cover.png",
         "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80"
       ],
       "features": [
@@ -1349,6 +752,758 @@
       "deliveryType": "download-url",
       "createdAt": "2026-11-12",
       "status": "published"
+    },
+    {
+      "updatedAt": "2026-11-28T11:15:17.026Z",
+      "beforeImage": "",
+      "title": "Little Legends: Best Drawings & Coloring Book for Boys (50-Page Printable Edition)",
+      "canvaUrl": "",
+      "description": "",
+      "audioPreviewUrl": "",
+      "isFeatured": false,
+      "category": "ebooks",
+      "authorName": "BADARSH Studio",
+      "pdfUrl": "/downloads/pdfs/little-legends-coloring-pack.pdf",
+      "longDescription": "",
+      "previewPdfUrl": "/downloads/pdfs/little-legends-coloring-pack.pdf",
+      "id": "prod-mx0bd5sy",
+      "afterImage": "",
+      "videoUrl": "",
+      "format": "Digital Product",
+      "createdAt": "2026-11-28T11:15:17.026Z",
+      "productType": "ebook",
+      "price": 299,
+      "isBestseller": false,
+      "totalAssetsCount": "",
+      "downloadUrl": "/downloads/pdfs/little-legends-coloring-pack.pdf",
+      "deliveryType": "download-url",
+      "googleDriveUrl": "",
+      "isNew": true,
+      "slug": "little-legends-best-drawings-coloring-book-for-boys-50-page-printable-edition-",
+      "downloads": 0,
+      "templateUrl": "",
+      "presetLinkUrl": "",
+      "appPlatform": "",
+      "status": "published",
+      "appVersion": "",
+      "coverImageUrl": "",
+      "rating": 5,
+      "tags": [],
+      "images": [
+        "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=1200&q=80"
+      ],
+      "currency": "INR",
+      "reviewCount": 1,
+      "features": [
+        "Verified BADARSH Creator Digital Asset"
+      ],
+      "plannerCategory": "",
+      "originalPrice": 699,
+      "audioCategory": "",
+      "audioDuration": "",
+      "appDownloadUrl": "",
+      "pageCount": 120
+    },
+    {
+      "id": "prod-008",
+      "slug": "business-launch-bundle",
+      "title": "Business Launch Mega Bundle",
+      "description": "Our entire creative catalog in one comprehensive package: 200+ templates spanning social media, pitch decks, brand kits & cards.",
+      "longDescription": "The ultimate shortcut for founders launching a new venture. Get immediate access to our bestselling collections in one bundled package: Instagram Reels Pack, LinkedIn Carousel Pack, Pitch Deck Template, Brand Identity Kit, and Business Card Collection. Save over 60% compared to purchasing individually.",
+      "price": 999,
+      "originalPrice": 2490,
+      "currency": "INR",
+      "category": "bundles",
+      "tags": [
+        "bundle",
+        "mega pack",
+        "all in one",
+        "startup bundle",
+        "complete kit"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&q=80",
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80"
+      ],
+      "features": [
+        "200+ templates across all core suites",
+        "Social media, carousels, reels, and stories",
+        "Investor pitch deck & presentation slides",
+        "Complete brand guidelines & logo kit",
+        "Luxury business card collection",
+        "Free lifetime updates to all included packs",
+        "Commercial license for personal & client work"
+      ],
+      "specs": {
+        "count": "200+ Combined Templates",
+        "dimensions": "All Formats Included (16:9, 9:16, 4:5, 1:1, Print)",
+        "compatibility": "Universal Web & Mobile"
+      },
+      "rating": 5,
+      "reviewCount": 178,
+      "downloads": 2150,
+      "isFeatured": true,
+      "isNew": false,
+      "isBestseller": true,
+      "format": "Master Bundle ZIP",
+      "fileSize": "5 KB",
+      "deliveryType": "download-url",
+      "templateUrl": "/templates/business-launch-bundle",
+      "canvaUrl": "https://www.canva.com/templates/?query=business-planner",
+      "downloadUrl": "/downloads/business-launch-mega-bundle.zip",
+      "createdAt": "2025-01-01",
+      "status": "published",
+      "updatedAt": "2026-11-28T14:55:38.731Z"
+    },
+    {
+      "id": "prod-009",
+      "slug": "creator-wealth-cashflow-playbook",
+      "title": "Creator Wealth & Cashflow Playbook (2026 Edition)",
+      "description": "Original BADARSH guide to packaging digital products, managing creator taxes & cashflow reserves, and scaling beyond hourly client retainers.",
+      "longDescription": "Written by BADARSH Editorial for independent editors, designers, and developers. Covers the 4-bucket creator cashflow framework, INR product ladder pricing (Rs 0 to Rs 999+ retainers), and weekly profitability scorecards built for digital-first businesses.",
+      "authorName": "BADARSH Editorial",
+      "pageCount": 32,
+      "price": 199,
+      "originalPrice": 499,
+      "currency": "INR",
+      "category": "ebooks",
+      "tags": [
+        "finance",
+        "pricing",
+        "wealth",
+        "cashflow",
+        "ebook",
+        "pdf"
+      ],
+      "images": [
+        "/images/catalog/creator-wealth-cover.png"
+      ],
+      "features": [
+        "Original BADARSH 2026 Digital Playbook (PDF)",
+        "Interactive in-browser reader with instant preview",
+        "4-bucket creator cashflow & runway framework",
+        "INR product ladder & pricing breakdown",
+        "Commercial digital product checklist included"
+      ],
+      "specs": {
+        "count": "Original Digital Edition",
+        "dimensions": "Digital PDF",
+        "compatibility": "Kindle, iPad, Android, Mac, PC"
+      },
+      "rating": 0,
+      "reviewCount": 0,
+      "downloads": 0,
+      "isFeatured": true,
+      "isNew": true,
+      "isBestseller": false,
+      "format": "Original Digital PDF",
+      "fileSize": "5 KB",
+      "previewPdfUrl": "/downloads/pdfs/creator-wealth-cashflow-playbook.pdf",
+      "downloadUrl": "/downloads/pdfs/creator-wealth-cashflow-playbook.pdf",
+      "deliveryType": "download-url",
+      "createdAt": "2026-11-01",
+      "templateUrl": "/templates/creator-wealth-cashflow-playbook",
+      "canvaUrl": "/templates/creator-wealth-cashflow-playbook",
+      "status": "published",
+      "updatedAt": "2026-11-28T14:55:38.731Z"
+    },
+    {
+      "id": "prod-010",
+      "slug": "daily-creator-habit-systems",
+      "title": "Daily Creator Systems: 30-Day Habit & Production Blueprint",
+      "description": "Build an effortless batch-filming, editing, and publishing routine with repeatable 45-minute creative production blocks.",
+      "longDescription": "Practical creative operating system designed by BADARSH Studio. Replace burnout with structured weekly batching cadences, pre-saved NLE project templates, daily habit scorecards, and a 10-post evergreen buffer checklist.",
+      "authorName": "BADARSH Studio",
+      "pageCount": 28,
+      "price": 299,
+      "originalPrice": 699,
+      "currency": "INR",
+      "category": "ebooks",
+      "tags": [
+        "productivity",
+        "habits",
+        "workflow",
+        "systems",
+        "ebook",
+        "pdf"
+      ],
+      "images": [
+        "/images/catalog/habit-systems-cover.png"
+      ],
+      "features": [
+        "Original BADARSH Production Blueprint (PDF)",
+        "45-minute zero-friction creation block SOP",
+        "Weekly batch filming & sound design schedule",
+        "Read directly in browser before checkout",
+        "Instant digital download across all devices"
+      ],
+      "specs": {
+        "count": "Original Digital Edition",
+        "dimensions": "Digital PDF",
+        "compatibility": "Kindle, iPad, Android, Mac, PC"
+      },
+      "rating": 0,
+      "reviewCount": 0,
+      "downloads": 0,
+      "isFeatured": true,
+      "isNew": true,
+      "isBestseller": false,
+      "format": "Original Digital PDF",
+      "fileSize": "4 KB",
+      "previewPdfUrl": "/downloads/pdfs/daily-creator-habit-systems.pdf",
+      "downloadUrl": "/downloads/pdfs/daily-creator-habit-systems.pdf",
+      "deliveryType": "download-url",
+      "createdAt": "2026-11-02",
+      "templateUrl": "/templates/daily-creator-habit-systems",
+      "canvaUrl": "/templates/daily-creator-habit-systems",
+      "status": "published",
+      "updatedAt": "2026-11-28T14:55:38.731Z"
+    },
+    {
+      "id": "prod-022",
+      "slug": "freelance-to-founder-blueprint",
+      "title": "Freelance to Agency Founder: Scaling Digital Services",
+      "description": "Turn ad-hoc editing or design gigs into repeatable monthly retainers with scoped SLAs, onboarding SOPs, and digital add-ons.",
+      "longDescription": "A step-by-step operations manual from BADARSH Studio covering milestone billing terms, clean client asset folder architectures, productized video/web tiers, and secondary digital shop revenue streams.",
+      "authorName": "BADARSH Studio",
+      "pageCount": 36,
+      "price": 199,
+      "originalPrice": 499,
+      "currency": "INR",
+      "category": "ebooks",
+      "tags": [
+        "business",
+        "agency",
+        "freelance",
+        "retainers",
+        "ebook",
+        "pdf"
+      ],
+      "images": [
+        "/images/catalog/agency-blueprint-cover.png"
+      ],
+      "features": [
+        "Original Agency Operations Playbook (PDF)",
+        "Scoped retainer & milestone agreement clauses",
+        "Client onboarding & cloud folder structure SOP",
+        "Full in-browser PDF preview reader included"
+      ],
+      "specs": {
+        "count": "Original Digital Edition",
+        "dimensions": "Digital PDF",
+        "compatibility": "Kindle, iPad, Tablet, Mobile"
+      },
+      "rating": 0,
+      "reviewCount": 0,
+      "downloads": 0,
+      "isFeatured": false,
+      "isNew": true,
+      "isBestseller": false,
+      "format": "Original Digital PDF",
+      "fileSize": "4 KB",
+      "previewPdfUrl": "/downloads/pdfs/freelance-to-founder-blueprint.pdf",
+      "downloadUrl": "/downloads/pdfs/freelance-to-founder-blueprint.pdf",
+      "deliveryType": "download-url",
+      "createdAt": "2026-11-03",
+      "templateUrl": "/templates/freelance-to-founder-blueprint",
+      "canvaUrl": "/templates/freelance-to-founder-blueprint",
+      "status": "published",
+      "updatedAt": "2026-11-28T14:55:38.731Z"
+    },
+    {
+      "id": "prod-023",
+      "slug": "attention-retention-design-guide",
+      "title": "Reels Retention & Digital Product Hook Systems",
+      "description": "Visual pacing math, frame-0 sound design cues, and LinkedIn/Instagram carousel copy frameworks engineered for modern feeds.",
+      "longDescription": "Created inside BADARSH Creative Lab after editing hundreds of commercial vertical videos and carousels. Breaks down the first 1.8-second hook rule, 3-second pattern interrupts, dialogue ducking levels (-28 dBFS ambience), and exact H.264/PDF export specifications.",
+      "authorName": "BADARSH Creative Lab",
+      "pageCount": 30,
+      "price": 249,
+      "originalPrice": 599,
+      "currency": "INR",
+      "category": "ebooks",
+      "tags": [
+        "retention",
+        "ux",
+        "product design",
+        "business",
+        "ebook",
+        "pdf"
+      ],
+      "images": [
+        "/images/catalog/retention-guide-cover.png"
+      ],
+      "features": [
+        "Original BADARSH Creative Lab Guide (PDF)",
+        "Frame-0 visual + audio hook timing blueprint",
+        "LinkedIn & IG carousel conversion slide formula",
+        "Interactive in-browser PDF preview included"
+      ],
+      "specs": {
+        "count": "Original Digital Edition",
+        "dimensions": "Digital PDF",
+        "compatibility": "All PDF Readers, iPad, Kindle"
+      },
+      "rating": 0,
+      "reviewCount": 0,
+      "downloads": 0,
+      "isFeatured": false,
+      "isNew": true,
+      "isBestseller": false,
+      "format": "Original Digital PDF",
+      "fileSize": "4 KB",
+      "previewPdfUrl": "/downloads/pdfs/attention-retention-design-guide.pdf",
+      "downloadUrl": "/downloads/pdfs/attention-retention-design-guide.pdf",
+      "deliveryType": "download-url",
+      "createdAt": "2026-11-04",
+      "templateUrl": "/templates/attention-retention-design-guide",
+      "canvaUrl": "/templates/attention-retention-design-guide",
+      "status": "published",
+      "updatedAt": "2026-11-28T14:55:38.732Z"
+    },
+    {
+      "id": "prod-014",
+      "slug": "creator-editing-apps-vault",
+      "title": "Creator Video Editing Tools & Config Vault",
+      "description": "Complete editing software suite: 4K mobile export configs, DaVinci & Premiere keyboard shortcut maps, and color LUT recipes.",
+      "longDescription": "The exact tools, settings, and render presets used by top social video editors. Includes custom keyboard shortcut configurations for Premiere Pro and DaVinci Resolve, 4K mobile render XML profiles that bypass Instagram compression algorithms, and our studio color grading cheat-sheet.",
+      "price": 0,
+      "originalPrice": 599,
+      "currency": "INR",
+      "category": "editing-apps",
+      "tags": [
+        "editing apps",
+        "davinci",
+        "premiere",
+        "shortcuts",
+        "export settings",
+        "lut"
+      ],
+      "images": [
+        "/images/catalog/video-bundle-cover.png",
+        "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80"
+      ],
+      "features": [
+        "DaVinci Resolve & Premiere Pro shortcut maps",
+        "4K 60fps high-bitrate mobile export presets",
+        "10 baseline color conversion LUTs (.cube)",
+        "Audio EQ & compressor voiceover presets",
+        "Detailed step-by-step installation PDF guide"
+      ],
+      "specs": {
+        "count": "15 Presets & Config Files + PDF Guide",
+        "dimensions": "PDF Guide + XML Preset Files",
+        "compatibility": "VN Editor, CapCut, Premiere, DaVinci"
+      },
+      "rating": 4.8,
+      "reviewCount": 74,
+      "downloads": 1120,
+      "isFeatured": true,
+      "isNew": false,
+      "isBestseller": true,
+      "format": "LUTs, XMLs & Export Config ZIP",
+      "fileSize": "148 KB",
+      "appVersion": "v2.5 Studio Suite",
+      "appPlatform": "Android, iOS & Desktop",
+      "appDownloadUrl": "/downloads/creator-video-editing-tools-config-vault.zip",
+      "downloadUrl": "/downloads/creator-video-editing-tools-config-vault.zip",
+      "freeDownloadUrl": "/downloads/creator-video-editing-tools-config-vault.zip",
+      "deliveryType": "download-url",
+      "createdAt": "2026-11-01",
+      "templateUrl": "/templates/creator-editing-apps-vault",
+      "canvaUrl": "/templates/creator-editing-apps-vault",
+      "status": "published",
+      "updatedAt": "2026-11-28T14:55:38.732Z"
+    },
+    {
+      "id": "prod-015",
+      "slug": "viral-sfx-motion-overlay-bundle",
+      "title": "Viral Video SFX & Motion Overlay Bundle",
+      "description": "350+ creator sound effects (whooshes, risers, pops, camera clicks) plus 4K film grains, light leaks & direct app templates.",
+      "longDescription": "Elevate your short-form video retention instantly with audio-visual impact. Includes 350+ master-quality WAV/MP3 sound effects crafted specifically for pacing Instagram Reels and YouTube Shorts, alongside 40 seamless 4K grain and light leak overlays. Open in your editing app with 1-click, add your clip, and get the edited result instantly.",
+      "price": 499,
+      "originalPrice": 999,
+      "currency": "INR",
+      "category": "editing-bundles",
+      "tags": [
+        "sfx",
+        "sound effects",
+        "motion graphics",
+        "overlays",
+        "reels editing",
+        "video bundle"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80",
+        "/images/catalog/cinematic-reels-cover.png"
+      ],
+      "features": [
+        "350+ high-fidelity sound effects (WAV + MP3)",
+        "40 seamless 4K ProRes light leaks & film grains",
+        "Direct 1-click template link: opens in CapCut/Premiere",
+        "Just add your photo or clip and export finished video",
+        "100% royalty-free commercial license",
+        "Organized into intuitive category folders"
+      ],
+      "specs": {
+        "count": "350+ SFX & 40 4K Video Overlays",
+        "dimensions": "4K UHD (3840x2160) & 24-bit 48kHz Audio",
+        "compatibility": "CapCut, VN, Premiere, FCPX, DaVinci"
+      },
+      "rating": 5,
+      "reviewCount": 89,
+      "downloads": 940,
+      "isFeatured": true,
+      "isNew": false,
+      "isBestseller": true,
+      "format": "WAV SFX & LUT Bundle ZIP",
+      "fileSize": "481 KB",
+      "audioPreviewUrl": "/audio/quattro-boom.wav",
+      "downloadUrl": "/downloads/viral-sfx-motion-overlay-bundle.zip",
+      "overlayLinkUrl": "/downloads/viral-sfx-motion-overlay-bundle.zip",
+      "deliveryType": "download-url",
+      "createdAt": "2026-11-05",
+      "templateUrl": "/templates/viral-sfx-motion-overlay-bundle",
+      "canvaUrl": "/templates/viral-sfx-motion-overlay-bundle",
+      "status": "published",
+      "updatedAt": "2026-11-28T14:55:38.732Z"
+    },
+    {
+      "id": "prod-016",
+      "slug": "cinematic-lightroom-presets",
+      "title": "Cinematic Mood & Warm Aesthetic Presets",
+      "description": "15 professional Lightroom mobile & desktop presets (.DNG & .XMP). 1-click warm film look, deep shadows, and moody portrait tones.",
+      "longDescription": "Transform your phone and camera photos into cinematic frames with one tap. This collection of 15 presets was crafted for creators who want that coveted warm, editorial aesthetic — muted greens, rich golden skin tones, and soft analog grain. Works with the free Lightroom Mobile app (no subscription required) and Lightroom Desktop.",
+      "price": 299,
+      "originalPrice": 599,
+      "currency": "INR",
+      "category": "photo-presets",
+      "tags": [
+        "lightroom",
+        "presets",
+        "photo editing",
+        "cinematic",
+        "photography",
+        "dng"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1200&q=80",
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=1200&q=80"
+      ],
+      "features": [
+        "15 Lightroom Mobile presets (.DNG format)",
+        "15 Lightroom Desktop presets (.XMP format)",
+        "Works with the 100% FREE Lightroom Mobile app",
+        "Skin tone protection algorithm included",
+        "Step-by-step video & PDF installation guide",
+        "Compatible with iPhone, Android, RAW, and JPEG"
+      ],
+      "specs": {
+        "count": "15 Presets (Mobile & Desktop)",
+        "dimensions": "DNG (Mobile) & XMP (Desktop) Files",
+        "compatibility": "Lightroom Mobile (Free) & Desktop"
+      },
+      "rating": 4.9,
+      "reviewCount": 63,
+      "downloads": 1350,
+      "isFeatured": true,
+      "isNew": false,
+      "isBestseller": true,
+      "format": "XMP & 3D LUT Preset ZIP",
+      "fileSize": "15 KB",
+      "beforeImage": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1200&q=80",
+      "afterImage": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=1200&q=80",
+      "downloadUrl": "/downloads/cinematic-lightroom-presets.zip",
+      "presetLinkUrl": "/downloads/cinematic-lightroom-presets.zip",
+      "deliveryType": "download-url",
+      "createdAt": "2026-11-08",
+      "templateUrl": "/templates/cinematic-lightroom-presets",
+      "canvaUrl": "/templates/cinematic-lightroom-presets",
+      "status": "published",
+      "updatedAt": "2026-11-28T14:55:38.732Z"
+    },
+    {
+      "id": "prod-019",
+      "slug": "2026-video-editing-mega-bundle",
+      "title": "2026 Video Editing Mega Bundle",
+      "description": "Everything a creator or video editor needs: 500+ SFX, 100 transitions, 50 LUTs, 30 title templates & 4K green screen elements.",
+      "longDescription": "The definitive toolkit uploaded directly from the BADARSH Studio cloud drive. Includes 500+ uncompressed WAV sound effects, 100 seamless transitions, 50 cinematic color LUTs, 30 animated motion titles, and 4K green screen VFX elements. Works seamlessly across CapCut, Premiere Pro, DaVinci Resolve, and Final Cut Pro.",
+      "price": 799,
+      "originalPrice": 1999,
+      "currency": "INR",
+      "category": "bundles",
+      "tags": [
+        "bundle",
+        "video editing",
+        "2026",
+        "sfx",
+        "transitions",
+        "luts",
+        "mega pack"
+      ],
+      "images": [
+        "/images/catalog/video-bundle-cover.png",
+        "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80"
+      ],
+      "features": [
+        "500+ royalty-free master sound effects (WAV & MP3)",
+        "100 seamless drag-and-drop transitions (CapCut & Premiere)",
+        "50 cinematic LUTs for iPhone, Sony, Canon & Panasonic footage",
+        "30 customizable animated lower-thirds & motion titles",
+        "25 4K green screen & alpha channel motion graphics",
+        "Lifetime cloud drive access with free updates throughout 2026"
+      ],
+      "specs": {
+        "count": "700+ Production Assets Total",
+        "dimensions": "4K UHD (3840×2160) & 24-bit 48kHz WAV",
+        "compatibility": "CapCut, Premiere Pro, DaVinci Resolve, FCPX, VN"
+      },
+      "rating": 5,
+      "reviewCount": 203,
+      "downloads": 2100,
+      "isFeatured": true,
+      "isNew": true,
+      "isBestseller": true,
+      "format": "SFX, LUTs & XML ZIP Vault",
+      "fileSize": "490 KB",
+      "totalAssetsCount": "700+ Production Assets",
+      "videoUrl": "/videos/badarsh-showreel.mp4",
+      "googleDriveUrl": "/downloads/2026-video-editing-mega-bundle.zip",
+      "downloadUrl": "/downloads/2026-video-editing-mega-bundle.zip",
+      "deliveryType": "download-url",
+      "createdAt": "2026-11-10",
+      "templateUrl": "/templates/2026-video-editing-mega-bundle",
+      "canvaUrl": "/templates/2026-video-editing-mega-bundle",
+      "status": "published",
+      "updatedAt": "2026-11-28T14:55:38.732Z"
+    },
+    {
+      "id": "prod-021",
+      "slug": "cinematic-sfx-motion-overlays-vault",
+      "title": "Cinematic SFX & Motion Overlays Pack",
+      "description": "150+ royalty-free Hollywood whooshes, risers, hits & 4K optical dust overlays. Drag-and-drop for CapCut, Premiere & DaVinci.",
+      "longDescription": "Created by the BADARSH sound and VFX team for high-retention video creators. Contains 150+ master quality audio SFX recorded in 24-bit 48kHz WAV format, plus 30 4K ProRes alpha-channel optical overlays (film burns, vintage dust, light leaks, and glitch transitions). Just drag onto your editing timeline for instant Hollywood production value.",
+      "price": 399,
+      "originalPrice": 899,
+      "currency": "INR",
+      "category": "editing-bundles",
+      "tags": [
+        "sfx",
+        "motion overlays",
+        "sound effects",
+        "transitions",
+        "video editing",
+        "cinematic"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80",
+        "/images/catalog/cinematic-reels-cover.png"
+      ],
+      "features": [
+        "150+ master sound effects (Whooshes, Risers, Impacts, Textures)",
+        "30 4K ProRes 422 transparent alpha motion overlays",
+        "Compatible with CapCut Mobile/PC, Premiere Pro, DaVinci, FCPX",
+        "Uncompressed 24-bit 48kHz master audio fidelity",
+        "Direct Google Drive download link with lifetime updates",
+        "Full commercial monetization license included"
+      ],
+      "specs": {
+        "count": "180+ SFX & VFX Assets",
+        "dimensions": "4K UHD (3840×2160) & 48kHz WAV",
+        "compatibility": "CapCut, Premiere Pro, DaVinci, Final Cut"
+      },
+      "rating": 5,
+      "reviewCount": 112,
+      "downloads": 1240,
+      "isFeatured": true,
+      "isNew": true,
+      "isBestseller": true,
+      "format": "WAV SFX Master ZIP",
+      "fileSize": "841 KB",
+      "audioPreviewUrl": "/audio/trailer-braam.wav",
+      "overlayLinkUrl": "/downloads/cinematic-sfx-motion-overlays-pack.zip",
+      "downloadUrl": "/downloads/cinematic-sfx-motion-overlays-pack.zip",
+      "deliveryType": "download-url",
+      "createdAt": "2026-11-12",
+      "templateUrl": "/templates/cinematic-sfx-motion-overlays-vault",
+      "canvaUrl": "/templates/cinematic-sfx-motion-overlays-vault",
+      "status": "published",
+      "updatedAt": "2026-11-28T14:55:38.732Z"
+    },
+    {
+      "id": "vt-001",
+      "slug": "velocity-beat-shake-vol-1",
+      "title": "Velocity Beat Shake & Flash Vol. 1",
+      "description": "Aggressive velocity speed-ramping with beat-synced motion blur and camera shakes.",
+      "longDescription": "Engineered for high-octane reels and TikTok edits.",
+      "price": 0,
+      "currency": "INR",
+      "category": "video-templates",
+      "tags": [
+        "velocity",
+        "beat-sync",
+        "capcut",
+        "alight-motion",
+        "reels"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80"
+      ],
+      "videoUrl": "/videos/badarsh-showreel.mp4",
+      "capcutUrl": "/downloads/vt-velocity-beat-shake-vol-1.zip",
+      "alightMotionXmlUrl": "/downloads/vt-velocity-beat-shake-vol-1.zip",
+      "downloadUrl": "/downloads/vt-velocity-beat-shake-vol-1.zip",
+      "bpm": 135,
+      "requiredClipsCount": 14,
+      "features": [
+        "Auto-beat sync",
+        "Velocity curve pre-tuned",
+        "Alight XML included"
+      ],
+      "rating": 4.9,
+      "reviewCount": 230,
+      "downloads": 4200,
+      "isFeatured": true,
+      "isNew": true,
+      "isBestseller": true,
+      "format": "CapCut & XML Template",
+      "createdAt": "2026-01-01",
+      "deliveryType": "download-url",
+      "templateUrl": "/templates/velocity-beat-shake-vol-1",
+      "canvaUrl": "/templates/velocity-beat-shake-vol-1",
+      "status": "published",
+      "updatedAt": "2026-11-28T14:55:38.732Z"
+    },
+    {
+      "id": "vt-002",
+      "slug": "kinetic-3d-typography-lyrics",
+      "title": "Kinetic 3D Typography & Floating Lyrics",
+      "description": "Smooth 3D camera push-in with glowing typography animations and sound design.",
+      "longDescription": "Perfect for music artists, podcast quotes, and aesthetic reels.",
+      "price": 199,
+      "originalPrice": 499,
+      "currency": "INR",
+      "category": "video-templates",
+      "tags": [
+        "lyrics",
+        "typography",
+        "capcut",
+        "alight-motion"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80"
+      ],
+      "videoUrl": "/videos/badarsh-showreel.mp4",
+      "capcutUrl": "/downloads/vt-kinetic-3d-lyrics.zip",
+      "alightMotionXmlUrl": "/downloads/vt-kinetic-3d-lyrics.zip",
+      "downloadUrl": "/downloads/vt-kinetic-3d-lyrics.zip",
+      "bpm": 120,
+      "requiredClipsCount": 8,
+      "features": [
+        "Customizable font",
+        "Glow intensity slider",
+        "Smooth 60fps keyframes"
+      ],
+      "rating": 4.8,
+      "reviewCount": 94,
+      "downloads": 1850,
+      "isFeatured": true,
+      "isNew": false,
+      "isBestseller": false,
+      "format": "CapCut & XML Template",
+      "createdAt": "2026-01-05",
+      "deliveryType": "download-url",
+      "templateUrl": "/templates/kinetic-3d-typography-lyrics",
+      "canvaUrl": "/templates/kinetic-3d-typography-lyrics",
+      "status": "published",
+      "updatedAt": "2026-11-28T14:55:38.732Z"
+    },
+    {
+      "id": "vt-003",
+      "slug": "glitch-rgb-split-transition-pack",
+      "title": "Glitch RGB Split & Distortion Shake",
+      "description": "Cyberpunk RGB channel splitting with audio swooshes and camera whip pans.",
+      "longDescription": "High-retention video transition pack for YouTube gaming and hype videos.",
+      "price": 0,
+      "currency": "INR",
+      "category": "video-templates",
+      "tags": [
+        "shakes",
+        "glitch",
+        "capcut",
+        "alight-motion"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1200&q=80"
+      ],
+      "videoUrl": "/videos/badarsh-showreel.mp4",
+      "capcutUrl": "/downloads/vt-glitch-rgb-split.zip",
+      "alightMotionXmlUrl": "/downloads/vt-glitch-rgb-split.zip",
+      "downloadUrl": "/downloads/vt-glitch-rgb-split.zip",
+      "bpm": 140,
+      "requiredClipsCount": 16,
+      "features": [
+        "RGB Chromatic aberration",
+        "Glitch sound pack included",
+        "100% free"
+      ],
+      "rating": 5,
+      "reviewCount": 310,
+      "downloads": 5800,
+      "isFeatured": true,
+      "isNew": true,
+      "isBestseller": true,
+      "format": "CapCut & XML Template",
+      "createdAt": "2026-01-10",
+      "deliveryType": "download-url",
+      "templateUrl": "/templates/glitch-rgb-split-transition-pack",
+      "canvaUrl": "/templates/glitch-rgb-split-transition-pack",
+      "status": "published",
+      "updatedAt": "2026-11-28T14:55:38.732Z"
+    },
+    {
+      "id": "vt-004",
+      "slug": "cinematic-slow-mo-luxury-reels",
+      "title": "Cinematic Slow-Mo Luxury & Travel Reel",
+      "description": "Warm golden hour pacing with optical flow slow-motion and cinematic film borders.",
+      "longDescription": "Crafted for luxury lifestyle, automotive, and wedding videographers.",
+      "price": 299,
+      "originalPrice": 699,
+      "currency": "INR",
+      "category": "video-templates",
+      "tags": [
+        "cinematic",
+        "slow-mo",
+        "capcut",
+        "alight-motion"
+      ],
+      "images": [
+        "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1200&q=80"
+      ],
+      "videoUrl": "/videos/badarsh-showreel.mp4",
+      "capcutUrl": "/downloads/vt-cinematic-slow-mo-reels.zip",
+      "alightMotionXmlUrl": "/downloads/vt-cinematic-slow-mo-reels.zip",
+      "downloadUrl": "/downloads/vt-cinematic-slow-mo-reels.zip",
+      "bpm": 110,
+      "requiredClipsCount": 10,
+      "features": [
+        "Optical flow 60fps",
+        "Kodak film border overlay",
+        "LUT included"
+      ],
+      "rating": 4.9,
+      "reviewCount": 142,
+      "downloads": 2400,
+      "isFeatured": true,
+      "isNew": false,
+      "isBestseller": true,
+      "format": "CapCut & XML Template",
+      "createdAt": "2026-01-15",
+      "deliveryType": "download-url",
+      "templateUrl": "/templates/cinematic-slow-mo-luxury-reels",
+      "canvaUrl": "/templates/cinematic-slow-mo-luxury-reels",
+      "status": "published",
+      "updatedAt": "2026-11-28T14:55:38.732Z"
     }
   ],
   "services": [
@@ -1364,14 +1519,12 @@
       "turnaround": "48-72 Hours",
       "portfolioImages": [
         "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80",
-        "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80",
+        "/images/catalog/video-bundle-cover.png",
         "https://images.unsplash.com/photo-1626544827763-d516dce335e2?w=1200&q=80",
-        "https://images.unsplash.com/photo-1518173946687-a4c8a383392e?w=1200&q=80"
+        "/images/catalog/cinematic-reels-cover.png"
       ],
       "portfolioVideos": [
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4",
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+        "/videos/badarsh-showreel.mp4"
       ],
       "features": [
         "Professional color grading & cinematic LUTs",
@@ -1972,8 +2125,7 @@
         "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=80"
       ],
       "portfolioVideos": [
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+        "/videos/badarsh-showreel.mp4"
       ],
       "features": [
         "Sony FX3 Cinema Line 4K 120FPS slow-motion camera",
@@ -2172,438 +2324,9 @@
       "createdAt": "2026-11-22T15:21:10.884Z"
     }
   ],
-  "leads": [
-    {
-      "id": "lead-mwur0m49",
-      "name": "Channabasav Bhimappa B Patil",
-      "email": "channupatil299@gmail.com",
-      "phone": "",
-      "interest": "Purchased: Rich Dad Poor Dad",
-      "message": "Purchased order ord_1795527999645_8o4l for ₹2 with license BDRSH-8O4L-6O0F",
-      "budget": "₹2",
-      "status": "new",
-      "createdAt": "2026-11-24T13:46:48.441Z",
-      "updatedAt": "2026-11-24T13:46:48.441Z"
-    },
-    {
-      "id": "lead-mwt2iov6",
-      "name": "Channabasav Bhimappa B Patil",
-      "email": "channupatil299@gmail.com",
-      "phone": "06363890658",
-      "interest": "Purchased: Rich Dad Poor Dad",
-      "message": "Purchased order ord_1795426392582_6hoj for ₹2 with license BDRSH-6HOJ-EVZ3",
-      "budget": "₹2",
-      "status": "new",
-      "createdAt": "2026-11-23T09:33:15.234Z",
-      "updatedAt": "2026-11-23T09:33:15.234Z"
-    },
-    {
-      "id": "lead-mwt2i5qj",
-      "name": "Channabasav Bhimappa B Patil",
-      "email": "channupatil299@gmail.com",
-      "phone": "06363890658",
-      "interest": "Purchased: Rich Dad Poor Dad",
-      "message": "Purchased order ord_1795426364099_hkde for ₹2 with license BDRSH-HKDE-ONL6",
-      "budget": "₹2",
-      "status": "new",
-      "createdAt": "2026-11-23T09:32:50.443Z",
-      "updatedAt": "2026-11-23T09:32:50.443Z"
-    },
-    {
-      "id": "lead-mwt2hiak",
-      "name": "Channabasav Bhimappa B Patil",
-      "email": "channupatil299@gmail.com",
-      "phone": "06363890658",
-      "interest": "Purchased: Rich Dad Poor Dad",
-      "message": "Purchased order ord_1795426339675_8bxo for ₹2 with license BDRSH-8BXO-12O8",
-      "budget": "₹2",
-      "status": "new",
-      "createdAt": "2026-11-23T09:32:20.060Z",
-      "updatedAt": "2026-11-23T09:32:20.060Z"
-    },
-    {
-      "id": "lead-mwt13dul",
-      "name": "Channu Patil",
-      "email": "channupatil299@gmail.com",
-      "phone": "+916363890658",
-      "interest": "Custom Website Development",
-      "message": "hiii",
-      "budget": "₹9,000 – ₹11,000",
-      "status": "new",
-      "createdAt": "2026-11-23T08:53:21.500Z",
-      "updatedAt": "2026-11-23T08:53:21.500Z"
-    },
-    {
-      "budget": "₹598",
-      "createdAt": "2026-11-23T07:56:46.687Z",
-      "email": "channupatil299@gmail.com",
-      "id": "lead-mwsz2me7",
-      "interest": "Purchased: CapCut Pro — Full Feature Mobile App & Creator Setup",
-      "message": "Purchased order ORD-10910 for ₹598 with license BDRSH-W5WM-CXIO",
-      "name": "Channu Patil",
-      "phone": "06363890658",
-      "status": "new",
-      "updatedAt": "2026-11-23T07:56:46.687Z"
-    }
-  ],
+  "leads": [],
   "subscribers": [],
-  "orders": [
-    {
-      "licenseKey": "BDRSH-8O4L-6O0F",
-      "customerName": "Channabasav Bhimappa B Patil",
-      "customerEmail": "channupatil299@gmail.com",
-      "createdAt": "2026-11-24T13:46:47.024Z",
-      "paymentStatus": "pending",
-      "customerPhone": "",
-      "paymentMethod": "Cashfree",
-      "id": "ord_1795527999645_8o4l",
-      "totalAmount": 2,
-      "currency": "INR",
-      "deliveryNotes": "Online checkout  [Cashfree Session: session_bRUb2QoA...]",
-      "updatedAt": "2026-11-24T13:46:47.024Z",
-      "items": [
-        {
-          "templateUrl": "/templates/rich-dad-poor-dad",
-          "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf",
-          "quantity": 1,
-          "id": "prod-009",
-          "canvaUrl": "/templates/rich-dad-poor-dad",
-          "productType": "ebooks",
-          "price": 2,
-          "title": "Rich Dad Poor Dad"
-        }
-      ],
-      "canvaAccessDelivered": false
-    },
-    {
-      "deliveryNotes": "Online checkout  [Cashfree Session: session_QeD1_Zpc...]",
-      "currency": "INR",
-      "customerName": "Channabasav Bhimappa B Patil",
-      "paymentMethod": "Cashfree",
-      "customerPhone": "06363890658",
-      "id": "ord_1795426392582_6hoj",
-      "paymentStatus": "pending",
-      "createdAt": "2026-11-23T09:33:15.143Z",
-      "items": [
-        {
-          "quantity": 1,
-          "productType": "ebooks",
-          "price": 2,
-          "title": "Rich Dad Poor Dad",
-          "templateUrl": "/templates/rich-dad-poor-dad",
-          "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf",
-          "id": "prod-009",
-          "canvaUrl": "/templates/rich-dad-poor-dad"
-        }
-      ],
-      "customerEmail": "channupatil299@gmail.com",
-      "licenseKey": "BDRSH-6HOJ-EVZ3",
-      "updatedAt": "2026-11-23T09:33:15.143Z",
-      "canvaAccessDelivered": false,
-      "totalAmount": 2
-    },
-    {
-      "customerName": "Channabasav Bhimappa B Patil",
-      "paymentStatus": "pending",
-      "canvaAccessDelivered": false,
-      "customerPhone": "06363890658",
-      "paymentMethod": "Cashfree",
-      "id": "ord_1795426364099_hkde",
-      "deliveryNotes": "Online checkout  [Cashfree Session: session__JrwL24y...]",
-      "items": [
-        {
-          "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf",
-          "templateUrl": "/templates/rich-dad-poor-dad",
-          "quantity": 1,
-          "price": 2,
-          "title": "Rich Dad Poor Dad",
-          "id": "prod-009",
-          "canvaUrl": "/templates/rich-dad-poor-dad",
-          "productType": "ebooks"
-        }
-      ],
-      "totalAmount": 2,
-      "updatedAt": "2026-11-23T09:32:50.349Z",
-      "customerEmail": "channupatil299@gmail.com",
-      "licenseKey": "BDRSH-HKDE-ONL6",
-      "createdAt": "2026-11-23T09:32:50.349Z",
-      "currency": "INR"
-    },
-    {
-      "customerName": "Channabasav Bhimappa B Patil",
-      "createdAt": "2026-11-23T09:32:19.676Z",
-      "updatedAt": "2026-11-23T09:32:19.676Z",
-      "items": [
-        {
-          "quantity": 1,
-          "templateUrl": "/templates/rich-dad-poor-dad",
-          "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf",
-          "productType": "ebooks",
-          "canvaUrl": "/templates/rich-dad-poor-dad",
-          "id": "prod-009",
-          "title": "Rich Dad Poor Dad",
-          "price": 2
-        }
-      ],
-      "customerEmail": "channupatil299@gmail.com",
-      "id": "ord_1795426339675_8bxo",
-      "paymentMethod": "UPI QR",
-      "customerPhone": "06363890658",
-      "currency": "INR",
-      "paymentStatus": "pending",
-      "canvaAccessDelivered": false,
-      "deliveryNotes": "Online checkout",
-      "totalAmount": 2,
-      "licenseKey": "BDRSH-8BXO-12O8"
-    },
-    {
-      "paymentMethod": "UPI",
-      "customerPhone": "06363890658",
-      "customerName": "Channu Patil",
-      "updatedAt": "2026-11-23T07:56:46.590Z",
-      "paymentStatus": "completed",
-      "totalAmount": 598,
-      "deliveryNotes": "Online checkout ",
-      "createdAt": "2026-11-23T07:56:46.590Z",
-      "items": [
-        {
-          "price": 399,
-          "title": "CapCut Pro — Full Feature Mobile App & Creator Setup",
-          "canvaUrl": "/templates/capcut-pro-unlocked-editor",
-          "id": "prod-020",
-          "productType": "editing-apps",
-          "templateUrl": "/templates/capcut-pro-unlocked-editor",
-          "downloadUrl": "https://www.capcut.com/",
-          "quantity": 1
-        },
-        {
-          "id": "upsell-planner",
-          "productType": "planner",
-          "downloadUrl": "/downloads/30-day-content-planner.zip",
-          "quantity": 1,
-          "title": "30-Day Viral Content Planner Bundle",
-          "price": 199
-        }
-      ],
-      "currency": "INR",
-      "canvaAccessDelivered": true,
-      "licenseKey": "BDRSH-ACPR-N5PL",
-      "id": "ORD-10910",
-      "customerEmail": "channupatil299@gmail.com"
-    },
-    {
-      "id": "ord_1795431637858_yng9",
-      "createdAt": "2026-11-23T11:00:38.110Z",
-      "items": [
-        {
-          "quantity": 1,
-          "productType": "bundles",
-          "price": 999,
-          "title": "Business Launch Mega Bundle",
-          "id": "prod-008",
-          "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
-          "templateUrl": "https://www.canva.com/templates/?query=business-planner",
-          "canvaUrl": "https://www.canva.com/templates/?query=business-planner"
-        }
-      ],
-      "deliveryNotes": "Online checkout  ",
-      "currency": "INR",
-      "paymentStatus": "completed",
-      "updatedAt": "2026-11-23T11:00:38.110Z",
-      "customerPhone": "7204250115",
-      "paymentMethod": "Cashfree",
-      "totalAmount": 999,
-      "canvaAccessDelivered": true,
-      "customerEmail": "balluwithmovies@gmail.com",
-      "licenseKey": "BDRSH-YNG9-VX1P",
-      "customerName": "Ballu"
-    },
-    {
-      "id": "ord_1795445105951_u15o",
-      "paymentStatus": "pending",
-      "customerPhone": "06363890658",
-      "paymentMethod": "Cashfree",
-      "canvaAccessDelivered": false,
-      "items": [
-        {
-          "quantity": 1,
-          "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Accounting.pdf",
-          "templateUrl": "/templates/content-calendar-planner-2026",
-          "price": 349,
-          "title": "365-Day Social Media Content Planner",
-          "productType": "planners",
-          "canvaUrl": "/templates/content-calendar-planner-2026",
-          "id": "prod-011"
-        }
-      ],
-      "deliveryNotes": "Online checkout",
-      "totalAmount": 349,
-      "createdAt": "2026-11-23T14:45:05.952Z",
-      "customerName": "Channu Patil",
-      "currency": "INR",
-      "licenseKey": "BDRSH-U15O-N9TD",
-      "updatedAt": "2026-11-23T14:45:05.952Z",
-      "customerEmail": "channupatil299@gmail.com"
-    },
-    {
-      "customerName": "Channabasav Bhimappa B Patil",
-      "canvaAccessDelivered": false,
-      "currency": "INR",
-      "customerEmail": "",
-      "id": "ord_1795526640497_5m0n",
-      "paymentMethod": "Cashfree",
-      "customerPhone": "06363890658",
-      "items": [
-        {
-          "id": "prod-009",
-          "title": "Rich Dad Poor Dad",
-          "price": 2,
-          "canvaUrl": "/templates/rich-dad-poor-dad",
-          "productType": "ebooks",
-          "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf",
-          "templateUrl": "/templates/rich-dad-poor-dad",
-          "quantity": 1
-        }
-      ],
-      "licenseKey": "BDRSH-5M0N-CPXV",
-      "paymentStatus": "pending",
-      "createdAt": "2026-11-24T13:24:00.876Z",
-      "deliveryNotes": "Online checkout  [Cashfree Session: session_OuJlHNtQ...]",
-      "updatedAt": "2026-11-24T13:24:00.876Z",
-      "totalAmount": 2
-    },
-    {
-      "createdAt": "2026-11-24T13:24:20.333Z",
-      "updatedAt": "2026-11-24T13:24:20.333Z",
-      "customerEmail": "",
-      "currency": "INR",
-      "licenseKey": "BDRSH-YIUQ-NNC7",
-      "canvaAccessDelivered": false,
-      "paymentStatus": "pending",
-      "customerName": "Channabasav Bhimappa B Patil",
-      "items": [
-        {
-          "productType": "ebooks",
-          "quantity": 1,
-          "id": "prod-009",
-          "price": 2,
-          "title": "Rich Dad Poor Dad",
-          "canvaUrl": "/templates/rich-dad-poor-dad",
-          "templateUrl": "/templates/rich-dad-poor-dad",
-          "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf"
-        }
-      ],
-      "id": "ord_1795526659772_yiuq",
-      "paymentMethod": "Cashfree",
-      "customerPhone": "06363890658",
-      "totalAmount": 2,
-      "deliveryNotes": "Online checkout  [Cashfree Session: session_uwjMs5Vz...]"
-    },
-    {
-      "customerEmail": "channupatil49@gmail.com",
-      "id": "ord_1795573617691_xnye",
-      "items": [
-        {
-          "quantity": 1,
-          "productType": "ebooks",
-          "price": 2,
-          "title": "Rich Dad Poor Dad",
-          "downloadUrl": "https://raw.githubusercontent.com/budostylz/ENTREPRENEURSHIP/master/Rich%20Dad%20Poor%20Dad.pdf",
-          "templateUrl": "/templates/rich-dad-poor-dad",
-          "id": "prod-009",
-          "canvaUrl": "/templates/rich-dad-poor-dad"
-        }
-      ],
-      "updatedAt": "2026-11-25T02:26:57.982Z",
-      "totalAmount": 2,
-      "customerName": "Channabasav",
-      "createdAt": "2026-11-25T02:26:57.982Z",
-      "currency": "INR",
-      "canvaAccessDelivered": false,
-      "deliveryNotes": "Online checkout  [Cashfree Session: session_4DB9S3oo...]",
-      "paymentStatus": "pending",
-      "licenseKey": "BDRSH-XNYE-BXK8",
-      "paymentMethod": "Cashfree",
-      "customerPhone": "6363890658"
-    },
-    {
-      "customerPhone": "6363890658",
-      "paymentMethod": "Online (UPI / Card)",
-      "customerName": "Channabasav",
-      "items": [
-        {
-          "id": "prod-mwusptt8",
-          "downloadUrl": "https://sims.sairam.edu.in/wp-content/uploads/sites/7/2024/03/THE-INTELLIGENT-INVESTOR.pdf",
-          "productType": "ebooks",
-          "title": "The Intelligent Investor",
-          "price": 2,
-          "quantity": 1
-        }
-      ],
-      "createdAt": "2026-11-25T04:22:49.616Z",
-      "paymentStatus": "completed",
-      "deliveryNotes": "Auto-verified via Payment Webhook [Ref: 7088916421] on 2026-11-25T04:23:14.206Z",
-      "id": "ord_1795580569194_zkhj",
-      "currency": "INR",
-      "updatedAt": "2026-11-25T04:23:14.206Z",
-      "canvaAccessDelivered": true,
-      "licenseKey": "BDRSH-ZKHJ-4T1V",
-      "totalAmount": 2,
-      "customerEmail": "channupatil49@gmail.com"
-    },
-    {
-      "totalAmount": 9,
-      "licenseKey": "BDRSH-K4LP-QBFW",
-      "paymentStatus": "completed",
-      "id": "ord_1795581514975_k4lp",
-      "customerPhone": "7204250115",
-      "paymentMethod": "Online (UPI / Card)",
-      "canvaAccessDelivered": true,
-      "deliveryNotes": "Auto-verified via Payment Webhook [Ref: 7089003624] on 2026-11-25T04:38:49.893Z",
-      "items": [
-        {
-          "productType": "video-templates",
-          "quantity": 1,
-          "title": "Alight Motion Trending B'day Template 😍",
-          "price": 9,
-          "id": "prod-mwvml0b5",
-          "downloadUrl": ""
-        }
-      ],
-      "currency": "INR",
-      "createdAt": "2026-11-25T04:38:35.365Z",
-      "userId": "usr-b88ea9482eac",
-      "updatedAt": "2026-11-25T04:38:49.893Z",
-      "customerEmail": "bahub992@gmail.com",
-      "customerName": "Bahu Bali"
-    },
-    {
-      "canvaAccessDelivered": true,
-      "items": [
-        {
-          "downloadUrl": "",
-          "id": "prod-mwvnha2f",
-          "price": 5,
-          "title": "Alight Motion B'day Template 💫",
-          "quantity": 1,
-          "productType": "video-templates"
-        }
-      ],
-      "totalAmount": 5,
-      "customerEmail": "bahub992@gmail.com",
-      "customerName": "Bahu Bali",
-      "userId": "usr-b88ea9482eac",
-      "deliveryNotes": "Auto-verified via Payment Webhook [Ref: 7089102517] on 2026-11-25T04:59:59.228Z",
-      "updatedAt": "2026-11-25T04:59:59.228Z",
-      "id": "ord_1795582726146_lpwy",
-      "customerPhone": "7204250115",
-      "paymentMethod": "Online (UPI / Card)",
-      "createdAt": "2026-11-25T04:58:46.492Z",
-      "licenseKey": "BDRSH-LPWY-TSQ6",
-      "currency": "INR",
-      "paymentStatus": "completed"
-    }
-  ],
+  "orders": [],
   "settings": {
     "siteName": "BADARSH Creative Studio",
     "announcementBar": {
@@ -2616,205 +2339,33 @@
     "maintenanceMode": false,
     "lastBackupAt": "2026-11-22T15:21:10.884Z",
     "cashfree": {
-      "secretKey": "",
+      "appId": "",
       "enabled": true,
-      "env": "PROD",
-      "appId": ""
-    }
+      "secretKey": "",
+      "env": "PROD"
+    },
+    "deletedProductIds": [
+      "prod-013",
+      "prod-017",
+      "prod-020",
+      "prod-mx0g77qg",
+      "prod-mwusptt8"
+    ]
   },
   "auditLogs": [
     {
-      "id": "log-mwwa7ds6",
-      "action": "PRODUCT_UPDATED",
-      "details": "Product \"Creator Video Editing Tools & Config Vault\" saved with price ₹0",
-      "timestamp": "2026-11-25T15:31:43.110Z"
-    },
-    {
-      "id": "log-mww9ra5u",
-      "action": "PRODUCT_UPDATED",
-      "details": "Product \"Creator Video Editing Tools & Config Vault\" saved with price ₹0",
-      "timestamp": "2026-11-25T15:19:11.922Z"
-    },
-    {
-      "id": "log-mwusptt8",
-      "action": "PRODUCT_CREATED",
-      "details": "Product \"The Intelligent Investor\" saved with price ₹0",
-      "timestamp": "2026-11-24T14:34:24.428Z"
-    },
-    {
-      "id": "log-mwus1hmc",
-      "action": "PRODUCT_DELETED",
-      "details": "Product \"Cinematic Slow-Mo Luxury & Travel Reel\" deleted",
-      "timestamp": "2026-11-24T14:15:28.885Z"
-    },
-    {
-      "id": "log-mwus1dm6",
-      "action": "PRODUCT_DELETED",
-      "details": "Product \"Glitch RGB Split & Distortion Shake\" deleted",
-      "timestamp": "2026-11-24T14:15:23.694Z"
-    },
-    {
-      "id": "log-mwus199z",
-      "action": "PRODUCT_DELETED",
-      "details": "Product \"Kinetic 3D Typography & Floating Lyrics\" deleted",
-      "timestamp": "2026-11-24T14:15:18.071Z"
-    },
-    {
-      "id": "log-mwus15b3",
-      "action": "PRODUCT_DELETED",
-      "details": "Product \"Kinetic 3D Typography & Floating Lyrics\" deleted",
-      "timestamp": "2026-11-24T14:15:12.935Z"
-    },
-    {
-      "id": "log-mwus11ot",
-      "action": "PRODUCT_DELETED",
-      "details": "Product \"Velocity Beat Shake & Flash Vol. 1\" deleted",
-      "timestamp": "2026-11-24T14:15:08.237Z"
-    },
-    {
-      "id": "log-mwus0k0h",
-      "action": "Z_PLUS_FOUNDER_AUTHENTICATED",
-      "details": "Authorized Founder Master Access granted from IP ::1",
-      "timestamp": "2026-11-24T14:14:45.329Z"
-    },
-    {
-      "id": "log-mwur0m4g",
-      "action": "LEAD_RECEIVED",
-      "details": "Inbound lead from Channabasav Bhimappa B Patil for Purchased: Rich Dad Poor Dad",
-      "timestamp": "2026-11-24T13:46:48.448Z"
-    },
-    {
-      "id": "log-mwur0l0w",
-      "action": "ORDER_SAVED",
-      "details": "Order ord_1795527999645_8o4l for Channabasav Bhimappa B Patil (₹2) saved",
-      "timestamp": "2026-11-24T13:46:47.024Z"
-    },
-    {
-      "id": "log-mwt2iovh",
-      "action": "LEAD_RECEIVED",
-      "details": "Inbound lead from Channabasav Bhimappa B Patil for Purchased: Rich Dad Poor Dad",
-      "timestamp": "2026-11-23T09:33:15.245Z"
-    },
-    {
-      "id": "log-mwt2iosn",
-      "action": "ORDER_SAVED",
-      "details": "Order ord_1795426392582_6hoj for Channabasav Bhimappa B Patil (₹2) saved",
-      "timestamp": "2026-11-23T09:33:15.143Z"
-    },
-    {
-      "id": "log-mwt2i5r4",
-      "action": "LEAD_RECEIVED",
-      "details": "Inbound lead from Channabasav Bhimappa B Patil for Purchased: Rich Dad Poor Dad",
-      "timestamp": "2026-11-23T09:32:50.464Z"
-    },
-    {
-      "id": "log-mwt2i5nx",
-      "action": "ORDER_SAVED",
-      "details": "Order ord_1795426364099_hkde for Channabasav Bhimappa B Patil (₹2) saved",
-      "timestamp": "2026-11-23T09:32:50.349Z"
-    },
-    {
-      "id": "log-mwt2hib2",
-      "action": "LEAD_RECEIVED",
-      "details": "Inbound lead from Channabasav Bhimappa B Patil for Purchased: Rich Dad Poor Dad",
-      "timestamp": "2026-11-23T09:32:20.078Z"
-    },
-    {
-      "id": "log-mwt2hhzw",
-      "action": "ORDER_SAVED",
-      "details": "Order ord_1795426339675_8bxo for Channabasav Bhimappa B Patil (₹2) saved",
-      "timestamp": "2026-11-23T09:32:19.676Z"
-    },
-    {
-      "id": "log-mwt2fw0a",
-      "action": "PRODUCT_UPDATED",
-      "details": "Product \"Rich Dad Poor Dad\" saved with price ₹2",
-      "timestamp": "2026-11-23T09:31:04.522Z"
-    },
-    {
-      "id": "log-mwt13zo7",
-      "action": "Z_PLUS_FOUNDER_AUTHENTICATED",
-      "details": "Authorized Founder Master Access granted from IP ::1",
-      "timestamp": "2026-11-23T08:53:49.783Z"
-    },
-    {
-      "id": "log-mwt13dul",
-      "action": "LEAD_RECEIVED",
-      "details": "Inbound lead from Channu Patil for Custom Website Development",
-      "timestamp": "2026-11-23T08:53:21.501Z"
-    },
-    {
-      "id": "log-mwt09p01",
-      "action": "SETTINGS_UPDATED",
-      "details": "System global settings updated",
-      "timestamp": "2026-11-23T08:30:16.273Z"
-    },
-    {
-      "id": "log-mwsz2mem",
-      "action": "LEAD_RECEIVED",
-      "details": "Inbound lead from Channu Patil for Purchased: CapCut Pro — Full Feature Mobile App & Creator Setup",
-      "timestamp": "2026-11-23T07:56:46.702Z"
-    },
-    {
-      "id": "log-mwsz2mbi",
-      "action": "ORDER_SAVED",
-      "details": "Order ORD-10910 for Channu Patil (₹598) saved",
-      "timestamp": "2026-11-23T07:56:46.590Z"
-    },
-    {
-      "id": "log-mwsy0exb",
-      "action": "Z_PLUS_FOUNDER_AUTHENTICATED",
-      "details": "Authorized Founder Master Access granted from IP ::1",
-      "timestamp": "2026-11-23T07:27:04.080Z"
-    },
-    {
-      "id": "log-mwsxn1kx",
-      "action": "Z_PLUS_AUTH_FAILED",
-      "details": "Unauthorized admin access attempt with invalid master key from IP ::1 (Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0). Strikes remaining: 1",
-      "timestamp": "2026-11-23T07:16:40.257Z"
-    },
-    {
-      "id": "log-mwsxm57j",
-      "action": "Z_PLUS_AUTH_FAILED",
-      "details": "Unauthorized admin access attempt with invalid master key from IP ::1 (Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0). Strikes remaining: 2",
-      "timestamp": "2026-11-23T07:15:58.303Z"
-    },
-    {
-      "id": "log-mwswulke",
-      "action": "PRODUCT_DELETED",
-      "details": "Product \"Cinematic SFX & Motion Overlays Pack\" deleted",
-      "timestamp": "2026-11-23T06:54:33.134Z"
-    },
-    {
-      "id": "log-mwswuj3s",
-      "action": "PRODUCT_DELETED",
-      "details": "Product \"Viral Video SFX & Motion Overlay Bundle\" deleted",
-      "timestamp": "2026-11-23T06:54:29.944Z"
-    },
-    {
       "id": "log-001",
       "action": "SYSTEM_INITIALIZED",
-      "details": "BADARSH Admin Operating System initialized with full digital catalog.",
-      "timestamp": "2026-11-22T15:21:10.884Z"
+      "details": "BADARSH Clean Seed Store",
+      "timestamp": "2026-11-28T00:00:00.000Z"
     }
   ],
-  "users": [
-    {
-      "id": "usr-mwsso61s-83d2da",
-      "name": "Channu Patil",
-      "email": "channupatil299@gmail.com",
-      "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocIb1MGuEsZqf16z1p6sDfAcl4giQXtdWhVvskstIM1stJf4JA=s96-c",
-      "provider": "google",
-      "createdAt": "2026-11-23T04:57:34.624Z",
-      "lastLoginAt": "2026-11-23T04:57:34.624Z"
-    }
-  ],
+  "users": [],
   "deletedProductIds": [
+    "prod-013",
     "prod-017",
     "prod-020",
-    "vt-001",
-    "vt-002",
-    "vt-003",
-    "vt-004"
+    "prod-mx0g77qg",
+    "prod-mwusptt8"
   ]
 }

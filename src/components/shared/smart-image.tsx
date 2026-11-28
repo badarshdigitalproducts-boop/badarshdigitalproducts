@@ -4,7 +4,6 @@ import Image, { type ImageProps } from "next/image";
 
 const OPTIMIZABLE_HOSTS = [
   "images.unsplash.com",
-  "covers.openlibrary.org",
   "lh3.googleusercontent.com",
 ];
 

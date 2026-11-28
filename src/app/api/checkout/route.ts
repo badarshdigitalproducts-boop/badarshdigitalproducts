@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { saveAdminOrder, getAdminCoupons, saveAdminCoupon, addLead, getAdminProducts, getAdminServices } from "@/lib/admin/store";
 import { products as fallbackProducts } from "@/content/products";
@@ -8,6 +9,7 @@ import { sanitizeText, sanitizeEmail, sanitizePhone, isHoneypotTriggered } from 
 import { getAuthenticatedUser } from "@/lib/auth/access-control";
 import { createCashfreeOrder } from "@/lib/cashfree";
 import { getBaseUrl } from "@/lib/metadata";
+import { sendOrderConfirmationEmail } from "@/lib/email/resend";
 
 export const dynamic = "force-dynamic";
 
@@ -253,6 +255,8 @@ export async function POST(request: NextRequest) {
     let cfEnv: string = "PROD";
     let cfErrorMessage: string | undefined = undefined;
 
+    const orderAccessToken = crypto.randomBytes(24).toString("hex");
+
     if (isOnlineCheckout) {
       try {
         const originUrl = resolveCheckoutOrigin(request);
@@ -263,7 +267,7 @@ export async function POST(request: NextRequest) {
           customerEmail: cleanCustomerEmail,
           customerPhone: cleanCustomerPhone,
           customerId: userId || `cust_${orderId.replace(/[^a-zA-Z0-9]/g, "").slice(-12)}`,
-          returnUrl: `${originUrl}/orders/${orderId}?cf_id={order_id}&token=${orderId}`,
+          returnUrl: `${originUrl}/orders/${orderId}?cf_id={order_id}&token=${encodeURIComponent(orderAccessToken)}`,
           notifyUrl: `${originUrl}/api/webhooks/cashfree`,
         });
 
@@ -301,6 +305,7 @@ export async function POST(request: NextRequest) {
     // 10. Save order securely
     const order = await saveAdminOrder({
       id: orderId,
+      accessToken: orderAccessToken,
       customerName: cleanCustomerName,
       customerEmail: cleanCustomerEmail,
       customerPhone: cleanCustomerPhone,
@@ -315,7 +320,11 @@ export async function POST(request: NextRequest) {
       deliveryNotes: `Online checkout ${appliedCoupon ? `[Coupon: ${appliedCoupon.code} -₹${discountAmount}]` : ""} ${paymentSessionId ? `[Session: ${paymentSessionId.slice(0, 12)}...]` : ""}`.trim(),
     });
 
-    // 11. Auto-capture lead
+    // 11. Auto-capture lead & send instant confirmation email for completed (free / 100% coupon) orders
+    if (order.paymentStatus === "completed") {
+      await sendOrderConfirmationEmail({ ...order, accessToken: orderAccessToken }).catch(() => {});
+    }
+
     if (cleanCustomerEmail || cleanCustomerPhone) {
       await addLead({
         name: cleanCustomerName,
@@ -327,28 +336,36 @@ export async function POST(request: NextRequest) {
       }).catch((e) => console.warn("Auto-lead capture error:", e));
     }
 
+    const isCompleted = order.paymentStatus === "completed";
+
     return NextResponse.json({
       success: true,
       paymentRequired: Boolean(paymentSessionId),
       paymentSessionId,
       cfEnv,
       orderId: order.id,
+      accessToken: orderAccessToken,
       order: {
         id: order.id,
+        accessToken: orderAccessToken,
         customerName: order.customerName,
         customerEmail: order.customerEmail,
         customerPhone: order.customerPhone,
         totalAmount: order.totalAmount,
         discountAmount,
         appliedCoupon: appliedCoupon ? appliedCoupon.code : null,
-        licenseKey: order.licenseKey,
         items: order.items,
-        downloadUrl:
-          authoritativeDownloadUrl ||
-          `/api/download?orderId=${encodeURIComponent(order.id)}&productId=${encodeURIComponent(items[0].id)}&key=${encodeURIComponent(order.licenseKey)}`,
-        canvaUrl: authoritativeCanvaUrl || null,
         paymentStatus: order.paymentStatus,
         createdAt: order.createdAt,
+        ...(isCompleted
+          ? {
+              licenseKey: order.licenseKey,
+              downloadUrl:
+                authoritativeDownloadUrl ||
+                `/api/download?orderId=${encodeURIComponent(order.id)}&productId=${encodeURIComponent(items[0].id)}&key=${encodeURIComponent(order.licenseKey)}`,
+              canvaUrl: authoritativeCanvaUrl || null,
+            }
+          : {}),
       },
     });
   } catch (error: any) {
