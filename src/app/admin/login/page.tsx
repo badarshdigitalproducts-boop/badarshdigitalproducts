@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { safeParseJson } from "@/lib/utils";
 import { motion } from "framer-motion";
 import {
@@ -17,7 +17,6 @@ import {
 } from "lucide-react";
 
 function AdminLoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const rawFrom = searchParams.get("next") || searchParams.get("from") || "/admin";
   const from = rawFrom.startsWith("/admin") && !rawFrom.startsWith("/admin/login") ? rawFrom : "/admin";
@@ -48,17 +47,22 @@ function AdminLoginForm() {
 
       if (!res.ok) {
         setError(data.error || "Authentication failed. Access denied.");
-        if (data.remainingAttempts !== undefined) {
-          setRemainingAttempts(data.remainingAttempts);
-        }
-        if (data.locked) {
-          setIsLocked(true);
+        if (res.status === 503) {
+          setRemainingAttempts(null);
+          setIsLocked(false);
+        } else {
+          if (data.remainingAttempts !== undefined) {
+            setRemainingAttempts(data.remainingAttempts);
+          }
+          if (data.locked) {
+            setIsLocked(true);
+          }
         }
         setShake(true);
         setTimeout(() => setShake(false), 500);
       } else {
-        router.push(from);
-        router.refresh();
+        // Full browser navigation ensures Edge Proxy and AdminLayout immediately receive the new HttpOnly cookie
+        window.location.assign(from);
       }
     } catch {
       setError("Secure gateway connection error. Please verify network connectivity.");
@@ -196,7 +200,7 @@ function AdminLoginForm() {
                 Device Bound
               </span>
               <span>&bull;</span>
-              <span className="text-slate-400">3-Strike Lockout</span>
+              <span className="text-slate-400">5-Strike Lockout</span>
             </div>
             <p className="mt-2 text-[10px] text-slate-600">
               Unlawful access attempts are permanently archived in statutory compliance logs.

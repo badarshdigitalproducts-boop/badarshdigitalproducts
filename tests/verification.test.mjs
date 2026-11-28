@@ -451,6 +451,16 @@ describe("5. Production Security Invariants & Asset Integrity", () => {
     assert.match(pdfProxy, /redirect:\s*"error"/);
     assert.match(pdfProxy, /%PDF-/);
     assert.match(pdfProxy, /isPrivateOrDisallowedHost/);
+
+    const proxyTs = fs.readFileSync(path.join(rootDir, "src/proxy.ts"), "utf8");
+    assert.match(proxyTs, /payload\.fp/);
+    assert.match(proxyTs, /sec-fetch-site/);
+
+    const rateLimiter = fs.readFileSync(path.join(rootDir, "src/lib/security/rate-limiter.ts"), "utf8");
+    assert.ok(
+      rateLimiter.indexOf("x-vercel-forwarded-for") < rateLimiter.indexOf("x-forwarded-for"),
+      "Trusted platform IP headers must be checked before spoofable x-forwarded-for"
+    );
   });
 
   it("should contain zero pirated titles, broken Google sample media, or committed PII", () => {

@@ -20,17 +20,21 @@ setInterval(() => {
 
 export function getClientIp(request: Request | NextRequest): string {
   const headers = request.headers;
+  // Prefer platform-set edge IP headers that cannot be trivially spoofed by clients
+  const vercelIp = headers.get("x-vercel-forwarded-for");
+  if (vercelIp) return vercelIp.split(",")[0].trim();
+
   const cfIp = headers.get("cf-connecting-ip");
   if (cfIp) return cfIp.trim();
 
-  const xForwardedFor = headers.get("x-forwarded-for");
-  if (xForwardedFor) {
-    const parts = xForwardedFor.split(",");
-    return parts[0].trim();
-  }
-
   const xRealIp = headers.get("x-real-ip");
   if (xRealIp) return xRealIp.trim();
+
+  const xForwardedFor = headers.get("x-forwarded-for");
+  if (xForwardedFor) {
+    const parts = xForwardedFor.split(",").map((s) => s.trim()).filter(Boolean);
+    if (parts.length > 0) return parts[0];
+  }
 
   return "127.0.0.1";
 }

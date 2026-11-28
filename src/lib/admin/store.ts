@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import fs from "fs/promises";
+import os from "os";
 import path from "path";
 import bundledStoreData from "@/data/admin-store.json";
 import { products as initialStaticProducts } from "@/content/products";
@@ -79,8 +80,8 @@ import type {
 const cwd = typeof process !== "undefined" && typeof process.cwd === "function" ? process.cwd() : "";
 const DATA_DIR = cwd ? path.join(cwd, "src", "data") : "";
 const STORE_PATH = DATA_DIR ? path.join(DATA_DIR, "admin-store.json") : "";
-const TMP_DIR = "/tmp";
-const TMP_STORE_PATH = path.join(TMP_DIR, "admin-store.json");
+const TMP_DIR = os.tmpdir();
+const TMP_STORE_PATH = path.join(TMP_DIR, "badarsh-runtime-store.json");
 
 // Short-TTL in-memory cache so serverless lambdas stay fresh across webhooks & admin mutations
 let cachedDb: AdminDatabase | null = null;
@@ -466,29 +467,26 @@ export async function getDatabase(forceRefresh = false): Promise<AdminDatabase> 
       });
     }
 
-    if (modified && STORE_PATH) {
+    if (modified) {
       try {
-        await fs.writeFile(STORE_PATH, JSON.stringify(parsed, null, 2), "utf8");
+        await fs.writeFile(TMP_STORE_PATH, JSON.stringify(parsed, null, 2), "utf8");
       } catch {
-        // Safe in serverless
+        // Safe in serverless / read-only isolate
       }
     }
 
     localDb = parsed;
   } catch {
-    // Fallback to bundled store or seed database
+    // Fallback to bundled store or seed database (never mutate git-tracked STORE_PATH)
     try {
       localDb = JSON.parse(JSON.stringify(bundledStoreData)) as AdminDatabase;
     } catch {
       localDb = getSeedDatabase();
     }
-    if (STORE_PATH && DATA_DIR) {
-      try {
-        await fs.mkdir(DATA_DIR, { recursive: true });
-        await fs.writeFile(STORE_PATH, JSON.stringify(localDb, null, 2), "utf8");
-      } catch {
-        // In serverless / edge read-only environments fallback gracefully to memory
-      }
+    try {
+      await fs.writeFile(TMP_STORE_PATH, JSON.stringify(localDb, null, 2), "utf8");
+    } catch {
+      // Safe fallback to in-memory seed
     }
   }
 
@@ -626,21 +624,11 @@ export async function saveDatabase(db: AdminDatabase): Promise<void> {
   cachedDb = db;
   cachedDbAt = Date.now();
 
-  // 1. Persist to /tmp (guaranteed writable on Vercel lambda if available)
+  // Persist runtime state strictly to OS temp/ephemeral directory (never overwrite git seed STORE_PATH)
   try {
     await fs.writeFile(TMP_STORE_PATH, JSON.stringify(db, null, 2), "utf8");
   } catch {
-    // Non-blocking in environments without /tmp (e.g. Cloudflare Workers edge)
-  }
-
-  // 2. Persist to project root store (local dev & persistent environments)
-  if (STORE_PATH && DATA_DIR) {
-    try {
-      await fs.mkdir(DATA_DIR, { recursive: true });
-      await fs.writeFile(STORE_PATH, JSON.stringify(db, null, 2), "utf8");
-    } catch {
-      // Non-blocking in serverless/edge read-only filesystem
-    }
+    // Non-blocking in environments without writable tmp
   }
 }
 

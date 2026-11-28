@@ -18,8 +18,12 @@ export const dynamic = "force-dynamic";
 export async function POST(request: NextRequest) {
   try {
     if (!isAdminAuthConfigured()) {
+      console.error("Admin login blocked: ADMIN_SECRET_KEY or ADMIN_SESSION_SECRET env var missing.");
       return NextResponse.json(
-        { error: "Admin security keys are not configured on the server environment." },
+        {
+          error:
+            "Server admin security keys (ADMIN_SECRET_KEY / ADMIN_SESSION_SECRET) are not configured in Vercel environment settings.",
+        },
         { status: 503 }
       );
     }
@@ -29,9 +33,10 @@ export async function POST(request: NextRequest) {
 
     const rateCheck = checkRateLimit(ip);
     if (!rateCheck.allowed) {
+      const mins = Math.max(1, Math.ceil((rateCheck.retryAfterSeconds || 1800) / 60));
       return NextResponse.json(
         {
-          error: "Too many failed login attempts. Try again later.",
+          error: `Z+ Perimeter Locked: Too many failed attempts. Retry in ~${mins} minute${mins === 1 ? "" : "s"}.`,
           locked: true,
           retryAfterSeconds: rateCheck.retryAfterSeconds,
         },

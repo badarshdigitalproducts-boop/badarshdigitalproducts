@@ -13,10 +13,10 @@ function getSessionSecret(): string {
 }
 
 /**
- * Edge-compatible Web Crypto HMAC-SHA256 signature verification.
+ * Edge-compatible Web Crypto HMAC-SHA256 signature + User-Agent fingerprint verification.
  * Fails closed when ADMIN_SESSION_SECRET is missing.
  */
-async function verifyAdminSessionEdge(token: string): Promise<boolean> {
+async function verifyAdminSessionEdge(token: string, userAgent?: string | null): Promise<boolean> {
   if (!token || typeof token !== "string") return false;
   const secret = getSessionSecret();
   if (!secret) return false;
@@ -57,7 +57,7 @@ async function verifyAdminSessionEdge(token: string): Promise<boolean> {
       return false;
     }
 
-    // Decode and check expiry
+    // Decode and check expiry + role + User-Agent fingerprint binding
     const payloadPadded = payloadB64
       .replace(/-/g, "+")
       .replace(/_/g, "/")
@@ -67,6 +67,22 @@ async function verifyAdminSessionEdge(token: string): Promise<boolean> {
 
     if (payload.role !== "founder" || !payload.exp || Date.now() > payload.exp) {
       return false;
+    }
+
+    if (payload.fp && userAgent) {
+      const cleanUa = userAgent.slice(0, 200);
+      const fpSig = await crypto.subtle.sign(
+        "HMAC",
+        cryptoKey,
+        encoder.encode(`ua::${cleanUa}`)
+      );
+      const expectedFp = Array.from(new Uint8Array(fpSig))
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("")
+        .slice(0, 16);
+      if (payload.fp !== expectedFp) {
+        return false;
+      }
     }
 
     return true;
@@ -89,7 +105,8 @@ export async function proxy(request: NextRequest) {
   // 2. Hide and protect admin pages (/admin/*)
   if (pathname.startsWith("/admin")) {
     const token = request.cookies.get(ADMIN_COOKIE_NAME)?.value;
-    const isValid = token ? await verifyAdminSessionEdge(token) : false;
+    const ua = request.headers.get("user-agent");
+    const isValid = token ? await verifyAdminSessionEdge(token, ua) : false;
 
     // Login page handling
     if (pathname === "/admin/login" || pathname === "/admin/login/") {
@@ -104,6 +121,25 @@ export async function proxy(request: NextRequest) {
       const loginUrl = new URL("/admin/login", request.url);
       loginUrl.searchParams.set("from", pathname);
       return NextResponse.redirect(loginUrl, 307);
+    }
+  }
+
+  // 2b. CSRF / Origin check on state-changing Admin API routes
+  if (pathname.startsWith("/api/admin") && !["GET", "HEAD", "OPTIONS"].includes(request.method)) {
+    const secFetchSite = request.headers.get("sec-fetch-site");
+    const origin = request.headers.get("origin");
+    const host = request.headers.get("host");
+    if (secFetchSite === "cross-site") {
+      return NextResponse.json({ error: "Forbidden cross-site request" }, { status: 403 });
+    }
+    if (origin && host) {
+      try {
+        if (new URL(origin).host.toLowerCase() !== host.toLowerCase()) {
+          return NextResponse.json({ error: "Forbidden origin mismatch" }, { status: 403 });
+        }
+      } catch {
+        return NextResponse.json({ error: "Forbidden invalid origin" }, { status: 403 });
+      }
     }
   }
 

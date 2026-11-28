@@ -163,7 +163,7 @@ interface AttemptRecord {
 }
 
 const MAX_FAILED_ATTEMPTS = 5;
-const LOCKOUT_DURATION_MS = 15 * 60 * 1000;
+const LOCKOUT_DURATION_MS = 30 * 60 * 1000; // 30-minute IP lockdown matching Z+ security policy
 
 const attemptStore = new Map<string, AttemptRecord>();
 
